@@ -15,6 +15,12 @@ export default defineConfig({
       {
         text: 'Examples',
         items: [
+          { text: 'Introduction', link: '/introduction' },
+          { text: 'Installation', link: '/installation' },
+          { text: 'API Class', link: '/api' },
+          { text: 'Interface', link: '/interface' },
+          { text: 'Model', link: '/model' },
+          { text: 'Collection', link: '/collection' },
           { text: 'Markdown Examples', link: '/markdown-examples' },
           { text: 'Runtime API Examples', link: '/api-examples' }
         ]
@@ -22,7 +28,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/cimd/vue-eloquent' }
     ]
   }
 })
