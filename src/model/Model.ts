@@ -1,9 +1,8 @@
 import _forEach from 'lodash/forEach'
-import handleErrors from 'src/app/models/handleErrors'
-import Validator from 'src/app/models/Validator'
-import { Action } from 'src/modules/Application/enums/Action'
-import { Actioned } from 'src/modules/Application/enums/Actioned'
-import { useAuthStore } from 'src/modules/Application/stores/Auth'
+import handleErrors from '@/helpers/handleErrors'
+import Validator from '@/model/Validator'
+import { Action } from '@/enums/Action'
+import { Actioned } from '@/enums/Actioned'
 import { reactive } from 'vue'
 
 export default class Model extends Validator {
@@ -264,7 +263,7 @@ export default class Model extends Validator {
    * Runs before model is created
    */
   protected creating() {
-    this.model.updated_by = useAuthStore().user.username
+    return
   }
 
   /**
@@ -278,7 +277,7 @@ export default class Model extends Validator {
    * Runs before model is updated
    */
   protected updating() {
-    this.model.updated_by = useAuthStore().user.username
+    return
   }
 
   /**
@@ -330,7 +329,7 @@ export default class Model extends Validator {
    * Runs before model is deleted
    */
   protected deleting() {
-    this.model.updated_by = useAuthStore().user.username
+    return
   }
 
   /**

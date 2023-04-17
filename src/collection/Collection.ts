@@ -1,5 +1,5 @@
-import { broadcast } from 'boot/pusher'
-import handleErrors from 'src/app/models/handleErrors'
+import { broadcast } from '@/broadcast/broadcast'
+import handleErrors from '@/helpers/handleErrors'
 import { reactive } from 'vue'
 
 export default abstract class Collection {

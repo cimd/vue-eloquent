@@ -1,7 +1,7 @@
 {
-  "name": "vue-eloquent",
+  "name": "@konnec/vue-eloquent",
   "version": "0.0.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
@@ -44,5 +44,26 @@
     "vitepress": "^1.0.0-alpha.71",
     "vitest": "^0.29.1",
     "vue-tsc": "^1.2.0"
-  }
+  },
+  "description": "This template should help get you started developing with Vue 3 in Vite.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/cimd/vue-eloquent.git"
+  },
+  "keywords": [
+    "Vue",
+    "Laravel",
+    "Api",
+    "Eloquent"
+  ],
+  "author": "Christian D'Aquino",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cimd/vue-eloquent/issues"
+  },
+  "homepage": "https://github.com/cimd/vue-eloquent#readme"
 }

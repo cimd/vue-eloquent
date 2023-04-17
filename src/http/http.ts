@@ -1,7 +1,7 @@
 import AxiosInstance from 'axios'
 
-let http
-function createHttp(httpClient: AxiosInstance): void
+let http: typeof AxiosInstance
+function createHttp(httpClient: typeof AxiosInstance): void
 {
     http = httpClient
 }

@@ -1,7 +1,6 @@
-import {http} from 'boot/axios'
-import {Notify} from 'quasar'
-import {formatObject} from 'src/app/models/api/formatObject'
-import handleErrors from 'src/app/models/handleErrors'
+import {http} from '@/http/http'
+import {formatObject} from '@/helpers/formatObject'
+import handleErrors from '@/helpers/handleErrors'
 
 export default abstract class Api {
   /**
@@ -96,18 +95,6 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err) => {
-          Notify.create({
-            message: 'Error Updating',
-            progress: true,
-            color: 'negative',
-            actions: [
-              {
-                label: 'Dismiss',
-                color: 'white',
-                handler: () => { /* ... */ },
-              },
-            ],
-          })
           handleErrors(err)
           reject(err)
         })
@@ -132,18 +119,6 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err) => {
-          Notify.create({
-            message: 'Error Creating',
-            progress: true,
-            color: 'negative',
-            actions: [
-              {
-                label: 'Dismiss',
-                color: 'white',
-                handler: () => { /* ... */ },
-              },
-            ],
-          })
           handleErrors(err)
           reject(err)
         })
