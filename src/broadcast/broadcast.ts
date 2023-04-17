@@ -1,10 +1,10 @@
 let broadcast: any
 
 function createBroadcast(client: any) {
-    broadcast = client
+  broadcast = client
 }
 
 export {
-    broadcast,
-    createBroadcast
+  broadcast,
+  createBroadcast
 }

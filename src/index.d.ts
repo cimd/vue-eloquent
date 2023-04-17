@@ -1,6 +1,6 @@
-import {formatObject} from './helpers/formatObject'
+import { formatObject } from './helpers/formatObject'
 import handleErrors from './helpers/handleErrors'
-import {http} from './http/http'
+import { http } from './http/http'
 
 export interface Api {
   resource: string

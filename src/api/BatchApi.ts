@@ -1,9 +1,8 @@
-import {http} from 'boot/axios'
-import {Notify} from 'quasar'
-import BaseApi from 'src/app/models/api/Api'
-import handleErrors from 'src/app/models/handleErrors'
+import { http } from '../http/http'
+import Api from '../api/Api'
+import handleErrors from '../helpers/handleErrors'
 
-export default class BatchApi extends BaseApi {
+export default class BatchApi extends Api {
   constructor() {
     super()
   }
@@ -25,18 +24,6 @@ export default class BatchApi extends BaseApi {
           resolve(response.data)
         })
         .catch((err) => {
-          Notify.create({
-            message: 'Error Creating',
-            progress: true,
-            color: 'negative',
-            actions: [
-              {
-                label: 'Dismiss',
-                color: 'white',
-                handler: () => { /* ... */ },
-              },
-            ],
-          })
           handleErrors(err)
           reject(err)
         })
@@ -59,18 +46,6 @@ export default class BatchApi extends BaseApi {
           resolve(response.data)
         })
         .catch((err) => {
-          Notify.create({
-            message: 'Error Updating',
-            progress: true,
-            color: 'negative',
-            actions: [
-              {
-                label: 'Dismiss',
-                color: 'white',
-                handler: () => { /* ... */ },
-              },
-            ],
-          })
           handleErrors(err)
           reject(err)
         })
@@ -93,18 +68,6 @@ export default class BatchApi extends BaseApi {
           resolve(response.data)
         })
         .catch((err) => {
-          Notify.create({
-            message: 'Error Updating',
-            progress: true,
-            color: 'negative',
-            actions: [
-              {
-                label: 'Dismiss',
-                color: 'white',
-                handler: () => { /* ... */ },
-              },
-            ],
-          })
           handleErrors(err)
           reject(err)
         })

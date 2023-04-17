@@ -1,12 +1,12 @@
 import AxiosInstance from 'axios'
 
-let http: typeof AxiosInstance
+let http = AxiosInstance
 function createHttp(httpClient: typeof AxiosInstance): void
 {
-    http = httpClient
+  http = httpClient
 }
 
 export {
-    http,
-    createHttp
+  http,
+  createHttp
 }

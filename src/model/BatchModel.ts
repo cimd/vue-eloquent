@@ -1,6 +1,5 @@
-import handleErrors from 'src/app/models/handleErrors'
-import Model from 'src/app/models/Model'
-import { useAuthStore } from 'src/modules/Application/stores/Auth'
+import handleErrors from '../helpers/handleErrors'
+import Model from '../model/Model'
 
 export default class BatchModel extends Model {
 
@@ -45,11 +44,11 @@ export default class BatchModel extends Model {
 
   protected batchCreating(): void
   {
-    this.model.updated_by = useAuthStore().user.username
+    return
   }
 
   protected batchUpdating(): void
   {
-    this.model.updated_by = useAuthStore().user.username
+    return
   }
 }

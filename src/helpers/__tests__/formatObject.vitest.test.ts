@@ -1,8 +1,5 @@
-import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-vitest'
-import { formatObject } from 'src/app/models/api/formatObject'
+import { formatObject } from '../formatObject'
 import { describe, expect, it } from 'vitest'
-
-installQuasarPlugin()
 
 const targetObject: any = {
   id: 1,

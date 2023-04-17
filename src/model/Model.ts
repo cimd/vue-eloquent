@@ -1,8 +1,8 @@
 import _forEach from 'lodash/forEach'
-import handleErrors from '@/helpers/handleErrors'
-import Validator from '@/model/Validator'
-import { Action } from '@/enums/Action'
-import { Actioned } from '@/enums/Actioned'
+import handleErrors from '../helpers/handleErrors'
+import Validator from './Validator'
+import { Action } from '../enums/Action'
+import { Actioned } from '../enums/Actioned'
 import { reactive } from 'vue'
 
 export default class Model extends Validator {

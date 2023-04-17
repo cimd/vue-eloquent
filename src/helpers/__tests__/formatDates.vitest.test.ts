@@ -1,8 +1,5 @@
-import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-vitest'
-import { formatDates } from 'src/app/models/api/formatDates'
+import { formatDates } from '../formatDates'
 import { describe, expect, it } from 'vitest'
-
-installQuasarPlugin()
 
 const target = {
   id: 1,
