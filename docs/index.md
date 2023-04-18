@@ -4,25 +4,20 @@ layout: home
 
 hero:
   name: "Vue Eloquent"
-  text: "Vue3 and Laravel API and Eloquent integration"
-  tagline: My great project tagline
+  text: "Integration made ease"
+  tagline: Vue3 and Laravel API and Eloquent integration
   actions:
     - theme: brand
-      text: API
-      link: /api
-    - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Introduction
+      link: /introduction
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: Installation
+      link: /installation
 
 features:
-  - title: Feature A
+  - title: API
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
+  - title: Model Validation
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
 

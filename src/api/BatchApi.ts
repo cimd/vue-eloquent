@@ -1,6 +1,6 @@
-import { http } from '../http/http'
 import Api from '../api/Api'
 import handleErrors from '../helpers/handleErrors'
+import { http } from '../http/http'
 
 export default class BatchApi extends Api {
   constructor() {
@@ -24,11 +24,14 @@ export default class BatchApi extends Api {
           resolve(response.data)
         })
         .catch((err) => {
-          handleErrors(err)
+          handleErrors('batchStoring', err)
+          self.batchStoringError(err)
           reject(err)
         })
     })
   }
+  protected batchStoringError(err?: any) { return }
+
 
   static batchUpdate(payload: any): Promise<any>
   {
@@ -46,11 +49,13 @@ export default class BatchApi extends Api {
           resolve(response.data)
         })
         .catch((err) => {
-          handleErrors(err)
+          handleErrors('batchUpdating', err)
+          self.batchUpdatingError(err)
           reject(err)
         })
     })
   }
+  protected batchUpdatingError(err?: any) { return }
 
   static batchDelete(payload: any): Promise<any>
   {
@@ -68,9 +73,11 @@ export default class BatchApi extends Api {
           resolve(response.data)
         })
         .catch((err) => {
-          handleErrors(err)
+          handleErrors('batchDeleting', err)
+          self.batchDeletingError(err)
           reject(err)
         })
     })
   }
+  protected batchDeletingError(err?: any) { return }
 }

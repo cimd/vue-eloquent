@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress'
+import {defineConfig} from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -8,14 +8,13 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
     ],
 
     sidebar: [
       {
-        text: 'Examples',
+        text: 'Getting Started',
         items: [
-          { text: 'Introduction', link: '/introduction' },
+          // { text: 'Introduction', link: '/introduction' },
           { text: 'Installation', link: '/installation' },
           { text: 'API Class', link: '/api' },
           { text: 'Interface', link: '/interface' },

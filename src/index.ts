@@ -1,17 +1,27 @@
 import Api from './api/Api'
 import BatchApi from './api/BatchApi'
-import Collection from './collection/Collection'
-import Model from './model/Model'
-import { createHttp, http } from './http/http'
 import { broadcast, createBroadcast } from './broadcast/broadcast'
+import Collection from './collection/Collection'
+import Action from './enums/Action'
+import Actioned from './enums/Actioned'
+import { formatDates } from './helpers/formatDates'
+import handleErrors from './helpers/handleErrors'
+import { createHttp, http } from './http/http'
+import BatchModel from './model/BatchModel'
+import Model from './model/Model'
 
 export {
+  Action,
+  Actioned,
   Api,
   BatchApi,
   Model,
+  BatchModel,
   Collection,
   createHttp,
   http,
   broadcast,
-  createBroadcast
+  createBroadcast,
+  handleErrors,
+  formatDates
 }

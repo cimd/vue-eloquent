@@ -1,4 +1,4 @@
-function handleErrors(err: any): void
+function handleErrors(event: string, err: any): void
 {
   console.error(err)
 }

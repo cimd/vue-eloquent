@@ -1,4 +1,4 @@
-export enum Action {
+enum Action {
     CREATE = 'create',
     VIEW = 'view',
     READ = 'view',
@@ -6,3 +6,5 @@ export enum Action {
     UPDATE = 'edit',
     DELETE = 'delete'
 }
+
+export default Action

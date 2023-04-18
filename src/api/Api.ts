@@ -1,6 +1,6 @@
-import { http } from '../http/http'
 import { formatObject } from '../helpers/formatObject'
 import handleErrors from '../helpers/handleErrors'
+import { http } from '../http/http'
 
 export default abstract class Api {
   /**
@@ -50,7 +50,8 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err) => {
-          handleErrors(err)
+          handleErrors('fetching', err)
+          self.fetchingError(err)
           reject(err)
         })
     })
@@ -71,7 +72,8 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err) => {
-          handleErrors(err)
+          handleErrors('retrieving', err)
+          self.retrtievingError(err)
           reject(err)
         })
     })
@@ -95,7 +97,8 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err) => {
-          handleErrors(err)
+          handleErrors('updating', err)
+          self.updatingError(err)
           reject(err)
         })
     })
@@ -119,7 +122,8 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err) => {
-          handleErrors(err)
+          handleErrors('storing', err)
+          self.storingError(err)
           reject(err)
         })
     })
@@ -140,7 +144,8 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err) => {
-          handleErrors(err)
+          handleErrors('deleting', err)
+          self.deletingError(err)
           reject(err)
         })
     })
@@ -171,7 +176,8 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err) => {
-          handleErrors(err)
+          handleErrors('fetchingLogs', err)
+          self.fetchingLogsError(err)
           reject(err)
         })
     })
@@ -194,6 +200,7 @@ export default abstract class Api {
   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected fetching(payload?:any): void { return }
+  protected fetchingError(err?: any): void { return }
   /**
    * Fetched runs after get method
    * @param { any } payload Payload
@@ -206,6 +213,7 @@ export default abstract class Api {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected retrieving(payload?:any): void { return }
+  protected retrtievingError(err?: any): void { return }
   /**
    * Retrieved runs after show method
    * @param { any } payload Payload
@@ -214,14 +222,17 @@ export default abstract class Api {
   protected retrieved(payload?:any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected creating(payload?:any): void { return }
+  protected creatingError(err?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected created(payload?:any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected updating(payload?:any): void { return }
+  protected updatingError(err?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected updated(payload?:any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected deleting(payload?:any): void { return }
+  protected deletingError(err?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected deleted(payload?:any): void { return }
 }
