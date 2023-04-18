@@ -6,6 +6,6 @@ An interface for Vue 3 an Laravel Eloquent models through API calls
 
 `yarn add @konnec/vue-eloquent`
 
-## Usage
+## Docs
 
-Instructions are available here: ./docs
+Visit [Vue Eloquent Docs](https://main--vue-eloquent.netlify.app/)
