@@ -3,7 +3,7 @@
 This page demonstrates some of the built-in markdown extensions provided by VitePress.
 
 
-```js{4}
+```js
 yarn add @konnec/vue-eloquent
 ```
 

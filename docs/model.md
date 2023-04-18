@@ -20,7 +20,7 @@ export default class Post extends Model {
   public model = reactive({
     id: undefined,
     title: undefined,
-    description: undefined
+    description: undefined,
     created_at: undefined,
     deleted_at: undefined,
     updated_at: undefined,
@@ -157,9 +157,11 @@ export default class Post extends Model {
   }))
 }
 ```
+
+You then need to initialize the validations in your component.
 From there on you can access your Vuelidate model through `this.post.$model`
 
-```js{3-6,11,16,21-22}
+```js{3-6,11,16,20,24-25}
 <template>
     <div>
         <q-input v-model='post.model.id' label='ID' />
@@ -177,6 +179,9 @@ export default defineComponent({
     return {
       post: new Post(),
     }
+  },
+  created() {
+    this.model.initValidations()
   },
   methods: {
     async onSubmit() {
@@ -260,3 +265,7 @@ Create: `storing` and `stored`
 Delete: `deleting` and `deleted`
 
 Those are good placeholders for displaying error messages to the user, or passing values to the Store
+
+::: info
+The `save` method will trigger the `Create` or `Update` observers accordingly
+:::
