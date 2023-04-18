@@ -56,7 +56,7 @@ export default abstract class Collection {
       this.setStateSuccess()
       return response.data
     } catch (e) {
-      handleErrors(e)
+      handleErrors('fetching', e)
       this.setStateError()
     }
   }

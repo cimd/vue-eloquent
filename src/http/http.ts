@@ -1,12 +1,19 @@
-import {AxiosInstance} from 'axios'
+import { AxiosInstance } from 'axios'
 
 let http: AxiosInstance
-function createHttp(httpClient: AxiosInstance): void
+let baseApi: string = '/api/'
+function createHttp(config: { httpClient: AxiosInstance, baseApi?: string }): void
 {
-  http = httpClient
+  console.log('createHttp')
+  http = config.httpClient
+
+  if (config.baseApi) baseApi = config.baseApi
+
+  console.log('baseApi', baseApi)
 }
 
 export {
   http,
-  createHttp
+  createHttp,
+  baseApi
 }

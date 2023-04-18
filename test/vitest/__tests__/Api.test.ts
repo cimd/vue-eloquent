@@ -1,9 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import PostApi from '../../mocks/PostApi'
+import { baseApi } from '../../../src/http/http'
 
 describe('model api', () => {
   it('get method', async () => {
+    console.log(baseApi)
     const result = await PostApi.get()
+
+    const test = new PostApi()
+    console.log(test)
 
     expect(result.data.length).toBe(2)
   })

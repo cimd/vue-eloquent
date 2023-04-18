@@ -63,4 +63,12 @@ describe('model api', () => {
     expect(data).toContain({ id: 1 })
     expect(actioned).toBe('created')
   })
+
+  it('validates model', async () => {
+    const post = new Post()
+    post.model.title = 'test'
+    post.$validate()
+
+    expect(post.$invalid).toBe(true)
+  })
 })

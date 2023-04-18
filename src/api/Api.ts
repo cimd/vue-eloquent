@@ -1,6 +1,6 @@
 import { formatObject } from '../helpers/formatObject'
 import handleErrors from '../helpers/handleErrors'
-import { http } from '../http/http'
+import { baseApi, http } from '../http/http'
 
 export default abstract class Api {
   /**
@@ -13,7 +13,7 @@ export default abstract class Api {
    * Base API endpoint
    * @param { string } baseApi
    */
-  protected baseApi = '/api/v1/' as string
+  protected baseApi = baseApi
 
   /**
    * API response parameters to be converted to Date
@@ -222,7 +222,7 @@ export default abstract class Api {
   protected retrieved(payload?:any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected creating(payload?:any): void { return }
-  protected creatingError(err?: any): void { return }
+  protected storingError(err?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected created(payload?:any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

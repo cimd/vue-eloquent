@@ -18,7 +18,7 @@ const posts = [
 ]
 
 export const PostHandlers = [
-  rest.get('http://localhost/api/v1/posts', (req, res, ctx) => {
+  rest.get('http://localhost/api/posts', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -26,7 +26,7 @@ export const PostHandlers = [
       })
     )
   }),
-  rest.get('http://localhost/api/v1/posts/1', (req, res, ctx) => {
+  rest.get('http://localhost/api/posts/1', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -34,7 +34,7 @@ export const PostHandlers = [
       })
     )
   }),
-  rest.patch('http://localhost/api/v1/posts/1', (req, res, ctx) => {
+  rest.patch('http://localhost/api/posts/1', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -42,7 +42,7 @@ export const PostHandlers = [
       })
     )
   }),
-  rest.post('http://localhost/api/v1/posts', (req, res, ctx) => {
+  rest.post('http://localhost/api/posts', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -50,7 +50,7 @@ export const PostHandlers = [
       })
     )
   }),
-  rest.delete('http://localhost/api/v1/posts/1', (req, res, ctx) => {
+  rest.delete('http://localhost/api/posts/1', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
