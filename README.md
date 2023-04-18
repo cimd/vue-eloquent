@@ -8,4 +8,4 @@ An interface for Vue 3 an Laravel Eloquent models through API calls
 
 ## Docs
 
-Visit [Vue Eloquent Docs](https://main--vue-eloquent.netlify.app/)
+Visit [Vue Eloquent Docs](https://vue-eloquent.netlify.app/)
