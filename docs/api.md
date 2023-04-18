@@ -2,7 +2,7 @@
 The API classes are ways to integrate your Vue SPA with Laravel's APIs in an Laravel/Eloquent way
 
 ## Instantiating Axios
-You need to pass your Axios instance to the package as so
+You need to pass your `Axios` instance to the package as so
 
 ```js{9}
 import axios, { AxiosInstance } from 'axios'
@@ -16,7 +16,7 @@ const http: AxiosInstance = axios.create({
 createHttp(http)
 ```
 
-You now have access to the Axios instance from your application
+You now have access to the `Axios` instance from your application
 
 ## Creating the class instance
 Create a new file called `Post.ts` which extends `Api.ts`
@@ -126,5 +126,6 @@ export default abstract class MyApi extends Api {
 ```
 
 ::: info
-At this point you just use the Api classes on your app or you can continue extending it
+At this point you just use the Api classes on your app or you can continue extending it through the following
+steps
 :::

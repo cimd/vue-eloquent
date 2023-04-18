@@ -12,15 +12,14 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Getting Started',
+        text: 'Topics',
         items: [
-          // { text: 'Introduction', link: '/introduction' },
+          { text: 'Getting Started', link: '/introduction' },
           { text: 'Installation', link: '/installation' },
           { text: 'API Class', link: '/api' },
           { text: 'Model', link: '/model' },
           { text: 'Collection', link: '/collection' },
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: 'Examples', link: '/examples' },
         ]
       }
     ],

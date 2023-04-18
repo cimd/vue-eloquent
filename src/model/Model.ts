@@ -1,9 +1,9 @@
 import _forEach from 'lodash/forEach'
+import { reactive } from 'vue'
+import Action from '../enums/Action'
+import Actioned from '../enums/Actioned'
 import handleErrors from '../helpers/handleErrors'
 import Validator from './Validator'
-import { Action } from '../enums/Action'
-import { Actioned } from '../enums/Actioned'
-import { reactive } from 'vue'
 
 export default class Model extends Validator {
 
@@ -97,7 +97,7 @@ export default class Model extends Validator {
       return model
     }
     catch (e) {
-      handleErrors(e)
+      handleErrors('fetching', e)
       self.setStateError()
     }
   }
@@ -145,7 +145,7 @@ export default class Model extends Validator {
       return response.data
     }
     catch (e) {
-      handleErrors(e)
+      handleErrors('creating', e)
       this.setStateError()
     }
   }
@@ -166,7 +166,7 @@ export default class Model extends Validator {
       return response.data
     }
     catch (e) {
-      handleErrors(e)
+      handleErrors('updating', e)
       this.setStateError()
     }
   }

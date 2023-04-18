@@ -6107,7 +6107,7 @@ function baseCreateRenderer(options, createHydrationFns) {
             initialVNode.type.__asyncLoader().then(
               // note: we are moving the render call into an async callback,
               // which means it won't track dependencies - but it's ok because
-              // a server-rendered async wrapper is already in resolved state
+              // a msw-rendered async wrapper is already in resolved state
               // and it will never need to change.
               () => !instance.isUnmounted && hydrateSubTree()
             );

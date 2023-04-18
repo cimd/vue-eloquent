@@ -184,7 +184,7 @@ export default abstract class Api {
   }
 
   /**
-   * Transforms the response from the server into a format that is expected
+   * Transforms the response from the msw into a format that is expected
    * @param { string } response Api response
    */
   protected transformResponse(response: string): any
