@@ -1,85 +1,262 @@
-# Markdown Extension Examples
+# Model
 
-This page demonstrates some of the built-in markdown extensions provided by VitePress.
+Models allows you to connect your laravel models with your front end forms.
 
-## Syntax Highlighting
+## Create a Model Class
+Create a `Post` model that extends the default `Model` class. Note we're using the `PostApi` created previously.
 
-VitePress provides Syntax Highlighting powered by [Shiki](https://github.com/shikijs/shiki), with additional features like line-highlighting:
-
-**Input**
-
-````
-```js{4}
-export default {
-  data () {
-    return {
-      msg: 'Highlighted!'
-    }
-  }
-}
-```
-````
-
-**Output**
+**Example**
 
 ```js{4}
-export default {
-  data () {
-    return {
-      msg: 'Highlighted!'
-    }
+import { required } from '@vuelidate/validators'
+import { Model } from '@konnec/vue-eloquent'
+import PostApi from './PostApi'
+import { IPost } from 'PostInterface'
+import { computed, reactive } from 'vue'
+
+export default class Post extends Model {
+  protected api = PostApi
+
+  public model = reactive({
+    id: undefined,
+    title: undefined,
+    description: undefined
+    created_at: undefined,
+    deleted_at: undefined,
+    updated_at: undefined,
+  } as IPost)
+
+  constructor(post?: any){
+    super()
+    this.factory(post)
+    super.initValidations()
   }
+
+  protected validations = computed(() => ({
+    model: {
+      title: {
+        required
+      },
+      description: {
+        required
+      }
+    }
+  }))
 }
 ```
 
-## Custom Containers
+And now you can use it in our component:
 
-**Input**
+```js{3-6,11,16,21-22}
+<template>
+    <div>
+        <q-input v-model='post.model.id' label='ID' />
+        <q-input v-model='post.model.title' label='Title' />
+        <q-input v-model='post.model.description' label='Description' />
+        <q-btn label='Submit' @click='onSubmit />
+    </div>
+</template>
 
-```md
-::: info
-This is an info box.
-:::
+<script lang="ts">
+import Post from './Post'
 
-::: tip
-This is a tip.
-:::
-
-::: warning
-This is a warning.
-:::
-
-::: danger
-This is a dangerous warning.
-:::
-
-::: details
-This is a details block.
-:::
+export default defineComponent({
+  data() {
+    return {
+      post: new Post(),
+    }
+  },
+  methods: {
+    onSubmit() {
+        // save() will update or create a new post
+        this.post.save()
+    }
+  }
+})
+</script>
 ```
 
-**Output**
 
 ::: info
-This is an info box.
+Note that we're linking `post.model` properties to the form models
 :::
 
-::: tip
-This is a tip.
+
+## Available methods
+
+This will **fetch** the `post` with id = 1 from the API and attach it to the `post.model` property
+```
+this.post.find(1)
+```
+
+**Create** a new instance of the post
+```
+this.post.create()
+```
+
+**Update** the existing instance of the post
+```
+this.post.update()
+```
+
+Alternatively, you can also use the convenient `post.save()`. If your `post.model` has a defined `id` attribute, it will send a `PATCH` to the update to update it. Otherwise, 
+it will send a `POST` request to create a new `post`
+```
+this.post.save()
+```
+
+You can **delete** the existing post by calling
+```
+this.post.delete()
+```
+
+::: info
+The **API** methods connect to Laravel controllers and hence use the same terminology: `get`, `show`, `store`, `update`, `delete`
+
+The **Model** methods connect to Laravel Models, hence use Laravel Eloquent's terminology: `create`, `find`, `update`, `delete`
 :::
 
-::: warning
-This is a warning.
-:::
+## Validation
+Vue Eloquent uses [Vuelidate](https://vuelidate-next.netlify.app/) which is a great model validation library for 
+Vue 2 and Vue 3.
+You need to define the validation rules in your Model class:
+```js{1,25-34}
+import { required } from '@vuelidate/validators'
+import { Model } from '@konnec/vue-eloquent'
+import PostApi from './PostApi'
+import { IPost } from 'PostInterface'
+import { computed, reactive } from 'vue'
 
-::: danger
-This is a dangerous warning.
-:::
+export default class Post extends Model {
+  protected api = PostApi
 
-::: details
-This is a details block.
-:::
+  public model = reactive({
+    id: undefined,
+    title: undefined,
+    description: undefined
+    created_at: undefined,
+    deleted_at: undefined,
+    updated_at: undefined,
+  } as IPost)
 
-## More
+  constructor(post?: any){
+    super()
+    this.factory(post)
+    super.initValidations()
+  }
 
-Check out the documentation for the [full list of markdown extensions](https://vitepress.dev/guide/markdown).
+  protected validations = computed(() => ({
+    model: {
+      title: {
+        required
+      },
+      description: {
+        required
+      }
+    }
+  }))
+}
+```
+From there on you can access your Vuelidate model through `this.post.$model`
+
+```js{3-6,11,16,21-22}
+<template>
+    <div>
+        <q-input v-model='post.model.id' label='ID' />
+        <q-input v-model='post.model.title' label='Title' />
+        <q-input v-model='post.model.description' label='Description' />
+        <q-btn label='Submit' @click='onSubmit />
+    </div>
+</template>
+
+<script lang="ts">
+import Post from './Post'
+
+export default defineComponent({
+  data() {
+    return {
+      post: new Post(),
+    }
+  },
+  methods: {
+    async onSubmit() {
+        this.post.$validate()
+        if (this.post.$invalid) return
+        
+        const { actioned, result } = await this.post.save()
+        // Do something here, e.g: emit the value to a parent component
+        // this.$emit(actioned, result)
+        // actioned = 'created' or 'updated'
+    }
+  }
+})
+</script>
+```
+
+### Validation messages
+```js{7-8,13-14}
+<template>
+    <div>
+        <q-input v-model='post.model.id' label='ID' />
+        <q-input 
+            v-model='post.model.title' 
+            label='Title' 
+            :error='post.$model.title.$error' 
+            :error-message='post.$model.title.$errorMessage'
+        />
+        <q-input 
+            v-model='post.model.description' 
+            label='Description'
+            :error='post.$model.description.$error' 
+            :error-message='post.$model.description.$errorMessage'
+        />
+        <q-btn label='Submit' @click='onSubmit />
+    </div>
+</template>
+```
+
+## States
+The Model has 3 states which are available and updated during the API requests. You can use them to display
+state changes on you UI, e.g. a `loading` indicator on a button
+
+```js
+state: {
+    isLoading: boolean,
+    isSucess: boolean,
+    isError: boolean
+}
+```
+
+```js{16}
+<template>
+    <div>
+        <q-input v-model='post.model.id' label='ID' />
+        <q-input 
+            v-model='post.model.title' 
+            label='Title' 
+            :error='post.$model.title.$error' 
+            :error-message='post.$model.title.$errorMessage'
+        />
+        <q-input 
+            v-model='post.model.description' 
+            label='Description'
+            :error='post.$model.description.$error' 
+            :error-message='post.$model.description.$errorMessage'
+        />
+        <q-btn label='Submit' @click='onSubmit :loading='post.state.isLoading'/>
+    </div>
+</template>
+```
+
+## Observers
+Similarly to the API class, the Model also has Observers
+
+Find: `retriving` and `retrieved`
+
+Update: `updating` and `updated`
+
+Create: `storing` and `stored`
+
+Delete: `deleting` and `deleted`
+
+Those are good placeholders for displaying error messages to the user, or passing values to the Store
