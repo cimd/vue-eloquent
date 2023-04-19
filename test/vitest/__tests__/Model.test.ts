@@ -71,4 +71,33 @@ describe('model api', () => {
 
     expect(post.$invalid).toBe(true)
   })
+
+  it('fetches hasOne', async () => {
+    const post = new Post()
+    await post.refresh(1)
+    // console.log(post.model)
+    const author = await post.author()
+    // console.log(author)
+
+    expect(author).toContain({ id: 1 })
+  })
+
+  it('fetches hasMany', async () => {
+    const post = new Post()
+    await post.refresh(1)
+    // console.log(post.model)
+    const readers = await post.readers()
+    // console.log(readers)
+
+    expect(readers.length).toBe(2)
+  })
+
+  it('lazy loads relationship', async () => {
+    const post = new Post()
+    await post.refresh(1)
+
+    await post.load('readers')
+
+    expect(post.model.readers.length).toBe(2)
+  })
 })

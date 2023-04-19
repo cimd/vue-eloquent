@@ -3,6 +3,8 @@ import { computed, reactive } from 'vue'
 import { Model } from '../../src'
 import PostApi from './PostApi'
 import { IPost } from './PostInterface'
+import UserApi from './UserApi'
+import { IUser } from './UserInterface'
 
 export default class Post extends Model {
   protected api = PostApi
@@ -12,8 +14,11 @@ export default class Post extends Model {
     created_at: undefined,
     updated_at: undefined,
     deleted_at: undefined,
+    author_id: undefined,
     title: undefined,
     text: undefined,
+    author: undefined as IUser,
+    readers: undefined as IUser[],
   } as IPost)
 
   protected parameters = {
@@ -34,4 +39,14 @@ export default class Post extends Model {
       description: { required },
     }
   }))
+
+  async author(): Promise<IUser>
+  {
+    return await this.hasOne(UserApi, this.model.author_id)
+  }
+
+  async readers(): Promise<IUser[]>
+  {
+    return await this.hasMany(UserApi, 'id', this.model.author_id)
+  }
 }

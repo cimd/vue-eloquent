@@ -8,10 +8,6 @@ export default class PostsCollection extends Collection {
 
   public data = reactive([] as IPost[])
 
-  public filter = reactive({
-    author: 'admin',
-  })
-
   constructor(posts?: IPost[]){
     super()
     this.factory(posts)

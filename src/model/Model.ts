@@ -187,9 +187,53 @@ export default class Model extends Validator {
       return response.data
     }
     catch (e) {
-      handleErrors(e)
+      handleErrors('deleting', e)
       this.setStateError()
     }
+  }
+
+  public async batchCreate(): Promise<any>
+  {
+    try {
+      this.batchCreating()
+      this.setStateLoading()
+      const response: any = await this.api.batchStore(this.model)
+      this.setOriginal()
+      Object.assign(this.model, response.data)
+      this.setStateSuccess()
+      return response.data
+    }
+    catch (e) {
+      handleErrors('batchCreating', e)
+      this.setStateError()
+    }
+  }
+
+  public async batchUpdate(): Promise<any>
+  {
+    try {
+      this.setStateLoading()
+      this.batchUpdating()
+      const response: any = await this.api.batchUpdate(this.model)
+      this.setOriginal()
+      Object.assign(this.model, response.data)
+      this.setStateSuccess()
+      return response.data
+    }
+    catch (e) {
+      handleErrors('batchUpdating', e)
+      this.setStateError()
+    }
+  }
+
+  protected batchCreating(): void
+  {
+    return
+  }
+
+  protected batchUpdating(): void
+  {
+    return
   }
 
   protected setModel(data: any): void
@@ -210,7 +254,7 @@ export default class Model extends Validator {
       return response.data
     }
     catch (e) {
-      handleErrors(e)
+      handleErrors('logging', e)
       this.setStateError()
     }
   }
@@ -238,7 +282,7 @@ export default class Model extends Validator {
       this.factory(response.data)
     }
     catch (e) {
-      handleErrors(e)
+      handleErrors('refreshing', e)
       this.setStateError()
     }
   }
@@ -305,19 +349,19 @@ export default class Model extends Validator {
    * Loads the model relationships
    * @param { String | String[] } args Relationships to load
    */
-  public load(args?: string | string[]): void
+  public async load(args?: string | string[]): Promise<any>
   {
     switch (typeof args) {
     case 'string':
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      this[ args ]()
+      this.model[ args ] = await this[ args ]()
       break
     case 'object':
-      args.forEach((arg: string) => {
+      await args.forEach(async (arg: string) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        this[ arg ]()
+        this.model[ args ] = await this[ arg ]()
       })
       break
     default:

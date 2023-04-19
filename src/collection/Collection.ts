@@ -1,6 +1,6 @@
+import { reactive } from 'vue'
 import { broadcast } from '../broadcast/broadcast'
 import handleErrors from '../helpers/handleErrors'
-import { reactive } from 'vue'
 
 export default abstract class Collection {
 
@@ -28,7 +28,7 @@ export default abstract class Collection {
   /**
    * Broadcast channel name
    */
-  protected channel = '' as string
+  protected channel: string = ''
 
   protected constructor()
   {
@@ -44,6 +44,7 @@ export default abstract class Collection {
 
   /**
    * Creates instance of the model from API
+   * @param { any } filter - DEPRECATED Use where method instead
    */
   public async get(filter?: any): Promise<any>
   {
@@ -59,6 +60,12 @@ export default abstract class Collection {
       handleErrors('fetching', e)
       this.setStateError()
     }
+  }
+
+  public where(filter: any)
+  {
+    Object.assign(this.filter, filter)
+    return this
   }
 
   /**
@@ -142,6 +149,8 @@ export default abstract class Collection {
     this.state.isError = true
   }
 
-  protected abstract initRefresh(data: any[]): void
-  protected abstract updateDataSource(data: any[]): void
+  protected updateDataSource(data: any[]): void
+  {
+    Object.assign(this.data, data)
+  }
 }
