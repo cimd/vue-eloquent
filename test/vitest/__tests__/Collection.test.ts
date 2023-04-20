@@ -21,7 +21,26 @@ describe('collection api', () => {
     expect(posts.filter).toEqual({ title: 'Hello', description: 'Chaining...' })
   })
 
-  it('updates data property', async () => {
+  it('include relation', async () => {
+    const posts = new PostsCollection()
+    const results = await posts.with(['author', 'comments']).get()
+    // console.log(results)
+    expect(results.length).toEqual(2)
+  })
+
+  it('filter + relation', async () => {
+    const posts = new PostsCollection()
+    const results = await posts
+      .where({ title: 'Hello' })
+      .where({ description: 'Chaining...' })
+      .with(['author', 'comments'])
+      .get()
+
+    expect(results.length).toEqual(2)
+    expect(posts.filter).toEqual({ title: 'Hello', description: 'Chaining...' })
+  })
+
+  it('updates models data property', async () => {
     const posts = new PostsCollection()
     await posts.where({ title: 'Hello' }).get()
 

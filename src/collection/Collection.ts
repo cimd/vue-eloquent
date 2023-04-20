@@ -1,7 +1,8 @@
 import { reactive } from 'vue'
 import { broadcast } from '../broadcast/broadcast'
 import handleErrors from '../helpers/handleErrors'
-
+// import _forOwn from 'lodash/forOwn'
+// import * as qs from 'qs'
 export default abstract class Collection {
 
   declare public data: any[]
@@ -24,6 +25,10 @@ export default abstract class Collection {
    * Filters used on GET request
    */
   public filter = reactive({} as any)
+  /**
+   * Relations used on GET request
+   */
+  public include = reactive([] as any[])
 
   /**
    * Broadcast channel name
@@ -48,10 +53,14 @@ export default abstract class Collection {
    */
   public async get(filter?: any): Promise<any>
   {
+    // const queryString = qs.stringify({ ...this.filter, ...this.include })
+    // const queryString = this.queryString()
+    // console.log(queryString)
+    let queryString: any
     this.setStateLoading()
     try {
-      filter ? this.filter = filter : null
-      const response: any = await this.api.get(this.filter)
+      filter ? queryString = filter : queryString = this.queryString()
+      const response: any = await this.api.get(queryString)
       // this.data = [...response.data]
       this.updateDataSource(response.data)
       this.setStateSuccess()
@@ -65,6 +74,12 @@ export default abstract class Collection {
   public where(filter: any)
   {
     Object.assign(this.filter, filter)
+    return this
+  }
+
+  public with(relationships: any[])
+  {
+    this.include = [...relationships]
     return this
   }
 
@@ -152,5 +167,25 @@ export default abstract class Collection {
   protected updateDataSource(data: any[]): void
   {
     Object.assign(this.data, data)
+  }
+
+  protected queryString(): any
+  {
+    // const filter: string[] = []
+    // _forOwn(this.filter, function(value, key) {
+    //   // console.log(key, value)
+    //   filter.push(`filter[${key}]=${value}`)
+    // } )
+    // console.log('filter:', filter)
+    //
+    // const include = this.include.join(',')
+    // console.log(include)
+    // const queryString = qs.stringify({ filter, include })
+    // console.log('queryString:', queryString)
+    // return queryString
+    return {
+      filter: this.filter,
+      include: this.include.join(',')
+    }
   }
 }
