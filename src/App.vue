@@ -12,11 +12,11 @@ export default defineComponent({
   async created() {
     createHttp({ httpClient: http })
     const posts = new PostsCollection()
-    const result = await posts
+    await posts
       .where({ author_id: 1 })
       .with(['author', 'comments'])
       .get()
-    console.log(result)
+    console.log(posts)
   }
 })
 </script>
