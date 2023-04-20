@@ -1,8 +1,8 @@
 import { reactive } from 'vue'
 import { broadcast } from '../broadcast/broadcast'
 import handleErrors from '../helpers/handleErrors'
-// import _forOwn from 'lodash/forOwn'
-// import * as qs from 'qs'
+import type { IQuery } from '@/collection/QueryInterface'
+
 export default abstract class Collection {
 
   declare public data: any[]
@@ -29,6 +29,14 @@ export default abstract class Collection {
    * Relations used on GET request
    */
   public include = reactive([] as any[])
+  /**
+   * Pagination used on GET request
+   */
+  public paging = reactive([] as any[])
+  /**
+   * Sorting used on GET request
+   */
+  public sorting = reactive([] as any[])
 
   /**
    * Broadcast channel name
@@ -80,6 +88,16 @@ export default abstract class Collection {
   public with(relationships: any[])
   {
     this.include = [...relationships]
+    return this
+  }
+  public sort(sorting: any[])
+  {
+    this.sorting = [...sorting]
+    return this
+  }
+  public page(paging: any[])
+  {
+    this.paging = [...paging]
     return this
   }
 
@@ -169,23 +187,22 @@ export default abstract class Collection {
     Object.assign(this.data, data)
   }
 
-  protected queryString(): any
+  protected queryString(): IQuery
   {
-    // const filter: string[] = []
-    // _forOwn(this.filter, function(value, key) {
-    //   // console.log(key, value)
-    //   filter.push(`filter[${key}]=${value}`)
-    // } )
-    // console.log('filter:', filter)
-    //
-    // const include = this.include.join(',')
-    // console.log(include)
-    // const queryString = qs.stringify({ filter, include })
-    // console.log('queryString:', queryString)
-    // return queryString
-    return {
-      filter: this.filter,
-      include: this.include.join(',')
+    const qs: IQuery = {}
+    if (this.include.length) {
+      qs.include = this.include.join(',')
     }
+    if (this.filter) {
+      qs.filter = this.filter
+    }
+    if (this.paging) {
+      qs.page = this.paging
+    }
+    if (this.sorting) {
+      qs.sort = this.sorting
+    }
+
+    return qs
   }
 }
