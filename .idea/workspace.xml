@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40375987-a8ae-4341-9a58-91cabd263567" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/collection/Collection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/collection/Collection.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/vitest/__tests__/Collection.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/vitest/__tests__/Collection.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,31 +48,16 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="npm.test:unit:ui">
-    <configuration name="lint" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="lint" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="test:unit:ui" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="test:unit:ui" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="npm.publish">
+    <list>
+      <item itemvalue="npm.Lint" />
+      <item itemvalue="npm.Vitest UI" />
+      <item itemvalue="npm.publish" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.test:unit:ui" />
-        <item itemvalue="npm.lint" />
+        <item itemvalue="npm.Vitest UI" />
+        <item itemvalue="npm.Lint" />
       </list>
     </recent_temporary>
   </component>
@@ -88,7 +70,7 @@
       <option name="presentableId" value="Default" />
       <updated>1681993736517</updated>
       <workItem from="1681993738426" duration="348000" />
-      <workItem from="1681994096628" duration="3110000" />
+      <workItem from="1681994096628" duration="3628000" />
     </task>
     <servers />
   </component>
