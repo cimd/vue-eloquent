@@ -15,6 +15,8 @@ export default defineComponent({
     await posts
       .where({ author_id: 1 })
       .with(['author', 'comments'])
+      .sort(['title'])
+      // .page({ per_page: 1 })
       .get()
     console.log(posts)
   }
