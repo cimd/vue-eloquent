@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40375987-a8ae-4341-9a58-91cabd263567" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/laravel/examples.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/.vitepress/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/docs/.vitepress/config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/laravel/controller.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/laravel/controller.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/vue/api.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/vue/api.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/vue/collection.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/vue/collection.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/vue/model.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/vue/model.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +140,7 @@
       <workItem from="1682000434380" duration="3944000" />
       <workItem from="1682036996600" duration="642000" />
       <workItem from="1682037655564" duration="3755000" />
-      <workItem from="1682046884686" duration="10908000" />
+      <workItem from="1682046884686" duration="11167000" />
     </task>
     <servers />
   </component>
