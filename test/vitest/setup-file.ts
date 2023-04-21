@@ -5,7 +5,7 @@ import http from '../mocks/axios'
 import { server } from '../mocks/server'
 
 beforeAll(() => {
-  createHttp({ httpClient: http, baseApi: '/api/v1/' })
+  createHttp({ httpClient: http })
   server.listen()
 })
 

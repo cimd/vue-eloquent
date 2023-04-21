@@ -1,19 +1,20 @@
 import { formatObject } from '../helpers/formatObject'
 import handleErrors from '../helpers/handleErrors'
-import { baseApi, http } from '../http/http'
+import { apiPrefix, http } from '../http/http'
+import _join from 'lodash/join'
 
 export default abstract class Api {
   /**
-   * Resource name. Will be appended to the baseApi endpoint
+   * Resource name. Will be appended to the apiPrefix endpoint
    * @param { string } resource
    */
   protected resource = '' as string
 
   /**
    * Base API endpoint
-   * @param { string } baseApi
+   * @param { string } apiPrefix
    */
-  protected baseApi = baseApi
+  protected apiPrefix = apiPrefix
 
   /**
    * API response parameters to be converted to Date
@@ -37,19 +38,21 @@ export default abstract class Api {
   static get(payload?: any): Promise<any>
   {
     const self = this.instance()
-    const url = self.baseApi + self.resource
+    // const url = self.apiPrefix + self.resource
+    const url = _join([self.apiPrefix, self.resource], '/')
+    console.log(url)
     self.fetching(payload)
     return new Promise((resolve, reject) => {
       http
         .get(url, {
           params: payload,
-          transformResponse: [(data) => self.transformResponse(data)],
+          transformResponse: [(data: any) => self.transformResponse(data)],
         })
-        .then((response) => {
+        .then((response: { data: any }) => {
           self.fetched(response.data)
           resolve(response.data)
         })
-        .catch((err) => {
+        .catch((err: any) => {
           handleErrors('fetching', err)
           self.fetchingError(err)
           reject(err)
@@ -60,18 +63,19 @@ export default abstract class Api {
   static show(id: number): Promise<any>
   {
     const self = this.instance()
-    const url = self.baseApi + self.resource + '/' + id
+    // const url = self.apiPrefix + self.resource + '/' + id
+    const url = _join([self.apiPrefix, self.resource, id], '/')
     self.retrieving(id)
     return new Promise((resolve, reject) => {
       http
         .get(url, {
-          transformResponse: [(data) => self.transformResponse(data)],
+          transformResponse: [(data: any) => self.transformResponse(data)],
         })
-        .then((response) => {
+        .then((response: { data: any }) => {
           self.retrieved(response.data)
           resolve(response.data)
         })
-        .catch((err) => {
+        .catch((err: any) => {
           handleErrors('retrieving', err)
           self.retrtievingError(err)
           reject(err)
@@ -82,7 +86,8 @@ export default abstract class Api {
   static update(payload: any): Promise<any>
   {
     const self = this.instance()
-    const url = self.baseApi + self.resource + '/' + payload.id
+    // const url = self.apiPrefix + self.resource + '/' + payload.id
+    const url = _join([self.apiPrefix, self.resource, payload.id], '/')
     self.updating(payload)
     return new Promise((resolve, reject) => {
       http
@@ -90,13 +95,13 @@ export default abstract class Api {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           retries: 0,
-          transformResponse: [(data) => self.transformResponse(data)],
+          transformResponse: [(data: any) => self.transformResponse(data)],
         })
-        .then((response) => {
+        .then((response: { data: any }) => {
           self.updated(response.data)
           resolve(response.data)
         })
-        .catch((err) => {
+        .catch((err: any) => {
           handleErrors('updating', err)
           self.updatingError(err)
           reject(err)
@@ -107,7 +112,8 @@ export default abstract class Api {
   static store(payload: any): Promise<any>
   {
     const self = this.instance()
-    const url = self.baseApi + self.resource
+    // const url = self.apiPrefix + self.resource
+    const url = _join([self.apiPrefix, self.resource], '/')
     self.creating(payload)
     return new Promise((resolve, reject) => {
       http
@@ -115,13 +121,13 @@ export default abstract class Api {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
           retries: 0,
-          transformResponse: [(data) => self.transformResponse(data)],
+          transformResponse: [(data: any) => self.transformResponse(data)],
         })
-        .then((response) => {
+        .then((response: { data: any }) => {
           self.created(response.data)
           resolve(response.data)
         })
-        .catch((err) => {
+        .catch((err: any) => {
           handleErrors('storing', err)
           self.storingError(err)
           reject(err)
@@ -132,18 +138,19 @@ export default abstract class Api {
   static delete(payload: any): Promise<any>
   {
     const self = this.instance()
-    const url = self.baseApi + self.resource + '/' + payload.id
+    // const url = self.apiPrefix + self.resource + '/' + payload.id
+    const url = _join([self.apiPrefix, self.resource, payload.id], '/')
     self.deleting(payload)
     return new Promise((resolve, reject) => {
       http
         .delete(url, {
           transformResponse: [(data: string) => self.transformResponse(data)],
         })
-        .then((response) => {
+        .then((response: { data: any }) => {
           self.deleted(response.data)
           resolve(response.data)
         })
-        .catch((err) => {
+        .catch((err: any) => {
           handleErrors('deleting', err)
           self.deletingError(err)
           reject(err)
@@ -154,20 +161,21 @@ export default abstract class Api {
   static batchStore(payload: any): Promise<any>
   {
     const self = this.instance()
-    const url = self.baseApi + self.resource + '/batch'
+    // const url = self.apiPrefix + self.resource + '/batch'
+    const url = _join([self.apiPrefix, self.resource, 'batch'], '/')
     return new Promise((resolve, reject) => {
       http
         .post(url, payload, {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           retries: 0,
-          transformResponse: [(data) => self.transformResponse(data)],
+          transformResponse: [(data: any) => self.transformResponse(data)],
         })
-        .then((response) => {
+        .then((response: { data: any }) => {
           // self.setSucess()
           resolve(response.data)
         })
-        .catch((err) => {
+        .catch((err: any) => {
           handleErrors('batchStoring', err)
           self.batchStoringError(err)
           reject(err)
@@ -180,19 +188,20 @@ export default abstract class Api {
   static batchUpdate(payload: any): Promise<any>
   {
     const self = this.instance()
-    const url = self.baseApi + self.resource + '/batch'
+    // const url = self.apiPrefix + self.resource + '/batch'
+    const url = _join([self.apiPrefix, self.resource, 'batch'], '/')
     return new Promise((resolve, reject) => {
       http
         .patch(url, payload, {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           retries: 0,
-          transformResponse: [(data) => self.transformResponse(data)],
+          transformResponse: [(data: any) => self.transformResponse(data)],
         })
-        .then((response) => {
+        .then((response: { data: any }) => {
           resolve(response.data)
         })
-        .catch((err) => {
+        .catch((err: any) => {
           handleErrors('batchUpdating', err)
           self.batchUpdatingError(err)
           reject(err)
@@ -204,19 +213,20 @@ export default abstract class Api {
   static batchDelete(payload: any): Promise<any>
   {
     const self = this.instance()
-    const url = self.baseApi + self.resource + '/batch-delete'
+    // const url = self.apiPrefix + self.resource + '/batch-delete'
+    const url = _join([self.apiPrefix, self.resource, 'batch-delete'], '')
     return new Promise((resolve, reject) => {
       http
         .post(url, payload, {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           retries: 0,
-          transformResponse: [(data) => self.transformResponse(data)],
+          transformResponse: [(data: any) => self.transformResponse(data)],
         })
-        .then((response) => {
+        .then((response: { data: any }) => {
           resolve(response.data)
         })
-        .catch((err) => {
+        .catch((err: any) => {
           handleErrors('batchDeleting', err)
           self.batchDeletingError(err)
           reject(err)
@@ -238,7 +248,8 @@ export default abstract class Api {
     } else {
       id = payload.id
     }
-    const url = self.baseApi + self.resource + '/' + id + '/logs'
+    // const url = self.apiPrefix + self.resource + '/' + id + '/logs'
+    const url = _join([self.apiPrefix, self.resource, id, 'logs'], '/')
     return new Promise((resolve, reject) => {
       http
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -246,10 +257,10 @@ export default abstract class Api {
         .get(url, payload, {
           transformResponse: [(data: string) => self.transformResponse(data)],
         })
-        .then((response) => {
+        .then((response: { data: any }) => {
           resolve(response.data)
         })
-        .catch((err) => {
+        .catch((err: any) => {
           handleErrors('fetchingLogs', err)
           self.fetchingLogsError(err)
           reject(err)
