@@ -5,17 +5,43 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40375987-a8ae-4341-9a58-91cabd263567" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/architecture.pptx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/public/architecture.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/introduction.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/introduction.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/laravel/controller.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/laravel/controller.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/vue/api.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/vue/api.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/vue/model.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/vue/model.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/Api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/Api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/collection/Collection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/collection/Collection.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/collection/QueryInterface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/collection/QueryInterface.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/http/http.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/http/http.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps/_metadata.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps/vue.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps/vue.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_1b191763/_metadata.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_1b191763/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_1b191763/vue.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_1b191763/vue.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_68b3e43a/_metadata.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_68b3e43a/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_68b3e43a/vue.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_68b3e43a/vue.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_788a4166/_metadata.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_788a4166/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_788a4166/vue.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_788a4166/vue.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/theme/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/theme/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api-examples.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/architecture.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/introduction.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/laravel/controller.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/laravel/examples.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/laravel/installation.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/laravel/model.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/markdown-examples.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/public/architecture.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/vue/api.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/vue/collection.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/vue/examples.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/vue/installation.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/vue/model.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,7 +178,7 @@
       <workItem from="1682036996600" duration="642000" />
       <workItem from="1682037655564" duration="3755000" />
       <workItem from="1682046884686" duration="12024000" />
-      <workItem from="1682070241762" duration="5186000" />
+      <workItem from="1682070241762" duration="6085000" />
     </task>
     <servers />
   </component>
