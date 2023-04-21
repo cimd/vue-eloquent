@@ -33,7 +33,7 @@ export default abstract class Collection {
   /**
    * Pagination used on GET request
    */
-  public paging = reactive([] as IQueryPage)
+  public paging = reactive({ } as IQueryPage)
   /**
    * Sorting used on GET request
    */
@@ -191,17 +191,17 @@ export default abstract class Collection {
   protected queryString(): IQuery
   {
     const qs: IQuery = {}
-    if (this.include.length) {
-      qs.include = this.include.join(',')
-    }
     if (this.filter) {
       qs.filter = this.filter
     }
+    if (this.include.length) {
+      qs.include = this.include.join(',')
+    }
+    if (this.sorting.length) {
+      qs.sort = this.sorting.join(',')
+    }
     if (this.paging) {
       qs.page = this.paging
-    }
-    if (this.sorting) {
-      qs.sort = this.sorting
     }
 
     return qs

@@ -97,7 +97,7 @@ You can **delete** the existing post by calling
 this.post.delete()
 ```
 
-::: info
+::: tip
 The **API** methods connect to Laravel controllers and hence use the same terminology: `get`, `show`, `store`, `update`, `delete`
 
 The **Model** methods connect to Laravel Models, hence use Laravel Eloquent's terminology: 
@@ -254,6 +254,6 @@ Similarly to the API class, the Model also has Observers
 
 Those are good placeholders for displaying error messages to the user, or passing values to the Store
 
-::: info
+::: tip
 The `save` method will trigger the `Create` or `Update` observers accordingly
 :::

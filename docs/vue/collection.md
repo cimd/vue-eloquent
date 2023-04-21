@@ -145,3 +145,14 @@ Requesting both `author` and `comments` relationships to be added to the respons
 ```js
 this.posts.with(['author', 'comments']).get()
 ```
+
+### Sorting
+
+Sorting both `author_id` ascending.
+
+```js
+this.posts.sort(['author_id']).get()
+```
+::: warning
+Sorting in `descending` order is not supported yet
+:::

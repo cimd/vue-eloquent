@@ -4,5 +4,5 @@ export interface IQuery {
     include?: string,
     filter?: any[],
     page?: IQueryPage,
-    sort?: any[]
+    sort?: string
 }
