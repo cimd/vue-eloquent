@@ -12,14 +12,27 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Topics',
+        text: 'Getting Started',
         items: [
-          { text: 'Getting Started', link: '/introduction' },
-          { text: 'Installation', link: '/installation' },
-          { text: 'API Class', link: '/api' },
-          { text: 'Model', link: '/model' },
-          { text: 'Collection', link: '/collection' },
-          { text: 'Examples', link: '/examples' },
+          { text: 'Intro', link: '/introduction' },
+        ]
+      },
+      {
+        text: 'Laravel Package',
+        items: [
+          { text: 'Installation', link: '/laravel/installation' },
+          { text: 'Model', link: '/laravel/model' },
+          { text: 'Controller', link: '/laravel/controller' },
+        ]
+      },
+      {
+        text: 'Vue Package',
+        items: [
+          { text: 'Installation', link: '/vue/installation' },
+          { text: 'API Class', link: '/vue/api' },
+          { text: 'Model', link: '/vue/model' },
+          { text: 'Collection', link: '/vue/collection' },
+          { text: 'Examples', link: '/vue/examples' },
         ]
       }
     ],

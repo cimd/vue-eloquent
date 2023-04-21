@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "Vue Eloquent"
-  text: "Integration made ease"
+  text: "API Integration made ease"
   tagline: Vue3 and Laravel API and Eloquent integration
   actions:
     - theme: brand
