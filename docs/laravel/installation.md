@@ -9,4 +9,4 @@ composer required konnec/vue-eloquent-api
 
 ## Vue 3
 
-This package pairs with javascript's ```@konnec/vue-eloquent``` package [vue installation](./vue/installation).
+This package pairs with javascript's ```@konnec/vue-eloquent``` package [vue installation](/vue/installation).
