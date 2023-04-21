@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="40375987-a8ae-4341-9a58-91cabd263567" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/Api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/Api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/http/http.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/http/http.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/mocks/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/mocks/axios.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/vitest/setup-file.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/vitest/setup-file.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +40,7 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "dev",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Ingo/Documents/GitHub/vue-eloquent",
+    "last_opened_file_path": "C:/Users/Ingo/Documents/GitHub/vue-eloquent/.github/workflows",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
@@ -60,6 +56,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ingo\Documents\GitHub\vue-eloquent\.github\workflows" />
       <recent name="$PROJECT_DIR$/src/collection" />
     </key>
   </component>
@@ -99,7 +96,7 @@
       <workItem from="1682000415685" duration="8000" />
       <workItem from="1682000434380" duration="3944000" />
       <workItem from="1682036996600" duration="642000" />
-      <workItem from="1682037655564" duration="995000" />
+      <workItem from="1682037655564" duration="3665000" />
     </task>
     <servers />
   </component>
