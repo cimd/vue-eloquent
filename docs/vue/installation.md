@@ -7,6 +7,6 @@ This page demonstrates some of the built-in markdown extensions provided by Vite
 yarn add @konnec/vue-eloquent
 ```
 
-## Laravel
+## Laravel Package
 
-This package pairs with composer's ```konnec/laravel-api``` package [**Coming Soon**]
+This package pairs with composer's ```konnec/vue-eloquent-api``` package [laravel installation](/laravel/installation).

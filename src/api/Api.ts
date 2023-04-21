@@ -285,6 +285,7 @@ export default abstract class Api {
   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected fetching(payload?:any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected fetchingError(err?: any): void { return }
   /**
    * Fetched runs after get method
@@ -298,6 +299,7 @@ export default abstract class Api {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected retrieving(payload?:any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected retrtievingError(err?: any): void { return }
   /**
    * Retrieved runs after show method
@@ -307,16 +309,19 @@ export default abstract class Api {
   protected retrieved(payload?:any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected creating(payload?:any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected storingError(err?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected created(payload?:any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected updating(payload?:any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected updatingError(err?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected updated(payload?:any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected deleting(payload?:any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected deletingError(err?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected deleted(payload?:any): void { return }

@@ -5,11 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40375987-a8ae-4341-9a58-91cabd263567" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps/_metadata.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps/vue.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps/vue.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_1b191763/_metadata.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_1b191763/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_1b191763/vue.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_1b191763/vue.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_68b3e43a/_metadata.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_68b3e43a/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_68b3e43a/vue.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_68b3e43a/vue.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_788a4166/_metadata.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_788a4166/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_788a4166/vue.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_788a4166/vue.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/laravel/controller.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/laravel/installation.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/vue/model.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_090240b9/_metadata.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_090240b9/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_090240b9/vue.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/cache/deps_temp_090240b9/vue.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/docs/.vitepress/config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/vue/api.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/collection.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/vue/collection.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/examples.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/vue/examples.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/installation.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/vue/installation.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/introduction.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/introduction.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/model.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/laravel/model.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/Api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/Api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/http/http.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/http/http.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/mocks/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/mocks/axios.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/vitest/setup-file.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/vitest/setup-file.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/mocks/PostsCollection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/mocks/PostsCollection.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +75,7 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "dev",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Ingo/Documents/GitHub/vue-eloquent",
+    "last_opened_file_path": "C:/Users/Ingo/Documents/GitHub/vue-eloquent/docs/laravel",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
@@ -60,10 +91,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ingo\Documents\GitHub\vue-eloquent\docs\laravel" />
+      <recent name="C:\Users\Ingo\Documents\GitHub\vue-eloquent\.github\workflows" />
       <recent name="$PROJECT_DIR$/src/collection" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Ingo\Documents\GitHub\vue-eloquent\docs\vue" />
+      <recent name="C:\Users\Ingo\Documents\GitHub\vue-eloquent\docs" />
+      <recent name="C:\Users\Ingo\Documents\GitHub\vue-eloquent\docs\.vitepress" />
+      <recent name="C:\Users\Ingo\Documents\GitHub\vue-eloquent\docs\.vitepress\vue" />
+    </key>
   </component>
-  <component name="RunManager" selected="npm.Vitest UI">
+  <component name="RunManager" selected="npm.docs:dev">
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -74,14 +113,26 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="docs:dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="docs:dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="npm.Lint" />
       <item itemvalue="npm.Vitest UI" />
       <item itemvalue="npm.publish" />
+      <item itemvalue="npm.docs:dev" />
       <item itemvalue="npm.dev" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.docs:dev" />
         <item itemvalue="npm.dev" />
       </list>
     </recent_temporary>
@@ -99,7 +150,8 @@
       <workItem from="1682000415685" duration="8000" />
       <workItem from="1682000434380" duration="3944000" />
       <workItem from="1682036996600" duration="642000" />
-      <workItem from="1682037655564" duration="995000" />
+      <workItem from="1682037655564" duration="3755000" />
+      <workItem from="1682046884686" duration="5532000" />
     </task>
     <servers />
   </component>

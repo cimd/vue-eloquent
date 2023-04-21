@@ -7,8 +7,7 @@ Create a `Post` model that extends the default `Model` class. Note we're using t
 
 **Example**
 
-```js{4}
-import { required } from '@vuelidate/validators'
+```js
 import { Model } from '@konnec/vue-eloquent'
 import PostApi from './PostApi'
 import { IPost } from 'PostInterface'
@@ -29,25 +28,13 @@ export default class Post extends Model {
   constructor(post?: any){
     super()
     this.factory(post)
-    super.initValidations()
   }
-
-  protected validations = computed(() => ({
-    model: {
-      title: {
-        required
-      },
-      description: {
-        required
-      }
-    }
-  }))
 }
 ```
 
 And now you can use it in our component:
 
-```js{3-6,11,16,21-22}
+```js{3-5,11,16,21-22}
 <template>
     <div>
         <q-input v-model='post.model.id' label='ID' />
@@ -85,42 +72,43 @@ Note that we're linking `post.model` properties to the form models
 ## Available methods
 
 This will **fetch** the `post` with id = 1 from the API and attach it to the `post.model` property
-```
+```js
 this.post.find(1)
 ```
 
 **Create** a new instance of the post
-```
+```js
 this.post.create()
 ```
 
 **Update** the existing instance of the post
-```
+```js
 this.post.update()
 ```
 
 Alternatively, you can also use the convenient `post.save()`. If your `post.model` has a defined `id` attribute, it will send a `PATCH` to the update to update it. Otherwise, 
 it will send a `POST` request to create a new `post`
-```
+```js
 this.post.save()
 ```
 
 You can **delete** the existing post by calling
-```
+```js
 this.post.delete()
 ```
 
 ::: info
 The **API** methods connect to Laravel controllers and hence use the same terminology: `get`, `show`, `store`, `update`, `delete`
 
-The **Model** methods connect to Laravel Models, hence use Laravel Eloquent's terminology: `create`, `find`, `update`, `delete`
+The **Model** methods connect to Laravel Models, hence use Laravel Eloquent's terminology: 
+`create`, `find`, `update`, `delete`, `save`
 :::
 
 ## Validation
-Vue Eloquent uses [Vuelidate](https://vuelidate-next.netlify.app/) which is a great model validation library for 
-Vue 2 and Vue 3.
+`Vue Eloquent` uses [Vuelidate](https://vuelidate-next.netlify.app/) which is a great model validation library for 
+Vue.
 You need to define the validation rules in your Model class:
-```js{1,25-34}
+```js{1,22,25-34}
 import { required } from '@vuelidate/validators'
 import { Model } from '@konnec/vue-eloquent'
 import PostApi from './PostApi'
@@ -159,7 +147,7 @@ export default class Post extends Model {
 ```
 
 You then need to initialize the validations in your component.
-From there on you can access your Vuelidate model through `this.post.$model`
+From there on you can access your `Vuelidate` model through `this.post.$model`
 
 ```js{3-6,11,16,20,24-25}
 <template>
@@ -188,9 +176,9 @@ export default defineComponent({
         this.post.$validate()
         if (this.post.$invalid) return
         
-        const { actioned, result } = await this.post.save()
+        const { actioned, model } = await this.post.save()
         // Do something here, e.g: emit the value to a parent component
-        // this.$emit(actioned, result)
+        // this.$emit(actioned, model)
         // actioned = 'created' or 'updated'
     }
   }
@@ -221,7 +209,7 @@ export default defineComponent({
 ```
 
 ## States
-The Model has 3 states which are available and updated during the API requests. You can use them to display
+The `Model` has 3 states which are available and updated during the API requests. You can use them to display
 state changes on you UI, e.g. a `loading` indicator on a button
 
 ```js
@@ -256,13 +244,13 @@ state: {
 ## Observers
 Similarly to the API class, the Model also has Observers
 
-Find: `retriving` and `retrieved`
+**Find**: `retriving` and `retrieved`
 
-Update: `updating` and `updated`
+**Update**: `updating` and `updated`
 
-Create: `storing` and `stored`
+**Create**: `storing` and `stored`
 
-Delete: `deleting` and `deleted`
+**Delete**: `deleting` and `deleted`
 
 Those are good placeholders for displaying error messages to the user, or passing values to the Store
 

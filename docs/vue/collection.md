@@ -1,10 +1,11 @@
 # Collection
 
 While the `Model` class provides an eloquent way to manage a single Model,
-the `Collection` class provides way of managing a collection (array) of models
+the `Collection` class provides way of managing a collection (array) of models.
 
 ## Create a Collection Class
-Create a `PostsCollection` class that extends the default `Collection` class. Note we're using the `PostApi` created previously.
+Create a `PostCollection` class that extends the default `Collection` class. Note we're using the `PostApi` 
+created previously.
 
 **Example**
 
@@ -14,10 +15,8 @@ import PostApi from './PostApi'
 import { IPost } from './IPost'
 import { reactive } from 'vue'
 
-export default class PostsGrid extends Collection {
+export default class PostCollection extends Collection {
   protected api = PostApi
-
-  protected channel = 'post'
 
   public data = reactive([] as IPost[])
 
@@ -32,11 +31,9 @@ export default class PostsGrid extends Collection {
 }
 ```
 
-You can then access the collection from the `model` attribute
+You can then access the collection from the `data` attribute.
 
-## Usage
-
-```js{3-6,11,16,21-22}
+```js{2,7,13}
 <script lang="ts">
 import PostsCollection from './Post'
 
@@ -69,9 +66,33 @@ state: {
 
 ## Broadcast
 
-Vue Eloquent uses Laravel Echo for broadcasting. After defining the channel
+`Vue Eloquent` uses `Laravel Echo` for broadcasting. After defining the channel
 name on your Collection you have to initialize the broadcasting on your
 component.
+
+```js{9}
+import { Collection } from '@konnec/vue-eloquent'
+import PostApi from './PostApi'
+import { IPost } from './IPost'
+import { reactive } from 'vue'
+
+export default class PostCollection extends Collection {
+    protected api = PostApi
+    
+    protected channel = 'posts'
+    
+    public data = reactive([] as IPost[])
+    
+    public filter = reactive({
+    creator_id: undefined as number | undefined,
+    })
+    
+    constructor(posts?: IPost[]){
+    super()
+    this.factory(posts)
+    }
+}
+```
 
 ```js{11}
 <script lang="ts">
@@ -93,6 +114,11 @@ export default defineComponent({
 </script>
 ```
 
+Alternatively you can pass a new channel directly to the broadcast constructor:
+```js
+this.initBroadcast('posts')
+```
+
 
 ### Broadcast Observers
 
@@ -101,3 +127,21 @@ export default defineComponent({
 `broadcastUpdated(e: any)`
 
 `broadcastDeleted(e: any)`
+
+## Eloquent Api
+
+### Filtering
+
+```js
+this.posts.where({ author_id: 1 }).where({ title: 'Tech' }).get()
+OR
+this.posts.where({ author_id: 1, title: 'Tech' }).get()
+```
+
+### Relationships
+
+Requesting both `author` and `comments` relationships to be added to the response.
+
+```js
+this.posts.with(['author', 'comments']).get()
+```
