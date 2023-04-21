@@ -142,7 +142,7 @@ export default abstract class MyApi extends Api {
 }
 ```
 
-::: info
-At this point you start using the Api classes on your app or you can continue extending it through the following
+::: tip
+At this point you can start using the Api Class on your app or you can continue extending it through the following
 steps
 :::

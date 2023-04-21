@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40375987-a8ae-4341-9a58-91cabd263567" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/docs/laravel/examples.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/collection/Collection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/collection/Collection.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/mocks/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/mocks/axios.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/.vitepress/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/docs/.vitepress/config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/laravel/controller.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/laravel/controller.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/vue/api.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/vue/api.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/vue/collection.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/vue/collection.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/vue/model.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/vue/model.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +73,7 @@
       <recent name="C:\Users\Ingo\Documents\GitHub\vue-eloquent\docs\.vitepress\vue" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.dev">
+  <component name="RunManager" selected="npm.docs:build">
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -122,10 +125,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.dev" />
-        <item itemvalue="npm.docs:preview" />
         <item itemvalue="npm.docs:build" />
         <item itemvalue="npm.docs:dev" />
+        <item itemvalue="npm.dev" />
+        <item itemvalue="npm.docs:preview" />
       </list>
     </recent_temporary>
   </component>
@@ -143,7 +146,7 @@
       <workItem from="1682000434380" duration="3944000" />
       <workItem from="1682036996600" duration="642000" />
       <workItem from="1682037655564" duration="3755000" />
-      <workItem from="1682046884686" duration="9946000" />
+      <workItem from="1682046884686" duration="10908000" />
     </task>
     <servers />
   </component>

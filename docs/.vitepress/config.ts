@@ -23,6 +23,7 @@ export default defineConfig({
           { text: 'Installation', link: '/laravel/installation' },
           { text: 'Model', link: '/laravel/model' },
           { text: 'Controller', link: '/laravel/controller' },
+          { text: 'Examples', link: '/laravel/examples' },
         ]
       },
       {
