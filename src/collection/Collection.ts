@@ -33,7 +33,7 @@ export default abstract class Collection {
   /**
    * Pagination used on GET request
    */
-  public paging = reactive({} as IQueryPage)
+  public paging = reactive({ } as IQueryPage)
   /**
    * Sorting used on GET request
    */

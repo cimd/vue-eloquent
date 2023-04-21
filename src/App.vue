@@ -16,7 +16,7 @@ export default defineComponent({
       .where({ author_id: 1 })
       .with(['author', 'comments'])
       .sort(['title'])
-      // .page({ per_page: 1 })
+      // .page({ number: 1, limit: 15 })
       .get()
     console.log(posts)
   }

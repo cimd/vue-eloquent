@@ -8,8 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/collection/Collection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/collection/Collection.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/collection/QueryInterface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/collection/QueryInterface.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/collection/QueryPageInterface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/collection/QueryPageInterface.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/mocks/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/mocks/axios.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -145,7 +143,7 @@
       <workItem from="1682000434380" duration="3944000" />
       <workItem from="1682036996600" duration="642000" />
       <workItem from="1682037655564" duration="3755000" />
-      <workItem from="1682046884686" duration="9276000" />
+      <workItem from="1682046884686" duration="9946000" />
     </task>
     <servers />
   </component>
