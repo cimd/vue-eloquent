@@ -2,7 +2,7 @@
 
 Models allows you to connect your laravel models with your front end forms.
 
-## Create a Model Class
+## Generating Model Classes
 Create a `Post` model that extends the default `Model` class. Note we're using the `PostApi` created previously.
 
 **Example**
@@ -104,6 +104,40 @@ The **Model** methods connect to Laravel Models, hence use Laravel Eloquent's te
 `create`, `find`, `update`, `delete`, `save`
 :::
 
+## Default Attribute Values
+
+You can pass default values directly to the model property:
+
+```js
+  public model = reactive({
+    id: undefined,
+    title: 'Default Title',
+    description: undefined,
+    created_at: undefined,
+    deleted_at: undefined,
+    updated_at: undefined,
+  } as IPost)
+```
+
+## Refreshing Models
+
+If you already have an instance of a model taht was retrived from the API, you can "refresh" the model using the
+`refresh` method.
+
+```js
+this.post.find(1)
+
+this.post.refresh()
+```
+Or you can call the `fresh` method to re-retrive a new model from the API:
+
+```js
+this.post.find(1)
+
+this.post.fresh(2)
+```
+
+
 ## Validation
 `Vue Eloquent` uses [Vuelidate](https://vuelidate-next.netlify.app/) which is a great model validation library for 
 Vue.
@@ -121,7 +155,7 @@ export default class Post extends Model {
   public model = reactive({
     id: undefined,
     title: undefined,
-    description: undefined
+    description: undefined,
     created_at: undefined,
     deleted_at: undefined,
     updated_at: undefined,

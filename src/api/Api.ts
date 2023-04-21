@@ -210,6 +210,11 @@ export default abstract class Api {
   }
   protected batchUpdatingError(err?: any) { return }
 
+  /**
+   * @deprecated Use batchDestroy instead
+   * Batch destroys multiple records
+   * @param { string } payload Api response
+   */
   static batchDelete(payload: any): Promise<any>
   {
     const self = this.instance()
@@ -227,13 +232,41 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err: any) => {
-          handleErrors('batchDeleting', err)
-          self.batchDeletingError(err)
+          handleErrors('batchDestroying', err)
+          self.batchDestroyingError(err)
           reject(err)
         })
     })
   }
-  protected batchDeletingError(err?: any) { return }
+
+  /**
+   * Batch destroys multiple records
+   * @param { string } payload Api response
+   */
+  static batchDestroy(payload: any): Promise<any>
+  {
+    const self = this.instance()
+    // const url = self.apiPrefix + self.resource + '/batch-delete'
+    const url = _join([self.apiPrefix, self.resource, 'batch-destroy'], '')
+    return new Promise((resolve, reject) => {
+      http
+        .patch(url, payload, {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          retries: 0,
+          transformResponse: [(data: any) => self.transformResponse(data)],
+        })
+        .then((response: { data: any }) => {
+          resolve(response.data)
+        })
+        .catch((err: any) => {
+          handleErrors('batchDestroying', err)
+          self.batchDestroyingError(err)
+          reject(err)
+        })
+    })
+  }
+  protected batchDestroyingError(err?: any) { return }
 
   /**
    * Fetches model logs from API

@@ -19,3 +19,7 @@ konnec/vue-eloquent-api
 ```
 
 Installation and usage or both packages are described in these docs. They can be used together or individually
+
+## Architecture
+
+![Architecture](./public/architecture.png)

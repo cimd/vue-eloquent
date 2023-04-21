@@ -28,8 +28,8 @@ createHttp({
 })
 ```
 
-## Creating the class instance
-Create a new file called `Post.ts` which extends `Api.ts`. Define your api endpoint through the `resource` property:
+## Generating Api Class
+Create a new file called `PostApi.ts` which extends `Api`. Define your api endpoint through the `resource` property:
 
 **Example**
 
@@ -55,11 +55,57 @@ You can now access your laravel `Posts` API through the following methods
 
 ```js
 PostApi.find(1)
+
 PostApi.get()
+
 PostApi.store({text: 'My New Post})
+    
 PostApi.update({id: 1, text: 'My New Post - Updated})
+        
 PostApi.delete(1) OR PostApi.delete({id: 1, text: 'My New Post - Updated})
 ```
+
+### Mass Updates
+
+You can perform mass assignments through the following methods:
+
+**batchStore**
+```js
+const posts = [
+    { title: 'My New Post', description: 'Lorem ipsum dolor sit amet, consectetur adipis' },
+    { title: 'My Second Post', description: 'Lorem ipsum dolor sit amet, consectetur adipis'},
+]
+PostApi.batchStore(posts)
+```
+
+**batchUpdate**
+```js
+const posts = [
+    { id: 1, title: 'My New Post - UPDATED', description: 'Lorem ipsum dolor sit amet, consectetur adipis' },
+    { id: 2, title: 'My Second Post - UPDATED', description: 'Lorem ipsum dolor sit amet, consectetur adipis'},
+]
+PostApi.batchUpdate(posts)
+```
+
+**batchDestroy**
+```js
+const posts = [
+    { id: 1, title: 'My New Post - UPDATED', description: 'Lorem ipsum dolor sit amet, consectetur adipis' },
+    { id: 2, title: 'My Second Post - UPDATED', description: 'Lorem ipsum dolor sit amet, consectetur adipis'},
+]
+PostApi.batchDestroy(posts)
+```
+
+::: warning
+This requires your backend application to implement the required routes as per below. The arguments are packed
+into a data param sent:
+:::
+```php
+Route::post('posts/batch', [PostController::class, 'storeBatch']);
+Route::patch('posts/batch', [PostController::class, 'updateBatch']);
+Route::patch('posts/batch-destroy', [PostController::class, 'destroyBatch']);
+```
+Note that the `batch-destroy` route is defined as `PATCH` instead of `DELETE` as it does not accept any parameters
 
 ## Casting Dates
 All default laravel timestamps (`created_at`, `updated_at` and `deleted_at`) attributes are automatically converted 
