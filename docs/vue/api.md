@@ -46,7 +46,7 @@ export default class PostApi extends Api {
 ```
 
 In this example, your accessing your `posts` endpoint through:
-```xhr
+```txt
 http://localhost:8000/api/posts
 ```
 
