@@ -1,6 +1,8 @@
+import type { IQueryPage } from '@/collection/QueryPageInterface'
+
 export interface IQuery {
     include?: string,
     filter?: any[],
-    page?: any[],
+    page?: IQueryPage,
     sort?: any[]
 }

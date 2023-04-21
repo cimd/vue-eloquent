@@ -1,19 +1,16 @@
-import { AxiosInstance } from 'axios'
-
-let http: AxiosInstance
-let baseApi: string = '/api/'
-function createHttp(config: { httpClient: AxiosInstance, baseApi?: string }): void
+let http: any
+let apiPrefix: string = 'api'
+function createHttp(config: { httpClient: any, apiPrefix?: string }): void
 {
   console.log('createHttp')
   http = config.httpClient
 
-  if (config.baseApi) baseApi = config.baseApi
-
-  console.log('baseApi', baseApi)
+  if (config.apiPrefix) apiPrefix = config.apiPrefix
+  console.log('apiPrefix', apiPrefix)
 }
 
 export {
   http,
   createHttp,
-  baseApi
+  apiPrefix
 }

@@ -5,14 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40375987-a8ae-4341-9a58-91cabd263567" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/collection/QueryInterface.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/collection/Collection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/collection/Collection.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/Api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/Api.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/http/http.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/http/http.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/mocks/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/mocks/axios.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/vitest/setup-file.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/vitest/setup-file.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,8 +42,9 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/aquinch/Documents/GitHub/vue-eloquent/src/collection",
+    "git-widget-placeholder": "dev",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Ingo/Documents/GitHub/vue-eloquent",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
@@ -56,7 +54,7 @@
     "nodejs_package_manager_path": "yarn",
     "prettierjs.PrettierConfiguration.Package": "/home/aquinch/Documents/GitHub/vue-eloquent/node_modules/prettier",
     "settings.editor.selected.configurable": "actions.on.save",
-    "ts.external.directory.path": "/home/aquinch/Documents/GitHub/vue-eloquent/node_modules/typescript/lib",
+    "ts.external.directory.path": "C:\\Users\\Ingo\\Documents\\GitHub\\vue-eloquent\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -65,7 +63,7 @@
       <recent name="$PROJECT_DIR$/src/collection" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.dev">
+  <component name="RunManager" selected="npm.Vitest UI">
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -99,7 +97,9 @@
       <workItem from="1681993738426" duration="348000" />
       <workItem from="1681994096628" duration="3628000" />
       <workItem from="1682000415685" duration="8000" />
-      <workItem from="1682000434380" duration="2605000" />
+      <workItem from="1682000434380" duration="3944000" />
+      <workItem from="1682036996600" duration="642000" />
+      <workItem from="1682037655564" duration="995000" />
     </task>
     <servers />
   </component>

@@ -2,6 +2,7 @@ import { reactive } from 'vue'
 import { broadcast } from '../broadcast/broadcast'
 import handleErrors from '../helpers/handleErrors'
 import type { IQuery } from '@/collection/QueryInterface'
+import type { IQueryPage } from '@/collection/QueryPageInterface'
 
 export default abstract class Collection {
 
@@ -32,7 +33,7 @@ export default abstract class Collection {
   /**
    * Pagination used on GET request
    */
-  public paging = reactive([] as any[])
+  public paging = reactive([] as IQueryPage)
   /**
    * Sorting used on GET request
    */
@@ -95,9 +96,9 @@ export default abstract class Collection {
     this.sorting = [...sorting]
     return this
   }
-  public page(paging: any[])
+  public page(paging: IQueryPage)
   {
-    this.paging = [...paging]
+    Object.assign(this.paging, paging)
     return this
   }
 
