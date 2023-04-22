@@ -40,6 +40,11 @@ export default class Post extends Model {
     }
   }))
 
+  protected updating()
+  {
+    // strip html tags from this.model.text
+  }
+
   async author(): Promise<IUser>
   {
     return await this.hasOne(UserApi, this.model.author_id)
