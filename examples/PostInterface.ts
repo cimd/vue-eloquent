@@ -1,5 +1,5 @@
-import { IModel } from '../../src/model/ModelInterface'
-import { IUser } from './UserInterface'
+import { IModel } from '../src/model/ModelInterface'
+import { IUser } from '../test/mocks/UserInterface'
 
 export interface IPost extends IModel {
     title: string | undefined

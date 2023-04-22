@@ -1,14 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import PostApi from '../../mocks/PostApi'
-import { baseApi } from '../../../src/http/http'
+import PostApi from '../../../examples/PostApi'
 
 describe('model api', () => {
   it('get method', async () => {
-    console.log(baseApi)
+    // console.log(apiPrefix)
     const result = await PostApi.get()
 
-    const test = new PostApi()
-    console.log(test)
+    new PostApi()
+    // console.log(test)
 
     expect(result.data.length).toBe(2)
   })
@@ -31,9 +30,40 @@ describe('model api', () => {
     expect(result.data).toContain({ id: 1 })
   })
 
-  it('delete method', async () => {
-    const result = await PostApi.delete({ id: 1, text: 'test' })
+  it('destroy method', async () => {
+    const result = await PostApi.destroy({ id: 1, text: 'test' })
 
     expect(result.data).toContain({ id: 1 })
+  })
+
+  it('batchStore method', async () => {
+    const posts = [
+      { text: 'test1' },
+      { text: 'test2' },
+    ]
+    const result = await PostApi.batchStore(posts)
+
+    expect(result.data.length).toEqual(2)
+  })
+
+  it('batchUpdate method', async () => {
+    const posts = [
+      { id: 1, text: 'test1' },
+      { id: 2, text: 'test2' },
+    ]
+    const result = await PostApi.batchUpdate(posts)
+    console.log('batchUpdate Test: ', result)
+
+    expect(result.data.length).toEqual(2)
+  })
+
+  it('batchDestroy method', async () => {
+    const posts = [
+      { id: 1, text: 'test1' },
+      { id: 2, text: 'test2' },
+    ]
+    const result = await PostApi.batchDestroy(posts)
+
+    expect(result.data.length).toEqual(2)
   })
 })

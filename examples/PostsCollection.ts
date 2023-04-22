@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-import { Collection } from '../../src/index'
+import { Collection } from '../src/index'
 import PostApi from './PostApi'
 import { IPost } from './PostInterface'
 

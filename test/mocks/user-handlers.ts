@@ -16,7 +16,7 @@ const users = [
 ]
 
 export const UserHandlers = [
-  rest.get('http://localhost/api/users', (req, res, ctx) => {
+  rest.get('http://localhost:8000/api/users', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -24,7 +24,7 @@ export const UserHandlers = [
       })
     )
   }),
-  rest.get('http://localhost/api/users/1', (req, res, ctx) => {
+  rest.get('http://localhost:8000/api/users/1', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({

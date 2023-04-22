@@ -1,6 +1,6 @@
 {
   "name": "@konnec/vue-eloquent",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
@@ -10,10 +10,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "format": "prettier --write src/"
   },
   "dependencies": {
     "@vuelidate/core": "^2.0.2",
@@ -47,7 +44,6 @@
     "prettier": "^2.8.4",
     "typescript": "^5.0.4",
     "vite": "^4.1.4",
-    "vitepress": "^1.0.0-alpha.71",
     "vitest": "^0.29.1",
     "vue-tsc": "^1.2.0"
   },
@@ -60,9 +56,6 @@
       "types": "./src/index.d.ts",
       "import": "./src/index.ts"
     }
-  },
-  "directories": {
-    "doc": "docs"
   },
   "repository": {
     "type": "git",

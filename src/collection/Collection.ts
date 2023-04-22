@@ -31,6 +31,10 @@ export default abstract class Collection {
    */
   public include = reactive([] as any[])
   /**
+   * Fields to requested through API
+   */
+  public fieldsSelection = reactive([] as any[])
+  /**
    * Pagination used on GET request
    */
   public paging = reactive({ } as IQueryPage)
@@ -89,6 +93,11 @@ export default abstract class Collection {
   public with(relationships: any[])
   {
     this.include = [...relationships]
+    return this
+  }
+  public select(fields: any[])
+  {
+    this.fieldsSelection = [...fields]
     return this
   }
   public sort(sorting: any[])
@@ -196,6 +205,9 @@ export default abstract class Collection {
     }
     if (this.include.length) {
       qs.include = this.include.join(',')
+    }
+    if (this.fieldsSelection.length) {
+      qs.fields = this.fieldsSelection.join(',')
     }
     if (this.sorting.length) {
       qs.sort = this.sorting.join(',')
