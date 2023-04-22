@@ -26,6 +26,15 @@ describe('model api', () => {
     expect(post.model).toContain({ id: 2 })
   })
 
+  it('creates fresh new model', async () => {
+    const post = new Post()
+    await post.refresh(1)
+    expect(post.model).toContain({ id: 1 })
+
+    post.fresh()
+    expect(post.model.id).toBeUndefined()
+  })
+
   it('update method', async () => {
     const post = new Post()
     await post.refresh(1)
