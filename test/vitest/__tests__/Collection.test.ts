@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import PostsCollection from '../../mocks/PostsCollection'
+import PostsCollection from '../../../examples/PostsCollection'
 
 describe('collection api', () => {
   it('static get method', async () => {

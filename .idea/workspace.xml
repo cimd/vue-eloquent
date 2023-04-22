@@ -6,7 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="40375987-a8ae-4341-9a58-91cabd263567" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/Api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/Api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/mocks/Post.ts" beforeDir="false" afterPath="$PROJECT_DIR$/examples/Post.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/mocks/PostApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/examples/PostApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/mocks/PostInterface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/examples/PostInterface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/mocks/PostsCollection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/examples/PostsCollection.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/mocks/post-handlers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/mocks/post-handlers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/mocks/user-handlers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/mocks/user-handlers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/vitest/__tests__/Api.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/vitest/__tests__/Api.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/vitest/__tests__/Collection.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/vitest/__tests__/Collection.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/vitest/__tests__/Model.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/vitest/__tests__/Model.test.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,71 +72,20 @@
       <recent name="$PROJECT_DIR$/src/collection" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Ingo\Documents\GitHub\vue-eloquent\examples" />
       <recent name="C:\Users\Ingo\Documents\GitHub\vue-eloquent\docs\public" />
       <recent name="C:\Users\Ingo\Documents\GitHub\vue-eloquent\docs\vue" />
       <recent name="C:\Users\Ingo\Documents\GitHub\vue-eloquent\docs" />
       <recent name="C:\Users\Ingo\Documents\GitHub\vue-eloquent\docs\.vitepress" />
-      <recent name="C:\Users\Ingo\Documents\GitHub\vue-eloquent\docs\.vitepress\vue" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.docs:dev">
-    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="dev" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="docs:build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="docs:build" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="docs:dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="docs:dev" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="docs:preview" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="docs:preview" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="npm.Vitest UI">
     <list>
       <item itemvalue="npm.Lint" />
       <item itemvalue="npm.Vitest UI" />
       <item itemvalue="npm.publish" />
-      <item itemvalue="npm.docs:build" />
-      <item itemvalue="npm.docs:dev" />
-      <item itemvalue="npm.docs:preview" />
-      <item itemvalue="npm.dev" />
+      <item itemvalue="npm.Dev" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="npm.docs:dev" />
-        <item itemvalue="npm.docs:build" />
-        <item itemvalue="npm.dev" />
-        <item itemvalue="npm.docs:preview" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -144,7 +103,8 @@
       <workItem from="1682037655564" duration="3755000" />
       <workItem from="1682046884686" duration="12024000" />
       <workItem from="1682070241762" duration="6230000" />
-      <workItem from="1682155367766" duration="867000" />
+      <workItem from="1682155367766" duration="5432000" />
+      <workItem from="1682168405954" duration="592000" />
     </task>
     <servers />
   </component>

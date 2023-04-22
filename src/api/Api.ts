@@ -286,6 +286,7 @@ export default abstract class Api {
     const self = this.instance()
     // const url = self.apiPrefix + self.resource + '/batch'
     const url = _join([self.apiPrefix, self.resource, 'batch'], '/')
+    console.log(url)
     return new Promise((resolve, reject) => {
       http
         .patch(url, payload, {
@@ -295,6 +296,7 @@ export default abstract class Api {
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
+          // console.log('batchUpdate Method:', response)
           resolve(response.data)
         })
         .catch((err: any) => {
@@ -344,7 +346,7 @@ export default abstract class Api {
   {
     const self = this.instance()
     // const url = self.apiPrefix + self.resource + '/batch-delete'
-    const url = _join([self.apiPrefix, self.resource, 'batch-destroy'], '')
+    const url = _join([self.apiPrefix, self.resource, 'batch-destroy'], '/')
     return new Promise((resolve, reject) => {
       http
         .patch(url, payload, {
@@ -354,6 +356,7 @@ export default abstract class Api {
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
+          // console.log(response)
           resolve(response.data)
         })
         .catch((err: any) => {

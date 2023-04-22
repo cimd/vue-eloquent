@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import Post from '../../mocks/Post'
+import Post from '../../../examples/Post'
 
 describe('model api', () => {
   it('find method', async () => {
@@ -13,6 +13,17 @@ describe('model api', () => {
     await post.refresh(1)
 
     expect(post.model).toContain({ id: 1 })
+  })
+
+  it('refresh by changing id', async () => {
+    const post = new Post()
+    await post.refresh(1)
+
+    expect(post.model).toContain({ id: 1 })
+
+    await post.refresh(2)
+
+    expect(post.model).toContain({ id: 2 })
   })
 
   it('update method', async () => {

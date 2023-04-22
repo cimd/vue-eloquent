@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import PostsCollection from '../test/mocks/PostsCollection'
+import PostsCollection from '../examples/PostsCollection'
 import { createHttp } from '@/http/http'
 import http from '../test/mocks/axios'
 

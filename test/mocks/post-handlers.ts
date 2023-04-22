@@ -20,7 +20,7 @@ const posts = [
 ]
 
 export const PostHandlers = [
-  rest.get('http://localhost/api/posts', (req, res, ctx) => {
+  rest.get('http://localhost:8000/api/posts', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -28,7 +28,23 @@ export const PostHandlers = [
       })
     )
   }),
-  rest.get('http://localhost/api/posts/1', (req, res, ctx) => {
+  rest.get('http://localhost:8000/api/posts/:post', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data: posts.find(post => post.id === parseInt(<string>req.params.post)),
+      })
+    )
+  }),
+  rest.patch('http://localhost:8000/api/posts/:post', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data: posts.find(post => post.id === parseInt(<string>req.params.post)),
+      })
+    )
+  }),
+  rest.post('http://localhost:8000/api/posts', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -36,27 +52,36 @@ export const PostHandlers = [
       })
     )
   }),
-  rest.patch('http://localhost/api/posts/1', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        data: posts[ 0 ],
-      })
-    )
-  }),
-  rest.post('http://localhost/api/posts', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        data: posts[ 0 ],
-      })
-    )
-  }),
-  rest.delete('http://localhost/api/posts/1', (req, res, ctx) => {
+  rest.delete('http://localhost:8000/api/posts/1', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
         data: { ...posts[ 0 ], 'deleted_at': '2022-06-17T01:43:59.000000Z' },
+      })
+    )
+  }),
+  // Batch Routes
+  rest.patch('http://localhost:8000/api/posts/batch', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data: posts,
+      })
+    )
+  }),
+  rest.post('http://localhost:8000/api/posts/batch', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data: posts,
+      })
+    )
+  }),
+  rest.patch('http://localhost:8000/api/posts/batch-destroy', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data: posts,
       })
     )
   }),
