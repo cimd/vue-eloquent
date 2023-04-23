@@ -23,6 +23,9 @@ export default abstract class Api {
    */
   protected dates = ['created_at', 'updated_at', 'deleted_at'] as string[]
 
+  /**
+   * @constructor
+   */
   protected constructor()
   {
     return
@@ -36,15 +39,19 @@ export default abstract class Api {
   }
 
   /**
-   * Send the request to the API
-   * @param { any } payload DEPRECATED
+   * Sends the request to the API
+   *
+   * @async
+   * @static
+   * @param { any } payload - DEPRECATED. Use the where method instead
+   * @return { Promise<any> } The data from the API
    */
   static get(payload?: any): Promise<any>
   {
     const self = this.instance()
     // const url = self.apiPrefix + self.resource
     const url = _join([self.apiPrefix, self.resource], '/')
-    // console.log(url)
+    console.log(url)
     self.fetching(payload)
     return new Promise((resolve, reject) => {
       http
@@ -63,25 +70,14 @@ export default abstract class Api {
         })
     })
   }
-  /**
-   * Fetching runs before get method
-   * @param { any } payload Payload
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetching(payload?:any): void { return }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetchingError(err?: any): void { return }
-  /**
-   * Fetched runs after get method
-   * @param { any } payload Payload
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetched(payload?:any): void { return }
-
 
   /**
-   * Request Model from API
-   * @param { number } id Model ID
+   * Requests a single model from the API
+   *
+   * @async
+   * @static
+   * @param { number } id - Model ID
+   * @return { Promise<any> } The data from the API
    */
   static show(id: number): Promise<any>
   {
@@ -105,24 +101,14 @@ export default abstract class Api {
         })
     })
   }
-  /**
-   * Retrieving runs before show method
-   * @param { any } payload Payload
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrieving(payload?:any): void { return }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrievingError(err?: any): void { return }
-  /**
-   * Retrieved runs after show method
-   * @param { any } payload Payload
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrieved(payload?:any): void { return }
 
   /**
-   * Pushes model update to API
-   * @param { any } payload Model to be updated
+   * Updates a single model to the API
+   *
+   * @async
+   * @static
+   * @param { any } payload - Model
+   * @return { Promise<any> } The data from the API
    */
   static update(payload: any): Promise<any>
   {
@@ -149,23 +135,21 @@ export default abstract class Api {
         })
     })
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected updating(payload?:any): void { return }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected updatingError(err?: any): void { return }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected updated(payload?:any): void { return }
 
   /**
-   * To store new model
-   * @param { any } payload Model to be created
+   * Stores new model through the API
+   *
+   * @async
+   * @static
+   * @param { any } payload - Model
+   * @return { Promise<any> } The data from the API
    */
   static store(payload: any): Promise<any>
   {
     const self = this.instance()
     // const url = self.apiPrefix + self.resource
     const url = _join([self.apiPrefix, self.resource], '/')
-    self.storing(payload)
+    self.creating(payload)
     return new Promise((resolve, reject) => {
       http
         .post(url, payload, {
@@ -175,7 +159,7 @@ export default abstract class Api {
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
-          self.stored(response.data)
+          self.created(response.data)
           resolve(response.data)
         })
         .catch((err: any) => {
@@ -185,81 +169,54 @@ export default abstract class Api {
         })
     })
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected storing(payload?:any): void { return }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected storingError(err?: any): void { return }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected stored(payload?:any): void { return }
+
   /**
-   * @deprecated Use destroy method instead
-   * @param { any } payload Model to be deleted
+   * Deletes a single model through the API
+   *
+   * @async
+   * @static
+   * @param { any } payload - Model
+   * @return { Promise<any> } The data from the API
    */
   static delete(payload: any): Promise<any>
   {
     const self = this.instance()
     // const url = self.apiPrefix + self.resource + '/' + payload.id
     const url = _join([self.apiPrefix, self.resource, payload.id], '/')
-    self.destroying(payload)
+    self.deleting(payload)
     return new Promise((resolve, reject) => {
       http
         .delete(url, {
           transformResponse: [(data: string) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
-          self.destroyed(response.data)
+          self.deleted(response.data)
           resolve(response.data)
         })
         .catch((err: any) => {
           handleErrors('deleting', err)
-          self.destroyingError(err)
+          self.deletingError(err)
           reject(err)
         })
     })
   }
+
   /**
-   * Destroy the model
-   * @param { any } payload Model to be deleted
+   * Stores multiple models to the API
+   *
+   * @async
+   * @static
+   * @param { any[] } payload - Models. Will be wrapped in a data property before submitting to the API
+   * @return { Promise<any> } The data from the API
    */
-  static destroy(payload: any): Promise<any>
-  {
-    const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/' + payload.id
-    const url = _join([self.apiPrefix, self.resource, payload.id], '/')
-    self.destroying(payload)
-    return new Promise((resolve, reject) => {
-      http
-        .delete(url, {
-          transformResponse: [(data: string) => self.transformResponse(data)],
-        })
-        .then((response: { data: any }) => {
-          self.destroyed(response.data)
-          resolve(response.data)
-        })
-        .catch((err: any) => {
-          handleErrors('destroying', err)
-          self.destroyingError(err)
-          reject(err)
-        })
-    })
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected destroying(payload?:any): void { return }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected destroyingError(err?: any): void { return }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected destroyed(payload?:any): void { return }
-
-
-
-  static batchStore(payload: any): Promise<any>
+  static batchStore(payload: any[]): Promise<any>
   {
     const self = this.instance()
     // const url = self.apiPrefix + self.resource + '/batch'
     const url = _join([self.apiPrefix, self.resource, 'batch'], '/')
     return new Promise((resolve, reject) => {
       http
-        .post(url, payload, {
+        .post(url, { data: payload }, {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           retries: 0,
@@ -276,27 +233,31 @@ export default abstract class Api {
         })
     })
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected batchStoringError(err?: any) { return }
 
 
-
-  static batchUpdate(payload: any): Promise<any>
+  /**
+   * Updates multiple models to the API
+   *
+   * @async
+   * @static
+   * @param { any[] } payload - Models. Will be wrapped in a data property before submitting to the API
+   * @return { Promise<any> } The data from the API
+   */
+  static batchUpdate(payload: any[]): Promise<any>
   {
     const self = this.instance()
     // const url = self.apiPrefix + self.resource + '/batch'
     const url = _join([self.apiPrefix, self.resource, 'batch'], '/')
-    console.log(url)
     return new Promise((resolve, reject) => {
       http
-        .patch(url, payload, {
+        .patch(url, { data: payload }, {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
-          // console.log('batchUpdate Method:', response)
           resolve(response.data)
         })
         .catch((err: any) => {
@@ -306,23 +267,21 @@ export default abstract class Api {
         })
     })
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected batchUpdatingError(err?: any) { return }
-
 
   /**
    * @deprecated Use batchDestroy instead
    * Batch destroys multiple records
    * @param { string } payload Api response
    */
-  static batchDelete(payload: any): Promise<any>
+  static batchDelete(payload: any[]): Promise<any>
   {
     const self = this.instance()
     // const url = self.apiPrefix + self.resource + '/batch-delete'
     const url = _join([self.apiPrefix, self.resource, 'batch-delete'], '')
     return new Promise((resolve, reject) => {
       http
-        .post(url, payload, {
+        .post(url, { data: payload }, {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           retries: 0,
@@ -338,25 +297,29 @@ export default abstract class Api {
         })
     })
   }
+
   /**
-   * Batch destroys multiple records
-   * @param { string } payload Api response
+   * Destroys multiple models to the API
+   *
+   * @async
+   * @static
+   * @param { any[] } payload - Models. Will be wrapped in a data property before submitting to the API
+   * @return { Promise<any> } The data from the API
    */
-  static batchDestroy(payload: any): Promise<any>
+  static batchDestroy(payload: any[]): Promise<any>
   {
     const self = this.instance()
     // const url = self.apiPrefix + self.resource + '/batch-delete'
-    const url = _join([self.apiPrefix, self.resource, 'batch-destroy'], '/')
+    const url = _join([self.apiPrefix, self.resource, 'batch-destroy'], '')
     return new Promise((resolve, reject) => {
       http
-        .patch(url, payload, {
+        .patch(url, { data: payload }, {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
-          // console.log(response)
           resolve(response.data)
         })
         .catch((err: any) => {
@@ -366,13 +329,15 @@ export default abstract class Api {
         })
     })
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected batchDestroyingError(err?: any) { return }
-
 
   /**
    * Fetches model logs from API
+   *
+   * @async
+   * @static
    * @param { any | number } payload Payload
+   * @return { Promise<any> } The data from the API
    */
   static logs(payload: any | number): Promise<any>
   {
@@ -402,13 +367,12 @@ export default abstract class Api {
         })
     })
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetchingLogsError(err?: any): void { return }
-
 
   /**
    * Transforms the response from the msw into a format that is expected
+   *
    * @param { string } response Api response
+   * @return { any } Parsed response
    */
   protected transformResponse(response: string): any
   {
@@ -417,4 +381,50 @@ export default abstract class Api {
     return resp
   }
 
+  /**
+  * Fetching runs before get method
+   * @param { any } payload Payload
+  */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetching(payload?:any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetchingError(err?: any): void { return }
+  /**
+   * Fetched runs after get method
+   * @param { any } payload Payload
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetched(payload?:any): void { return }
+  /**
+   * Retrieving runs before show method
+   * @param { any } payload Payload
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected retrieving(payload?:any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected retrtievingError(err?: any): void { return }
+  /**
+   * Retrieved runs after show method
+   * @param { any } payload Payload
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected retrieved(payload?:any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected creating(payload?:any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected storingError(err?: any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected created(payload?:any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected updating(payload?:any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected updatingError(err?: any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected updated(payload?:any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected deleting(payload?:any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected deletingError(err?: any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected deleted(payload?:any): void { return }
 }

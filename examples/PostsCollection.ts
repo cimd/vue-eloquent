@@ -14,4 +14,11 @@ export default class PostsCollection extends Collection {
     super()
     this.factory(posts)
   }
+
+  protected async broadcastCreated(e: any): Promise<{ data: IPost }>
+  {
+    // add new post to the collection
+    const newPost = await this.api.show(e.id)
+    this.data.push(newPost)
+  }
 }

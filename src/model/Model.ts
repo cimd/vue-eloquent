@@ -47,6 +47,9 @@ export default class Model extends Validator {
     isError: false
   })
 
+  /**
+   * @constructor
+   */
   constructor()
   {
     super()
@@ -77,7 +80,10 @@ export default class Model extends Validator {
 
   /**
    * Creates instance of the model from API
-   * @param { Number } id Model ID
+   *
+   * @async
+   * @static
+   * @param { Number } id - Model ID
    */
   public static async find(id: number): Promise<any>
   {
@@ -106,31 +112,39 @@ export default class Model extends Validator {
    * Saves the model to database
    * If model has no id, it will be created (POST)
    * Otherwise it will be updated (PATCH)
+   *
+   * @async
+   * @static
+   * @param { Action } action - Action from enum
+   * @return { Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }> } Actioned enum and Model
    */
-  public async save(action?: Action): Promise<any>
+  public async save(action?: Action): Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }>
   {
     // console.log('save', this.model, action)
-    let data: any
+    let model: any
     let actioned = '' as Actioned
     this.saving()
 
     if (!this.model.id || (action === Action.CREATE)) {
-      data = await this.create()
+      model = await this.create()
       actioned = Actioned.CREATED
     }
     else {
-      data = await this.update()
+      model = await this.update()
       actioned = Actioned.UPDATED
     }
     this.saved()
     return {
       actioned,
-      data
+      model
     }
   }
 
   /**
    * Creates the model
+   *
+   * @async
+   * @return { Promise<any> } Model
    */
   public async create(): Promise<any>
   {
@@ -152,6 +166,9 @@ export default class Model extends Validator {
 
   /**
    * Updates the model
+   *
+   * @async
+   * @return { Promise<any> } Model
    */
   public async update(): Promise<any>
   {
@@ -173,6 +190,9 @@ export default class Model extends Validator {
 
   /**
    * Deletes the model
+   *
+   * @async
+   * @return { Promise<any> } Model
    */
   public async delete(): Promise<any>
   {
@@ -191,6 +211,7 @@ export default class Model extends Validator {
       this.setStateError()
     }
   }
+
 
   public async batchCreate(): Promise<any>
   {
@@ -236,6 +257,13 @@ export default class Model extends Validator {
     return
   }
 
+  /**
+   * Updates the model property with new data
+   *
+   * @protected
+   * @param { any } data - new model data
+   * @return { VoidFunction }
+   */
   protected setModel(data: any): void
   {
     // console.log('setModel', data)
@@ -261,6 +289,8 @@ export default class Model extends Validator {
 
   /**
    * Creates new instance of the model with default values
+   *
+   * @return { VoidFunction }
    */
   public fresh(): void
   {
@@ -270,6 +300,10 @@ export default class Model extends Validator {
 
   /**
    * Refresh model from API
+   *
+   * @async
+   * @param { number } id - Model id
+   * @return { Promise<any> } Model
    */
   public async refresh(id?: number): Promise<any>
   {
@@ -287,6 +321,11 @@ export default class Model extends Validator {
     }
   }
 
+  /**
+   * Creates a copy of the original model instance for refreshing if needed
+   *
+   * @return { VoidFunction }
+   */
   protected setOriginal(): void
   {
     // console.log('setOriginal')
@@ -347,7 +386,9 @@ export default class Model extends Validator {
 
   /**
    * Loads the model relationships
-   * @param { String | String[] } args Relationships to load
+   *
+   * @param { String | String[] } args - Relationships to load
+   * @return { Promise<any> } Model or Models
    */
   public async load(args?: string | string[]): Promise<any>
   {
@@ -418,8 +459,11 @@ export default class Model extends Validator {
 
   /**
    * HasOne relationship
+   *
+   * @async
    * @param { any } api Api class to the relationship
    * @param { string } primaryKey of the relationship
+   * @return { Promise<any> } Model
    */
   async hasOne(api: any, primaryKey: number): Promise<any>
   {
@@ -442,9 +486,12 @@ export default class Model extends Validator {
 
   /**
    * HasMany relationship
+   *
+   * @async
    * @param { any } api Api class to the relationship
    * @param { string } primaryKey of the relationship
    * @param { number } id of the relationship
+   * @return { Promise<any> } Collection of Models
    */
   async hasMany(api: any, primaryKey: string, id: number): Promise<any[]>
   {
