@@ -173,6 +173,7 @@ export default abstract class Api {
   /**
    * Deletes a single model through the API
    *
+   * @deprecated
    * @async
    * @static
    * @param { any } payload - Model
@@ -184,6 +185,37 @@ export default abstract class Api {
     // const url = self.apiPrefix + self.resource + '/' + payload.id
     const url = _join([self.apiPrefix, self.resource, payload.id], '/')
     self.deleting(payload)
+    return new Promise((resolve, reject) => {
+      http
+        .delete(url, {
+          transformResponse: [(data: string) => self.transformResponse(data)],
+        })
+        .then((response: { data: any }) => {
+          self.deleted(response.data)
+          resolve(response.data)
+        })
+        .catch((err: any) => {
+          handleErrors('deleting', err)
+          self.deletingError(err)
+          reject(err)
+        })
+    })
+  }
+
+  /**
+   * Destroys a single model through the API
+   *
+   * @async
+   * @static
+   * @param { any } payload - Model
+   * @return { Promise<any> } The data from the API
+   */
+  static destroy(payload: any): Promise<any>
+  {
+    const self = this.instance()
+    // const url = self.apiPrefix + self.resource + '/' + payload.id
+    const url = _join([self.apiPrefix, self.resource, payload.id], '/')
+    self.destroying(payload)
     return new Promise((resolve, reject) => {
       http
         .delete(url, {
@@ -402,7 +434,7 @@ export default abstract class Api {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected retrieving(payload?:any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrtievingError(err?: any): void { return }
+  protected retrievingError(err?: any): void { return }
   /**
    * Retrieved runs after show method
    * @param { any } payload Payload
@@ -422,9 +454,9 @@ export default abstract class Api {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected updated(payload?:any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected deleting(payload?:any): void { return }
+  protected destroying(payload?:any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected deletingError(err?: any): void { return }
+  protected destryingError(err?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected deleted(payload?:any): void { return }
+  protected destroyed(payload?:any): void { return }
 }

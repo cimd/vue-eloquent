@@ -4,6 +4,7 @@ import Action from '../enums/Action'
 import Actioned from '../enums/Actioned'
 import handleErrors from '../helpers/handleErrors'
 import Validator from './Validator'
+import type { IModelState } from '@/model/IModelState'
 
 export default class Model extends Validator {
 
@@ -33,7 +34,7 @@ export default class Model extends Validator {
    */
   protected api: any
 
-  protected protected = ['id', 'created_at', 'updated_at', 'deleted_at'] as string[]
+  protected protected: string[] = ['id', 'created_at', 'updated_at', 'deleted_at']
 
   // Relationships on the model
   public relations: undefined | any
@@ -41,7 +42,7 @@ export default class Model extends Validator {
   /**
    * Loading, success and error messages from API requests
    */
-  public state = reactive({
+  public state: IModelState = reactive({
     isLoading: false,
     isSuccess: true,
     isError: false

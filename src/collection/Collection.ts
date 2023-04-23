@@ -1,8 +1,9 @@
 import { reactive } from 'vue'
 import { broadcast } from '../broadcast/broadcast'
 import handleErrors from '../helpers/handleErrors'
-import type { IQuery } from '@/collection/QueryInterface'
-import type { IQueryPage } from '@/collection/QueryPageInterface'
+import type { IQuery } from '../collection/IQuery'
+import type { IQueryPage } from '../collection/IQueryPage'
+import type { IModelState } from '@/model/IModelState'
 
 export default abstract class Collection {
 
@@ -16,7 +17,7 @@ export default abstract class Collection {
   /**
    * Loading, success and error messages from API requests
    */
-  public state = reactive({
+  public state: IModelState = reactive({
     isLoading: false,
     isSuccess: true,
     isError: false
@@ -25,23 +26,23 @@ export default abstract class Collection {
   /**
    * Filters used on GET request
    */
-  public filter = reactive({} as any)
+  public filter: any = reactive({})
   /**
    * Relations used on GET request
    */
-  public include = reactive([] as any[])
+  public include: string[] = reactive([])
   /**
    * Fields to requested through API
    */
-  public fieldsSelection = reactive([] as any[])
+  public fieldsSelection: string[] = reactive([])
   /**
    * Pagination used on GET request
    */
-  public paging = reactive({ } as IQueryPage)
+  public paging: IQueryPage = reactive({ })
   /**
    * Sorting used on GET request
    */
-  public sorting = reactive([] as any[])
+  public sorting: string[] = reactive([])
 
   /**
    * Broadcast channel name
@@ -84,28 +85,28 @@ export default abstract class Collection {
     }
   }
 
-  public where(filter: any)
+  public where(filter: any): this
   {
     Object.assign(this.filter, filter)
     return this
   }
 
-  public with(relationships: any[])
+  public with(relationships: string[]): this
   {
     this.include = [...relationships]
     return this
   }
-  public select(fields: any[])
+  public select(fields: string[]): this
   {
     this.fieldsSelection = [...fields]
     return this
   }
-  public sort(sorting: any[])
+  public sort(sorting: string[]): this
   {
     this.sorting = [...sorting]
     return this
   }
-  public page(paging: IQueryPage)
+  public page(paging: IQueryPage): this
   {
     Object.assign(this.paging, paging)
     return this

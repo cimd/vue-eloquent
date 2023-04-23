@@ -1,5 +1,8 @@
 import Action from './enums/Action'
 import Actioned from './enums/Actioned'
+import { IModelState } from "./model/IModelState"
+import { IQueryPage } from "./collection/IQueryPage"
+import { IQuery } from "./collection/IQuery"
 export interface Api {
   resource: string
   apiPrefix: string
@@ -40,7 +43,7 @@ export interface Model {
   api: Api
   protected: string[]
   relations: undefined | any
-  state: ModelState
+  state: IModelState
 
   getDefault(param: string): any
   factory(model?: any): void
@@ -88,14 +91,38 @@ export interface Validator {
   set$Model(model: any): void
 }
 
-export interface ModelState {
-  isLoading: boolean
-  isSuccess: boolean
-  isError: boolean
-}
-
 export interface Collection {
   data: any[]
   api: Api
-  state: ModelState
+  state: IModelState
+
+  filter: any
+  include: any[]
+  fieldsSelection: any[]
+  paging: IQueryPage
+  sorting: any[]
+
+  channel: string
+
+  factory(collection?: any[]): void
+  get(filter?: any): Promise<any>
+
+  where(filter: any): this
+  with(relationships: string[]): this
+  select(fields: string[]): this
+  sort(sorting: string[]): this
+  page(paging: IQueryPage): this
+
+  joinChannel(channel?: string): void
+  leaveChannel(): void
+  broadcastCreated(e: any): void
+  broadcastUpdated(e: any): void
+  broadcastDeleted(e: any): void
+
+  setStateLoading(): void
+  setStateSuccess(): void
+  setStateError(): void
+
+  updateDataSource(data: any[]): void
+  queryString(): IQuery
 }
