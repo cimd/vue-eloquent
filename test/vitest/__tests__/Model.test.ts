@@ -68,9 +68,9 @@ describe('model api', () => {
     await post.refresh(1)
     post.model.title = 'test'
 
-    const { actioned, data } = await post.save()
+    const { actioned, model } = await post.save()
 
-    expect(data).toContain({ id: 1 })
+    expect(model).toContain({ id: 1 })
     expect(actioned).toBe('updated')
   })
 
@@ -78,9 +78,9 @@ describe('model api', () => {
     const post = new Post()
     post.model.title = 'test'
 
-    const { actioned, data } = await post.save()
+    const { actioned, model } = await post.save()
 
-    expect(data).toContain({ id: 1 })
+    expect(model).toContain({ id: 1 })
     expect(actioned).toBe('created')
   })
 
