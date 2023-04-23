@@ -1,8 +1,8 @@
 import Action from './enums/Action'
 import Actioned from './enums/Actioned'
-import { IModelState } from "./model/IModelState"
-import { IQueryPage } from "./collection/IQueryPage"
-import { IQuery } from "./collection/IQuery"
+import { IModelState } from './model/IModelState'
+import { IQueryPage } from './collection/IQueryPage'
+import { IQuery } from './collection/IQuery'
 export interface Api {
   resource: string
   apiPrefix: string
@@ -14,7 +14,7 @@ export interface Api {
   batchStore(payload: any[]): Promise<any>
   update(payload: any): Promise<any>
   batchUpdate(payload: any[]): Promise<any>
-  destroy(id: string): Promise<any>
+  destroy(payload: any | number): Promise<any>
   destroyBatch(payload: any[]): Promise<any>
 
   transformResponse(response: string): any

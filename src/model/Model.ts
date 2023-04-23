@@ -6,7 +6,7 @@ import handleErrors from '../helpers/handleErrors'
 import Validator from './Validator'
 import type { IModelState } from '@/model/IModelState'
 
-export default class Model extends Validator {
+export default abstract class Model extends Validator {
 
   /**
    * Model values
@@ -51,7 +51,7 @@ export default class Model extends Validator {
   /**
    * @constructor
    */
-  constructor()
+  protected constructor()
   {
     super()
   }
@@ -63,6 +63,7 @@ export default class Model extends Validator {
 
   protected static instance(): Model
   {
+    // @ts-ignore
     return new this
   }
 
@@ -346,44 +347,32 @@ export default class Model extends Validator {
   /**
    * Runs before model is created
    */
-  protected creating() {
-    return
-  }
+  protected creating(): void { return }
 
   /**
    * Runs after model is created
    */
-  protected created() {
-    return
-  }
+  protected created(): void { return }
 
   /**
    * Runs before model is updated
    */
-  protected updating() {
-    return
-  }
+  protected updating(): void { return }
 
   /**
    * Runs after model is updated
    */
-  protected updated() {
-    return
-  }
+  protected updated(): void { return }
 
   /**
    * Runs before model is saved
    */
-  protected saving() {
-    return
-  }
+  protected saving(): void { return }
 
   /**
    * Runs after model is saved
    */
-  protected saved() {
-    return
-  }
+  protected saved(): void { return }
 
   /**
    * Loads the model relationships
@@ -414,16 +403,12 @@ export default class Model extends Validator {
   /**
    * Runs before model is deleted
    */
-  protected deleting() {
-    return
-  }
+  protected deleting(): void { return }
 
   /**
    * Runs after model is created
    */
-  protected deleted() {
-    return
-  }
+  protected deleted(): void { return }
 
   /**
    * API starts loading state

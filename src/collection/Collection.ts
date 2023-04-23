@@ -1,8 +1,8 @@
-import { reactive } from 'vue'
-import { broadcast } from '../broadcast/broadcast'
+import { onUnmounted, reactive } from 'vue'
+import { broadcast } from '@/broadcast/broadcast'
 import handleErrors from '../helpers/handleErrors'
-import type { IQuery } from '../collection/IQuery'
-import type { IQueryPage } from '../collection/IQueryPage'
+import type { IQuery } from '@/collection/IQuery'
+import type { IQueryPage } from '@/collection/IQueryPage'
 import type { IModelState } from '@/model/IModelState'
 
 export default abstract class Collection {
@@ -22,6 +22,8 @@ export default abstract class Collection {
     isSuccess: true,
     isError: false
   })
+
+  protected isBroadcasting: boolean = false
 
   /**
    * Filters used on GET request
@@ -51,6 +53,9 @@ export default abstract class Collection {
 
   protected constructor()
   {
+    onUnmounted(() => {
+      this.leaveChannel()
+    })
     return
   }
 
@@ -135,6 +140,7 @@ export default abstract class Collection {
       .listen('.deleted', (e: any) => {
         this.broadcastDeleted(e)
       })
+    this.isBroadcasting = true
   }
 
   /**
@@ -142,7 +148,7 @@ export default abstract class Collection {
    */
   public leaveChannel(): void
   {
-    broadcast.leave(this.channel)
+    if (this.isBroadcasting) broadcast.leave(this.channel)
   }
 
   /**
