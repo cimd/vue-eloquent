@@ -1,6 +1,6 @@
-import { formatObject } from '@/helpers/formatObject'
+import { formatObject } from '../helpers/formatObject'
 import handleErrors from '../helpers/handleErrors'
-import { apiPrefix, http } from '@/http/http'
+import { apiPrefix, http } from '../http/http'
 import _join from 'lodash/join'
 
 export default abstract class Api {

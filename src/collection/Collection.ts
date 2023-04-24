@@ -1,9 +1,9 @@
 import { onUnmounted, reactive } from 'vue'
-import { broadcast } from '@/broadcast/broadcast'
+import { broadcast } from '../broadcast/broadcast'
 import handleErrors from '../helpers/handleErrors'
-import type { IQuery } from '@/collection/IQuery'
-import type { IQueryPage } from '@/collection/IQueryPage'
-import type { IModelState } from '@/model/IModelState'
+import type { IQuery } from '../collection/IQuery'
+import type { IQueryPage } from '../collection/IQueryPage'
+import type { IModelState } from '../model/IModelState'
 
 export default abstract class Collection {
 

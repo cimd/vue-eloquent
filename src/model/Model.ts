@@ -4,7 +4,7 @@ import Action from '../enums/Action'
 import Actioned from '../enums/Actioned'
 import handleErrors from '../helpers/handleErrors'
 import Validator from './Validator'
-import type { IModelState } from '@/model/IModelState'
+import type { IModelState } from '../model/IModelState'
 
 export default abstract class Model extends Validator {
 
