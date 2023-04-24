@@ -120,25 +120,35 @@ export default abstract class Model extends Validator {
    * @param { Action } action - Action from enum
    * @return { Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }> } Actioned enum and Model
    */
-  public async save(action?: Action): Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }>
+  public async save(action?: Action): Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED } | undefined>
   {
     // console.log('save', this.model, action)
     let model: any
     let actioned = '' as Actioned
     this.saving()
-
-    if (!this.model.id || (action === Action.CREATE)) {
-      model = await this.create()
-      actioned = Actioned.CREATED
+    try {
+      if (!this.model.id || (action === Action.CREATE)) {
+        model = await this.create()
+        actioned = Actioned.CREATED
+      }
+      else {
+        model = await this.update()
+        actioned = Actioned.UPDATED
+      }
+      this.saved()
+      return {
+        actioned,
+        model
+      }
     }
-    else {
-      model = await this.update()
-      actioned = Actioned.UPDATED
-    }
-    this.saved()
-    return {
-      actioned,
-      model
+    catch (e: any) {
+      handleErrors('saving', e)
+      console.error(e)
+      throw {
+        event: 'model-saving',
+        message: 'Error Saving Model',
+        error: e.error
+      }
     }
   }
 
@@ -161,8 +171,13 @@ export default abstract class Model extends Validator {
       return response.data
     }
     catch (e) {
-      handleErrors('creating', e)
       this.setStateError()
+      handleErrors('creating', e)
+      throw {
+        event: 'model-creating',
+        message: 'Error Creating Model',
+        error: e
+      }
     }
   }
 
