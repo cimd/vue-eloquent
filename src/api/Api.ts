@@ -408,35 +408,50 @@ export default abstract class Api {
   * Fetching runs before get method
    * @param { any } payload Payload
   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected fetching(payload?: any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected fetchingError(err?: any): void { return }
   /**
    * Fetched runs after get method
    * @param { any } payload Payload
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected fetched(payload?: any): void { return }
 
   /**
    * Retrieving runs before show method
    * @param { any } payload Payload
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected retrieving(payload?: any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected retrievingError(err?: any): void { return }
   /**
    * Retrieved runs after show method
    * @param { any } payload Payload
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected retrieved(payload?: any): void { return }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected storing(payload?: any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected storingError(err?: any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected stored(payload?: any): void { return }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected updating(payload?: any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected updatingError(err?: any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected updated(payload?: any): void { return }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected destroying(payload?: any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected destroyingError(err?: any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected destroyed(payload?: any): void { return }
 }
