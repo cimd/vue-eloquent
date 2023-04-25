@@ -1,9 +1,10 @@
-export default class EloquentError {
+export default class EloquentError extends Error {
   message: string
   name: string = ''
   error: Error
   // stack: any
   constructor(message: string, err: Error) {
+    super(message)
     this.message = message
     this.error = err
     // console.log('EloquentError Message: ', message)
