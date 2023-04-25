@@ -2,7 +2,6 @@ import _forEach from 'lodash/forEach'
 import { reactive } from 'vue'
 import Action from '../enums/Action'
 import Actioned from '../enums/Actioned'
-import handleErrors from '../helpers/handleErrors'
 import Validator from './Validator'
 import type { IModelState } from '../model/IModelState'
 import ModelError from '../model/ModelError'
@@ -106,7 +105,6 @@ export default abstract class Model extends Validator {
       return model
     }
     catch (e: any) {
-      handleErrors('fetching', e)
       self.setStateError()
       throw new ModelError('Find', e)
     }
@@ -144,7 +142,6 @@ export default abstract class Model extends Validator {
       }
     }
     catch (e: any) {
-      handleErrors('saving', e)
       throw new ModelError('Find', e)
     }
   }
@@ -169,7 +166,6 @@ export default abstract class Model extends Validator {
     }
     catch (e: any) {
       this.setStateError()
-      handleErrors('creating', e)
       throw new ModelError('Create', e)
     }
   }
@@ -193,7 +189,6 @@ export default abstract class Model extends Validator {
       return response.data
     }
     catch (e: any) {
-      handleErrors('updating', e)
       this.setStateError()
       throw new ModelError('Update', e)
     }
@@ -218,7 +213,6 @@ export default abstract class Model extends Validator {
       return response.data
     }
     catch (e: any) {
-      handleErrors('deleting', e)
       this.setStateError()
       throw new ModelError('Delete', e)
     }
@@ -237,7 +231,6 @@ export default abstract class Model extends Validator {
       return response.data
     }
     catch (e: any) {
-      handleErrors('batchCreating', e)
       this.setStateError()
       throw new ModelError('BatchCreate', e)
     }
@@ -255,7 +248,6 @@ export default abstract class Model extends Validator {
       return response.data
     }
     catch (e: any) {
-      handleErrors('batchUpdating', e)
       this.setStateError()
       throw new ModelError('BatchUpdate', e)
     }
@@ -296,8 +288,8 @@ export default abstract class Model extends Validator {
       return response.data
     }
     catch (e) {
-      handleErrors('logging', e)
       this.setStateError()
+      throw new ModelError('Logs', e)
     }
   }
 
@@ -330,7 +322,6 @@ export default abstract class Model extends Validator {
       this.factory(response.data)
     }
     catch (e: any) {
-      handleErrors('refreshing', e)
       this.setStateError()
       throw new ModelError('Refresh', e)
     }

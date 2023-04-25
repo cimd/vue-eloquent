@@ -1,5 +1,4 @@
 import { formatObject } from '../helpers/formatObject'
-import handleErrors from '../helpers/handleErrors'
 import { apiPrefix, http } from '../http/http'
 import _join from 'lodash/join'
 import ApiError from '../api/ApiError'
@@ -49,7 +48,6 @@ export default abstract class Api {
   {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource], '/')
-    // console.log(url)
     self.fetching(payload)
     return new Promise((resolve, reject) => {
       http
@@ -62,7 +60,6 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err: IAxiosError) => {
-          handleErrors('fetching', err)
           self.fetchingError(err)
           reject(new ApiError('Get', err))
         })
@@ -92,7 +89,6 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err: any) => {
-          handleErrors('retrieving', err)
           self.retrievingError(err)
           reject(new ApiError('Show', err))
         })
@@ -125,7 +121,6 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err: any) => {
-          handleErrors('updating', err)
           self.updatingError(err)
           reject(new ApiError('Update', err))
         })
@@ -158,7 +153,6 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err: any) => {
-          handleErrors('storing', err)
           self.storingError(err)
           reject(new ApiError('Store', err))
         })
@@ -189,7 +183,6 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err: any) => {
-          handleErrors('deleting', err)
           self.destroyingError(err)
           reject(new ApiError('Delete', err))
         })
@@ -220,7 +213,6 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err: any) => {
-          handleErrors('deleting', err)
           self.destroyingError(err)
           reject(new ApiError('Destroy', err))
         })
@@ -252,7 +244,6 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err: any) => {
-          handleErrors('batchStoring', err)
           self.batchStoringError(err)
           reject(new ApiError('BatchStoring', err))
         })
@@ -285,7 +276,6 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err: any) => {
-          handleErrors('batchUpdating', err)
           self.batchUpdatingError(err)
           reject(new ApiError('BatchUpdate', err))
         })
@@ -315,7 +305,6 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err: any) => {
-          handleErrors('batchDestroying', err)
           self.batchDestroyingError(err)
           reject(new ApiError('BatchDelete', err))
         })
@@ -346,7 +335,6 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err: any) => {
-          handleErrors('batchDestroying', err)
           self.batchDestroyingError(err)
           reject(new ApiError('BatchDestroy', err))
         })
@@ -384,7 +372,6 @@ export default abstract class Api {
           resolve(response.data)
         })
         .catch((err: any) => {
-          handleErrors('fetchingLogs', err)
           self.fetchingLogsError(err)
           reject(new ApiError('Logs', err))
         })
