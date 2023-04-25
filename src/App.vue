@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import PostsCollection from '../examples/PostsCollection'
-import { createHttp } from '@/http/http'
+import { createHttp } from '../http/http'
 import http from '../test/mocks/axios'
 
 export default defineComponent({

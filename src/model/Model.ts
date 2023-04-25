@@ -4,8 +4,10 @@ import Action from '../enums/Action'
 import Actioned from '../enums/Actioned'
 import handleErrors from '../helpers/handleErrors'
 import Validator from './Validator'
+import type { IModelState } from '../model/IModelState'
+import ModelError from '../model/ModelError'
 
-export default class Model extends Validator {
+export default abstract class Model extends Validator {
 
   /**
    * Model values
@@ -33,7 +35,7 @@ export default class Model extends Validator {
    */
   protected api: any
 
-  protected protected = ['id', 'created_at', 'updated_at', 'deleted_at'] as string[]
+  protected protected: string[] = ['id', 'created_at', 'updated_at', 'deleted_at']
 
   // Relationships on the model
   public relations: undefined | any
@@ -41,7 +43,7 @@ export default class Model extends Validator {
   /**
    * Loading, success and error messages from API requests
    */
-  public state = reactive({
+  public state: IModelState = reactive({
     isLoading: false,
     isSuccess: true,
     isError: false
@@ -50,7 +52,7 @@ export default class Model extends Validator {
   /**
    * @constructor
    */
-  constructor()
+  protected constructor()
   {
     super()
   }
@@ -62,6 +64,7 @@ export default class Model extends Validator {
 
   protected static instance(): Model
   {
+    // @ts-ignore
     return new this
   }
 
@@ -102,9 +105,10 @@ export default class Model extends Validator {
       self.retrieved()
       return model
     }
-    catch (e) {
+    catch (e: any) {
       handleErrors('fetching', e)
       self.setStateError()
+      throw new ModelError('Find', e)
     }
   }
 
@@ -118,25 +122,30 @@ export default class Model extends Validator {
    * @param { Action } action - Action from enum
    * @return { Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }> } Actioned enum and Model
    */
-  public async save(action?: Action): Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }>
+  public async save(action?: Action): Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED } | undefined>
   {
     // console.log('save', this.model, action)
     let model: any
     let actioned = '' as Actioned
     this.saving()
-
-    if (!this.model.id || (action === Action.CREATE)) {
-      model = await this.create()
-      actioned = Actioned.CREATED
+    try {
+      if (!this.model.id || (action === Action.CREATE)) {
+        model = await this.create()
+        actioned = Actioned.CREATED
+      }
+      else {
+        model = await this.update()
+        actioned = Actioned.UPDATED
+      }
+      this.saved()
+      return {
+        actioned,
+        model
+      }
     }
-    else {
-      model = await this.update()
-      actioned = Actioned.UPDATED
-    }
-    this.saved()
-    return {
-      actioned,
-      model
+    catch (e: any) {
+      handleErrors('saving', e)
+      throw new ModelError('Find', e)
     }
   }
 
@@ -158,9 +167,10 @@ export default class Model extends Validator {
       this.created()
       return response.data
     }
-    catch (e) {
-      handleErrors('creating', e)
+    catch (e: any) {
       this.setStateError()
+      handleErrors('creating', e)
+      throw new ModelError('Create', e)
     }
   }
 
@@ -182,9 +192,10 @@ export default class Model extends Validator {
       this.updated()
       return response.data
     }
-    catch (e) {
+    catch (e: any) {
       handleErrors('updating', e)
       this.setStateError()
+      throw new ModelError('Update', e)
     }
   }
 
@@ -206,9 +217,10 @@ export default class Model extends Validator {
       this.deleted()
       return response.data
     }
-    catch (e) {
+    catch (e: any) {
       handleErrors('deleting', e)
       this.setStateError()
+      throw new ModelError('Delete', e)
     }
   }
 
@@ -224,9 +236,10 @@ export default class Model extends Validator {
       this.setStateSuccess()
       return response.data
     }
-    catch (e) {
+    catch (e: any) {
       handleErrors('batchCreating', e)
       this.setStateError()
+      throw new ModelError('BatchCreate', e)
     }
   }
 
@@ -241,9 +254,10 @@ export default class Model extends Validator {
       this.setStateSuccess()
       return response.data
     }
-    catch (e) {
+    catch (e: any) {
       handleErrors('batchUpdating', e)
       this.setStateError()
+      throw new ModelError('BatchUpdate', e)
     }
   }
 
@@ -315,9 +329,10 @@ export default class Model extends Validator {
       this.setStateSuccess()
       this.factory(response.data)
     }
-    catch (e) {
+    catch (e: any) {
       handleErrors('refreshing', e)
       this.setStateError()
+      throw new ModelError('Refresh', e)
     }
   }
 
@@ -345,44 +360,32 @@ export default class Model extends Validator {
   /**
    * Runs before model is created
    */
-  protected creating() {
-    return
-  }
+  protected creating(): void { return }
 
   /**
    * Runs after model is created
    */
-  protected created() {
-    return
-  }
+  protected created(): void { return }
 
   /**
    * Runs before model is updated
    */
-  protected updating() {
-    return
-  }
+  protected updating(): void { return }
 
   /**
    * Runs after model is updated
    */
-  protected updated() {
-    return
-  }
+  protected updated(): void { return }
 
   /**
    * Runs before model is saved
    */
-  protected saving() {
-    return
-  }
+  protected saving(): void { return }
 
   /**
    * Runs after model is saved
    */
-  protected saved() {
-    return
-  }
+  protected saved(): void { return }
 
   /**
    * Loads the model relationships
@@ -413,16 +416,12 @@ export default class Model extends Validator {
   /**
    * Runs before model is deleted
    */
-  protected deleting() {
-    return
-  }
+  protected deleting(): void { return }
 
   /**
    * Runs after model is created
    */
-  protected deleted() {
-    return
-  }
+  protected deleted(): void { return }
 
   /**
    * API starts loading state

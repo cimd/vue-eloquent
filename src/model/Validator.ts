@@ -1,7 +1,7 @@
 import useVuelidate from '@vuelidate/core'
 import { reactive } from 'vue'
 
-export default class Validator {
+export default abstract class Validator {
 
   public model: any
 
@@ -10,7 +10,7 @@ export default class Validator {
    * https://vuelidate-next.netlify.app/guide.html#basics
    * Should be a computed property
    */
-  protected validations = {} as any
+  protected validations: any = {}
 
   /**
    * Holds the validation error states and messages
@@ -21,10 +21,10 @@ export default class Validator {
   /**
    * Returns true if any errors are found
    */
-  public $invalid = reactive({} as any)
-  public $model = reactive({} as any)
+  public $invalid: any = reactive({})
+  public $model: any = reactive({})
 
-  constructor()
+  protected constructor()
   {
     return
   }

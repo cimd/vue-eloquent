@@ -2,30 +2,29 @@ import { formatObject } from '../helpers/formatObject'
 import handleErrors from '../helpers/handleErrors'
 import { apiPrefix, http } from '../http/http'
 import _join from 'lodash/join'
+import ApiError from '../api/ApiError'
+import type { IAxiosError } from '../index'
 
 export default abstract class Api {
   /**
    * Resource name. Will be appended to the apiPrefix endpoint
    * @param { string } resource
    */
-  protected resource = '' as string
+  protected resource: string = ''
 
   /**
    * Base API endpoint
    * @param { string } apiPrefix
    */
-  protected apiPrefix = apiPrefix
+  protected apiPrefix: string = apiPrefix
 
   /**
    * API response parameters to be converted to Date
    * Accepts dot notation
    * @param { string[] } dates
    */
-  protected dates = ['created_at', 'updated_at', 'deleted_at'] as string[]
+  protected dates: string[] = ['created_at', 'updated_at', 'deleted_at']
 
-  /**
-   * @constructor
-   */
   protected constructor()
   {
     return
@@ -49,9 +48,8 @@ export default abstract class Api {
   static get(payload?: any): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource
     const url = _join([self.apiPrefix, self.resource], '/')
-    console.log(url)
+    // console.log(url)
     self.fetching(payload)
     return new Promise((resolve, reject) => {
       http
@@ -63,10 +61,10 @@ export default abstract class Api {
           self.fetched(response.data)
           resolve(response.data)
         })
-        .catch((err: any) => {
+        .catch((err: IAxiosError) => {
           handleErrors('fetching', err)
           self.fetchingError(err)
-          reject(err)
+          reject(new ApiError('Get', err))
         })
     })
   }
@@ -82,7 +80,6 @@ export default abstract class Api {
   static show(id: number): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/' + id
     const url = _join([self.apiPrefix, self.resource, id], '/')
     self.retrieving(id)
     return new Promise((resolve, reject) => {
@@ -96,8 +93,8 @@ export default abstract class Api {
         })
         .catch((err: any) => {
           handleErrors('retrieving', err)
-          self.retrtievingError(err)
-          reject(err)
+          self.retrievingError(err)
+          reject(new ApiError('Show', err))
         })
     })
   }
@@ -113,8 +110,7 @@ export default abstract class Api {
   static update(payload: any): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/' + payload.id
-    const url = _join([self.apiPrefix, self.resource, payload.id], '/')
+    const url: string = _join([self.apiPrefix, self.resource, payload.id], '/')
     self.updating(payload)
     return new Promise((resolve, reject) => {
       http
@@ -131,7 +127,7 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('updating', err)
           self.updatingError(err)
-          reject(err)
+          reject(new ApiError('Update', err))
         })
     })
   }
@@ -147,9 +143,8 @@ export default abstract class Api {
   static store(payload: any): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource
     const url = _join([self.apiPrefix, self.resource], '/')
-    self.creating(payload)
+    self.storing(payload)
     return new Promise((resolve, reject) => {
       http
         .post(url, payload, {
@@ -159,13 +154,13 @@ export default abstract class Api {
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
-          self.created(response.data)
+          self.stored(response.data)
           resolve(response.data)
         })
         .catch((err: any) => {
           handleErrors('storing', err)
           self.storingError(err)
-          reject(err)
+          reject(new ApiError('Store', err))
         })
     })
   }
@@ -173,6 +168,7 @@ export default abstract class Api {
   /**
    * Deletes a single model through the API
    *
+   * @deprecated
    * @async
    * @static
    * @param { any } payload - Model
@@ -181,22 +177,52 @@ export default abstract class Api {
   static delete(payload: any): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/' + payload.id
     const url = _join([self.apiPrefix, self.resource, payload.id], '/')
-    self.deleting(payload)
+    self.destroying(payload)
     return new Promise((resolve, reject) => {
       http
         .delete(url, {
           transformResponse: [(data: string) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
-          self.deleted(response.data)
+          self.destroyed(response.data)
           resolve(response.data)
         })
         .catch((err: any) => {
           handleErrors('deleting', err)
-          self.deletingError(err)
-          reject(err)
+          self.destroyingError(err)
+          reject(new ApiError('Delete', err))
+        })
+    })
+  }
+
+  /**
+   * Destroys a single model through the API
+   *
+   * @async
+   * @static
+   * @param { any | number } payload - Model or Model Id
+   * @return { Promise<any> } The data from the API
+   */
+  static destroy(payload: any | number): Promise<any>
+  {
+    const id: number = typeof payload === 'number'? payload : payload.id
+    const self = this.instance()
+    const url:string = _join([self.apiPrefix, self.resource, id], '/')
+    self.destroying(payload)
+    return new Promise((resolve, reject) => {
+      http
+        .delete(url, {
+          transformResponse: [(data: string) => self.transformResponse(data)],
+        })
+        .then((response: { data: any }) => {
+          self.destroyed(response.data)
+          resolve(response.data)
+        })
+        .catch((err: any) => {
+          handleErrors('deleting', err)
+          self.destroyingError(err)
+          reject(new ApiError('Destroy', err))
         })
     })
   }
@@ -206,13 +232,12 @@ export default abstract class Api {
    *
    * @async
    * @static
-   * @param { any[] } payload - Models. Will be wrapped in a data property before submitting to the API
+   * @param { any[] } payload - Models. Will be wrapped in a data ({data: payload}) property before submitting to the API
    * @return { Promise<any> } The data from the API
    */
   static batchStore(payload: any[]): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/batch'
     const url = _join([self.apiPrefix, self.resource, 'batch'], '/')
     return new Promise((resolve, reject) => {
       http
@@ -229,11 +254,11 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('batchStoring', err)
           self.batchStoringError(err)
-          reject(err)
+          reject(new ApiError('BatchStoring', err))
         })
     })
   }
-  protected batchStoringError(err?: any) { return }
+  protected batchStoringError?(err?: any): void
 
 
   /**
@@ -247,7 +272,6 @@ export default abstract class Api {
   static batchUpdate(payload: any[]): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/batch'
     const url = _join([self.apiPrefix, self.resource, 'batch'], '/')
     return new Promise((resolve, reject) => {
       http
@@ -263,11 +287,12 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('batchUpdating', err)
           self.batchUpdatingError(err)
-          reject(err)
+          reject(new ApiError('BatchUpdate', err))
         })
     })
   }
-  protected batchUpdatingError(err?: any) { return }
+
+  protected batchUpdatingError?(err?: any) : void
 
   /**
    * @deprecated Use batchDestroy instead
@@ -277,8 +302,7 @@ export default abstract class Api {
   static batchDelete(payload: any[]): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/batch-delete'
-    const url = _join([self.apiPrefix, self.resource, 'batch-delete'], '')
+    const url = _join([self.apiPrefix, self.resource, 'batch-delete'], '/')
     return new Promise((resolve, reject) => {
       http
         .post(url, { data: payload }, {
@@ -293,7 +317,7 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('batchDestroying', err)
           self.batchDestroyingError(err)
-          reject(err)
+          reject(new ApiError('BatchDelete', err))
         })
     })
   }
@@ -309,8 +333,7 @@ export default abstract class Api {
   static batchDestroy(payload: any[]): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/batch-delete'
-    const url = _join([self.apiPrefix, self.resource, 'batch-destroy'], '')
+    const url = _join([self.apiPrefix, self.resource, 'batch-destroy'], '/')
     return new Promise((resolve, reject) => {
       http
         .patch(url, { data: payload }, {
@@ -325,11 +348,11 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('batchDestroying', err)
           self.batchDestroyingError(err)
-          reject(err)
+          reject(new ApiError('BatchDestroy', err))
         })
     })
   }
-  protected batchDestroyingError(err?: any) { return }
+  protected batchDestroyingError?(err: any): void
 
   /**
    * Fetches model logs from API
@@ -363,7 +386,7 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('fetchingLogs', err)
           self.fetchingLogsError(err)
-          reject(err)
+          reject(new ApiError('Logs', err))
         })
     })
   }
@@ -386,7 +409,7 @@ export default abstract class Api {
    * @param { any } payload Payload
   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetching(payload?:any): void { return }
+  protected fetching(payload?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected fetchingError(err?: any): void { return }
   /**
@@ -394,37 +417,41 @@ export default abstract class Api {
    * @param { any } payload Payload
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetched(payload?:any): void { return }
+  protected fetched(payload?: any): void { return }
+
   /**
    * Retrieving runs before show method
    * @param { any } payload Payload
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrieving(payload?:any): void { return }
+  protected retrieving(payload?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrtievingError(err?: any): void { return }
+  protected retrievingError(err?: any): void { return }
   /**
    * Retrieved runs after show method
    * @param { any } payload Payload
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrieved(payload?:any): void { return }
+  protected retrieved(payload?: any): void { return }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected creating(payload?:any): void { return }
+  protected storing(payload?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected storingError(err?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected created(payload?:any): void { return }
+  protected stored(payload?: any): void { return }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected updating(payload?:any): void { return }
+  protected updating(payload?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected updatingError(err?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected updated(payload?:any): void { return }
+  protected updated(payload?: any): void { return }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected deleting(payload?:any): void { return }
+  protected destroying(payload?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected deletingError(err?: any): void { return }
+  protected destroyingError(err?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected deleted(payload?:any): void { return }
+  protected destroyed(payload?: any): void { return }
 }

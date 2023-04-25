@@ -1,8 +1,10 @@
-import { reactive } from 'vue'
+import { onUnmounted, reactive } from 'vue'
 import { broadcast } from '../broadcast/broadcast'
 import handleErrors from '../helpers/handleErrors'
-import type { IQuery } from '@/collection/QueryInterface'
-import type { IQueryPage } from '@/collection/QueryPageInterface'
+import type { IQuery } from '../collection/IQuery'
+import type { IQueryPage } from '../collection/IQueryPage'
+import type { IModelState } from '../model/IModelState'
+import CollectionError from '../collection/CollectionError'
 
 export default abstract class Collection {
 
@@ -16,32 +18,34 @@ export default abstract class Collection {
   /**
    * Loading, success and error messages from API requests
    */
-  public state = reactive({
+  public state: IModelState = reactive({
     isLoading: false,
     isSuccess: true,
     isError: false
   })
 
+  protected isBroadcasting: boolean = false
+
   /**
    * Filters used on GET request
    */
-  public filter = reactive({} as any)
+  public filter: any = reactive({})
   /**
    * Relations used on GET request
    */
-  public include = reactive([] as any[])
+  public include: string[] = reactive([])
   /**
    * Fields to requested through API
    */
-  public fieldsSelection = reactive([] as any[])
+  public fieldsSelection: string[] = reactive([])
   /**
    * Pagination used on GET request
    */
-  public paging = reactive({ } as IQueryPage)
+  public paging: IQueryPage = reactive({ })
   /**
    * Sorting used on GET request
    */
-  public sorting = reactive([] as any[])
+  public sorting: string[] = reactive([])
 
   /**
    * Broadcast channel name
@@ -50,6 +54,9 @@ export default abstract class Collection {
 
   protected constructor()
   {
+    onUnmounted(() => {
+      this.leaveChannel()
+    })
     return
   }
 
@@ -66,46 +73,43 @@ export default abstract class Collection {
    */
   public async get(filter?: any): Promise<any>
   {
-    // const queryString = qs.stringify({ ...this.filter, ...this.include })
-    // const queryString = this.queryString()
-    // console.log(queryString)
     let queryString: any
     this.setStateLoading()
     try {
       filter ? queryString = filter : queryString = this.queryString()
       const response: any = await this.api.get(queryString)
-      // this.data = [...response.data]
       this.updateDataSource(response.data)
       this.setStateSuccess()
       return response.data
-    } catch (e) {
+    } catch (e: any) {
       handleErrors('fetching', e)
       this.setStateError()
+      throw new CollectionError('Get', e)
     }
   }
 
-  public where(filter: any)
+  public where(filter: any): this
   {
     Object.assign(this.filter, filter)
     return this
   }
 
-  public with(relationships: any[])
+  public with(relationships: string[]): this
   {
     this.include = [...relationships]
     return this
   }
-  public select(fields: any[])
+  public select(fields: string[]): this
   {
     this.fieldsSelection = [...fields]
     return this
   }
-  public sort(sorting: any[])
+  public sort(sorting: string[]): this
   {
     this.sorting = [...sorting]
     return this
   }
-  public page(paging: IQueryPage)
+  public page(paging: IQueryPage): this
   {
     Object.assign(this.paging, paging)
     return this
@@ -134,6 +138,7 @@ export default abstract class Collection {
       .listen('.deleted', (e: any) => {
         this.broadcastDeleted(e)
       })
+    this.isBroadcasting = true
   }
 
   /**
@@ -141,7 +146,7 @@ export default abstract class Collection {
    */
   public leaveChannel(): void
   {
-    broadcast.leave(this.channel)
+    if (this.isBroadcasting) broadcast.leave(this.channel)
   }
 
   /**
