@@ -4,7 +4,9 @@ import type { IQuery } from '../collection/IQuery'
 import type { IQueryPage } from '../collection/IQueryPage'
 import type { IModelState } from '../model/IModelState'
 import CollectionError from '../collection/CollectionError'
+import sortingQs from '../helpers/sortingQueryString'
 
+type ISortOrder = 'asc' | 'desc' | undefined
 export default abstract class Collection {
 
   declare public data: any[]
@@ -44,7 +46,7 @@ export default abstract class Collection {
   /**
    * Sorting used on GET request
    */
-  public sorting: string[] = reactive([])
+  public sorting: { field: string, order: string } [] = reactive([])
 
   /**
    * Broadcast channel name
@@ -102,9 +104,9 @@ export default abstract class Collection {
     this.fieldsSelection = [...fields]
     return this
   }
-  public sort(sorting: string[]): this
+  public sort(field: string, order: ISortOrder = 'asc'): this
   {
-    this.sorting = [...sorting]
+    this.sorting.push({ field, order })
     return this
   }
   public page(paging: IQueryPage): this
@@ -213,7 +215,7 @@ export default abstract class Collection {
       qs.fields = this.fieldsSelection.join(',')
     }
     if (this.sorting.length) {
-      qs.sort = this.sorting.join(',')
+      qs.sort = sortingQs(this.sorting)
     }
     if (this.paging) {
       qs.page = this.paging
