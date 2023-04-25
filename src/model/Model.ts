@@ -5,6 +5,7 @@ import Actioned from '../enums/Actioned'
 import handleErrors from '../helpers/handleErrors'
 import Validator from './Validator'
 import type { IModelState } from '../model/IModelState'
+import ModelError from '../model/ModelError'
 
 export default abstract class Model extends Validator {
 
@@ -104,9 +105,10 @@ export default abstract class Model extends Validator {
       self.retrieved()
       return model
     }
-    catch (e) {
+    catch (e: any) {
       handleErrors('fetching', e)
       self.setStateError()
+      throw new ModelError('Find', e)
     }
   }
 
@@ -143,12 +145,7 @@ export default abstract class Model extends Validator {
     }
     catch (e: any) {
       handleErrors('saving', e)
-      console.error(e)
-      throw {
-        event: 'model-saving',
-        message: 'Error Saving Model',
-        error: e.error
-      }
+      throw new ModelError('Find', e)
     }
   }
 
@@ -170,14 +167,10 @@ export default abstract class Model extends Validator {
       this.created()
       return response.data
     }
-    catch (e) {
+    catch (e: any) {
       this.setStateError()
       handleErrors('creating', e)
-      throw {
-        event: 'model-creating',
-        message: 'Error Creating Model',
-        error: e
-      }
+      throw new ModelError('Create', e)
     }
   }
 
@@ -199,9 +192,10 @@ export default abstract class Model extends Validator {
       this.updated()
       return response.data
     }
-    catch (e) {
+    catch (e: any) {
       handleErrors('updating', e)
       this.setStateError()
+      throw new ModelError('Update', e)
     }
   }
 
@@ -223,9 +217,10 @@ export default abstract class Model extends Validator {
       this.deleted()
       return response.data
     }
-    catch (e) {
+    catch (e: any) {
       handleErrors('deleting', e)
       this.setStateError()
+      throw new ModelError('Delete', e)
     }
   }
 
@@ -241,9 +236,10 @@ export default abstract class Model extends Validator {
       this.setStateSuccess()
       return response.data
     }
-    catch (e) {
+    catch (e: any) {
       handleErrors('batchCreating', e)
       this.setStateError()
+      throw new ModelError('BatchCreate', e)
     }
   }
 
@@ -258,9 +254,10 @@ export default abstract class Model extends Validator {
       this.setStateSuccess()
       return response.data
     }
-    catch (e) {
+    catch (e: any) {
       handleErrors('batchUpdating', e)
       this.setStateError()
+      throw new ModelError('BatchUpdate', e)
     }
   }
 
@@ -332,9 +329,10 @@ export default abstract class Model extends Validator {
       this.setStateSuccess()
       this.factory(response.data)
     }
-    catch (e) {
+    catch (e: any) {
       handleErrors('refreshing', e)
       this.setStateError()
+      throw new ModelError('Refresh', e)
     }
   }
 

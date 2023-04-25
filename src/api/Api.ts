@@ -2,6 +2,8 @@ import { formatObject } from '../helpers/formatObject'
 import handleErrors from '../helpers/handleErrors'
 import { apiPrefix, http } from '../http/http'
 import _join from 'lodash/join'
+import ApiError from '../api/ApiError'
+import type { IAxiosError } from '../index'
 
 export default abstract class Api {
   /**
@@ -46,7 +48,6 @@ export default abstract class Api {
   static get(payload?: any): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource
     const url = _join([self.apiPrefix, self.resource], '/')
     // console.log(url)
     self.fetching(payload)
@@ -60,10 +61,10 @@ export default abstract class Api {
           self.fetched(response.data)
           resolve(response.data)
         })
-        .catch((err: any) => {
+        .catch((err: IAxiosError) => {
           handleErrors('fetching', err)
           self.fetchingError(err)
-          reject(err)
+          reject(new ApiError('Get', err))
         })
     })
   }
@@ -79,7 +80,6 @@ export default abstract class Api {
   static show(id: number): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/' + id
     const url = _join([self.apiPrefix, self.resource, id], '/')
     self.retrieving(id)
     return new Promise((resolve, reject) => {
@@ -94,7 +94,7 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('retrieving', err)
           self.retrievingError(err)
-          reject(err)
+          reject(new ApiError('Show', err))
         })
     })
   }
@@ -110,7 +110,6 @@ export default abstract class Api {
   static update(payload: any): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/' + payload.id
     const url: string = _join([self.apiPrefix, self.resource, payload.id], '/')
     self.updating(payload)
     return new Promise((resolve, reject) => {
@@ -128,7 +127,7 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('updating', err)
           self.updatingError(err)
-          reject(err)
+          reject(new ApiError('Update', err))
         })
     })
   }
@@ -144,7 +143,6 @@ export default abstract class Api {
   static store(payload: any): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource
     const url = _join([self.apiPrefix, self.resource], '/')
     self.storing(payload)
     return new Promise((resolve, reject) => {
@@ -162,7 +160,7 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('storing', err)
           self.storingError(err)
-          reject(err)
+          reject(new ApiError('Store', err))
         })
     })
   }
@@ -179,7 +177,6 @@ export default abstract class Api {
   static delete(payload: any): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/' + payload.id
     const url = _join([self.apiPrefix, self.resource, payload.id], '/')
     self.destroying(payload)
     return new Promise((resolve, reject) => {
@@ -194,7 +191,7 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('deleting', err)
           self.destroyingError(err)
-          reject(err)
+          reject(new ApiError('Delete', err))
         })
     })
   }
@@ -211,7 +208,6 @@ export default abstract class Api {
   {
     const id: number = typeof payload === 'number'? payload : payload.id
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/' + payload.id
     const url:string = _join([self.apiPrefix, self.resource, id], '/')
     self.destroying(payload)
     return new Promise((resolve, reject) => {
@@ -226,7 +222,7 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('deleting', err)
           self.destroyingError(err)
-          reject(err)
+          reject(new ApiError('Destroy', err))
         })
     })
   }
@@ -242,7 +238,6 @@ export default abstract class Api {
   static batchStore(payload: any[]): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/batch'
     const url = _join([self.apiPrefix, self.resource, 'batch'], '/')
     return new Promise((resolve, reject) => {
       http
@@ -259,7 +254,7 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('batchStoring', err)
           self.batchStoringError(err)
-          reject(err)
+          reject(new ApiError('BatchStoring', err))
         })
     })
   }
@@ -277,7 +272,6 @@ export default abstract class Api {
   static batchUpdate(payload: any[]): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/batch'
     const url = _join([self.apiPrefix, self.resource, 'batch'], '/')
     return new Promise((resolve, reject) => {
       http
@@ -293,7 +287,7 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('batchUpdating', err)
           self.batchUpdatingError(err)
-          reject(err)
+          reject(new ApiError('BatchUpdate', err))
         })
     })
   }
@@ -308,7 +302,6 @@ export default abstract class Api {
   static batchDelete(payload: any[]): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/batch-delete'
     const url = _join([self.apiPrefix, self.resource, 'batch-delete'], '/')
     return new Promise((resolve, reject) => {
       http
@@ -324,7 +317,7 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('batchDestroying', err)
           self.batchDestroyingError(err)
-          reject(err)
+          reject(new ApiError('BatchDelete', err))
         })
     })
   }
@@ -340,7 +333,6 @@ export default abstract class Api {
   static batchDestroy(payload: any[]): Promise<any>
   {
     const self = this.instance()
-    // const url = self.apiPrefix + self.resource + '/batch-delete'
     const url = _join([self.apiPrefix, self.resource, 'batch-destroy'], '/')
     return new Promise((resolve, reject) => {
       http
@@ -356,7 +348,7 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('batchDestroying', err)
           self.batchDestroyingError(err)
-          reject(err)
+          reject(new ApiError('BatchDestroy', err))
         })
     })
   }
@@ -394,7 +386,7 @@ export default abstract class Api {
         .catch((err: any) => {
           handleErrors('fetchingLogs', err)
           self.fetchingLogsError(err)
-          reject(err)
+          reject(new ApiError('Logs', err))
         })
     })
   }

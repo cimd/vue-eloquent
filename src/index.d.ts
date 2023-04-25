@@ -3,6 +3,7 @@ import Actioned from './enums/Actioned'
 import { IModelState } from './model/IModelState'
 import { IQueryPage } from './collection/IQueryPage'
 import { IQuery } from './collection/IQuery'
+import { AxiosHeaders } from "axios"
 export interface Api {
   resource: string
   apiPrefix: string
@@ -125,4 +126,18 @@ export interface Collection {
 
   updateDataSource(data: any[]): void
   queryString(): IQuery
+}
+
+export interface IAxiosError {
+  code: string
+  config: any
+  request: any
+  response: {
+    data?: any,
+    status?: number,
+    statusText?: string
+    headers?: AxiosHeaders
+    config?: any
+    request?: any
+  }
 }

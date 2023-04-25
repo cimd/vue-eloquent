@@ -4,6 +4,7 @@ import handleErrors from '../helpers/handleErrors'
 import type { IQuery } from '../collection/IQuery'
 import type { IQueryPage } from '../collection/IQueryPage'
 import type { IModelState } from '../model/IModelState'
+import CollectionError from '../collection/CollectionError'
 
 export default abstract class Collection {
 
@@ -72,21 +73,18 @@ export default abstract class Collection {
    */
   public async get(filter?: any): Promise<any>
   {
-    // const queryString = qs.stringify({ ...this.filter, ...this.include })
-    // const queryString = this.queryString()
-    // console.log(queryString)
     let queryString: any
     this.setStateLoading()
     try {
       filter ? queryString = filter : queryString = this.queryString()
       const response: any = await this.api.get(queryString)
-      // this.data = [...response.data]
       this.updateDataSource(response.data)
       this.setStateSuccess()
       return response.data
-    } catch (e) {
+    } catch (e: any) {
       handleErrors('fetching', e)
       this.setStateError()
+      throw new CollectionError('Get', e)
     }
   }
 
