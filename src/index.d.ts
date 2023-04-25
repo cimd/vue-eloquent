@@ -3,7 +3,7 @@ import Actioned from './enums/Actioned'
 import { IModelState } from './model/IModelState'
 import { IQueryPage } from './collection/IQueryPage'
 import { IQuery } from './collection/IQuery'
-import { AxiosHeaders } from "axios"
+import { AxiosHeaders } from 'axios'
 export interface Api {
   resource: string
   apiPrefix: string
