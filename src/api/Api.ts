@@ -309,7 +309,7 @@ export default abstract class Api {
   {
     const self = this.instance()
     // const url = self.apiPrefix + self.resource + '/batch-delete'
-    const url = _join([self.apiPrefix, self.resource, 'batch-delete'], '')
+    const url = _join([self.apiPrefix, self.resource, 'batch-delete'], '/')
     return new Promise((resolve, reject) => {
       http
         .post(url, { data: payload }, {
@@ -341,7 +341,7 @@ export default abstract class Api {
   {
     const self = this.instance()
     // const url = self.apiPrefix + self.resource + '/batch-delete'
-    const url = _join([self.apiPrefix, self.resource, 'batch-destroy'], '')
+    const url = _join([self.apiPrefix, self.resource, 'batch-destroy'], '/')
     return new Promise((resolve, reject) => {
       http
         .patch(url, { data: payload }, {
