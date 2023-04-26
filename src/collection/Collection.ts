@@ -197,7 +197,7 @@ export default abstract class Collection {
 
   protected updateDataSource(data: any[]): void
   {
-    Object.assign(this.data, data)
+    this.data = [...data]
   }
 
   protected queryString(): IQuery
