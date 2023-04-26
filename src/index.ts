@@ -5,7 +5,6 @@ import Action from './enums/Action'
 import Actioned from './enums/Actioned'
 import { formatDates } from './helpers/formatDates'
 import { formatObject } from './helpers/formatObject'
-import handleErrors from './helpers/handleErrors'
 import { createHttp, http } from './http/http'
 import Model from './model/Model'
 
@@ -19,7 +18,6 @@ export {
   http,
   broadcast,
   createBroadcast,
-  handleErrors,
   formatDates,
   formatObject,
 }
