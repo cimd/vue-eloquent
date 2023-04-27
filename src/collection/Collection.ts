@@ -1,4 +1,4 @@
-import { onUnmounted, reactive } from 'vue'
+import { onUnmounted, reactive, watch } from 'vue'
 import { broadcast } from '../broadcast/broadcast'
 import type { IQuery } from '../collection/IQuery'
 import type { IQueryPage } from '../collection/IQueryPage'
@@ -24,7 +24,10 @@ export default abstract class Collection {
   })
 
   protected isBroadcasting: boolean = false
-
+  /**
+   * Alternative to Broadcasting. Link to a Listener Class
+   */
+  protected listener: any
   /**
    * Filters used on GET request
    */
@@ -56,7 +59,6 @@ export default abstract class Collection {
     onUnmounted(() => {
       this.leaveChannel()
     })
-    return
   }
 
   protected factory(collection?: any[]): void
@@ -145,6 +147,20 @@ export default abstract class Collection {
   public leaveChannel(): void
   {
     if (this.isBroadcasting) broadcast.leave(this.channel)
+  }
+
+  public initListener(): void
+  {
+    if (this.listener) {
+      console.log('Collection Listener', this.listener)
+      watch(
+        () => this.listener.handle, 
+        (val) => {
+          console.log(this.listener.handle)
+          console.log('Listener Callback', val)
+        }
+      )
+    }
   }
 
   /**
