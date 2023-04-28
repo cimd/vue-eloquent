@@ -1,10 +1,11 @@
-import { onUnmounted, reactive, watch } from 'vue'
+import { onUnmounted, reactive } from 'vue'
 import { broadcast } from '../broadcast/broadcast'
 import type { IQuery } from '../collection/IQuery'
 import type { IQueryPage } from '../collection/IQueryPage'
 import type { IModelState } from '../model/IModelState'
 import CollectionError from '../collection/CollectionError'
 import { IApi } from '../api/IApi'
+import { IListener } from '../listeners/IListener'
 
 export default abstract class Collection {
 
@@ -28,7 +29,7 @@ export default abstract class Collection {
   /**
    * Alternative to Broadcasting. Link to a Listener Class
    */
-  protected listener: any
+  protected listener: IListener
   /**
    * Filters used on GET request
    */
@@ -159,13 +160,6 @@ export default abstract class Collection {
       // this.test = this.listener.handle
       // this.listener.handle = this.test
       this.listener.handle = this.onListenerHandle
-      watch(
-        () => this.listener.handle,
-        (val) => {
-          console.log(this.listener.handle)
-          console.log('Listener Callback', val)
-        }
-      )
     }
   }
 

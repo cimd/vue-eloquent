@@ -6,6 +6,8 @@ export default abstract class Listener {
   private event: Subject<number>
   protected constructor(e: Subject<number>)
   {
+    if (!e) throw new ListenerError('Constructor', new Error('Event is not defined'))
+    
     this.event = e
     this.subscribe()
 
@@ -39,7 +41,7 @@ export default abstract class Listener {
   protected unsubscribe(): void
   {
     console.log('unsubscribe')
-    this.event.subscribe()
+    this.event.unsubscribe()
   }
 
   public handle(event: any): void | any

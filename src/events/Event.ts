@@ -1,6 +1,6 @@
 import { broadcast } from '../index'
 import { Subject } from 'rxjs'
-import { provide } from 'vue'
+// import { provide } from 'vue'
 import EventError from './EventError'
 
 export default abstract class Event {
@@ -8,20 +8,21 @@ export default abstract class Event {
   protected $broadcast = broadcast
   public event: Subject<number>
 
-  protected constructor(eventName?: string) {
+  protected constructor() {
     this.initBroadcast()
     this.event = this.initObservable()
 
-    const name = eventName ?? this.constructor.name
+    // const name = eventName ?? this.constructor.name
     // console.log('Event Name: ', name)
-    provide(name, this)
+    // provide(name, this)
 
     // onBeforeUnmount(() => {
     //   this.disconnect()
     // })
   }
 
-  private initBroadcast(): void {
+  private initBroadcast(): void
+  {
     // if (typeof this.broadcastAs() === 'string') {
     // console.log('string type')
     this.$broadcast
@@ -81,12 +82,12 @@ export default abstract class Event {
     return true
   }
 
-  protected onError(error: any)
+  protected onError(error: any): void
   {
     console.error(error)
   }
 
-  protected onMessage(message: any)
+  protected onMessage(message: any): void
   {
     // console.log(message)
     this.event.next(message)
