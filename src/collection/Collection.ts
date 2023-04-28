@@ -29,32 +29,32 @@ export default abstract class Collection {
   /**
    * Alternative to Broadcasting. Link to a Listener Class
    */
-  protected listener: IListener
+  protected listener?: IListener
   /**
    * Filters used on GET request
    */
-  public filter: any = reactive({})
+  protected filter: any = reactive({})
   /**
    * Relations used on GET request
    */
-  public include: string[] = reactive([])
+  protected include: string[] = reactive([])
   /**
    * Fields to requested through API
    */
-  public fieldsSelection: string[] = reactive([])
+  protected fieldsSelection: string[] = reactive([])
   /**
    * Pagination used on GET request
    */
-  public paging: IQueryPage = reactive({ })
+  protected paging: IQueryPage = reactive({ })
   /**
    * Sorting used on GET request
    */
-  public sorting: string[] = reactive([])
+  protected sorting: string[] = reactive([])
 
   /**
    * Broadcast channel name
    */
-  protected channel: string = ''
+  protected channel?: string = ''
 
   protected constructor()
   {
