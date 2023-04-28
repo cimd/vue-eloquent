@@ -60,7 +60,7 @@ export default abstract class Collection {
       this.leaveChannel()
     })
 
-    console.log('Listener at Constructor:', this.listener)
+    // console.log('Listener at Constructor:', this.listener)
   }
 
   protected factory(collection?: any[]): void
