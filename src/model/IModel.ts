@@ -1,6 +1,47 @@
+import { IModelState } from '@/model/IModelState'
+import Action from '@/enums/Action'
+import Actioned from '@/enums/Actioned'
+import { IApi } from '../api/IApi'
+
 export interface IModel {
-    id?: number | undefined
-    created_at: Date | undefined
-    updated_at: Date | undefined
-    deleted_at?: Date | null | undefined
+    model: any
+    originalModel: any
+    defaultModel: any
+    parameters: undefined | any
+    api: IApi
+    protected: string[]
+    relations: undefined | any[]
+    state: IModelState
+
+    getDefault(param: string): any
+    factory(model?: any): void
+    find(id: number): Promise<any>
+    save(action?: Action): Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }>
+    create(): Promise<any>
+    update(): Promise<any>
+    delete(): Promise<any>
+
+    fresh(): void
+    refresh(id?: number): Promise<any>
+    setOriginal(): void
+    getOriginal(): any
+
+    retrieving(): void
+    retrieved(): void
+    creating(): void
+    created(): void
+    updating(): void
+    updated(): void
+    deleting(): void
+    deleted(): void
+    saved(): void
+
+    load(args?: string | string[]): Promise<any>
+
+    setStateLoading(): void
+    setStateSuccess(): void
+    setStateError(): void
+
+    hasOne(api: any, primaryKey: number): Promise<any>
+    hasMany(api: any, primaryKey: string, id: number): Promise<any[]>
 }

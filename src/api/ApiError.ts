@@ -1,9 +1,8 @@
 import EloquentError from '../EloquentError'
-import type { IAxiosError } from '../index'
 
 export default class ApiError extends EloquentError {
   name: string
-  constructor(message: string, err: IAxiosError) {
+  constructor(message: string, err: any) {
     super(message, err)
     this.name = this.constructor.name
     // console.log(this.name)

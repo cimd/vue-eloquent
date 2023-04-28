@@ -5,6 +5,7 @@ import Actioned from '../enums/Actioned'
 import Validator from './Validator'
 import type { IModelState } from '../model/IModelState'
 import ModelError from '../model/ModelError'
+import { IApi } from '../api/IApi'
 
 export default abstract class Model extends Validator {
 
@@ -32,7 +33,7 @@ export default abstract class Model extends Validator {
   /**
    * API class related to the model
    */
-  protected api: any
+  protected api: IApi
 
   protected protected: string[] = ['id', 'created_at', 'updated_at', 'deleted_at']
 
@@ -219,7 +220,7 @@ export default abstract class Model extends Validator {
   }
 
 
-  public async batchCreate(): Promise<any>
+  public async batchCreate(): Promise<any[]>
   {
     try {
       this.batchCreating()
@@ -236,7 +237,7 @@ export default abstract class Model extends Validator {
     }
   }
 
-  public async batchUpdate(): Promise<any>
+  public async batchUpdate(): Promise<any[]>
   {
     try {
       this.setStateLoading()
@@ -455,7 +456,7 @@ export default abstract class Model extends Validator {
    * @param { string } primaryKey of the relationship
    * @return { Promise<any> } Model
    */
-  async hasOne(api: any, primaryKey: number): Promise<any>
+  async hasOne(api: IApi, primaryKey: number): Promise<any>
   {
     // console.log('hasOne', api, primaryKey)
     const result = await api.show(primaryKey)
@@ -483,7 +484,7 @@ export default abstract class Model extends Validator {
    * @param { number } id of the relationship
    * @return { Promise<any> } Collection of Models
    */
-  async hasMany(api: any, primaryKey: string, id: number): Promise<any[]>
+  async hasMany(api: IApi, primaryKey: string, id: number): Promise<any[]>
   {
     // console.log('hasOne', api, primaryKey, id)
     const result = await api.get({ primary_key: id })

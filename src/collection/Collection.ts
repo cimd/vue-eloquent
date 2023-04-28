@@ -4,6 +4,7 @@ import type { IQuery } from '../collection/IQuery'
 import type { IQueryPage } from '../collection/IQueryPage'
 import type { IModelState } from '../model/IModelState'
 import CollectionError from '../collection/CollectionError'
+import { IApi } from '../api/IApi'
 
 export default abstract class Collection {
 
@@ -12,7 +13,7 @@ export default abstract class Collection {
   /**
    * API class related to the model
    */
-  protected api: any
+  protected api: IApi
 
   /**
    * Loading, success and error messages from API requests
@@ -159,7 +160,7 @@ export default abstract class Collection {
       // this.listener.handle = this.test
       this.listener.handle = this.onListenerHandle
       watch(
-        () => this.listener.handle, 
+        () => this.listener.handle,
         (val) => {
           console.log(this.listener.handle)
           console.log('Listener Callback', val)

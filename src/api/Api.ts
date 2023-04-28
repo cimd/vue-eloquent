@@ -2,7 +2,7 @@ import { formatObject } from '../helpers/formatObject'
 import { apiPrefix, http } from '../http/http'
 import _join from 'lodash/join'
 import ApiError from '../api/ApiError'
-import type { IAxiosError } from '../index'
+import type { IAxiosError } from './IAxiosError'
 
 export default abstract class Api {
   /**
@@ -103,7 +103,7 @@ export default abstract class Api {
    * @param { any } payload - Model
    * @return { Promise<any> } The data from the API
    */
-  static update(payload: any): Promise<any>
+  static update<T>(payload: any): Promise<{ data: T }>
   {
     const self = this.instance()
     const url: string = _join([self.apiPrefix, self.resource, payload.id], '/')
@@ -135,7 +135,7 @@ export default abstract class Api {
    * @param { any } payload - Model
    * @return { Promise<any> } The data from the API
    */
-  static store(payload: any): Promise<any>
+  static store<T>(payload: any): Promise<{ data: T }>
   {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource], '/')
@@ -227,7 +227,7 @@ export default abstract class Api {
    * @param { any[] } payload - Models. Will be wrapped in a data ({data: payload}) property before submitting to the API
    * @return { Promise<any> } The data from the API
    */
-  static batchStore(payload: any[]): Promise<any>
+  static batchStore<T>(payload: T[]): Promise<{ data: T[] }>
   {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource, 'batch'], '/')
@@ -260,7 +260,7 @@ export default abstract class Api {
    * @param { any[] } payload - Models. Will be wrapped in a data property before submitting to the API
    * @return { Promise<any> } The data from the API
    */
-  static batchUpdate(payload: any[]): Promise<any>
+  static batchUpdate<T>(payload: T[]): Promise<{ data: T[] }>
   {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource, 'batch'], '/')
@@ -319,7 +319,7 @@ export default abstract class Api {
    * @param { any[] } payload - Models. Will be wrapped in a data property before submitting to the API
    * @return { Promise<any> } The data from the API
    */
-  static batchDestroy(payload: any[]): Promise<any>
+  static batchDestroy<T>(payload: T[]): Promise<{ data: T[] }>
   {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource, 'batch-destroy'], '/')

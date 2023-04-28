@@ -1,4 +1,6 @@
-export default class EloquentError extends Error {
+import { IError } from './IEloquentError'
+
+export default class EloquentError extends Error implements IError{
   message: string
   name: string = ''
   error: Error
