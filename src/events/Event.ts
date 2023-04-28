@@ -22,28 +22,28 @@ export default abstract class Event {
   }
 
   private initBroadcast(): void {
-    if (typeof this.broadcastAs() === 'string') {
-      console.log('string type')
-      this.$broadcast
-        .channel(this.broadcastOn())
-        .error((error: any) => {
-          this.onError(error)
-          throw new EventError('Event', error)
-        })
-        .listen('.' + this.broadcastAs(), (e: any) => {
-          this.onMessage(e)
-        })
-    }
-    else {
-      this.$broadcast.channel(this.broadcastOn()).error((error: any) => {
+    // if (typeof this.broadcastAs() === 'string') {
+    // console.log('string type')
+    this.$broadcast
+      .channel(this.broadcastOn())
+      .error((error: any) => {
         this.onError(error)
         throw new EventError('Event', error)
       })
-
-      (this.broadcastAs()).forEach((event) => {
-        console.log('test')
+      .listen('.' + this.broadcastAs(), (e: any) => {
+        this.onMessage(e)
       })
-    }
+    // }
+    // else {
+    //   this.$broadcast.channel(this.broadcastOn()).error((error: any) => {
+    //     this.onError(error)
+    //     throw new EventError('Event', error)
+    //   })
+    //
+    //   (this.broadcastAs()).forEach((event) => {
+    //     console.log('test')
+    //   })
+    // }
 
   }
 
