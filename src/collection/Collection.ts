@@ -153,7 +153,7 @@ export default abstract class Collection {
     if (this.isBroadcasting) broadcast.leave(this.channel)
   }
 
-  public initListener(): void
+  public onListened(): void
   {
     if (this.listener) {
       console.log('Collection Listener', this.listener)
