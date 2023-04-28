@@ -59,6 +59,8 @@ export default abstract class Collection {
     onUnmounted(() => {
       this.leaveChannel()
     })
+
+    console.log('Listener at Constructor:', this.listener)
   }
 
   protected factory(collection?: any[]): void
@@ -153,6 +155,9 @@ export default abstract class Collection {
   {
     if (this.listener) {
       console.log('Collection Listener', this.listener)
+      // this.test = this.listener.handle
+      // this.listener.handle = this.test
+      this.listener.handle = this.onListenerHandle
       watch(
         () => this.listener.handle, 
         (val) => {
@@ -161,6 +166,11 @@ export default abstract class Collection {
         }
       )
     }
+  }
+
+  protected onListenerHandle(args: any): void
+  {
+    console.log('onListenerHandle', args)
   }
 
   /**

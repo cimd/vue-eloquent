@@ -22,15 +22,29 @@ export default abstract class Event {
   }
 
   private initBroadcast(): void {
-    this.$broadcast
-      .channel(<string>this.broadcastOn())
-      .error((error: any) => {
+    if (typeof this.broadcastAs() === 'string') {
+      console.log('string type')
+      this.$broadcast
+        .channel(this.broadcastOn())
+        .error((error: any) => {
+          this.onError(error)
+          throw new EventError('Event', error)
+        })
+        .listen('.' + this.broadcastAs(), (e: any) => {
+          this.onMessage(e)
+        })
+    }
+    else {
+      this.$broadcast.channel(this.broadcastOn()).error((error: any) => {
         this.onError(error)
         throw new EventError('Event', error)
       })
-      .listen('.' + this.broadcastAs(), (e: any) => {
-        this.onMessage(e)
+
+      (this.broadcastAs()).forEach((event) => {
+        console.log('test')
       })
+    }
+
   }
 
   private initObservable(): Subject<number>
@@ -57,7 +71,7 @@ export default abstract class Event {
     return ''
   }
 
-  protected broadcastAs(): string
+  protected broadcastAs(): string | string[]
   {
     return ''
   }
