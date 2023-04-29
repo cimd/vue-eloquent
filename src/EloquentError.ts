@@ -1,9 +1,12 @@
-export default class EloquentError {
+import { IError } from './IEloquentError'
+
+export default class EloquentError extends Error implements IError{
   message: string
   name: string = ''
   error: Error
   // stack: any
   constructor(message: string, err: Error) {
+    super(message)
     this.message = message
     this.error = err
     // console.log('EloquentError Message: ', message)

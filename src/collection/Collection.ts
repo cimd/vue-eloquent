@@ -1,10 +1,11 @@
 import { onUnmounted, reactive } from 'vue'
 import { broadcast } from '../broadcast/broadcast'
-import handleErrors from '../helpers/handleErrors'
 import type { IQuery } from '../collection/IQuery'
 import type { IQueryPage } from '../collection/IQueryPage'
 import type { IModelState } from '../model/IModelState'
 import CollectionError from '../collection/CollectionError'
+import { IApi } from '../api/IApi'
+import { IListener } from '../listeners/IListener'
 
 export default abstract class Collection {
 
@@ -13,7 +14,7 @@ export default abstract class Collection {
   /**
    * API class related to the model
    */
-  protected api: any
+  protected api: IApi
 
   /**
    * Loading, success and error messages from API requests
@@ -25,39 +26,43 @@ export default abstract class Collection {
   })
 
   protected isBroadcasting: boolean = false
-
+  /**
+   * Alternative to Broadcasting. Link to a Listener Class
+   */
+  protected listener?: IListener
   /**
    * Filters used on GET request
    */
-  public filter: any = reactive({})
+  protected filter: any = reactive({})
   /**
    * Relations used on GET request
    */
-  public include: string[] = reactive([])
+  protected include: string[] = reactive([])
   /**
    * Fields to requested through API
    */
-  public fieldsSelection: string[] = reactive([])
+  protected fieldsSelection: string[] = reactive([])
   /**
    * Pagination used on GET request
    */
-  public paging: IQueryPage = reactive({ })
+  protected paging: IQueryPage = reactive({ })
   /**
    * Sorting used on GET request
    */
-  public sorting: string[] = reactive([])
+  protected sorting: string[] = reactive([])
 
   /**
    * Broadcast channel name
    */
-  protected channel: string = ''
+  protected channel?: string = ''
 
   protected constructor()
   {
     onUnmounted(() => {
       this.leaveChannel()
     })
-    return
+
+    // console.log('Listener at Constructor:', this.listener)
   }
 
   protected factory(collection?: any[]): void
@@ -82,7 +87,6 @@ export default abstract class Collection {
       this.setStateSuccess()
       return response.data
     } catch (e: any) {
-      handleErrors('fetching', e)
       this.setStateError()
       throw new CollectionError('Get', e)
     }
@@ -149,6 +153,21 @@ export default abstract class Collection {
     if (this.isBroadcasting) broadcast.leave(this.channel)
   }
 
+  public onListened(): void
+  {
+    if (this.listener) {
+      console.log('Collection Listener', this.listener)
+      // this.test = this.listener.handle
+      // this.listener.handle = this.test
+      this.listener.handle = this.onListenerHandle
+    }
+  }
+
+  protected onListenerHandle(args: any): void
+  {
+    console.log('onListenerHandle', args)
+  }
+
   /**
    * Broadcast created event
    * @param { any } e Broadcast event
@@ -199,7 +218,7 @@ export default abstract class Collection {
 
   protected updateDataSource(data: any[]): void
   {
-    Object.assign(this.data, data)
+    this.data = [...data]
   }
 
   protected queryString(): IQuery
