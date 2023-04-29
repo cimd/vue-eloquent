@@ -1,63 +1,76 @@
 import { broadcast } from '../index'
 import { Subject } from 'rxjs'
-// import { provide } from 'vue'
 import EventError from './EventError'
+import Channel from '@/events/Channel'
+import PresenceChannel from '@/events/PresenceChannel'
+// import { provide } from 'vue'
 
 export default abstract class Event {
 
   protected $broadcast = broadcast
-  public event: Subject<number>
+  public event: Subject<any>
+  protected channel: string
 
   protected constructor() {
     this.initBroadcast()
     this.event = this.initObservable()
-
-    // const name = eventName ?? this.constructor.name
-    // console.log('Event Name: ', name)
-    // provide(name, this)
-
-    // onBeforeUnmount(() => {
-    //   this.disconnect()
-    // })
+    console.log(this.broadcastOn())
   }
 
   private initBroadcast(): void
   {
-    // if (typeof this.broadcastAs() === 'string') {
-    // console.log('string type')
-    this.$broadcast
-      .channel(this.broadcastOn())
+    this.channel = this.broadcastOn().channel
+    console.log(this.channel)
+    const events = this.broadcastAs()
+
+    const bc = this.$broadcast
+      .channel(this.channel)
       .error((error: any) => {
         this.onError(error)
         throw new EventError('Event', error)
       })
-      .listen('.' + this.broadcastAs(), (e: any) => {
+
+    if (events.length === 1){
+      bc.listen('.' + events[ 0 ], (e: any) => {
         this.onMessage(e)
       })
-    // }
-    // else {
-    //   this.$broadcast.channel(this.broadcastOn()).error((error: any) => {
+    }
+    else {
+      // If multiple events are listened to, add an event name to the message
+      events.forEach((event: string) => {
+        bc.listen('.' + event, (e: any) => {
+          this.onMessage({ event, message: e })
+        })
+      })
+    }
+
+    // console.log(this.$broadcast)
+
+    // this.$broadcast
+    //   .channel(this.broadcastOn())
+    //   .error((error: any) => {
     //     this.onError(error)
     //     throw new EventError('Event', error)
     //   })
-    //
-    //   (this.broadcastAs()).forEach((event) => {
-    //     console.log('test')
+    //   .listen('.created', (e: any) => {
+    //     this.onMessage(e)
     //   })
-    // }
-
+    //   .listen('.updated', (e: any) => {
+    //     this.onMessage(e)
+    //   })
+    // console.log(this.$broadcast)
   }
 
-  private initObservable(): Subject<number>
+  private initObservable(): Subject<any>
   {
-    return new Subject<number>()
+    return new Subject()
   }
 
   protected disconnect(): void
   {
     console.log('disconnect')
     this.disconnecting()
-    this.$broadcast.leaveChannel(<string>this.broadcastOn())
+    this.$broadcast.leaveChannel(this.channel)
   }
 
   protected disconnecting(): void
@@ -65,17 +78,10 @@ export default abstract class Event {
     // sends message to disconnect subscribers
     return
   }
-  protected broadcastOn(): string
-  // Channel | PresenceChannel | PrivateChannel
-  {
-    // return new Channel('')
-    return ''
-  }
 
-  protected broadcastAs(): string | string[]
-  {
-    return ''
-  }
+  protected abstract broadcastOn(): Channel | PresenceChannel
+
+  protected abstract broadcastAs(): string[]
 
   protected broadcastWhen(): boolean
   {
@@ -91,5 +97,15 @@ export default abstract class Event {
   {
     // console.log(message)
     this.event.next(message)
+  }
+
+  public onMockMessage(message: any): void
+  {
+    const m = {
+      event: 'created',
+      message: message
+    }
+    // console.log(message)
+    this.event.next(m)
   }
 }

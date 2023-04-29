@@ -3,20 +3,14 @@ import ListenerError from './ListenerError'
 
 export default abstract class Listener {
 
-  private event: Subject<number>
-  protected constructor(e: Subject<number>)
+  private event: Subject<any>
+
+  protected constructor(e: Subject<any>)
   {
     if (!e) throw new ListenerError('Constructor', new Error('Event is not defined'))
-    
+
     this.event = e
     this.subscribe()
-
-    // console.log('Providing Listener: ', this.constructor.name)
-    // provide(this.constructor.name, this)
-
-    // onBeforeUnmount(() => {
-    //   this.unsubscribe()
-    // })
   }
 
   protected subscribe(): void
@@ -44,9 +38,9 @@ export default abstract class Listener {
     this.event.unsubscribe()
   }
 
-  public handle(event: any): void | any
+  public handle(message: any): void | any
   {
-    return event
+    return message
   }
 
   protected onError(error: any): void

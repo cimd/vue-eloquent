@@ -2,11 +2,10 @@ import { reactive } from 'vue'
 import { Collection } from '../src/index'
 import PostApi from './PostApi'
 import { IPost } from './PostInterface'
-import RpaJobListener
-  from '../test/mocks/RpaJobListener'
+
 export default class PostsCollection extends Collection {
   protected api = PostApi
-  // protected listener = new RpaJobListener('RpaJobEvent')
+  // protected listener = new PostsListener('PostsEvent')
   protected channel = 'posts'
 
   public data = reactive([] as IPost[])
