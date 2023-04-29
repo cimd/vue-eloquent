@@ -12,22 +12,30 @@ import Listener from './listeners/Listener'
 import Channel from './events/Channel'
 import PrivateChannel from './events/PrivateChannel'
 import PresenceChannel from './events/PresenceChannel'
+import ApiError from './api/ApiError'
+import ModelError from './model/ModelError'
+import EloquentError from './EloquentError'
+import CollectionError from './collection/CollectionError'
 
 export {
   Action,
   Actioned,
   Api,
+  ApiError,
   Model,
   Channel,
   Collection,
+  CollectionError,
   createHttp,
   http,
   broadcast,
   createBroadcast,
+  EloquentError,
   Event,
   formatDates,
   formatObject,
   Listener,
+  ModelError,
   PresenceChannel,
   PrivateChannel
 }

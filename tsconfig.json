@@ -12,9 +12,19 @@
     }
   ],
   "compilerOptions": {
+    "module": "es2022",
+    "moduleResolution": "node",
     "baseUrl": ".",
     "types": ["@types/lodash"],
     "experimentalDecorators": true,
     "noImplicitOverride": true
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "*.ts"
+  ],
+  "exclude": ["node_modules", ".vscode", "public", "*.js"]
 }

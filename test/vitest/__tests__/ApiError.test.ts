@@ -3,12 +3,13 @@ import ErrorApi from '../../mocks/ErrorApi'
 import { ApiError } from '../../../src/index'
 
 describe('api error', () => {
-  it.fails('get method', async () => {
+  it('get method', async () => {
     let error: ApiError | undefined
     try {
-      await ErrorApi.get()
+      const e = await ErrorApi.get()
+      console.log(e)
     }
-    catch (err) {
+    catch (err: any) {
       error = err
     }
     expect(<ApiError>error.error.response.status).toBe(422)
