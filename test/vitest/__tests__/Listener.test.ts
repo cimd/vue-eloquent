@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest'
 import PostsListener from '../../mocks/PostsListener'
-import broadcast from '../../mocks/pusher'
+import broadcast from '../../mocks/pusher-mock'
 import { createBroadcast } from '../../../src/broadcast/broadcast'
 import PostsEvent from '../../mocks/PostsEvent'
 

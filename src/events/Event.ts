@@ -1,17 +1,18 @@
 import { broadcast } from '../index'
 import { Subject } from 'rxjs'
 import EventError from './EventError'
-import Channel from '@/events/Channel'
-import PresenceChannel from '@/events/PresenceChannel'
+import Channel from '../events/Channel'
+import PresenceChannel from '../events/PresenceChannel'
 // import { provide } from 'vue'
 
 export default abstract class Event {
 
-  protected $broadcast = broadcast
+  protected $broadcast: any
   public event: Subject<any>
   protected channel: string
 
   protected constructor() {
+    this.$broadcast = broadcast
     this.initBroadcast()
     this.event = this.initObservable()
     console.log(this.broadcastOn())
@@ -23,6 +24,7 @@ export default abstract class Event {
     console.log(this.channel)
     const events = this.broadcastAs()
 
+    console.log(this.$broadcast)
     const bc = this.$broadcast
       .channel(this.channel)
       .error((error: any) => {
