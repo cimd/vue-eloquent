@@ -3,6 +3,7 @@ import PostsListener from '../../mocks/PostsListener'
 import broadcast from '../../mocks/pusher-mock'
 import { createBroadcast } from '../../../src/broadcast/broadcast'
 import PostsEvent from '../../mocks/PostsEvent'
+import PostsCollection from '../../../examples/PostsCollection'
 
 let event: PostsEvent
 
@@ -13,11 +14,12 @@ beforeAll(async () => {
 
 describe('events', () => {
   it('intantiates new event', async () => {
-    const listener = new PostsListener(event)
+    const posts = new PostsCollection()
+    const listener = new PostsListener(event, posts)
     // console.log(listener)
 
     const mock = { test: 1 }
-    event.onMockMessage(mock)
+    event.onMockMessage('created', mock)
 
     // console.log(listener)
 

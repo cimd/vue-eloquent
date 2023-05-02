@@ -1,8 +1,12 @@
+import EventError from '@/events/EventError'
+
 export default class Channel {
   _channel: string
 
   constructor(name: string)
   {
+    if (!name) throw new EventError('Channel name is required', new Error)
+
     this.channel = name
   }
 

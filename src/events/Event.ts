@@ -3,7 +3,9 @@ import { Subject } from 'rxjs'
 import EventError from './EventError'
 import Channel from '../events/Channel'
 import PresenceChannel from '../events/PresenceChannel'
-// import { provide } from 'vue'
+import { BroadcastMessage } from './EventTypes'
+import { onBeforeUnmount } from 'vue'
+import PrivateChannel from '@/events/PrivateChannel'
 
 export default abstract class Event {
 
@@ -15,16 +17,19 @@ export default abstract class Event {
     this.$broadcast = broadcast
     this.initBroadcast()
     this.event = this.initObservable()
-    console.log(this.broadcastOn())
+
+    onBeforeUnmount(() => {
+      this.disconnect()
+    })
   }
 
   private initBroadcast(): void
   {
     this.channel = this.broadcastOn().channel
-    console.log(this.channel)
+    // console.log(this.channel)
     const events = this.broadcastAs()
 
-    console.log(this.$broadcast)
+    // console.log(this.$broadcast)
     const bc = this.$broadcast
       .channel(this.channel)
       .error((error: any) => {
@@ -33,34 +38,24 @@ export default abstract class Event {
       })
 
     if (events.length === 1){
+      console.log(events)
       bc.listen('.' + events[ 0 ], (e: any) => {
-        this.onMessage(e)
+        if(this.broadcastWhen()) {
+          this.onMessage(events[ 0 ], e)
+        }
       })
     }
     else {
       // If multiple events are listened to, add an event name to the message
       events.forEach((event: string) => {
+        // console.log(event)
         bc.listen('.' + event, (e: any) => {
-          this.onMessage({ event, message: e })
+          if(this.broadcastWhen()) {
+            this.onMessage(event, e)
+          }
         })
       })
     }
-
-    // console.log(this.$broadcast)
-
-    // this.$broadcast
-    //   .channel(this.broadcastOn())
-    //   .error((error: any) => {
-    //     this.onError(error)
-    //     throw new EventError('Event', error)
-    //   })
-    //   .listen('.created', (e: any) => {
-    //     this.onMessage(e)
-    //   })
-    //   .listen('.updated', (e: any) => {
-    //     this.onMessage(e)
-    //   })
-    // console.log(this.$broadcast)
   }
 
   private initObservable(): Subject<any>
@@ -81,7 +76,7 @@ export default abstract class Event {
     return
   }
 
-  protected abstract broadcastOn(): Channel | PresenceChannel
+  protected abstract broadcastOn(): Channel | PresenceChannel | PrivateChannel
 
   protected abstract broadcastAs(): string[]
 
@@ -95,19 +90,23 @@ export default abstract class Event {
     console.error(error)
   }
 
-  protected onMessage(message: any): void
+  protected onMessage(event: string, message: any): void
   {
-    // console.log(message)
-    this.event.next(message)
+    const m: BroadcastMessage = {
+      event,
+      message
+    }
+    console.log(m)
+    this.event.next(m)
   }
 
-  public onMockMessage(message: any): void
+  onMockMessage(event: string, message: any): void
   {
-    const m = {
-      event: 'created',
-      message: message
+    const m: BroadcastMessage = {
+      event,
+      message
     }
-    // console.log(message)
+    // console.log(m)
     this.event.next(m)
   }
 }

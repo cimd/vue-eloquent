@@ -1,11 +1,10 @@
-import { onUnmounted, reactive } from 'vue'
+import { onBeforeUnmount, reactive } from 'vue'
 import { broadcast } from '../broadcast/broadcast'
 import type { IQuery } from '../collection/IQuery'
 import type { IQueryPage } from '../collection/IQueryPage'
 import type { IModelState } from '../model/IModelState'
 import CollectionError from '../collection/CollectionError'
 import { IApi } from '../api/IApi'
-import { IListener } from '../listeners/IListener'
 
 export default abstract class Collection {
 
@@ -26,10 +25,7 @@ export default abstract class Collection {
   })
 
   protected isBroadcasting: boolean = false
-  /**
-   * Alternative to Broadcasting. Link to a Listener Class
-   */
-  protected listener?: IListener
+
   /**
    * Filters used on GET request
    */
@@ -58,11 +54,9 @@ export default abstract class Collection {
 
   protected constructor()
   {
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       this.leaveChannel()
     })
-
-    // console.log('Listener at Constructor:', this.listener)
   }
 
   protected factory(collection?: any[]): void
@@ -151,21 +145,6 @@ export default abstract class Collection {
   public leaveChannel(): void
   {
     if (this.isBroadcasting) broadcast.leave(this.channel)
-  }
-
-  public onListened(): void
-  {
-    if (this.listener) {
-      console.log('Collection Listener', this.listener)
-      // this.test = this.listener.handle
-      // this.listener.handle = this.test
-      this.listener.handle = this.onListenerHandle
-    }
-  }
-
-  protected onListenerHandle(args: any): void
-  {
-    console.log('onListenerHandle', args)
   }
 
   /**

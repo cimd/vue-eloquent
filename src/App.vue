@@ -7,6 +7,7 @@ import broadcast from '../test/mocks/pusher-mock'
 import { createBroadcast } from '../src/broadcast/broadcast'
 import EventError from '../src/events/EventError'
 import PostsEvent from '../test/mocks/PostsEvent'
+import PostsListener from '../test/mocks/PostsListener'
 
 export default defineComponent({
   name: 'IndexPage',
@@ -16,7 +17,8 @@ export default defineComponent({
   async created() {
     // this.testHttp()
     // this.testBroadcast()
-    this.testEvent()
+    const e = this.testEvent()
+    this.testListener(e)
   },
   methods: {
     async testHttp() {
@@ -45,6 +47,17 @@ export default defineComponent({
       createBroadcast(broadcast)
       const event = new PostsEvent()
       console.log(event)
+      return event
+    },
+    testListener(event) {
+      const posts = new PostsCollection()
+      console.log(posts)
+      const listener = new PostsListener(event, posts)
+      console.log(listener)
+      console.log(posts.data)
+      setTimeout(() => {
+        console.log(posts.data)
+      }, 5000)
     }
   }
 })
