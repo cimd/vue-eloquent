@@ -38,7 +38,7 @@ export default abstract class Event {
       })
 
     if (events.length === 1){
-      console.log(events)
+      // console.log(events)
       bc.listen('.' + events[ 0 ], (e: any) => {
         if(this.broadcastWhen()) {
           this.onMessage(events[ 0 ], e)
@@ -65,7 +65,7 @@ export default abstract class Event {
 
   protected disconnect(): void
   {
-    console.log('disconnect')
+    // console.log('disconnect')
     this.disconnecting()
     this.$broadcast.leaveChannel(this.channel)
   }
@@ -87,7 +87,8 @@ export default abstract class Event {
 
   protected onError(error: any): void
   {
-    console.error(error)
+    // console.error(error)
+    throw new EventError('Event Message', error)
   }
 
   protected onMessage(event: string, message: any): void
@@ -96,7 +97,7 @@ export default abstract class Event {
       event,
       message
     }
-    console.log(m)
+    // console.log(m)
     this.event.next(m)
   }
 
