@@ -1,5 +1,6 @@
 import { Subject } from 'rxjs'
 import ListenerError from './ListenerError'
+import { BroadcastMessage } from '../events/EventTypes'
 
 export default abstract class Listener {
 
@@ -16,7 +17,7 @@ export default abstract class Listener {
   protected subscribe(): void
   {
     this.event.subscribe({
-      next: (message) => {
+      next: (message: BroadcastMessage) => {
         // console.log(message)
         this.handle(message)
       },

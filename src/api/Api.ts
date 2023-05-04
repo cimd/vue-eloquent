@@ -249,7 +249,8 @@ export default abstract class Api {
         })
     })
   }
-  protected batchStoringError?(err?: any): void
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected batchStoringError?(err?: any): void { return }
 
 
   /**
@@ -282,7 +283,8 @@ export default abstract class Api {
     })
   }
 
-  protected batchUpdatingError?(err?: any) : void
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected batchUpdatingError?(err?: any) : void { return }
 
   /**
    * @deprecated Use batchDestroy instead
@@ -340,7 +342,8 @@ export default abstract class Api {
         })
     })
   }
-  protected batchDestroyingError?(err: any): void
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected batchDestroyingError?(err?: any): void { return }
 
   /**
    * Fetches model logs from API

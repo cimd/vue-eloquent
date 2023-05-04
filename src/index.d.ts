@@ -7,6 +7,8 @@ import { IModel } from './model/IModel'
 import { IModelState } from "./model/IModelState"
 import { IModelParams } from "./model/IModelParams"
 
+import { BroadcastMessage } from "./events/EventTypes"
+
 export {
   IApi,
   IAxiosError,
@@ -16,4 +18,5 @@ export {
   IModel,
   IModelParams,
   IModelState,
+  BroadcastMessage
 }

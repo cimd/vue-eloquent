@@ -5,6 +5,7 @@
     <scripts>
       <script value="dev" />
     </scripts>
+    <arguments value="--open" />
     <node-interpreter value="project" />
     <envs />
     <method v="2" />

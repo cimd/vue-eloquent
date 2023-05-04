@@ -2,7 +2,6 @@ import { IModelState } from '../model/IModelState'
 import { IQueryPage } from '../collection/IQueryPage'
 import { IQuery } from '../collection/IQuery'
 import Api from '../api/Api'
-import { IListener } from '@/listeners/IListener'
 
 export interface ICollection {
     data: any[]
@@ -15,7 +14,6 @@ export interface ICollection {
     paging: IQueryPage
     sorting: any[]
 
-    listener?: IListener
     channel?: string
 
     factory(collection?: any[]): void
@@ -29,7 +27,6 @@ export interface ICollection {
 
     joinChannel(channel?: string): void
     leaveChannel(): void
-    onListened(): void
     broadcastCreated(e: any): void
     broadcastUpdated(e: any): void
     broadcastDeleted(e: any): void

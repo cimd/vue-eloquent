@@ -1,6 +1,6 @@
 import Channel from './Channel'
 
-export default class PresenceChannel extends Channel{
+export default class PresenceChannel extends Channel {
   constructor(name: string) {
     super(name)
   }
