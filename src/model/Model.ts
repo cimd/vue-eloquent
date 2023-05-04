@@ -33,7 +33,7 @@ export default abstract class Model extends Validator {
   /**
    * API class related to the model
    */
-  protected api: IApi
+  protected api: any
 
   protected protected: string[] = ['id', 'created_at', 'updated_at', 'deleted_at']
 
