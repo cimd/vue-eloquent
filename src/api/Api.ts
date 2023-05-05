@@ -380,6 +380,8 @@ export default abstract class Api {
         })
     })
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetchingLogsError(err?: any): void { return }
 
   /**
    * Transforms the response from the msw into a format that is expected
