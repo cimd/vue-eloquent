@@ -1,5 +1,5 @@
-import { formatObject } from 'src/helpers/formatObject'
-import { apiPrefix, http } from 'src/http/http'
+import { formatObject } from '../helpers/formatObject'
+import { apiPrefix, http } from '../http/http'
 import _join from 'lodash/join'
 import ApiError from '../api/ApiError'
 import type { IAxiosError } from './IAxiosError'
