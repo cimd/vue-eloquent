@@ -121,7 +121,7 @@ export default abstract class Model extends Validator {
    * @param { Action } action - Action from enum
    * @return { Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }> } Actioned enum and Model
    */
-  public async save(action?: Action): Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED } | undefined>
+  public async save(action?: Action): Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }>
   {
     // console.log('save', this.model, action)
     let model: any
