@@ -1,4 +1,4 @@
-import EventError from '@/events/EventError'
+import EventError from 'src/events/EventError'
 
 export default class Channel {
   _channel: string

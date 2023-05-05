@@ -1,11 +1,11 @@
-import { broadcast } from '../index'
+import { broadcast } from 'src/index'
 import { Subject } from 'rxjs'
 import EventError from './EventError'
-import Channel from '../events/Channel'
-import PresenceChannel from '../events/PresenceChannel'
+import Channel from 'src/events/Channel'
+import PresenceChannel from 'src/events/PresenceChannel'
 import { BroadcastMessage } from './EventTypes'
 import { onBeforeUnmount } from 'vue'
-import PrivateChannel from '@/events/PrivateChannel'
+import PrivateChannel from 'src/events/PrivateChannel'
 
 export default abstract class Event {
 
