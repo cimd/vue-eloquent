@@ -4,7 +4,6 @@ import type { IQuery } from '../collection/IQuery'
 import type { IQueryPage } from '../collection/IQueryPage'
 import type { IModelState } from '../model/IModelState'
 import CollectionError from '../collection/CollectionError'
-import { IApi } from '../api/IApi'
 
 export default abstract class Collection {
 
@@ -13,7 +12,7 @@ export default abstract class Collection {
   /**
    * API class related to the model
    */
-  protected api: IApi
+  protected api: any
 
   /**
    * Loading, success and error messages from API requests
