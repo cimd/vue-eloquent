@@ -1,7 +1,7 @@
-import { IModelState } from '@/model/IModelState'
-import Action from '@/enums/Action'
-import Actioned from '@/enums/Actioned'
-import { IApi } from '../api/IApi'
+import { IModelState } from 'src/model/IModelState'
+import Action from 'src/enums/Action'
+import Actioned from 'src/enums/Actioned'
+import { IApi } from 'src/api/IApi'
 
 export interface IModel {
     model: any

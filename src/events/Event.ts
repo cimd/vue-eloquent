@@ -5,7 +5,7 @@ import Channel from '../events/Channel'
 import PresenceChannel from '../events/PresenceChannel'
 import { BroadcastMessage } from './EventTypes'
 import { onBeforeUnmount } from 'vue'
-import PrivateChannel from '@/events/PrivateChannel'
+import PrivateChannel from '../events/PrivateChannel'
 
 export default abstract class Event {
 
