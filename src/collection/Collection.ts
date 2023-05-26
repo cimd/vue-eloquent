@@ -1,11 +1,10 @@
 import { onBeforeUnmount, reactive } from 'vue'
 import { broadcast } from '../broadcast/broadcast'
-import type { IQuery } from '../collection/IQuery'
-import type { IQueryPage } from '../collection/IQueryPage'
 import type { IModelState } from '../model/IModelState'
 import CollectionError from '../collection/CollectionError'
+import ApiQuery from '../api/ApiQuery'
 
-export default abstract class Collection {
+export default abstract class Collection extends ApiQuery {
 
   declare public data: any[]
 
@@ -25,26 +24,26 @@ export default abstract class Collection {
 
   protected isBroadcasting: boolean = false
 
-  /**
-   * Filters used on GET request
-   */
-  protected filter: any = reactive({})
-  /**
-   * Relations used on GET request
-   */
-  protected include: string[] = reactive([])
-  /**
-   * Fields to requested through API
-   */
-  protected fieldsSelection: string[] = reactive([])
-  /**
-   * Pagination used on GET request
-   */
-  protected paging: IQueryPage = reactive({ })
-  /**
-   * Sorting used on GET request
-   */
-  protected sorting: string[] = reactive([])
+  // /**
+  //  * Filters used on GET request
+  //  */
+  // protected filter: any = reactive({})
+  // /**
+  //  * Relations used on GET request
+  //  */
+  // protected include: string[] = reactive([])
+  // /**
+  //  * Fields to requested through API
+  //  */
+  // protected fieldsSelection: string[] = reactive([])
+  // /**
+  //  * Pagination used on GET request
+  //  */
+  // protected paging: IQueryPage = reactive({ })
+  // /**
+  //  * Sorting used on GET request
+  //  */
+  // protected sorting: string[] = reactive([])
 
   /**
    * Broadcast channel name
@@ -53,6 +52,7 @@ export default abstract class Collection {
 
   protected constructor()
   {
+    super()
     onBeforeUnmount(() => {
       this.leaveChannel()
     })
@@ -85,32 +85,32 @@ export default abstract class Collection {
     }
   }
 
-  public where(filter: any): this
-  {
-    Object.assign(this.filter, filter)
-    return this
-  }
-
-  public with(relationships: string[]): this
-  {
-    this.include = [...relationships]
-    return this
-  }
-  public select(fields: string[]): this
-  {
-    this.fieldsSelection = [...fields]
-    return this
-  }
-  public sort(sorting: string[]): this
-  {
-    this.sorting = [...sorting]
-    return this
-  }
-  public page(paging: IQueryPage): this
-  {
-    Object.assign(this.paging, paging)
-    return this
-  }
+  // public where(filter: any): this
+  // {
+  //   Object.assign(this.filter, filter)
+  //   return this
+  // }
+  //
+  // public with(relationships: string[]): this
+  // {
+  //   this.include = [...relationships]
+  //   return this
+  // }
+  // public select(fields: string[]): this
+  // {
+  //   this.fieldsSelection = [...fields]
+  //   return this
+  // }
+  // public sort(sorting: string[]): this
+  // {
+  //   this.sorting = [...sorting]
+  //   return this
+  // }
+  // public page(paging: IQueryPage): this
+  // {
+  //   Object.assign(this.paging, paging)
+  //   return this
+  // }
 
   /**
    * Joins the broadcast channel
@@ -199,25 +199,25 @@ export default abstract class Collection {
     this.data = [...data]
   }
 
-  protected queryString(): IQuery
-  {
-    const qs: IQuery = {}
-    if (this.filter) {
-      qs.filter = this.filter
-    }
-    if (this.include.length) {
-      qs.include = this.include.join(',')
-    }
-    if (this.fieldsSelection.length) {
-      qs.fields = this.fieldsSelection.join(',')
-    }
-    if (this.sorting.length) {
-      qs.sort = this.sorting.join(',')
-    }
-    if (this.paging) {
-      qs.page = this.paging
-    }
-
-    return qs
-  }
+  // protected queryString(): IQuery
+  // {
+  //   const qs: IQuery = {}
+  //   if (this.filter) {
+  //     qs.filter = this.filter
+  //   }
+  //   if (this.include.length) {
+  //     qs.include = this.include.join(',')
+  //   }
+  //   if (this.fieldsSelection.length) {
+  //     qs.fields = this.fieldsSelection.join(',')
+  //   }
+  //   if (this.sorting.length) {
+  //     qs.sort = this.sorting.join(',')
+  //   }
+  //   if (this.paging) {
+  //     qs.page = this.paging
+  //   }
+  //
+  //   return qs
+  // }
 }

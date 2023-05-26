@@ -30,11 +30,16 @@ export default abstract class ApiQuery {
     return
   }
 
+  public where(filter: any)
+  {
+    Object.assign(this.filter, filter)
+    return this
+  }
+
   static where(filter: any)
   {
     const self = this.instance()
-    Object.assign(self.filter, filter)
-    return self
+    return self.where(filter)
   }
 
   public with(relationships: string[]): this
