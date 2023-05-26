@@ -16,12 +16,14 @@ import ApiError from './api/ApiError'
 import ModelError from './model/ModelError'
 import EloquentError from './EloquentError'
 import CollectionError from './collection/CollectionError'
+import ApiQuery from './api/ApiQuery'
 
 export {
   Action,
   Actioned,
   Api,
   ApiError,
+  ApiQuery,
   Model,
   Channel,
   Collection,

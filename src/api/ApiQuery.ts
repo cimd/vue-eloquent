@@ -27,12 +27,14 @@ export default abstract class ApiQuery {
 
   protected constructor()
   {
+    return
   }
 
-  public where(filter: any): this
+  static where(filter: any)
   {
-    Object.assign(this.filter, filter)
-    return this
+    const self = this.instance()
+    Object.assign(self.filter, filter)
+    return self
   }
 
   public with(relationships: string[]): this

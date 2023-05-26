@@ -3,8 +3,12 @@ import { apiPrefix, http } from '../http/http'
 import _join from 'lodash/join'
 import ApiError from '../api/ApiError'
 import type { IAxiosError } from './IAxiosError'
+import { IApiResponse } from './IApiResponse'
+import { reactive } from 'vue'
+import { IQueryPage } from '../collection/IQueryPage'
+import ApiQuery from '../api/ApiQuery'
 
-export default abstract class Api {
+export default abstract class Api extends ApiQuery {
   /**
    * Resource name. Will be appended to the apiPrefix endpoint
    * @param { string } resource
@@ -24,9 +28,31 @@ export default abstract class Api {
    */
   protected dates: string[] = ['created_at', 'updated_at', 'deleted_at']
 
+
+  /**
+   * Filters used on GET request
+   */
+  protected filter: any = reactive({})
+  /**
+   * Relations used on GET request
+   */
+  protected include: string[] = reactive([])
+  /**
+   * Fields to requested through API
+   */
+  protected fieldsSelection: string[] = reactive([])
+  /**
+   * Pagination used on GET request
+   */
+  protected paging: IQueryPage = reactive({ })
+  /**
+   * Sorting used on GET request
+   */
+  protected sorting: string[] = reactive([])
+
   protected constructor()
   {
-    return
+    super()
   }
 
   static instance()
@@ -44,26 +70,36 @@ export default abstract class Api {
    * @param { any } payload - DEPRECATED. Use the where method instead
    * @return { Promise<any> } The data from the API
    */
-  static get(payload?: any): Promise<any>
+  get<T>(payload?: any): Promise<IApiResponse<T>>
   {
-    const self = this.instance()
-    const url = _join([self.apiPrefix, self.resource], '/')
-    self.fetching(payload)
+    // const self = this.instance()
+    const url = _join([this.apiPrefix, this.resource], '/')
+
+    let queryString: any
+    payload ? queryString = payload : queryString = this.queryString()
+    this.fetching(queryString)
+
     return new Promise((resolve, reject) => {
       http
         .get(url, {
-          params: payload,
-          transformResponse: [(data: any) => self.transformResponse(data)],
+          params: queryString,
+          transformResponse: [(data: any) => this.transformResponse(data)],
         })
         .then((response: { data: any }) => {
-          self.fetched(response.data)
+          this.fetched(response.data)
           resolve(response.data)
         })
         .catch((err: IAxiosError) => {
-          self.fetchingError(err)
+          this.fetchingError(err)
           reject(new ApiError('Get', err))
         })
     })
+  }
+
+  static async get<T>(payload?: any): Promise<IApiResponse<T>>
+  {
+    const self = this.instance()
+    return await self.get(payload)
   }
 
   /**
@@ -74,7 +110,7 @@ export default abstract class Api {
    * @param { number } id - Model ID
    * @return { Promise<any> } The data from the API
    */
-  static show(id: number): Promise<any>
+  static show<T>(id: number): Promise<IApiResponse<T>>
   {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource, id], '/')
@@ -103,7 +139,7 @@ export default abstract class Api {
    * @param { any } payload - Model
    * @return { Promise<any> } The data from the API
    */
-  static update<T>(payload: any): Promise<{ data: T }>
+  static update<T>(payload: any): Promise<IApiResponse<T>>
   {
     const self = this.instance()
     const url: string = _join([self.apiPrefix, self.resource, payload.id], '/')
@@ -135,7 +171,7 @@ export default abstract class Api {
    * @param { any } payload - Model
    * @return { Promise<any> } The data from the API
    */
-  static store<T>(payload: any): Promise<{ data: T }>
+  static store<T>(payload: any): Promise<IApiResponse<T>>
   {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource], '/')
@@ -227,7 +263,7 @@ export default abstract class Api {
    * @param { any[] } payload - Models. Will be wrapped in a data ({data: payload}) property before submitting to the API
    * @return { Promise<any> } The data from the API
    */
-  static batchStore<T>(payload: T[]): Promise<{ data: T[] }>
+  static batchStore<T>(payload: T[]): Promise<IApiResponse<T[]>>
   {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource, 'batch'], '/')
@@ -261,7 +297,7 @@ export default abstract class Api {
    * @param { any[] } payload - Models. Will be wrapped in a data property before submitting to the API
    * @return { Promise<any> } The data from the API
    */
-  static batchUpdate<T>(payload: T[]): Promise<{ data: T[] }>
+  static batchUpdate<T>(payload: T[]): Promise<IApiResponse<T[]>>
   {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource, 'batch'], '/')
@@ -321,7 +357,7 @@ export default abstract class Api {
    * @param { any[] } payload - Models. Will be wrapped in a data property before submitting to the API
    * @return { Promise<any> } The data from the API
    */
-  static batchDestroy<T>(payload: T[]): Promise<{ data: T[] }>
+  static batchDestroy<T>(payload: T[]): Promise<IApiResponse<T[]>>
   {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource, 'batch-destroy'], '/')

@@ -8,17 +8,19 @@ import { createBroadcast } from '../src/broadcast/broadcast'
 import EventError from '../src/events/EventError'
 import PostsEvent from '../test/mocks/PostsEvent'
 import PostsListener from '../test/mocks/PostsListener'
+import PostApi from '../examples/PostApi'
 
 export default defineComponent({
   name: 'IndexPage',
   data() {
     return {}
   },
-  async created() {
+  created() {
     // this.testHttp()
     // this.testBroadcast()
-    const e = this.testEvent()
-    this.testListener(e)
+    // const e = this.testEvent()
+    // this.testListener(e)
+    this.getFilter()
   },
   methods: {
     async testHttp() {
@@ -58,6 +60,12 @@ export default defineComponent({
       setTimeout(() => {
         console.log(posts.data)
       }, 5000)
+    },
+    async getFilter() {
+      createHttp({ httpClient: http })
+      // const post = new PostApi()
+      const result = await PostApi.where({ author_id: 1 }).with(['test']).get()
+      console.log(result)
     }
   }
 })
