@@ -212,7 +212,7 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .delete(url, {
-          transformResponse: [(data: string) => self.transformResponse(data)],
+          transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
           self.destroyed(response.data)
@@ -389,7 +389,7 @@ export default abstract class Api extends ApiQuery {
    * @param { any | number } payload Payload
    * @return { Promise<any> } The data from the API
    */
-  static logs(payload: any | number): Promise<any>
+  static logs(payload: { id: number } | number): Promise<any[]>
   {
     const self = this.instance()
     let id: number
@@ -400,12 +400,14 @@ export default abstract class Api extends ApiQuery {
     }
     // const url = self.apiPrefix + self.resource + '/' + id + '/logs'
     const url = _join([self.apiPrefix, self.resource, id, 'logs'], '/')
+    console.log(url)
     return new Promise((resolve, reject) => {
       http
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-        .get(url, payload, {
-          transformResponse: [(data: string) => self.transformResponse(data)],
+        .get(url, {
+          params: payload,
+          transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
           resolve(response.data)
@@ -428,6 +430,7 @@ export default abstract class Api extends ApiQuery {
   protected transformResponse(response: string): any
   {
     const resp = JSON.parse(response)
+    // console.log(resp)
     resp.data = formatObject(resp.data, this.dates)
     return resp
   }
