@@ -1,6 +1,6 @@
 {
   "name": "@konnec/vue-eloquent",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
@@ -13,10 +13,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@vuelidate/core": "^2.0.2",
-    "@vuelidate/validators": "^2.0.2",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.3",
     "axios": "^1.4.0",
-    "laravel-echo": "^1.15.1",
+    "laravel-echo": "^1.15.2",
     "lodash": "^4.17.21",
     "rxjs": "^7.8.1",
     "vue": "^3.3.4"

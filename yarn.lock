@@ -652,17 +652,17 @@
   resolved "https://registry.yarnpkg.com/@vue/tsconfig/-/tsconfig-0.4.0.tgz#f01e2f6089b5098136fb084a0dd0cdd4533b72b0"
   integrity sha512-CPuIReonid9+zOG/CGTT05FXrPYATEqoDGNrEaqS4hwcw5BUNM2FguC0mOwJD4Jr16UpRVl9N0pY3P+srIbqmg==
 
-"@vuelidate/core@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@vuelidate/core/-/core-2.0.2.tgz#e874afc830ccc5295e83a0c0a0f0621e084348c9"
-  integrity sha512-aG1OZWv6xVws3ljyKy/pyxq1rdZZ2ryj+FEREcC9d4GP4qOvNHHZUl/NQxa0Bck3Ooc0RfXU8vwCA9piRoWy6w==
+"@vuelidate/core@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@vuelidate/core/-/core-2.0.3.tgz#40468c5ed15b72bde880a026b0699c2f0f1ecede"
+  integrity sha512-AN6l7KF7+mEfyWG0doT96z+47ljwPpZfi9/JrNMkOGLFv27XVZvKzRLXlmDPQjPl/wOB1GNnHuc54jlCLRNqGA==
   dependencies:
     vue-demi "^0.13.11"
 
-"@vuelidate/validators@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@vuelidate/validators/-/validators-2.0.2.tgz#8b372b7d6f056d161f1fb551f063e3c83cb97d5e"
-  integrity sha512-6y6QLoK567XVmaLP3Paf1vkg6K2zO6xax3yTyczy1RnJ4PsLDLLGzP1PFzSpwb16aw4CKduBgI63HvIuctJhQg==
+"@vuelidate/validators@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@vuelidate/validators/-/validators-2.0.3.tgz#f55d168adeb91ac25a3045c942a2354516226667"
+  integrity sha512-P4WtmczPRbwmVihKlSAs3pIjIil4xjHW+Qoi58MCw7vnKuYr/IHarOFkwp0K8eIIqiQqY4URM5Gb4aeDjna6Yw==
   dependencies:
     vue-demi "^0.13.11"
 
@@ -2231,10 +2231,10 @@ jsonc-parser@^3.2.0:
   resolved "https://registry.yarnpkg.com/jsonc-parser/-/jsonc-parser-3.2.0.tgz#31ff3f4c2b9793f89c67212627c51c6394f88e76"
   integrity sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==
 
-laravel-echo@^1.15.1:
-  version "1.15.1"
-  resolved "https://registry.yarnpkg.com/laravel-echo/-/laravel-echo-1.15.1.tgz#74d4e0c8b9649da4a31ebe882ed814e05b489618"
-  integrity sha512-rW9XTXqs1v3sgcSFz7aE3/MPa2lfZjnsV/hrjyS/VYecQAx1lSP0hg3KumuR6ftkeneM093tVvTkRyKFumSyXg==
+laravel-echo@^1.15.2:
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/laravel-echo/-/laravel-echo-1.15.2.tgz#f7ed0719862ede7c701e510956d0b48613d5377c"
+  integrity sha512-FpbYv4hnAE/ck1ow2aLlx3wBuDRMNWBcSCpFmh9EkUxxBYZoaRt8rB4pKPnfAESvcaguohEesQ1naNM81zCWPQ==
 
 levn@^0.4.1:
   version "0.4.1"

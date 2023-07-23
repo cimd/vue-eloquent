@@ -406,7 +406,7 @@ export default abstract class Api extends ApiQuery {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
         .get(url, {
-          params: payload,
+          // params: payload,
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
