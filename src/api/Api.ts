@@ -400,13 +400,13 @@ export default abstract class Api extends ApiQuery {
     }
     // const url = self.apiPrefix + self.resource + '/' + id + '/logs'
     const url = _join([self.apiPrefix, self.resource, id, 'logs'], '/')
-    // console.log(url)
+    console.log(url)
     return new Promise((resolve, reject) => {
       http
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
         .get(url, {
-          params: payload,
+          // params: payload,
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
