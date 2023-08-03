@@ -13,7 +13,7 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   plugins: [
-    '@typescript-eslint',
+    // '@typescript-eslint',
     'unused-imports'
   ],
   rules: {

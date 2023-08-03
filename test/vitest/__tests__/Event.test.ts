@@ -18,7 +18,7 @@ describe('events', () => {
       .error((error: any) => {
         throw new EventError('Event', error)
       })
-      .listen('.created', (e: any) => {
+      .listen('.created', (_e: any) => {
       })
 
     expect(event).toBeTruthy()

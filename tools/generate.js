@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires,no-undef
 const { generateTemplateFiles } = require('generate-template-files')
 // const config = require('../package.json')
 /*
