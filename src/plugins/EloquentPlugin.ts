@@ -1,7 +1,7 @@
-import Validate from 'src/directives/Validate'
+import Validate from '../directives/Validate'
 
 export default {
-  install: (app /*, options*/) => {
+  install: (app: any /*, options*/) => {
     // v-validate directive
     app.directive('validate', Validate)
   }

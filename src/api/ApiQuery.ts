@@ -88,7 +88,7 @@ export default abstract class ApiQuery {
       qs.sort = this.sorting.join(',')
     }
     if (this.attributes.length) {
-      qs.append = this.attributes.join(',')
+      qs.append = this.attributes
     }
     if (this.paging) {
       qs.page = this.paging

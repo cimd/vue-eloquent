@@ -2,7 +2,7 @@ const validate = {
   // mounted: (el) => {
   //   console.log(el.__vueParentComponent.ctx.data)
   // },
-  updated(_el, binding, vnode, _prevVnode) {
+  updated(_el: any, binding:any, vnode:any, _prevVnode:any) {
     console.log(binding)
     // console.log(vnode)
 
