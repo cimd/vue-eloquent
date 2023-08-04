@@ -17,6 +17,7 @@ import ModelError from './model/ModelError'
 import EloquentError from './EloquentError'
 import CollectionError from './collection/CollectionError'
 import ApiQuery from './api/ApiQuery'
+import EloquentPlugin from './plugins/EloquentPlugin'
 
 export {
   Action,
@@ -33,6 +34,7 @@ export {
   broadcast,
   createBroadcast,
   EloquentError,
+  EloquentPlugin,
   Event,
   formatDates,
   formatObject,

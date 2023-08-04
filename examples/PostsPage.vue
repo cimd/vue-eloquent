@@ -41,13 +41,13 @@ export default defineComponent({
     this.posts.where({ author_id: 1 }).get()
   },
   methods: {
-    onCreated(args) {
+    onCreated(_args) {
       // do something
     },
-    onUpdated(args) {
+    onUpdated(_args) {
       // do something
     },
-    onDeleted(args) {
+    onDeleted(_args) {
       // do something
     },
   },

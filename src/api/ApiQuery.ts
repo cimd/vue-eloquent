@@ -13,6 +13,10 @@ export default abstract class ApiQuery {
    */
   protected include: string[] = reactive([])
   /**
+   * Attributes used on GET request
+   */
+  protected attributes: string[] = reactive([])
+  /**
    * Fields to requested through API
    */
   protected fieldsSelection: string[] = reactive([])
@@ -47,6 +51,11 @@ export default abstract class ApiQuery {
     this.include = [...relationships]
     return this
   }
+  public append(attributes: string[]): this
+  {
+    this.attributes = [...attributes]
+    return this
+  }
   public select(fields: string[]): this
   {
     this.fieldsSelection = [...fields]
@@ -77,6 +86,9 @@ export default abstract class ApiQuery {
     }
     if (this.sorting.length) {
       qs.sort = this.sorting.join(',')
+    }
+    if (this.attributes.length) {
+      qs.append = this.attributes
     }
     if (this.paging) {
       qs.page = this.paging
