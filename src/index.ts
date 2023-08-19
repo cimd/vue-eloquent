@@ -18,6 +18,7 @@ import EloquentError from './EloquentError'
 import CollectionError from './collection/CollectionError'
 import ApiQuery from './api/ApiQuery'
 import EloquentPlugin from './plugins/EloquentPlugin'
+import { IApiResponse } from './api/IApiResponse'
 
 export {
   Action,
@@ -25,6 +26,7 @@ export {
   Api,
   ApiError,
   ApiQuery,
+  IApiResponse,
   Model,
   Channel,
   Collection,
