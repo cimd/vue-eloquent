@@ -19,6 +19,8 @@ import CollectionError from './collection/CollectionError'
 import ApiQuery from './api/ApiQuery'
 import EloquentPlugin from './plugins/EloquentPlugin'
 import { IApiResponse } from './api/IApiResponse'
+import StateApi from './states/StateApi'
+import ModelApi from './api/ModelApi'
 
 export {
   Action,
@@ -41,7 +43,9 @@ export {
   formatDates,
   formatObject,
   Listener,
+  ModelApi,
   ModelError,
   PresenceChannel,
-  PrivateChannel
+  PrivateChannel,
+  StateApi,
 }
