@@ -52,24 +52,20 @@ export default abstract class Model extends Validator {
   /**
    * @constructor
    */
-  protected constructor()
-  {
+  protected constructor() {
     super()
   }
 
-  protected getDefault(param: string): any
-  {
+  protected getDefault(param: string): any {
     return this.parameters[ param ]
   }
 
-  protected static instance(): Model
-  {
+  protected static instance(): Model {
     // @ts-ignore
     return new this
   }
 
-  protected factory(model?: any): void
-  {
+  protected factory(model?: any): void {
     // console.log('factory', model)
     this.defaultModel = Object.assign({}, this.model)
     if (model) this.setModel(model)
@@ -85,30 +81,37 @@ export default abstract class Model extends Validator {
    * Creates instance of the model from API
    *
    * @async
+   * @param { Number } id - Model ID
+   */
+  async find(id: number): Promise<any> {
+    this.setStateLoading()
+    if (typeof this.defaultModel === undefined) Object.assign(this.defaultModel, this.model)
+
+    try {
+      this.retrieving()
+      const result: { data: any } = await this.api.show(id)
+      this.setModel(result.data)
+      
+      this.setOriginal()
+      this.setStateSuccess()
+      this.retrieved()
+    }
+    catch (e: any) {
+      this.setStateError()
+      throw new ModelError('Find', e)
+    }
+  }
+
+  /**
+   * Creates instance of the model from API
+   *
+   * @async
    * @static
    * @param { Number } id - Model ID
    */
-  public static async find(id: number): Promise<any>
-  {
+  static async find(id: number): Promise<any> {
     const self = this.instance()
-    self.setStateLoading()
-    if (typeof self.defaultModel === undefined) Object.assign(self.defaultModel, self.model)
-
-    try {
-      self.retrieving()
-      const response: any = await self.api.show(id)
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const model = new this(response.data)
-      self.setOriginal()
-      self.setStateSuccess()
-      self.retrieved()
-      return model
-    }
-    catch (e: any) {
-      self.setStateError()
-      throw new ModelError('Find', e)
-    }
+    return await self.find(id)
   }
 
   /**
@@ -121,8 +124,7 @@ export default abstract class Model extends Validator {
    * @param { Action } action - Action from enum
    * @return { Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }> } Actioned enum and Model
    */
-  public async save(action?: Action): Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }>
-  {
+  public async save(action?: Action): Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }> {
     // console.log('save', this.model, action)
     let model: any
     let actioned = '' as Actioned
@@ -153,8 +155,7 @@ export default abstract class Model extends Validator {
    * @async
    * @return { Promise<any> } Model
    */
-  public async create(): Promise<any>
-  {
+  public async create(): Promise<any> {
     try {
       this.creating()
       this.setStateLoading()
@@ -177,8 +178,7 @@ export default abstract class Model extends Validator {
    * @async
    * @return { Promise<any> } Model
    */
-  public async update(): Promise<any>
-  {
+  public async update(): Promise<any> {
     try {
       this.setStateLoading()
       this.updating()
@@ -201,8 +201,7 @@ export default abstract class Model extends Validator {
    * @async
    * @return { Promise<any> } Model
    */
-  public async delete(): Promise<any>
-  {
+  public async delete(): Promise<any> {
     try {
       this.deleting()
       this.setStateLoading()
@@ -220,8 +219,7 @@ export default abstract class Model extends Validator {
   }
 
 
-  public async batchCreate(): Promise<any[]>
-  {
+  public async batchCreate(): Promise<any[]> {
     try {
       this.batchCreating()
       this.setStateLoading()
@@ -237,8 +235,7 @@ export default abstract class Model extends Validator {
     }
   }
 
-  public async batchUpdate(): Promise<any[]>
-  {
+  public async batchUpdate(): Promise<any[]> {
     try {
       this.setStateLoading()
       this.batchUpdating()
@@ -254,13 +251,11 @@ export default abstract class Model extends Validator {
     }
   }
 
-  protected batchCreating(): void
-  {
+  protected batchCreating(): void {
     return
   }
 
-  protected batchUpdating(): void
-  {
+  protected batchUpdating(): void {
     return
   }
 
@@ -271,8 +266,7 @@ export default abstract class Model extends Validator {
    * @param { any } data - new model data
    * @return { VoidFunction }
    */
-  protected setModel(data: any): void
-  {
+  protected setModel(data: any): void {
     // console.log('setModel', data)
     Object.assign(this.model, data)
   }
@@ -280,8 +274,7 @@ export default abstract class Model extends Validator {
   /**
    * Get model change logs
    */
-  public async logs(): Promise<any>
-  {
+  public async logs(): Promise<any> {
     this.setStateLoading()
     try {
       const response: any = await this.api.logs(this.model.id)
@@ -299,8 +292,7 @@ export default abstract class Model extends Validator {
    *
    * @return { VoidFunction }
    */
-  public fresh(): void
-  {
+  public fresh(): void {
     // console.log('fresh')
     this.setModel(this.defaultModel)
   }
@@ -312,8 +304,7 @@ export default abstract class Model extends Validator {
    * @param { number } id - Model id
    * @return { Promise<any> } Model
    */
-  public async refresh(id?: number): Promise<any>
-  {
+  public async refresh(id?: number): Promise<any> {
     try {
       this.setStateLoading()
       const modelId = id ? id : this.model.id
@@ -333,14 +324,12 @@ export default abstract class Model extends Validator {
    *
    * @return { VoidFunction }
    */
-  protected setOriginal(): void
-  {
+  protected setOriginal(): void {
     // console.log('setOriginal')
     Object.assign(this.originalModel, this.model)
   }
 
-  public getOriginal(): any
-  {
+  public getOriginal(): any {
     return this.originalModel
   }
 
@@ -385,8 +374,7 @@ export default abstract class Model extends Validator {
    * @param { String | String[] } args - Relationships to load
    * @return { Promise<any> } Model or Models
    */
-  public async load(args?: string | string[]): Promise<any>
-  {
+  public async load(args?: string | string[]): Promise<any> {
     switch (typeof args) {
     case 'string':
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -418,8 +406,7 @@ export default abstract class Model extends Validator {
   /**
    * API starts loading state
    */
-  protected setStateLoading(): void
-  {
+  protected setStateLoading(): void {
     // console.log('setStateLoading')
     this.state.isLoading = true
     this.state.isSuccess = true
@@ -429,8 +416,7 @@ export default abstract class Model extends Validator {
   /**
    * API returned success response
    */
-  protected setStateSuccess()
-  {
+  protected setStateSuccess() {
     // console.log('setStateSuccess')
     this.state.isLoading = false
     this.state.isSuccess = true
@@ -440,8 +426,7 @@ export default abstract class Model extends Validator {
   /**
    * API return error response
    */
-  protected setStateError()
-  {
+  protected setStateError() {
     // console.log('setStateError')
     this.state.isLoading = false
     this.state.isSuccess = false
@@ -456,8 +441,7 @@ export default abstract class Model extends Validator {
    * @param { string } primaryKey of the relationship
    * @return { Promise<any> } Model
    */
-  async hasOne(api: IApi, primaryKey: number): Promise<any>
-  {
+  async hasOne(api: IApi, primaryKey: number): Promise<any> {
     // console.log('hasOne', api, primaryKey)
     const result = await api.show(primaryKey)
     return result.data
@@ -484,8 +468,7 @@ export default abstract class Model extends Validator {
    * @param { number } id of the relationship
    * @return { Promise<any> } Collection of Models
    */
-  async hasMany(api: IApi, primaryKey: string, id: number): Promise<any[]>
-  {
+  async hasMany(api: IApi, primaryKey: string, id: number): Promise<any[]> {
     // console.log('hasOne', api, primaryKey, id)
     const result = await api.get({ primary_key: id })
     return result.data
