@@ -87,11 +87,10 @@ export default abstract class Model extends Validator {
     this.setStateLoading()
     if (typeof this.defaultModel === undefined) Object.assign(this.defaultModel, this.model)
 
-    try {
-      this.retrieving()
+    try { this.retrieving()
       const result: { data: any } = await this.api.show(id)
       this.setModel(result.data)
-      
+
       this.setOriginal()
       this.setStateSuccess()
       this.retrieved()
