@@ -89,5 +89,5 @@ export const refreshInspector = async () => {
     await nextTick()
     API?.sendInspectorTree(inspectorId)
     API?.sendInspectorState(inspectorId)
-  }, 200)
+  }, 100)
 }
