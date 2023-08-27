@@ -12,11 +12,15 @@
     }
   ],
   "compilerOptions": {
-    "module": "es2022",
+    "target": "esnext",
+    "module": "esnext",
     "moduleResolution": "node",
     "baseUrl": ".",
     "types": ["@types/lodash"],
-    "experimentalDecorators": true
+    "lib": [
+      "esnext",
+      "dom"
+    ]
   },
   "include": [
     "src/**/*.ts",
