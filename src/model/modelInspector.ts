@@ -1,23 +1,25 @@
 import Model from './Model'
+import { refreshInspector } from '../devtools/devtools'
 
 export const eloquentModels: any[] = []
 export const childrenNodes: any[] = []
 export const childrenStates: any[] = []
 
-export const addModelInspector = (model: Model) => {
+export const addModelInspector = async (model: Model) => {
   if (!model) throw new Error('Model is not defined')
 
   console.log('Inspecting ', model.constructor.name)
   eloquentModels.push(model)
   childrenNodes.push({
-    id: model.constructor.name + '-' + eloquentModels.length,
+    id: model.uuid,
     label: model.constructor.name + '-' + eloquentModels.length,
   })
   childrenStates.push({
-    id: model.constructor.name + '-' + eloquentModels.length,
-    state: model
+    id: model.uuid,
+    model: model
   })
-  console.log(childrenNodes)
+  // console.log(childrenNodes)
+  await refreshInspector()
 }
 
 export const useModelInspector = () => {

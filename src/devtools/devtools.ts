@@ -1,10 +1,12 @@
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
-import { App } from 'vue'
+import { App, nextTick } from 'vue'
 import { useModelInspector } from '../model/modelInspector'
 
 const inspectorId = 'vue-eloquent-devtools-plugin'
+let API: any
 
 export function setupDevtools(app: App) {
+  // @ts-ignore
   setupDevtoolsPlugin({
     id: inspectorId,
     label: 'Vue Eloquent',
@@ -13,6 +15,7 @@ export function setupDevtools(app: App) {
     app
   },
   api => {
+    API = api
     console.log('🚀 Vue Eloquent DevTools Plugin installed')
 
     api.addInspector({
@@ -21,7 +24,7 @@ export function setupDevtools(app: App) {
       icon: 'api',
     })
 
-    api.on.getInspectorTree((payload, context) => {
+    api.on.getInspectorTree((payload, _context) => {
       if (payload.inspectorId === inspectorId) {
         payload.rootNodes =
             [
@@ -38,26 +41,33 @@ export function setupDevtools(app: App) {
       }
     })
 
-    api.on.getInspectorState((payload, context) => {
+    api.on.getInspectorState((payload, _context) => {
       if (payload.inspectorId === inspectorId) {
         if (payload.nodeId) {
+          // console.log(payload.nodeId)
           const node = useModelInspector().childrenStates.find(el => el.id === payload.nodeId)
+          // console.log(node)
+          if (node === undefined) {
+            payload.state = {}
+            return
+          }
           // console.log(node)
           payload.state = {
             'model': [
-              { key: 'uuid', value: node.state.uuid },
-              { key: 'model', value: node.state.model },
-              { key: 'defaultModel', value: node.state.defaultModel },
+              { key: 'uuid', value: node.model.uuid },
+              { key: 'model', value: node.model.model },
+              { key: 'defaultModel', value: node.model.defaultModel },
+              { key: 'relations', value: node.model.relations },
             ],
             'state': [
-              { key: 'isLoading', value: node.state.state.isLoading },
-              { key: 'isSuccess', value: node.state.state.isSuccess },
-              { key: 'isError', value: node.state.state.isError },
+              { key: 'isLoading', value: node.model.state.isLoading },
+              { key: 'isSuccess', value: node.model.state.isSuccess },
+              { key: 'isError', value: node.model.state.isError },
             ],
             'validation': [
-              { key: '$model', value: node.state.$model },
-              { key: '$invalid', value: node.state.$invalid },
-              { key: 'validations', value: node.state.validations },
+              { key: '$model', value: node.model.$model },
+              { key: '$invalid', value: node.model.$invalid },
+              { key: 'validations', value: node.model.validations },
             ]
           }
         }
@@ -72,4 +82,12 @@ export function setupDevtools(app: App) {
     //   })
     // })
   })
+}
+
+export const refreshInspector = async () => {
+  setTimeout(async () => {
+    await nextTick()
+    API?.sendInspectorTree(inspectorId)
+    API?.sendInspectorState(inspectorId)
+  }, 200)
 }
