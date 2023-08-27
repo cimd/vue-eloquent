@@ -6,6 +6,8 @@ import Validator from './Validator'
 import type { IModelState } from '../model/IModelState'
 import ModelError from '../model/ModelError'
 import { IApi } from '../api/IApi'
+import { addModelInspector } from './modelInspector'
+import uuid from '../helpers/uuid'
 
 export default abstract class Model extends Validator {
 
@@ -40,6 +42,8 @@ export default abstract class Model extends Validator {
   // Relationships on the model
   public relations: undefined | any
 
+  private uuid: string
+
   /**
    * Loading, success and error messages from API requests
    */
@@ -54,6 +58,8 @@ export default abstract class Model extends Validator {
    */
   protected constructor() {
     super()
+    this.uuid = uuid()
+    addModelInspector(this)
   }
 
   protected getDefault(param: string): any {
@@ -87,7 +93,8 @@ export default abstract class Model extends Validator {
     this.setStateLoading()
     if (typeof this.defaultModel === undefined) Object.assign(this.defaultModel, this.model)
 
-    try { this.retrieving()
+    try {
+      this.retrieving()
       const result: { data: any } = await this.api.show(id)
       this.setModel(result.data)
 

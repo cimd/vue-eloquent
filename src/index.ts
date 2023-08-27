@@ -20,6 +20,7 @@ import ApiQuery from './api/ApiQuery'
 import EloquentPlugin from './plugins/EloquentPlugin'
 import StateApi from './states/StateApi'
 import ModelApi from './api/ModelApi'
+import VueEloquentPlugin from './devtools/devToolsPlugin'
 
 export {
   Action,
@@ -32,6 +33,7 @@ export {
   Collection,
   CollectionError,
   createHttp,
+  VueEloquentPlugin,
   http,
   broadcast,
   createBroadcast,
