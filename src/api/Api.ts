@@ -28,6 +28,14 @@ export default abstract class Api extends ApiQuery {
    */
   protected dates: string[] = ['created_at', 'updated_at', 'deleted_at']
 
+  /**
+   * Relates to Laravel Precognition
+   *
+   * If set to true it will append a header of Precognition = true
+   * to the store and update requests
+   * @param { boolean } validateRequests
+   */
+  protected validateRequests = false
 
   /**
    * Filters used on GET request
@@ -132,6 +140,33 @@ export default abstract class Api extends ApiQuery {
   }
 
   /**
+   * Validate the update request
+   *
+   * @async
+   * @static
+   * @param { any } payload - Model
+   * @return { Promise<any> } The data from the API
+   */
+  static validateUpdate<T>(payload: any): Promise<IApiResponse<T>>
+  {
+    const self = this.instance()
+    const url = _join([self.apiPrefix, self.resource], '/')
+    return new Promise((resolve, reject) => {
+      http
+        .patch(url, payload,
+          {
+            headers: { 'Precognition': true }
+          })
+        .then((response: { data: any }) => {
+          resolve(response.data)
+        })
+        .catch((err: any) => {
+          reject(err)
+        })
+    })
+  }
+
+  /**
    * Updates a single model to the API
    *
    * @async
@@ -179,8 +214,8 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .post(url, payload, {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
@@ -191,6 +226,33 @@ export default abstract class Api extends ApiQuery {
         .catch((err: any) => {
           self.storingError(err)
           reject(new ApiError('Store', err))
+        })
+    })
+  }
+
+  /**
+   * Validate the store request
+   *
+   * @async
+   * @static
+   * @param { any } payload - Model
+   * @return { Promise<any> } The data from the API
+   */
+  static validateStore<T>(payload: any): Promise<IApiResponse<T>>
+  {
+    const self = this.instance()
+    const url = _join([self.apiPrefix, self.resource], '/')
+    return new Promise((resolve, reject) => {
+      http
+        .post(url, payload,
+          {
+            headers: { 'Precognition': true }
+          })
+        .then((response: { data: any }) => {
+          resolve(response.data)
+        })
+        .catch((err: any) => {
+          reject(err)
         })
     })
   }

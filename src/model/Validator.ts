@@ -1,28 +1,26 @@
 import useVuelidate from '@vuelidate/core'
 import { reactive } from 'vue'
+import { refreshInspector } from '../devtools/devtools'
 
 export default abstract class Validator {
 
   public model: any
-
+  /**
+   * Holds the validation error states and messages
+   * @param { any } v$ Validations
+   */
+  public v$: any
+  /**
+   * Returns true if any errors are found
+   */
+  public $invalid: any = reactive({})
+  public $model: any = reactive({})
   /**
    * Validations as per Vuelidate
    * https://vuelidate-next.netlify.app/guide.html#basics
    * Should be a computed property
    */
   protected validations: any = {}
-
-  /**
-   * Holds the validation error states and messages
-   * @param { any } v$ Validations
-   */
-  public v$: any
-
-  /**
-   * Returns true if any errors are found
-   */
-  public $invalid: any = reactive({})
-  public $model: any = reactive({})
 
   protected constructor()
   {
@@ -35,21 +33,20 @@ export default abstract class Validator {
    */
   initValidations(): void
   {
-    // console.log('initValidations')
     const model = this.model
     this.v$ = useVuelidate(this.validations, { model })
-    // this.$model = this.v$.value.model
     this.set$Model(this.v$.value.model)
   }
 
   /**
-   * Validates the model and returns error messages
+   * Validates the model and sets error messages
    */
-  $validate(): void
+  $validate(): boolean
   {
-    // console.log('$validate')
     this.v$.value.$validate()
     this.$invalid = this.v$.value.$invalid
+    refreshInspector().then()
+    return this.v$.value.$valid
   }
 
   /**
@@ -57,14 +54,14 @@ export default abstract class Validator {
    */
   $reset(): void
   {
-    // console.log('$reset')
     this.v$.value.$reset()
     Object.assign(this.$invalid, this.v$.value.$invalid)
+    refreshInspector().then()
   }
 
   protected set$Model(model: any): void
   {
-    // console.log('set$Model', model)
     Object.assign(this.$model, model)
+    refreshInspector().then()
   }
 }
