@@ -3,15 +3,23 @@ import { broadcast } from '../broadcast/broadcast'
 import type { IModelState } from '../model/IModelState'
 import CollectionError from '../collection/CollectionError'
 import ApiQuery from '../api/ApiQuery'
+import { addModelInspector } from '../model/modelInspector'
+import uuid from '../helpers/uuid'
+import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 
 export default abstract class Collection extends ApiQuery {
-
+  /**
+   * Collection data source
+   */
   declare public data: any[]
-
   /**
    * API class related to the model
    */
   protected api: any
+  /**
+   * Added for devtools support
+   */
+  public uuid: string
 
   /**
    * Loading, success and error messages from API requests
@@ -24,27 +32,6 @@ export default abstract class Collection extends ApiQuery {
 
   protected isBroadcasting: boolean = false
 
-  // /**
-  //  * Filters used on GET request
-  //  */
-  // protected filter: any = reactive({})
-  // /**
-  //  * Relations used on GET request
-  //  */
-  // protected include: string[] = reactive([])
-  // /**
-  //  * Fields to requested through API
-  //  */
-  // protected fieldsSelection: string[] = reactive([])
-  // /**
-  //  * Pagination used on GET request
-  //  */
-  // protected paging: IQueryPage = reactive({ })
-  // /**
-  //  * Sorting used on GET request
-  //  */
-  // protected sorting: string[] = reactive([])
-
   /**
    * Broadcast channel name
    */
@@ -53,6 +40,10 @@ export default abstract class Collection extends ApiQuery {
   protected constructor()
   {
     super()
+    this.uuid = uuid()
+    addModelInspector(this).then()
+    addTimelineEvent({ name: 'Collection Initialized' })
+
     onBeforeUnmount(() => {
       this.leaveChannel()
     })
@@ -75,8 +66,13 @@ export default abstract class Collection extends ApiQuery {
     this.setStateLoading()
     try {
       filter ? queryString = filter : queryString = this.queryString()
+      addTimelineEvent({
+        name: 'Fetching',
+        query: queryString,
+      })
       const response: any = await this.api.get(queryString)
       this.updateDataSource(response.data)
+      addTimelineEvent({ name: 'Fetched', data: response.data })
       this.setStateSuccess()
       return response.data
     } catch (e: any) {
@@ -84,33 +80,6 @@ export default abstract class Collection extends ApiQuery {
       throw new CollectionError('Get', e)
     }
   }
-
-  // public where(filter: any): this
-  // {
-  //   Object.assign(this.filter, filter)
-  //   return this
-  // }
-  //
-  // public with(relationships: string[]): this
-  // {
-  //   this.include = [...relationships]
-  //   return this
-  // }
-  // public select(fields: string[]): this
-  // {
-  //   this.fieldsSelection = [...fields]
-  //   return this
-  // }
-  // public sort(sorting: string[]): this
-  // {
-  //   this.sorting = [...sorting]
-  //   return this
-  // }
-  // public page(paging: IQueryPage): this
-  // {
-  //   Object.assign(this.paging, paging)
-  //   return this
-  // }
 
   /**
    * Joins the broadcast channel
@@ -136,6 +105,8 @@ export default abstract class Collection extends ApiQuery {
         this.broadcastDeleted(e)
       })
     this.isBroadcasting = true
+    refreshInspector().then()
+    addTimelineEvent({ name: 'Broadcasting' })
   }
 
   /**
@@ -143,7 +114,12 @@ export default abstract class Collection extends ApiQuery {
    */
   public leaveChannel(): void
   {
-    if (this.isBroadcasting) broadcast.leave(this.channel)
+    if (this.isBroadcasting) {
+      broadcast.leave(this.channel)
+      this.isBroadcasting = false
+    }
+    refreshInspector().then()
+    addTimelineEvent({ name: 'Leaving Broadcast Channel' })
   }
 
   /**
@@ -172,6 +148,8 @@ export default abstract class Collection extends ApiQuery {
     this.state.isLoading = true
     this.state.isSuccess = true
     this.state.isError = false
+    refreshInspector().then()
+    addTimelineEvent({ name: 'Loading' })
   }
 
   /**
@@ -182,6 +160,8 @@ export default abstract class Collection extends ApiQuery {
     this.state.isLoading = false
     this.state.isSuccess = true
     this.state.isError = false
+    refreshInspector().then()
+    addTimelineEvent({ name: 'Loading success' })
   }
 
   /**
@@ -192,32 +172,14 @@ export default abstract class Collection extends ApiQuery {
     this.state.isLoading = false
     this.state.isSuccess = false
     this.state.isError = true
+    refreshInspector().then()
+    addTimelineEvent({ name: 'Loading error' })
   }
 
   protected updateDataSource(data: any[]): void
   {
     this.data = [...data]
+    refreshInspector().then()
+    addTimelineEvent({ name: 'Updating Data', data: data })
   }
-
-  // protected queryString(): IQuery
-  // {
-  //   const qs: IQuery = {}
-  //   if (this.filter) {
-  //     qs.filter = this.filter
-  //   }
-  //   if (this.include.length) {
-  //     qs.include = this.include.join(',')
-  //   }
-  //   if (this.fieldsSelection.length) {
-  //     qs.fields = this.fieldsSelection.join(',')
-  //   }
-  //   if (this.sorting.length) {
-  //     qs.sort = this.sorting.join(',')
-  //   }
-  //   if (this.paging) {
-  //     qs.page = this.paging
-  //   }
-  //
-  //   return qs
-  // }
 }

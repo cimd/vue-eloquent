@@ -7,9 +7,9 @@ import type { IModelState } from '../model/IModelState'
 import ModelError from '../model/ModelError'
 import { IApi } from '../api/IApi'
 import { addModelInspector } from './modelInspector'
-import { refreshInspector } from '../devtools/devtools'
+import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 import uuid from '../helpers/uuid'
-import { IApiResponse } from '@/api/IApiResponse'
+import { IApiResponse } from '../api/IApiResponse'
 
 export default abstract class Model extends Validator {
   /**
@@ -57,7 +57,8 @@ export default abstract class Model extends Validator {
   protected constructor() {
     super()
     this.uuid = uuid()
-    addModelInspector(this).then(_r => {})
+    addModelInspector(this).then()
+    addTimelineEvent({ name: 'Model Initialized' })
   }
 
   /**
@@ -92,9 +93,12 @@ export default abstract class Model extends Validator {
       const result: { data: any } = await this.api.show(id)
       this.setModel(result.data)
 
+      addTimelineEvent({ name: 'Model Retrieved', model: result.data })
+
       this.setOriginal()
       this.setStateSuccess()
       this.retrieved()
+
     }
     catch (e: any) {
       this.setStateError()
@@ -126,6 +130,7 @@ export default abstract class Model extends Validator {
         actioned = Actioned.UPDATED
       }
       this.saved()
+      addTimelineEvent({ name: actioned, model: model })
       return {
         actioned,
         model
@@ -149,6 +154,7 @@ export default abstract class Model extends Validator {
       const response: any = await this.api.store(this.model)
       this.setOriginal()
       this.setModel(response.data)
+      addTimelineEvent({ name: 'Created', model: response.data })
       this.setStateSuccess()
       this.created()
       return response.data
@@ -172,6 +178,7 @@ export default abstract class Model extends Validator {
       const response: any = await this.api.update(this.model)
       this.setOriginal()
       this.setModel(response.data)
+      addTimelineEvent({ name: 'Updated', model: response.data })
       this.setStateSuccess()
       this.updated()
       return response.data
@@ -195,6 +202,7 @@ export default abstract class Model extends Validator {
       const response: any = await this.api.delete(this.model)
       this.setOriginal()
       this.setModel(response.data)
+      addTimelineEvent({ name: 'Deleted', model: response.data })
       this.setStateSuccess()
       this.deleted()
       return response.data
@@ -262,6 +270,7 @@ export default abstract class Model extends Validator {
    */
   fresh(): void {
     this.setModel(this.defaultModel)
+    addTimelineEvent({ name: 'Fresh Model', model: this.defaultModel })
   }
 
   /**
@@ -279,6 +288,7 @@ export default abstract class Model extends Validator {
       this.setOriginal()
       this.setStateSuccess()
       this.factory(response.data)
+      addTimelineEvent({ name: 'Refreshed', model: response.data })
     }
     catch (e: any) {
       this.setStateError()
@@ -443,6 +453,7 @@ export default abstract class Model extends Validator {
     this.state.isSuccess = true
     this.state.isError = false
     refreshInspector().then()
+    addTimelineEvent({ name: 'Loading' })
   }
 
   /**
@@ -453,6 +464,7 @@ export default abstract class Model extends Validator {
     this.state.isSuccess = true
     this.state.isError = false
     refreshInspector().then()
+    addTimelineEvent({ name: 'Loading success' })
   }
 
   // async hasOne(api: any, primaryKey: number): Promise<any>
@@ -475,5 +487,6 @@ export default abstract class Model extends Validator {
     this.state.isSuccess = false
     this.state.isError = true
     refreshInspector().then()
+    addTimelineEvent({ name: 'Loading error' })
   }
 }

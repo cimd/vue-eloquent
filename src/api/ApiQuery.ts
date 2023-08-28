@@ -1,6 +1,7 @@
 import { reactive } from 'vue'
 import type { IQuery } from '../collection/IQuery'
 import type { IQueryPage } from '../collection/IQueryPage'
+import { refreshInspector } from '../devtools/devtools'
 
 export default abstract class ApiQuery {
 
@@ -37,6 +38,7 @@ export default abstract class ApiQuery {
   public where(filter: any)
   {
     Object.assign(this.filter, filter)
+    refreshInspector().then()
     return this
   }
 
@@ -46,29 +48,34 @@ export default abstract class ApiQuery {
     return self.where(filter)
   }
 
-  public with(relationships: string[]): this
+  with(relationships: string[]): this
   {
     this.include = [...relationships]
+    refreshInspector().then()
     return this
   }
-  public append(attributes: string[]): this
+  append(attributes: string[]): this
   {
     this.attributes = [...attributes]
+    refreshInspector().then()
     return this
   }
-  public select(fields: string[]): this
+  select(fields: string[]): this
   {
     this.fieldsSelection = [...fields]
+    refreshInspector().then()
     return this
   }
-  public sort(sorting: string[]): this
+  sort(sorting: string[]): this
   {
     this.sorting = [...sorting]
+    refreshInspector().then()
     return this
   }
-  public page(paging: IQueryPage): this
+  page(paging: IQueryPage): this
   {
     Object.assign(this.paging, paging)
+    refreshInspector().then()
     return this
   }
 
