@@ -76,14 +76,15 @@ export const refreshInspector = async () => {
   }, 100)
 }
 
-export const addTimelineEvent = (data: any) => {
+export const addTimelineEvent = ({ data, title = 'Event' }) => {
   if (!API) return
 
   API.addTimelineEvent({
     layerId: timelineLayerId,
     event: {
       time: API.now(),
-      data: data
+      data: data,
+      title: title
     }
   })
 }
