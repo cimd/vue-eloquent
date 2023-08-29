@@ -1,6 +1,6 @@
 import useVuelidate from '@vuelidate/core'
 import { reactive } from 'vue'
-import { refreshInspector } from '../devtools/devtools'
+import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 
 export default abstract class Validator {
 
@@ -36,6 +36,8 @@ export default abstract class Validator {
     const model = this.model
     this.v$ = useVuelidate(this.validations, { model })
     this.set$Model(this.v$.value.model)
+
+    addTimelineEvent({ title: 'Validation Initialized', data: this.v$.value.model })
   }
 
   /**
@@ -45,7 +47,17 @@ export default abstract class Validator {
   {
     this.v$.value.$validate()
     this.$invalid = this.v$.value.$invalid
+
     refreshInspector().then()
+    addTimelineEvent({
+      title: 'Validation Response',
+      data: {
+        valid: this.v$.value.$valid,
+        invalid: this.v$.value.$invalid,
+        model: this.v$.value.model
+      }
+    })
+
     return this.v$.value.$valid
   }
 
@@ -57,6 +69,7 @@ export default abstract class Validator {
     this.v$.value.$reset()
     Object.assign(this.$invalid, this.v$.value.$invalid)
     refreshInspector().then()
+    addTimelineEvent({ title: 'Validation Reset', data: this.v$.value.model })
   }
 
   protected set$Model(model: any): void

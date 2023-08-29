@@ -249,6 +249,7 @@ export default abstract class Model extends Validator {
 
   /**
    * Get model change logs
+   * @async
    */
   async logs(): Promise<IApiResponse<any[]>> {
     this.setStateLoading()
@@ -357,6 +358,12 @@ export default abstract class Model extends Validator {
     return this.parameters[ param ]
   }
 
+  /**
+   * Creates a new instance of the model based on existing Object
+   *
+   * @param { any } model Model object
+   * @protected
+   */
   protected factory(model?: any): void {
     this.defaultModel = Object.assign({}, this.model)
     if (model) this.setModel(model)

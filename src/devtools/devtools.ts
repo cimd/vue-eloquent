@@ -66,6 +66,11 @@ export function setupDevtools(app: App) {
   })
 }
 
+/**
+* Refresh devtools inspector
+*
+* Tree + State
+*/
 export const refreshInspector = async () => {
   if (!API) return
 
@@ -76,6 +81,10 @@ export const refreshInspector = async () => {
   }, 100)
 }
 
+
+/**
+* Add timeline event
+*/
 export const addTimelineEvent = ({ data, title = 'Event' }) => {
   if (!API) return
 

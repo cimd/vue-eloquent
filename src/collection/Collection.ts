@@ -108,7 +108,7 @@ export default abstract class Collection extends ApiQuery {
       })
     this.isBroadcasting = true
     refreshInspector().then()
-    addTimelineEvent({ title: 'Broadcasting' })
+    addTimelineEvent({ title: 'Broadcasting', data: { channel: this.channel }})
   }
 
   /**
@@ -121,7 +121,7 @@ export default abstract class Collection extends ApiQuery {
       this.isBroadcasting = false
     }
     refreshInspector().then()
-    addTimelineEvent({ title: 'Leaving Broadcast Channel' })
+    addTimelineEvent({ title: 'Leaving Broadcast Channel', data: { channel: this.channel }})
   }
 
   /**
@@ -182,6 +182,6 @@ export default abstract class Collection extends ApiQuery {
   {
     this.data = [...data]
     refreshInspector().then()
-    addTimelineEvent({ name: 'Updating Data', data: data })
+    addTimelineEvent({ title: 'Data Update', data: data })
   }
 }
