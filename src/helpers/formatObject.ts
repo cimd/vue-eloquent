@@ -12,6 +12,6 @@ export const formatObject = (response: any[], datesArray: any[]) => {
       return response
     }
   }
-  // console.log(response)
+
   return response
 }

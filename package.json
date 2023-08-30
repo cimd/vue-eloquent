@@ -1,6 +1,6 @@
 {
   "name": "@konnec/vue-eloquent",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
@@ -73,7 +73,8 @@
     "Validation",
     "Broadcast",
     "Vuelidate",
-    "Echo"
+    "Echo",
+    "DevTools"
   ],
   "author": "Christian D'Aquino",
   "license": "MIT",

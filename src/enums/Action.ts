@@ -1,3 +1,8 @@
+/**
+ * Enum for CRUD actions
+ * @readonly
+ * @enum { string }
+ */
 enum Action {
     CREATE = 'create',
     VIEW = 'view',
