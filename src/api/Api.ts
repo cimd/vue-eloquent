@@ -150,7 +150,8 @@ export default abstract class Api extends ApiQuery {
   static validateUpdate<T>(payload: any): Promise<IApiResponse<T>>
   {
     const self = this.instance()
-    const url = _join([self.apiPrefix, self.resource], '/')
+    const url = _join([self.apiPrefix, self.resource, payload.id], '/')
+
     return new Promise((resolve, reject) => {
       http
         .patch(url, payload,
@@ -161,7 +162,7 @@ export default abstract class Api extends ApiQuery {
           resolve(response.data)
         })
         .catch((err: any) => {
-          reject(err)
+          reject(err.response)
         })
     })
   }
@@ -252,7 +253,7 @@ export default abstract class Api extends ApiQuery {
           resolve(response.data)
         })
         .catch((err: any) => {
-          reject(err)
+          reject(err.response)
         })
     })
   }

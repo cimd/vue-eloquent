@@ -51,6 +51,14 @@ export default abstract class Model extends Validator {
    */
   private defaultModel: any = {}
 
+
+  /**
+   * Laravel Precognition's error messages
+   */
+  public errors: any[] = []
+  public isValid: boolean = true
+  public isInvalid: boolean = false
+
   /**
    * @constructor
    */
@@ -495,5 +503,32 @@ export default abstract class Model extends Validator {
     this.state.isError = true
     refreshInspector().then()
     addTimelineEvent({ title: 'Loading error', data: this.state })
+  }
+
+  /**
+   * Validates model from Laravel's Precognition API
+   *
+   * @return { boolean }
+   */
+  async validate(action?: Action): Promise<boolean> {
+    try {
+      if (!this.model.id || (action === Action.CREATE)) {
+        await this.api.validateStore(this.model)
+      }
+      else {
+        await this.api.validateUpdate(this.model)
+      }
+      this.errors = []
+      this.isValid = true
+      this.isInvalid = false
+      return true
+    }
+    catch (e: any) {
+      this.errors = e.data.errors
+      this.isValid = false
+      this.isInvalid = true
+      // console.log(this.errors)
+      return false
+    }
   }
 }
