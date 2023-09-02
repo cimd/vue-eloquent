@@ -10,6 +10,7 @@ import { addModelInspector } from './modelInspector'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 import uuid from '../helpers/uuid'
 import { IApiResponse } from '../api/IApiResponse'
+import { mapRules } from './MapRules'
 
 export default abstract class Model extends Validator {
   /**
@@ -504,6 +505,45 @@ export default abstract class Model extends Validator {
     refreshInspector().then()
     addTimelineEvent({ title: 'Loading error', data: this.state })
   }
+
+  async getValidationRules(action?: Action)
+  {
+    let rules = []
+    try {
+      if (!this.model.id || (action === Action.CREATE)) {
+        const resp = await this.api.storeValidationRules(this.model)
+        rules = resp.data
+      }
+      else {
+        const resp = await this.api.updateValidationRules(this.model)
+        rules = resp.data
+      }
+      this.errors = []
+      this.isValid = true
+      this.isInvalid = false
+      console.log(rules)
+      this.setRulesFromServer(rules)
+      return rules
+    }
+    catch (e: any) {
+      this.errors = e.data.errors
+      this.isValid = false
+      this.isInvalid = true
+      // console.log(this.errors)
+      return false
+    }
+  }
+
+  setRulesFromServer(rules: any)
+  {
+    console.log(this.validations)
+    _forEach(rules, (fieldRules, field) => {
+      console.log(field, fieldRules)
+      const mappedRules = mapRules(fieldRules)
+      console.log(mappedRules)
+    })
+  }
+
 
   /**
    * Validates model from Laravel's Precognition API

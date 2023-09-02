@@ -147,7 +147,7 @@ export default abstract class Api extends ApiQuery {
    * @param { any } payload - Model
    * @return { Promise<any> } The data from the API
    */
-  static validateUpdate<T>(payload: any): Promise<IApiResponse<T>>
+  static updateValidationRules<T>(payload: any): Promise<IApiResponse<T>>
   {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource, payload.id], '/')
@@ -156,7 +156,7 @@ export default abstract class Api extends ApiQuery {
       http
         .patch(url, payload,
           {
-            headers: { 'Precognition': true, 'Request-Rules': true }
+            headers: { 'Request-Rules': true }
           })
         .then((response: { data: any }) => {
           resolve(response.data)
@@ -239,7 +239,7 @@ export default abstract class Api extends ApiQuery {
    * @param { any } payload - Model
    * @return { Promise<any> } The data from the API
    */
-  static validateStore<T>(payload: any): Promise<IApiResponse<T>>
+  static storeValidationRules<T>(payload: any): Promise<IApiResponse<T>>
   {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource], '/')
