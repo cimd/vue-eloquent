@@ -156,7 +156,7 @@ export default abstract class Api extends ApiQuery {
       http
         .patch(url, payload,
           {
-            headers: { 'Precognition': true }
+            headers: { 'Precognition': true, 'Request-Rules': true }
           })
         .then((response: { data: any }) => {
           resolve(response.data)
