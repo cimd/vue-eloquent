@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import PostsCollection from '../../../examples/PostsCollection'
+import PostsQueryCollection from '../../mocks/PostsQueryCollection'
 
 describe('collection api', () => {
   it('static get method', async () => {
@@ -44,6 +45,14 @@ describe('collection api', () => {
     const posts = new PostsCollection()
     await posts.where({ title: 'Hello' }).get()
 
+    expect(posts.data.length).toEqual(2)
+  })
+
+  // Query Params
+  it('has query filters', async () => {
+    const posts = new PostsQueryCollection()
+    const result = await posts.where({ title: 'Hello' }).get()
+    console.log(result)
     expect(posts.data.length).toEqual(2)
   })
 })
