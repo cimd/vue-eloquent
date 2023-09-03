@@ -8,7 +8,7 @@ import ModelError from '../model/ModelError'
 import { IApi } from '../api/IApi'
 import { addModelInspector } from './modelInspector'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
-import { uuid } from 'uuidv4'
+import { v4 as uuid } from 'uuid'
 import { IApiResponse } from '../api/IApiResponse'
 import { mapRules } from './MapRules'
 
@@ -100,7 +100,6 @@ export default abstract class Model extends Validator {
       this.setOriginal()
       this.setStateSuccess()
       this.retrieved()
-
     }
     catch (e: any) {
       this.setStateError()

@@ -24,11 +24,35 @@ export const UserHandlers = [
       })
     )
   }),
-  rest.get('http://localhost:8000/api/users/1', (req, res, ctx) => {
+  rest.get('http://localhost:8000/api/users/:user', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
-        data: users[ 0 ],
+        data: users.find(el => el.id === parseInt(<string>req.params.user)),
+      })
+    )
+  }),
+  rest.post('http://localhost:8000/api/users/:user', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data: users.find(el => el.id === parseInt(<string>req.params.user)),
+      })
+    )
+  }),
+  rest.patch('http://localhost:8000/api/users/:user', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data: users.find(el => el.id === parseInt(<string>req.params.user)),
+      })
+    )
+  }),
+  rest.delete('http://localhost:8000/api/users/:user', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data: users.find(el => el.id === parseInt(<string>req.params.user)),
       })
     )
   }),

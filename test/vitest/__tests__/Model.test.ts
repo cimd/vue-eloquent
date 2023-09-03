@@ -3,27 +3,22 @@ import Post from '../../../examples/Post'
 
 describe('model api', () => {
   it('find method', async () => {
-    const post = await Post.find(1)
+    const post = new Post()
+    await post.find(1)
 
     expect(post.model).toContain({ id: 1 })
+    expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
   it('refresh method', async () => {
     const post = new Post()
-    await post.refresh(1)
-
-    expect(post.model).toContain({ id: 1 })
-  })
-
-  it('refresh by changing id', async () => {
-    const post = new Post()
-    await post.refresh(1)
-
-    expect(post.model).toContain({ id: 1 })
 
     await post.refresh(2)
-
     expect(post.model).toContain({ id: 2 })
+
+    await post.refresh(1)
+    expect(post.model).toContain({ id: 1 })
+    expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
   it('creates fresh new model', async () => {
@@ -33,6 +28,7 @@ describe('model api', () => {
 
     post.fresh()
     expect(post.model.id).toBeUndefined()
+    expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
   it('update method', async () => {
@@ -43,6 +39,7 @@ describe('model api', () => {
     const result = await post.update()
 
     expect(result).toContain({ id: 1 })
+    expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
   it('create method', async () => {
@@ -52,6 +49,7 @@ describe('model api', () => {
     const result = await post.create()
 
     expect(result).toContain({ id: 1 })
+    expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
   it('delete method', async () => {
@@ -61,6 +59,7 @@ describe('model api', () => {
     const result = await post.delete()
 
     expect(result).toContain({ id: 1 })
+    expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
   it('save method on existing model', async () => {
@@ -72,6 +71,7 @@ describe('model api', () => {
 
     expect(model).toContain({ id: 1 })
     expect(actioned).toBe('updated')
+    expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
   it('save method on new model', async () => {
@@ -82,6 +82,7 @@ describe('model api', () => {
 
     expect(model).toContain({ id: 1 })
     expect(actioned).toBe('created')
+    expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
   it('validates model', async () => {
@@ -95,9 +96,7 @@ describe('model api', () => {
   it('fetches hasOne', async () => {
     const post = new Post()
     await post.refresh(1)
-    // console.log(post.model)
     const author = await post.author()
-    // console.log(author)
 
     expect(author).toContain({ id: 1 })
   })
@@ -105,9 +104,7 @@ describe('model api', () => {
   it('fetches hasMany', async () => {
     const post = new Post()
     await post.refresh(1)
-    // console.log(post.model)
     const readers = await post.readers()
-    // console.log(readers)
 
     expect(readers.length).toBe(2)
   })

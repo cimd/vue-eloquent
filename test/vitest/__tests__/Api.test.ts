@@ -1,13 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import PostApi from '../../../examples/PostApi'
+import { IPost } from '../../../examples/PostInterface'
 
 describe('model api', () => {
   it('get method', async () => {
-    // console.log(apiPrefix)
-    const result = await PostApi.get()
-
-    new PostApi()
-    // console.log(test)
+    const result = await PostApi.get<IPost>()
 
     expect(result.data.length).toBe(2)
   })
@@ -52,7 +49,6 @@ describe('model api', () => {
       { id: 2, text: 'test2' },
     ]
     const result = await PostApi.batchUpdate(posts)
-    console.log('batchUpdate Test: ', result)
 
     expect(result.data.length).toEqual(2)
   })

@@ -78,7 +78,7 @@ export default abstract class Api extends ApiQuery {
    * @param { any } payload - DEPRECATED. Use the where method instead
    * @return { Promise<any> } The data from the API
    */
-  get<T>(payload?: any): Promise<IApiResponse<T>>
+  get<T>(payload?: any): Promise<IApiResponse<T[]>>
   {
     // const self = this.instance()
     const url = _join([this.apiPrefix, this.resource], '/')
@@ -104,7 +104,7 @@ export default abstract class Api extends ApiQuery {
     })
   }
 
-  static async get<T>(payload?: any): Promise<IApiResponse<T>>
+  static async get<T>(payload?: any): Promise<IApiResponse<T[]>>
   {
     const self = this.instance()
     return await self.get(payload)

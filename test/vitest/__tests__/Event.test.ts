@@ -11,7 +11,7 @@ beforeAll(async () => {
 describe('events', () => {
   it('intantiates new event', async () => {
     const event = new PostsEvent()
-    console.log(event)
+    // console.log(event)
 
     broadcast
       .channel('test')
