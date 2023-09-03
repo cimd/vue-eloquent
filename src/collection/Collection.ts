@@ -4,7 +4,7 @@ import type { IModelState } from '../model/IModelState'
 import CollectionError from '../collection/CollectionError'
 import ApiQuery from '../api/ApiQuery'
 import { addModelInspector } from '../model/modelInspector'
-import uuid from '../helpers/uuid'
+import { uuid } from 'uuidv4'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 
 export default abstract class Collection extends ApiQuery {

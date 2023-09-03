@@ -1,6 +1,7 @@
 /**
  * Returns a random UUID
  *
+ * Fails on vitest as crypto is not available
  * @param {string} format - The format of the UUID to return.
  * @returns {string} The randomly generated UUID.
  */

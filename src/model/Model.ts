@@ -8,7 +8,7 @@ import ModelError from '../model/ModelError'
 import { IApi } from '../api/IApi'
 import { addModelInspector } from './modelInspector'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
-import uuid from '../helpers/uuid'
+import { uuid } from 'uuidv4'
 import { IApiResponse } from '../api/IApiResponse'
 import { mapRules } from './MapRules'
 
