@@ -54,13 +54,6 @@ export default abstract class Model extends Validator {
 
 
   /**
-   * Laravel Precognition's error messages
-   */
-  public errors: any[] = []
-  public isValid: boolean = true
-  public isInvalid: boolean = false
-
-  /**
    * @constructor
    */
   protected constructor() {
@@ -506,6 +499,16 @@ export default abstract class Model extends Validator {
     addTimelineEvent({ title: 'Loading error', data: this.state })
   }
 
+
+  // Laravel validation testing
+
+  /**
+   * Laravel Precognition's error messages
+   */
+  public errors: any[] = []
+  public isValid: boolean = true
+  public isInvalid: boolean = false
+
   async getValidationRules(action?: Action)
   {
     let rules = []
@@ -543,7 +546,6 @@ export default abstract class Model extends Validator {
       console.log(mappedRules)
     })
   }
-
 
   /**
    * Validates model from Laravel's Precognition API
