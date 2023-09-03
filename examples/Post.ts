@@ -27,7 +27,7 @@ export default class Post extends Model {
 
   constructor(post?: IPost) {
     super()
-    this.factory(post)
+    super.factory(post)
     super.initValidations()
   }
 
@@ -45,13 +45,13 @@ export default class Post extends Model {
     // strip html tags from this.model.text
   }
 
-  async author(): Promise<IUser>
+  async author()
   {
-    return await this.hasOne(UserApi, this.model.author_id)
+    return await this.hasOne<IUser>(UserApi, this.model.author_id)
   }
 
-  async readers(): Promise<IUser[]>
+  async readers()
   {
-    return await this.hasMany(UserApi, 'id', this.model.author_id)
+    return await this.hasMany<IUser>(UserApi, 'id', this.model.author_id)
   }
 }
