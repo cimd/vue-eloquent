@@ -5,12 +5,12 @@ import Actioned from '../enums/Actioned'
 import Validator from './Validator'
 import type { IModelState } from '../model/IModelState'
 import ModelError from '../model/ModelError'
-import { IApi } from '../api/IApi'
 import { addModelInspector } from './modelInspector'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 import { v4 as uuid } from 'uuid'
 import { IApiResponse } from '../api/IApiResponse'
 import { mapRules } from './MapRules'
+import Api from '../api/Api'
 
 export default abstract class Model extends Validator {
   /**
@@ -336,8 +336,8 @@ export default abstract class Model extends Validator {
    * @param { string } primaryKey of the relationship
    * @return { Promise<any> } Model
    */
-  async hasOne(api: IApi, primaryKey: number): Promise<any> {
-    const result = await api.show(primaryKey)
+  async hasOne<T>(api: typeof Api, primaryKey: number): Promise<T> {
+    const result = await api.show<T>(primaryKey)
     return result.data
   }
 
@@ -350,8 +350,8 @@ export default abstract class Model extends Validator {
    * @param { number } id of the relationship
    * @return { Promise<any> } Collection of Models
    */
-  async hasMany(api: IApi, primaryKey: string, id: number): Promise<any[]> {
-    const result = await api.get({ primary_key: id })
+  async hasMany<T>(api: typeof Api, primaryKey: string, id: number): Promise<T[]> {
+    const result = await api.get<T>({ primary_key: id })
     return result.data
   }
 
