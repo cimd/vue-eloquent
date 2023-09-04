@@ -46,4 +46,12 @@ describe('collection api', () => {
 
     expect(posts.data.length).toEqual(2)
   })
+
+  // Query Params
+  // it('has query filters', async () => {
+  //   const posts = new PostsQueryCollection()
+  //   const result = await posts.where({ title: 'Hello' }).get()
+  //   console.log(result)
+  //   expect(posts.data.length).toEqual(2)
+  // })
 })

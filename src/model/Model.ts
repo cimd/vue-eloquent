@@ -5,11 +5,12 @@ import Actioned from '../enums/Actioned'
 import Validator from './Validator'
 import type { IModelState } from '../model/IModelState'
 import ModelError from '../model/ModelError'
-import { IApi } from '../api/IApi'
 import { addModelInspector } from './modelInspector'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
-import uuid from '../helpers/uuid'
+import { v4 as uuid } from 'uuid'
 import { IApiResponse } from '../api/IApiResponse'
+import { mapRules } from './MapRules'
+import Api from '../api/Api'
 
 export default abstract class Model extends Validator {
   /**
@@ -50,6 +51,7 @@ export default abstract class Model extends Validator {
    * To return the model to fresh/initial state
    */
   private defaultModel: any = {}
+
 
   /**
    * @constructor
@@ -98,7 +100,6 @@ export default abstract class Model extends Validator {
       this.setOriginal()
       this.setStateSuccess()
       this.retrieved()
-
     }
     catch (e: any) {
       this.setStateError()
@@ -335,8 +336,8 @@ export default abstract class Model extends Validator {
    * @param { string } primaryKey of the relationship
    * @return { Promise<any> } Model
    */
-  async hasOne(api: IApi, primaryKey: number): Promise<any> {
-    const result = await api.show(primaryKey)
+  async hasOne<T>(api: typeof Api, primaryKey: number): Promise<T> {
+    const result = await api.show<T>(primaryKey)
     return result.data
   }
 
@@ -349,8 +350,8 @@ export default abstract class Model extends Validator {
    * @param { number } id of the relationship
    * @return { Promise<any> } Collection of Models
    */
-  async hasMany(api: IApi, primaryKey: string, id: number): Promise<any[]> {
-    const result = await api.get({ primary_key: id })
+  async hasMany<T>(api: typeof Api, primaryKey: string, id: number): Promise<T[]> {
+    const result = await api.get<T>({ primary_key: id })
     return result.data
   }
 
@@ -495,5 +496,80 @@ export default abstract class Model extends Validator {
     this.state.isError = true
     refreshInspector().then()
     addTimelineEvent({ title: 'Loading error', data: this.state })
+  }
+
+
+  // Laravel validation testing
+
+  /**
+   * Laravel Precognition's error messages
+   */
+  public errors: any[] = []
+  public isValid: boolean = true
+  public isInvalid: boolean = false
+
+  async getValidationRules(action?: Action)
+  {
+    let rules = []
+    try {
+      if (!this.model.id || (action === Action.CREATE)) {
+        const resp = await this.api.storeValidationRules(this.model)
+        rules = resp.data
+      }
+      else {
+        const resp = await this.api.updateValidationRules(this.model)
+        rules = resp.data
+      }
+      this.errors = []
+      this.isValid = true
+      this.isInvalid = false
+      console.log(rules)
+      this.setRulesFromServer(rules)
+      return rules
+    }
+    catch (e: any) {
+      this.errors = e.data.errors
+      this.isValid = false
+      this.isInvalid = true
+      // console.log(this.errors)
+      return false
+    }
+  }
+
+  setRulesFromServer(rules: any)
+  {
+    console.log(this.validations)
+    _forEach(rules, (fieldRules, field) => {
+      console.log(field, fieldRules)
+      const mappedRules = mapRules(fieldRules)
+      console.log(mappedRules)
+    })
+  }
+
+  /**
+   * Validates model from Laravel's Precognition API
+   *
+   * @return { boolean }
+   */
+  async validate(action?: Action): Promise<boolean> {
+    try {
+      if (!this.model.id || (action === Action.CREATE)) {
+        await this.api.validateStore(this.model)
+      }
+      else {
+        await this.api.validateUpdate(this.model)
+      }
+      this.errors = []
+      this.isValid = true
+      this.isInvalid = false
+      return true
+    }
+    catch (e: any) {
+      this.errors = e.data.errors
+      this.isValid = false
+      this.isInvalid = true
+      // console.log(this.errors)
+      return false
+    }
   }
 }

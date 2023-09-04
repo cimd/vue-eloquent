@@ -3,8 +3,8 @@ import { computed, reactive } from 'vue'
 import { Model } from '../src/index'
 import PostApi from './PostApi'
 import { IPost } from './PostInterface'
-import UserApi from '../test/mocks/UserApi'
-import { IUser } from '../test/mocks/UserInterface'
+import UserApi from './UserApi'
+import { IUser } from './UserInterface'
 
 export default class Post extends Model {
   protected api = PostApi
@@ -27,7 +27,7 @@ export default class Post extends Model {
 
   constructor(post?: IPost) {
     super()
-    this.factory(post)
+    super.factory(post)
     super.initValidations()
   }
 
@@ -45,13 +45,13 @@ export default class Post extends Model {
     // strip html tags from this.model.text
   }
 
-  async author(): Promise<IUser>
+  async author()
   {
-    return await this.hasOne(UserApi, this.model.author_id)
+    return await this.hasOne<IUser>(UserApi, this.model.author_id)
   }
 
-  async readers(): Promise<IUser[]>
+  async readers()
   {
-    return await this.hasMany(UserApi, 'id', this.model.author_id)
+    return await this.hasMany<IUser>(UserApi, 'id', this.model.author_id)
   }
 }

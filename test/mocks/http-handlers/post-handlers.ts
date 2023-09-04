@@ -8,6 +8,7 @@ const posts = [
     'author_id': 1,
     'created_at': '2020-06-12T18:19:32.000000Z',
     'updated_at': '2022-06-13T01:43:59.000000Z',
+    'deleted_at': null
   },
   {
     'id': 2,
@@ -15,7 +16,8 @@ const posts = [
     'text': 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...',
     'author_id': 2,
     'created_at': '2020-06-15T18:19:32.000000Z',
-    'updated_at': '2022-06-16T01:43:59.000000Z'
+    'updated_at': '2022-06-16T01:43:59.000000Z',
+    'deleted_at': null
   }
 ]
 
@@ -36,11 +38,11 @@ export const PostHandlers = [
       })
     )
   }),
-  rest.patch('http://localhost:8000/api/posts/:post', (req, res, ctx) => {
+  rest.patch('http://localhost:8000/api/posts/1', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
-        data: posts.find(post => post.id === parseInt(<string>req.params.post)),
+        data: posts.find(post => post.id === 1),
       })
     )
   }),

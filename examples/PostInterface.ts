@@ -1,7 +1,8 @@
-import { IModel } from '../src/model/ModelInterface'
-import { IUser } from '../test/mocks/UserInterface'
+import { IUser } from './UserInterface'
+import { IModelParams } from '@/model/IModelParams'
 
-export interface IPost extends IModel {
+export interface IPost extends IModelParams {
+    id: undefined | number
     title: string | undefined
     text: string | undefined
     author_id: number | undefined

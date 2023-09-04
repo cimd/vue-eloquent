@@ -7,7 +7,7 @@ export default class PostApi extends Api {
     'created_at',
     'updated_at',
     'deleted_at',
-    'author.created_at'
+    // 'author.created_at'
   ]
 
   constructor() {
