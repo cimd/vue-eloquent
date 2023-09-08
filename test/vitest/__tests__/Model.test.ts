@@ -10,6 +10,14 @@ describe('model api', () => {
     expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
+  it('static find method', async () => {
+    const post = await Post.find(1)
+
+    expect(post).toBeInstanceOf(Post)
+    expect(post.model).toContain({ id: 1 })
+    expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
+  })
+
   it('refresh method', async () => {
     const post = new Post()
 
