@@ -1,7 +1,7 @@
 import Echo from 'laravel-echo'
-import Pusher from 'pusher-js'
+import { PusherMock } from 'pusher-js-mock'
 
-(<any>window).Pusher = Pusher
+(<any>window).Pusher = PusherMock
 
 const broadcast = new Echo({
   broadcaster: 'pusher',
