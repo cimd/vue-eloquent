@@ -69,10 +69,12 @@ export default abstract class Model extends Validator {
    * @async
    * @static
    * @param { Number } id - Model ID
+   * @return { Promise<this> } An instance of the model
    */
-  static async find(id: number): Promise<void> {
+  static async find(id: number): Promise<this> {
     const self = this.instance()
-    return await self.find(id)
+    await self.find(id)
+    return self
   }
 
   protected static instance(): Model {
