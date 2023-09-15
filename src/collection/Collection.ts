@@ -6,6 +6,7 @@ import ApiQuery from '../api/ApiQuery'
 import { addModelInspector } from '../model/modelInspector'
 import { v4 as uuid } from 'uuid'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
+import { IApiResponse } from '@/api/IApiResponse'
 
 export default abstract class Collection extends ApiQuery {
   /**
@@ -72,16 +73,38 @@ export default abstract class Collection extends ApiQuery {
           query: queryString,
         }
       })
-      const response: any = await this.api.get(queryString)
+
+      this.fetching(queryString)
+      const response: IApiResponse = await this.api.get(queryString)
+      this.fetched(response)
       this.updateDataSource(response.data)
+
       addTimelineEvent({ title: 'Fetched', data: { data: response.data }})
       this.setStateSuccess()
+
       return response.data
     } catch (e: any) {
+      this.fetchingError(e)
       this.setStateError()
+
       throw new CollectionError('Get', e)
     }
   }
+
+  /**
+   * Fetching runs before get method
+   * @param { any } payload Payload
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetching(payload?: any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetchingError(err?: any): void { return }
+  /**
+   * Fetched runs after get method
+   * @param { any } payload Payload
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetched(payload?: any): void { return }
 
   /**
    * Joins the broadcast channel
@@ -180,7 +203,8 @@ export default abstract class Collection extends ApiQuery {
 
   protected updateDataSource(data: any[]): void
   {
-    this.data = [...data]
+    // this.data = [...data]
+    Object.assign(this.data, data)
     refreshInspector().then()
     addTimelineEvent({ title: 'Data Update', data: data })
   }
