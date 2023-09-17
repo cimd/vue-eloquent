@@ -20,7 +20,7 @@ export default abstract class Validator {
    * https://vuelidate-next.netlify.app/guide.html#basics
    * Should be a computed property
    */
-  protected validations: any = {}
+  protected validations: any = computed(() => ({}))
 
   protected constructor()
   {
