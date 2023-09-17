@@ -1,11 +1,11 @@
 import { IModelState } from '../model/IModelState'
 import { IQueryPage } from '../collection/IQueryPage'
 import { IQuery } from '../collection/IQuery'
-import Api from '../api/Api'
+import { IApi } from '@/api/IApi'
 
-export interface ICollection {
-    data: any[]
-    api: Api
+export interface ICollection<T> {
+    data: T[]
+    api: IApi
     state: IModelState
 
     filter: any
@@ -16,7 +16,7 @@ export interface ICollection {
 
     channel?: string
 
-    factory(collection?: any[]): void
+    factory(collection?: T[]): void
     get(filter?: any): Promise<any>
 
     where(filter: any): this
@@ -35,7 +35,7 @@ export interface ICollection {
     setStateSuccess(): void
     setStateError(): void
 
-    updateDataSource(data: any[]): void
+    updateDataSource(data: T[]): void
     queryString(): IQuery
 }
 

@@ -7,16 +7,17 @@ import { addModelInspector } from '../model/modelInspector'
 import { v4 as uuid } from 'uuid'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 import { IApiResponse } from '@/api/IApiResponse'
+import { IApi } from '@/api/IApi'
 
-export default abstract class Collection extends ApiQuery {
+export default abstract class Collection<T> extends ApiQuery {
   /**
    * Collection data source
    */
-  declare public data: any[]
+  declare public data: T[]
   /**
    * API class related to the model
    */
-  protected api: any
+  protected api: IApi
   /**
    * Added for devtools support
    */
@@ -110,7 +111,7 @@ export default abstract class Collection extends ApiQuery {
    * Joins the broadcast channel
    * @param { string } channel Will join the default channel if null
    */
-  public joinChannel(channel?: string): void
+  joinChannel(channel?: string): void
   {
     if (channel) {
       this.channel = channel
@@ -137,7 +138,7 @@ export default abstract class Collection extends ApiQuery {
   /**
    * Leaves the broadcast channel
    */
-  public leaveChannel(): void
+  leaveChannel(): void
   {
     if (this.isBroadcasting) {
       broadcast.leave(this.channel)
@@ -201,9 +202,8 @@ export default abstract class Collection extends ApiQuery {
     addTimelineEvent({ title: 'Loading error', data: this.state })
   }
 
-  protected updateDataSource(data: any[]): void
+  protected updateDataSource(data: T[]): void
   {
-    // this.data = [...data]
     Object.assign(this.data, data)
     refreshInspector().then()
     addTimelineEvent({ title: 'Data Update', data: data })
