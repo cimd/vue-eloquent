@@ -6,7 +6,7 @@ export const eloquentModels: any[] = []
 export const childrenNodes: any[] = []
 export const childrenStates: any[] = []
 
-export const addModelInspector = async (model: Model|Collection) => {
+export const addModelInspector = async (model: Model<any>|Collection<any>) => {
   if (!model) throw new Error('Model is not defined')
 
   // console.log('Inspecting ', model.constructor.name)

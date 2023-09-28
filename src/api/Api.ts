@@ -5,6 +5,7 @@ import ApiError from '../api/ApiError'
 import type { IAxiosError } from './IAxiosError'
 import { IApiResponse } from './IApiResponse'
 import ApiQuery from '../api/ApiQuery'
+import { IModelParams } from '@/model/IModelParams'
 
 export default abstract class Api extends ApiQuery {
   /**
@@ -47,8 +48,9 @@ export default abstract class Api extends ApiQuery {
    * @static
    * @return { this }
    */
-  static instance(): this
+  static instance(): Api
   {
+    // @ts-ignore
     return new this()
   }
 
@@ -156,7 +158,7 @@ export default abstract class Api extends ApiQuery {
    * @param { any } payload - Model
    * @return { Promise<any> } The data from the API
    */
-  static update<T>(payload: Partial<T>): Promise<IApiResponse<T>>
+  static update<T extends IModelParams>(payload: Partial<T>): Promise<IApiResponse<T>>
   {
     const self = this.instance()
     const url: string = _join([self.apiPrefix, self.resource, payload.id], '/')
@@ -277,7 +279,7 @@ export default abstract class Api extends ApiQuery {
    * @param { any | number } payload - Model or Model Id
    * @return { Promise<IApiResponse<T> } The data from the API
    */
-  static destroy<T>(payload: Partial<T> | number): Promise<IApiResponse<T>>
+  static destroy<T extends IModelParams>(payload: Partial<T> | number): Promise<IApiResponse<T>>
   {
     const id: number = typeof payload === 'number'? payload : payload.id
     const self = this.instance()

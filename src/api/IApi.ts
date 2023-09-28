@@ -32,4 +32,7 @@ export interface IApi {
     destroying(payload: any): void
     destroyingError(err: any): void
     destroyed(payload: any): void
+
+    storeValidationRules<T>(payload: any): Promise<IApiResponse<T>>
+    updateValidationRules<T>(payload: any): Promise<IApiResponse<T>>
 }

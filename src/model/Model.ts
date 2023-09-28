@@ -38,7 +38,7 @@ export default abstract class Model<T> extends Validator {
   /**
    * To check if model is dirty / has been modified
    */
-  protected originalModel: T = {}
+  protected originalModel = {}
   /**
    * Default values for model paramters
    */
@@ -51,7 +51,7 @@ export default abstract class Model<T> extends Validator {
   /**
    * To return the model to fresh/initial state
    */
-  private defaultModel: T = {}
+  private defaultModel = {}
 
   /**
    * @constructor
@@ -63,6 +63,14 @@ export default abstract class Model<T> extends Validator {
     addTimelineEvent({ title: 'Model Initialized', data: { uuid: this.uuid }})
   }
 
+
+
+  protected static instance(): Model<any>
+  {
+    // @ts-ignore
+    return new this
+  }
+
   /**
    * Creates instance of the model from API
    *
@@ -71,33 +79,27 @@ export default abstract class Model<T> extends Validator {
    * @param { Number } id - Model ID
    * @return { Promise<this> } An instance of the model
    */
-  static async find(id: number): Promise<this>
+  static async find<T>(id: number): Promise<Model<T>>
   {
     const self = this.instance()
-    await self.find(id)
+    await self.find<T>(id)
 
     return self
   }
-
-  protected static instance(): this
-  {
-    return new this
-  }
-
   /**
    * Creates instance of the model from API
    *
    * @async
    * @param { Number } id - Model ID
    */
-  async find(id: number): Promise<void>
+  async find<T>(id: number): Promise<void>
   {
     this.setStateLoading()
     if (typeof this.defaultModel === undefined) Object.assign(this.defaultModel, this.model)
 
     try {
       this.retrieving()
-      const result: IApiResponse<T> = await this.api.show<T>(id)
+      const result = await this.api.show<T>(id)
       this.setModel(result.data)
 
       addTimelineEvent({ title: 'Model Retrieved', data: { model: result.data }})
@@ -148,12 +150,12 @@ export default abstract class Model<T> extends Validator {
     }
   }
 
-  async create(): Promise<IApiResponse<T>>
+  async create(): Promise<T>
   {
     try {
       this.creating()
       this.setStateLoading()
-      const response: any = await this.api.store<T>(this.model)
+      const response = await this.api.store<T>(this.model)
       this.setOriginal()
       this.setModel(response.data)
       addTimelineEvent({ title: 'Created', data: { model: response.data }})
@@ -175,7 +177,7 @@ export default abstract class Model<T> extends Validator {
    * @async
    * @return { Promise<IApiResponse<any>> } Model
    */
-  async update(): Promise<IApiResponse<T>>
+  async update(): Promise<T>
   {
     try {
       this.setStateLoading()
@@ -202,12 +204,12 @@ export default abstract class Model<T> extends Validator {
    * @async
    * @return { Promise<IApiResponse<any>> } Model
    */
-  async delete(): Promise<IApiResponse<T>>
+  async delete(): Promise<T>
   {
     try {
       this.deleting()
       this.setStateLoading()
-      const response: IApiResponse<T> = await this.api.delete<T>(this.model)
+      const response: IApiResponse<T> = await this.api.destroy<T>(this.model)
       this.setOriginal()
       this.setModel(response.data)
       addTimelineEvent({ title: 'Deleted', data: { model: response.data }})
@@ -222,15 +224,15 @@ export default abstract class Model<T> extends Validator {
     }
   }
 
-  async batchCreate<T>(): Promise<IApiResponse<T[]>>
+  async batchCreate<T>(): Promise<T[]>
   {
     try {
       this.batchCreating()
       this.setStateLoading()
-      const response: IApiResponse<T> = await this.api.batchStore<T>(this.model)
+      const response = await this.api.batchStore<T>(this.model)
       this.setOriginal()
       // Object.assign(this.model, response.data)
-      this.setModel(response.data)
+      // this.setModel(response.data)
       this.setStateSuccess()
 
       return response.data
@@ -241,15 +243,15 @@ export default abstract class Model<T> extends Validator {
     }
   }
 
-  async batchUpdate(): Promise<IApiResponse<T[]>>
+  async batchUpdate(): Promise<T[]>
   {
     try {
       this.setStateLoading()
       this.batchUpdating()
-      const response: IApiResponse<T> = await this.api.batchUpdate<T>(this.model)
+      const response = await this.api.batchUpdate<T>(this.model)
       this.setOriginal()
       // Object.assign(this.model, response.data)
-      this.setModel(response.data)
+      // this.setModel(response.data)
       this.setStateSuccess()
 
       return response.data
@@ -534,7 +536,7 @@ export default abstract class Model<T> extends Validator {
 
   async getValidationRules(action?: Action)
   {
-    let rules = []
+    let rules: unknown = []
     try {
       if (!this.model.id || (action === Action.CREATE)) {
         const resp = await this.api.storeValidationRules(this.model)

@@ -62,7 +62,7 @@ export default abstract class Collection<T> extends ApiQuery {
    * Creates instance of the model from API
    * @param { any } filter - DEPRECATED Use where method instead
    */
-  public async get(filter?: any): Promise<any>
+  async get<T>(filter?: any): Promise<any>
   {
     let queryString: any
     this.setStateLoading()
@@ -76,7 +76,7 @@ export default abstract class Collection<T> extends ApiQuery {
       })
 
       this.fetching(queryString)
-      const response: IApiResponse = await this.api.get(queryString)
+      const response = await this.api.get(queryString) as IApiResponse<T[]>
       this.fetched(response)
       this.updateDataSource(response.data)
 
@@ -202,7 +202,7 @@ export default abstract class Collection<T> extends ApiQuery {
     addTimelineEvent({ title: 'Loading error', data: this.state })
   }
 
-  protected updateDataSource(data: T[]): void
+  protected updateDataSource<T>(data: T[]): void
   {
     Object.assign(this.data, data)
     refreshInspector().then()
