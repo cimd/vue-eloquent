@@ -6,16 +6,18 @@ import ApiQuery from '../api/ApiQuery'
 import { addModelInspector } from '../model/modelInspector'
 import { v4 as uuid } from 'uuid'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
+import { IApiResponse } from '@/api/IApiResponse'
+import { IApi } from '@/api/IApi'
 
-export default abstract class Collection extends ApiQuery {
+export default abstract class Collection<T> extends ApiQuery {
   /**
    * Collection data source
    */
-  declare public data: any[]
+  declare public data: T[]
   /**
    * API class related to the model
    */
-  protected api: any
+  protected api: IApi
   /**
    * Added for devtools support
    */
@@ -72,22 +74,44 @@ export default abstract class Collection extends ApiQuery {
           query: queryString,
         }
       })
-      const response: any = await this.api.get(queryString)
+
+      this.fetching(queryString)
+      const response: IApiResponse = await this.api.get(queryString)
+      this.fetched(response)
       this.updateDataSource(response.data)
+
       addTimelineEvent({ title: 'Fetched', data: { data: response.data }})
       this.setStateSuccess()
+
       return response.data
     } catch (e: any) {
+      this.fetchingError(e)
       this.setStateError()
+
       throw new CollectionError('Get', e)
     }
   }
 
   /**
+   * Fetching runs before get method
+   * @param { any } payload Payload
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetching(payload?: any): void { return }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetchingError(err?: any): void { return }
+  /**
+   * Fetched runs after get method
+   * @param { any } payload Payload
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetched(payload?: any): void { return }
+
+  /**
    * Joins the broadcast channel
    * @param { string } channel Will join the default channel if null
    */
-  public joinChannel(channel?: string): void
+  joinChannel(channel?: string): void
   {
     if (channel) {
       this.channel = channel
@@ -114,7 +138,7 @@ export default abstract class Collection extends ApiQuery {
   /**
    * Leaves the broadcast channel
    */
-  public leaveChannel(): void
+  leaveChannel(): void
   {
     if (this.isBroadcasting) {
       broadcast.leave(this.channel)
@@ -178,9 +202,9 @@ export default abstract class Collection extends ApiQuery {
     addTimelineEvent({ title: 'Loading error', data: this.state })
   }
 
-  protected updateDataSource(data: any[]): void
+  protected updateDataSource(data: T[]): void
   {
-    this.data = [...data]
+    Object.assign(this.data, data)
     refreshInspector().then()
     addTimelineEvent({ title: 'Data Update', data: data })
   }

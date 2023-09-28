@@ -1,3 +1,5 @@
 export interface IApiResponse<T> {
-    data: T
+    data: T,
+    count?: number,
+    message?: string | string[]
 }

@@ -1,18 +1,20 @@
+import { IApiResponse } from '../api/IApiResponse'
+
 export interface IApi {
     resource: string
     apiPrefix: string
     dates: string[]
 
-    get(payload?: any): Promise<any>
-    show(id: number): Promise<any>
-    store<T>(payload: T): Promise<{ data: T }>
-    batchStore(payload: any[]): Promise<any>
-    update(payload: any): Promise<any>
-    batchUpdate(payload: any[]): Promise<any>
+    get<T>(payload?: any): Promise<IApiResponse<T[]>>
+    show<T>(id: number): Promise<IApiResponse<T>>
+    store<T>(payload: Partial<T>): Promise<IApiResponse<T>>
+    batchStore<T>(payload: T[]): Promise<IApiResponse<T[]>>
+    update<T>(payload: Partial<T>): Promise<IApiResponse<T>>
+    batchUpdate<T>(payload: T[]): Promise<IApiResponse<T[]>>
     delete(payload: any): Promise<any>
-    destroy(payload: any | number): Promise<any>
-    destroyBatch(payload: any[]): Promise<any>
-    logs(id: number): Promise<any>
+    destroy<T>(payload: Partial<T> | number): Promise<IApiResponse<T>>
+    batchDestroy<T>(payload: T[]): Promise<IApiResponse<T[]>>
+    logs(payload: { id: number } | number): Promise<any[]>
 
     transformResponse(response: string): any
     fetching(payload: any): void

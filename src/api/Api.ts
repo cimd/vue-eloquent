@@ -4,8 +4,6 @@ import _join from 'lodash/join'
 import ApiError from '../api/ApiError'
 import type { IAxiosError } from './IAxiosError'
 import { IApiResponse } from './IApiResponse'
-import { reactive } from 'vue'
-import { IQueryPage } from '../collection/IQueryPage'
 import ApiQuery from '../api/ApiQuery'
 
 export default abstract class Api extends ApiQuery {
@@ -37,36 +35,20 @@ export default abstract class Api extends ApiQuery {
    */
   protected validateRequests = false
 
-  /**
-   * Filters used on GET request
-   */
-  protected filter: any = reactive({})
-  /**
-   * Relations used on GET request
-   */
-  protected include: string[] = reactive([])
-  /**
-   * Fields to requested through API
-   */
-  protected fieldsSelection: string[] = reactive([])
-  /**
-   * Pagination used on GET request
-   */
-  protected paging: IQueryPage = reactive({ })
-  /**
-   * Sorting used on GET request
-   */
-  protected sorting: string[] = reactive([])
-
   protected constructor()
   {
     super()
   }
 
-  static instance()
+  /**
+   * Returns instance
+   *
+   * @async
+   * @static
+   * @return { this }
+   */
+  static instance(): this
   {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     return new this()
   }
 
@@ -80,7 +62,6 @@ export default abstract class Api extends ApiQuery {
    */
   get<T>(payload?: any): Promise<IApiResponse<T[]>>
   {
-    // const self = this.instance()
     const url = _join([this.apiPrefix, this.resource], '/')
 
     let queryString: any
@@ -175,7 +156,7 @@ export default abstract class Api extends ApiQuery {
    * @param { any } payload - Model
    * @return { Promise<any> } The data from the API
    */
-  static update<T>(payload: any): Promise<IApiResponse<T>>
+  static update<T>(payload: Partial<T>): Promise<IApiResponse<T>>
   {
     const self = this.instance()
     const url: string = _join([self.apiPrefix, self.resource, payload.id], '/')
@@ -207,7 +188,7 @@ export default abstract class Api extends ApiQuery {
    * @param { any } payload - Model
    * @return { Promise<any> } The data from the API
    */
-  static store<T>(payload: any): Promise<IApiResponse<T>>
+  static store<T>(payload: Partial<T>): Promise<IApiResponse<T>>
   {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource], '/')
@@ -294,9 +275,9 @@ export default abstract class Api extends ApiQuery {
    * @async
    * @static
    * @param { any | number } payload - Model or Model Id
-   * @return { Promise<any> } The data from the API
+   * @return { Promise<IApiResponse<T> } The data from the API
    */
-  static destroy(payload: any | number): Promise<any>
+  static destroy<T>(payload: Partial<T> | number): Promise<IApiResponse<T>>
   {
     const id: number = typeof payload === 'number'? payload : payload.id
     const self = this.instance()
@@ -461,9 +442,8 @@ export default abstract class Api extends ApiQuery {
     } else {
       id = payload.id
     }
-    // const url = self.apiPrefix + self.resource + '/' + id + '/logs'
     const url = _join([self.apiPrefix, self.resource, id, 'logs'], '/')
-    // console.log(url)
+
     return new Promise((resolve, reject) => {
       http
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -493,8 +473,8 @@ export default abstract class Api extends ApiQuery {
   protected transformResponse(response: string): any
   {
     const resp = JSON.parse(response)
-    // console.log(resp)
     resp.data = formatObject(resp.data, this.dates)
+
     return resp
   }
 

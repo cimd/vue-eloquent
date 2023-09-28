@@ -1,5 +1,5 @@
 import useVuelidate from '@vuelidate/core'
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 
 export default abstract class Validator {
@@ -20,7 +20,7 @@ export default abstract class Validator {
    * https://vuelidate-next.netlify.app/guide.html#basics
    * Should be a computed property
    */
-  protected validations: any = {}
+  protected validations: any = computed(() => ({}))
 
   protected constructor()
   {

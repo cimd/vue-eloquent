@@ -11,8 +11,9 @@ import { v4 as uuid } from 'uuid'
 import { IApiResponse } from '../api/IApiResponse'
 import { mapRules } from './MapRules'
 import Api from '../api/Api'
+import { IApi } from '../api/IApi'
 
-export default abstract class Model extends Validator {
+export default abstract class Model<T> extends Validator {
   /**
    * Model values
    * Should be a reactive object
@@ -37,21 +38,20 @@ export default abstract class Model extends Validator {
   /**
    * To check if model is dirty / has been modified
    */
-  protected originalModel: any = {}
+  protected originalModel: T = {}
   /**
    * Default values for model paramters
    */
-  protected parameters: undefined | any
+  protected parameters: undefined | Partial<T>
   /**
    * API class related to the model
    */
-  protected api: any
+  protected api: IApi
   protected protected: string[] = ['id', 'created_at', 'updated_at', 'deleted_at']
   /**
    * To return the model to fresh/initial state
    */
-  private defaultModel: any = {}
-
+  private defaultModel: T = {}
 
   /**
    * @constructor
@@ -71,14 +71,16 @@ export default abstract class Model extends Validator {
    * @param { Number } id - Model ID
    * @return { Promise<this> } An instance of the model
    */
-  static async find(id: number): Promise<this> {
+  static async find(id: number): Promise<this>
+  {
     const self = this.instance()
     await self.find(id)
+
     return self
   }
 
-  protected static instance(): Model {
-    // @ts-ignore
+  protected static instance(): this
+  {
     return new this
   }
 
@@ -88,13 +90,14 @@ export default abstract class Model extends Validator {
    * @async
    * @param { Number } id - Model ID
    */
-  async find(id: number): Promise<void> {
+  async find(id: number): Promise<void>
+  {
     this.setStateLoading()
     if (typeof this.defaultModel === undefined) Object.assign(this.defaultModel, this.model)
 
     try {
       this.retrieving()
-      const result: { data: any } = await this.api.show(id)
+      const result: IApiResponse<T> = await this.api.show<T>(id)
       this.setModel(result.data)
 
       addTimelineEvent({ title: 'Model Retrieved', data: { model: result.data }})
@@ -119,8 +122,9 @@ export default abstract class Model extends Validator {
    * @param { Action } action - Action from enum
    * @return { Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }> } Actioned enum and Model
    */
-  async save(action?: Action): Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }> {
-    let model: any
+  async save(action?: Action): Promise<{ model: T, actioned: Actioned.CREATED | Actioned.UPDATED }>
+  {
+    let model: T
     let actioned = '' as Actioned
     this.saving()
     try {
@@ -144,26 +148,23 @@ export default abstract class Model extends Validator {
     }
   }
 
-  /**
-   * Creates the model
-   *
-   * @async
-   * @return { Promise<IApiResponse<any>> } Model
-   */
-  async create(): Promise<IApiResponse<any>> {
+  async create(): Promise<IApiResponse<T>>
+  {
     try {
       this.creating()
       this.setStateLoading()
-      const response: any = await this.api.store(this.model)
+      const response: any = await this.api.store<T>(this.model)
       this.setOriginal()
       this.setModel(response.data)
       addTimelineEvent({ title: 'Created', data: { model: response.data }})
       this.setStateSuccess()
       this.created()
+
       return response.data
     }
     catch (e: any) {
       this.setStateError()
+
       throw new ModelError('Create', e)
     }
   }
@@ -174,20 +175,23 @@ export default abstract class Model extends Validator {
    * @async
    * @return { Promise<IApiResponse<any>> } Model
    */
-  async update(): Promise<IApiResponse<any>> {
+  async update(): Promise<IApiResponse<T>>
+  {
     try {
       this.setStateLoading()
       this.updating()
-      const response: any = await this.api.update(this.model)
+      const response: IApiResponse<T> = await this.api.update<T>(this.model)
       this.setOriginal()
       this.setModel(response.data)
       addTimelineEvent({ title: 'Updated', data: { model: response.data }})
       this.setStateSuccess()
       this.updated()
+
       return response.data
     }
     catch (e: any) {
       this.setStateError()
+
       throw new ModelError('Update', e)
     }
   }
@@ -198,16 +202,18 @@ export default abstract class Model extends Validator {
    * @async
    * @return { Promise<IApiResponse<any>> } Model
    */
-  async delete(): Promise<IApiResponse<any>> {
+  async delete(): Promise<IApiResponse<T>>
+  {
     try {
       this.deleting()
       this.setStateLoading()
-      const response: any = await this.api.delete(this.model)
+      const response: IApiResponse<T> = await this.api.delete<T>(this.model)
       this.setOriginal()
       this.setModel(response.data)
       addTimelineEvent({ title: 'Deleted', data: { model: response.data }})
       this.setStateSuccess()
       this.deleted()
+
       return response.data
     }
     catch (e: any) {
@@ -216,15 +222,17 @@ export default abstract class Model extends Validator {
     }
   }
 
-  async batchCreate(): Promise<IApiResponse<any[]>> {
+  async batchCreate<T>(): Promise<IApiResponse<T[]>>
+  {
     try {
       this.batchCreating()
       this.setStateLoading()
-      const response: any = await this.api.batchStore(this.model)
+      const response: IApiResponse<T> = await this.api.batchStore<T>(this.model)
       this.setOriginal()
       // Object.assign(this.model, response.data)
       this.setModel(response.data)
       this.setStateSuccess()
+
       return response.data
     }
     catch (e: any) {
@@ -233,15 +241,17 @@ export default abstract class Model extends Validator {
     }
   }
 
-  async batchUpdate(): Promise<IApiResponse<any[]>> {
+  async batchUpdate(): Promise<IApiResponse<T[]>>
+  {
     try {
       this.setStateLoading()
       this.batchUpdating()
-      const response: any = await this.api.batchUpdate(this.model)
+      const response: IApiResponse<T> = await this.api.batchUpdate<T>(this.model)
       this.setOriginal()
       // Object.assign(this.model, response.data)
       this.setModel(response.data)
       this.setStateSuccess()
+
       return response.data
     }
     catch (e: any) {
@@ -254,7 +264,8 @@ export default abstract class Model extends Validator {
    * Get model change logs
    * @async
    */
-  async logs(): Promise<IApiResponse<any[]>> {
+  async logs(): Promise<IApiResponse<any[]>>
+  {
     this.setStateLoading()
     try {
       const response: any = await this.api.logs(this.model.id)
@@ -272,7 +283,8 @@ export default abstract class Model extends Validator {
    *
    * @return { VoidFunction }
    */
-  fresh(): void {
+  fresh(): void
+  {
     this.setModel(this.defaultModel)
     addTimelineEvent({ title: 'Fresh Model', data: { model: this.defaultModel }})
   }
@@ -284,11 +296,12 @@ export default abstract class Model extends Validator {
    * @param { number } id - Model id
    * @return { Promise<void> }
    */
-  async refresh(id?: number): Promise<void> {
+  async refresh(id?: number): Promise<void>
+  {
     try {
       this.setStateLoading()
       const modelId = id ? id : this.model.id
-      const response: any = await this.api.show(modelId)
+      const response: IApiResponse<T> = await this.api.show<T>(modelId)
       this.setOriginal()
       this.setStateSuccess()
       this.factory(response.data)
@@ -300,7 +313,8 @@ export default abstract class Model extends Validator {
     }
   }
 
-  public getOriginal(): any {
+  public getOriginal(): any
+  {
     return this.originalModel
   }
 
@@ -310,7 +324,8 @@ export default abstract class Model extends Validator {
    * @param { String | String[] } args - Relationships to load
    * @return { Promise<any> } Model or Models
    */
-  public async load(args?: string | string[]): Promise<any> {
+  public async load(args?: string | string[]): Promise<any>
+  {
     switch (typeof args) {
     case 'string':
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -338,8 +353,9 @@ export default abstract class Model extends Validator {
    * @param { string } primaryKey of the relationship
    * @return { Promise<any> } Model
    */
-  async hasOne<T>(api: typeof Api, primaryKey: number): Promise<T> {
-    const result = await api.show<T>(primaryKey)
+  async hasOne<K>(api: typeof Api, primaryKey: number): Promise<K>
+  {
+    const result = await api.show<K>(primaryKey)
     return result.data
   }
 
@@ -352,12 +368,14 @@ export default abstract class Model extends Validator {
    * @param { number } id of the relationship
    * @return { Promise<any> } Collection of Models
    */
-  async hasMany<T>(api: typeof Api, primaryKey: string, id: number): Promise<T[]> {
-    const result = await api.get<T>({ primary_key: id })
+  async hasMany<K>(api: typeof Api, primaryKey: string, id: number): Promise<K[]>
+  {
+    const result = await api.get<K>({ primary_key: id })
     return result.data
   }
 
-  protected getDefault(param: string): any {
+  protected getDefault(param: string): any
+  {
     return this.parameters[ param ]
   }
 
@@ -367,7 +385,8 @@ export default abstract class Model extends Validator {
    * @param { any } model Model object
    * @protected
    */
-  protected factory(model?: any): void {
+  protected factory(model?: any): void
+  {
     this.defaultModel = Object.assign({}, this.model)
     if (model) this.setModel(model)
     _forEach(this.parameters, (value, key) => {
@@ -393,7 +412,7 @@ export default abstract class Model extends Validator {
    * @param { any } data - new model data
    * @return { VoidFunction }
    */
-  protected setModel(data: any): void {
+  protected setModel(data: T): void {
     Object.assign(this.model, data)
     refreshInspector().then()
   }
@@ -458,7 +477,8 @@ export default abstract class Model extends Validator {
   /**
    * API starts loading state
    */
-  protected setStateLoading(): void {
+  protected setStateLoading(): void
+  {
     this.state.isLoading = true
     this.state.isSuccess = true
     this.state.isError = false
@@ -469,7 +489,8 @@ export default abstract class Model extends Validator {
   /**
    * API returned success response
    */
-  protected setStateSuccess() {
+  protected setStateSuccess()
+  {
     this.state.isLoading = false
     this.state.isSuccess = true
     this.state.isError = false
@@ -492,7 +513,8 @@ export default abstract class Model extends Validator {
   /**
    * API return error response
    */
-  protected setStateError() {
+  protected setStateError(): void
+  {
     this.state.isLoading = false
     this.state.isSuccess = false
     this.state.isError = true
@@ -527,6 +549,7 @@ export default abstract class Model extends Validator {
       this.isInvalid = false
       console.log(rules)
       this.setRulesFromServer(rules)
+
       return rules
     }
     catch (e: any) {
@@ -538,7 +561,7 @@ export default abstract class Model extends Validator {
     }
   }
 
-  setRulesFromServer(rules: any)
+  setRulesFromServer(rules: any): void
   {
     console.log(this.validations)
     _forEach(rules, (fieldRules, field) => {
@@ -553,7 +576,8 @@ export default abstract class Model extends Validator {
    *
    * @return { boolean }
    */
-  async validate(action?: Action): Promise<boolean> {
+  async validate(action?: Action): Promise<boolean>
+  {
     try {
       if (!this.model.id || (action === Action.CREATE)) {
         await this.api.validateStore(this.model)
@@ -564,6 +588,7 @@ export default abstract class Model extends Validator {
       this.errors = []
       this.isValid = true
       this.isInvalid = false
+
       return true
     }
     catch (e: any) {

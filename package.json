@@ -1,6 +1,6 @@
 {
   "name": "@konnec/vue-eloquent",
-  "version": "0.8.4",
+  "version": "0.9.0",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
