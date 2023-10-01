@@ -20,7 +20,8 @@
     "lib": [
       "esnext",
       "dom"
-    ]
+    ],
+    "strict": true
   },
   "include": [
     "src/**/*.ts",

@@ -59,7 +59,7 @@ export default abstract class Collection<T> extends ApiQuery {
    */
   protected factory<T>(collection: T[]): void
   {
-    if (!collection.length) throw new CollectionError('Collection cannot be empty')
+    if (!collection.length) throw new Error('Collection cannot be empty')
 
     this.data = [...collection]
   }
