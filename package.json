@@ -71,6 +71,7 @@
     "Laravel",
     "Api",
     "Eloquent",
+    "ORM",
     "Model",
     "Validation",
     "Broadcast",
@@ -83,5 +84,5 @@
   "bugs": {
     "url": "https://github.com/cimd/vue-eloquent/issues"
   },
-  "homepage": "https://github.com/cimd/vue-eloquent#readme"
+  "homepage": "https://vue-eloquent.netlify.app"
 }
