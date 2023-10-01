@@ -9,6 +9,7 @@ import EventError from '../src/events/EventError'
 import PostsEvent from '../test/mocks/PostsEvent'
 import PostsListener from '../test/mocks/PostsListener'
 import PostApi from '../examples/PostApi'
+import UserStore from '../examples/UserStore'
 
 export default defineComponent({
   name: 'IndexPage',
@@ -20,7 +21,8 @@ export default defineComponent({
     // this.testBroadcast()
     // const e = this.testEvent()
     // this.testListener(e)
-    this.getFilter()
+    // this.getFilter()
+    this.testStore()
   },
   methods: {
     async testHttp() {
@@ -66,6 +68,25 @@ export default defineComponent({
       // const post = new PostApi()
       const result = await PostApi.where({ author_id: 1 }).with(['test']).get()
       console.log(result)
+    },
+    testStore() {
+      createHttp({ httpClient: http })
+      console.log('testStore')
+      const store = new UserStore()
+      setTimeout(() => {
+        // console.log('timout')
+        // store.state.id = 1
+        // store.state.user.name = 'Heitor'
+        // store.delete()
+      }, 2000)
+      // store.test = 'test'
+      // console.log(store.test)
+      // store.state = { id: 1 }
+      // console.log(store.state)
+      // store.state.id = 1
+      // store.state.user.age = 10
+      // console.log(store.state)
+      // store.get()
     }
   }
 })

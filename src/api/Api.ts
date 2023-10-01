@@ -283,17 +283,29 @@ export default abstract class Api extends ApiQuery {
    * @static
    * @template T
    * @param { Partial<T> | number } payload - Model or Model Id
+   * @param { boolean } isModel - If it's a model, it will automatically push the model's id to the API
    * @return { Promise<IApiResponse<T> } The data from the API
    */
-  static destroy<T extends IModelParams>(payload: Partial<T> | number): Promise<IApiResponse<T>>
+  static destroy<T extends IModelParams>(payload: Partial<T> | number, isModel = true): Promise<IApiResponse<T>>
   {
-    const id: number = typeof payload === 'number'? payload : payload.id
+    const id: number = typeof payload === 'number'? payload : payload?.id
     const self = this.instance()
-    const url:string = _join([self.apiPrefix, self.resource, id], '/')
+
+    let params = null
+    !isModel ? params = payload : null
+
+    let url = ''
+    if (isModel) {
+      url = _join([self.apiPrefix, self.resource, id], '/')
+    } else {
+      url = _join([self.apiPrefix, self.resource], '/')
+    }
+
     self.destroying(payload)
     return new Promise((resolve, reject) => {
       http
         .delete(url, {
+          params,
           transformResponse: [(data: string) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
