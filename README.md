@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-An interface for Vue 3 an Laravel Eloquent models through API requests.
+An interface for Vue 3 and Laravel Eloquent models through API requests.
 </p>
 
 <p align="center">
