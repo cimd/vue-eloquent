@@ -1,7 +1,7 @@
 import { IModelState } from '../model/IModelState'
 import { IQueryPage } from '../collection/IQueryPage'
 import { IQuery } from '../collection/IQuery'
-import { IApi } from '@/api/IApi'
+import { IApi } from '../api/IApi'
 
 export interface ICollection<T> {
     data: T[]

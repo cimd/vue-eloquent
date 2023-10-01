@@ -6,8 +6,8 @@ import ApiQuery from '../api/ApiQuery'
 import { addModelInspector } from '../model/modelInspector'
 import { v4 as uuid } from 'uuid'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
-import { IApiResponse } from '@/api/IApiResponse'
-import { IApi } from '@/api/IApi'
+import { IApiResponse } from '../api/IApiResponse'
+import { IApi } from '../api/IApi'
 
 export default abstract class Collection<T> extends ApiQuery {
   /**
@@ -51,18 +51,27 @@ export default abstract class Collection<T> extends ApiQuery {
     })
   }
 
-  protected factory(collection?: any[]): void
+  /**
+   * Creates instance of the collection
+   *
+   * @template T
+   * @param { T[] } collection - Use the where method instead
+   */
+  protected factory<T>(collection: T[]): void
   {
-    if (collection) {
-      this.data = [...collection]
-    }
+    if (!collection.length) throw new CollectionError('Collection cannot be empty')
+
+    this.data = [...collection]
   }
 
   /**
    * Creates instance of the model from API
-   * @param { any } filter - DEPRECATED Use where method instead
+   *
+   * @template T
+   * @param { any? } filter - DEPRECATED Use where method instead
+   * @return { Promise<T[]> } The data from the API
    */
-  async get<T>(filter?: any): Promise<any>
+  async get<T>(filter?: any): Promise<T[]>
   {
     let queryString: any
     this.setStateLoading()

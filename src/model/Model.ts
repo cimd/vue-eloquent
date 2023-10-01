@@ -150,7 +150,14 @@ export default abstract class Model<T> extends Validator {
     }
   }
 
-  async create(): Promise<T>
+  /**
+   * Create a new model on the API
+   *
+   * @async
+   * @template T
+   * @return { Promise<T> } Model
+   */
+  async create<T>(): Promise<T>
   {
     try {
       this.creating()
@@ -175,9 +182,10 @@ export default abstract class Model<T> extends Validator {
    * Updates the model
    *
    * @async
-   * @return { Promise<IApiResponse<any>> } Model
+   * @template T
+   * @return { Promise<T> } Model
    */
-  async update(): Promise<T>
+  async update<T>(): Promise<T>
   {
     try {
       this.setStateLoading()
@@ -202,9 +210,10 @@ export default abstract class Model<T> extends Validator {
    * Deletes the model
    *
    * @async
-   * @return { Promise<IApiResponse<any>> } Model
+   * @template T
+   * @return { Promise<T> } Model
    */
-  async delete(): Promise<T>
+  async delete<T>(): Promise<T>
   {
     try {
       this.deleting()
@@ -283,7 +292,7 @@ export default abstract class Model<T> extends Validator {
   /**
    * Creates new instance of the model with default values
    *
-   * @return { VoidFunction }
+   * @return { void }
    */
   fresh(): void
   {
@@ -295,7 +304,7 @@ export default abstract class Model<T> extends Validator {
    * Refresh model from API
    *
    * @async
-   * @param { number } id - Model id
+   * @param { number? } id - Model id
    * @return { Promise<void> }
    */
   async refresh(id?: number): Promise<void>
