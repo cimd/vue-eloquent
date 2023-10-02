@@ -10,11 +10,16 @@ import PostsEvent from '../test/mocks/PostsEvent'
 import PostsListener from '../test/mocks/PostsListener'
 import PostApi from '../examples/PostApi'
 import UserStore from '../examples/UserStore'
+import { usePostStore } from '../examples/PostStore'
+import { mapState } from 'pinia'
 
 export default defineComponent({
   name: 'IndexPage',
   data() {
     return {}
+  },
+  computed: {
+    ...mapState(usePostStore, ['posts'])
   },
   created() {
     // this.testHttp()
@@ -22,7 +27,14 @@ export default defineComponent({
     // const e = this.testEvent()
     // this.testListener(e)
     // this.getFilter()
-    this.testStore()
+    // this.testStore()
+    console.log(this.posts)
+    const store = usePostStore()
+    // console.log(store.secret)
+    // console.log(store.test)
+    // store.setName()
+    // store.name = 'Heitor'
+    store.posts.push({ id: 3, title: 'title 3', body: 'body 3' })
   },
   methods: {
     async testHttp() {

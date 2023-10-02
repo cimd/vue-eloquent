@@ -43,6 +43,7 @@
     "jsdom": "^22.1.0",
     "msw": "^1.2.4",
     "npm-run-all": "^4.1.5",
+    "pinia": "^2.1.6",
     "prettier": "^3.0.2",
     "pusher-js": "^8.3.0",
     "pusher-js-mock": "^0.3.8",
