@@ -9,11 +9,11 @@ import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 import { IApiResponse } from '../api/IApiResponse'
 import { IApi } from '../api/IApi'
 
-export default abstract class Collection<T> extends ApiQuery {
+export default abstract class Collection extends ApiQuery {
   /**
    * Collection data source
    */
-  declare public data: T[]
+  declare public data: any[]
   /**
    * API class related to the model
    */
@@ -54,14 +54,15 @@ export default abstract class Collection<T> extends ApiQuery {
   /**
    * Creates instance of the collection
    *
+   * @deprecated
    * @template T
-   * @param { T[] } collection - Use the where method instead
+   * @param { T[]? } collection - Use the where method instead
    */
   protected factory<T>(collection: T[]): void
   {
-    if (!collection.length) throw new Error('Collection cannot be empty')
-
-    this.data = [...collection]
+    if (collection && collection.length) {
+      this.data = [...collection]
+    }
   }
 
   /**

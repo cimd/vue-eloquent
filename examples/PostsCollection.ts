@@ -12,7 +12,7 @@ export default class PostsCollection extends Collection {
 
   constructor(posts?: IPost[]){
     super()
-    this.factory(posts)
+    // this.factory(posts)
   }
 
   protected async broadcastCreated(e: any): Promise<{ data: IPost }>

@@ -43,14 +43,21 @@ export default abstract class Store extends Api {
     // console.log('LiveSync: ', this.liveSync)
     if (this.liveSync) {
       this.get().then()
-      watch(
-        () => this.state,
-        async () => {
-          await this.store()
-        },
-        { deep: true }
-      )
     }
+    watch(
+      () => this.state,
+      async () => {
+        if (!this.liveSync) return
+
+        await this.store()
+      },
+      { deep: true }
+    )
+
+  }
+
+  sync(enabled: boolean = true) {
+    this.liveSync = enabled
   }
 
   async get()
