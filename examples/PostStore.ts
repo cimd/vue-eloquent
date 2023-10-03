@@ -20,5 +20,9 @@ export const usePostStore = defineStore('post', {
       this.name = 'Heitor'
     }
   },
-  sync: true
+  persist: {
+    sync: true,
+    suffix: '1',
+    // name: 'posts'
+  }
 })

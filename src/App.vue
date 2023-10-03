@@ -29,12 +29,17 @@ export default defineComponent({
     // this.getFilter()
     // this.testStore()
     console.log(this.posts)
+    createHttp({ httpClient: http })
     const store = usePostStore()
     // console.log(store.secret)
     // console.log(store.test)
     // store.setName()
+    // store.$sync(false)
     // store.name = 'Heitor'
-    store.posts.push({ id: 3, title: 'title 3', body: 'body 3' })
+    // store.posts.push({ id: 3, title: 'title 3', body: 'body 3' })
+    // store.$sync()
+    // store.name = 'Carla'
+    store.$get()
   },
   methods: {
     async testHttp() {
