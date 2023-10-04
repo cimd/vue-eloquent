@@ -2,8 +2,22 @@ import { PiniaPluginContext } from 'pinia'
 import StoreApi from '../states/StoreApi'
 import _join from 'lodash/join'
 import { IApiResponse } from '../api/IApiResponse'
+import 'pinia'
 
-export default function piniaPlugin(context: PiniaPluginContext) {
+declare module 'pinia' {
+  export interface PiniaCustomProperties {
+    persist?: {
+      suffix?: string;
+      name?: string;
+      sync?: boolean;
+    }
+    $sync(): void;
+    $save(): void;
+    $get(): Promise<IApiResponse<{ data: any, store: string }>>;
+  }
+}
+
+export default function PiniaApiPlugin(context: PiniaPluginContext) {
   console.log(context)
 
   context.store._liveSync = context.options.persist?.sync ?? false
@@ -29,21 +43,22 @@ export default function piniaPlugin(context: PiniaPluginContext) {
   })
   return {
     $sync: (sync: boolean = true) => {
-      console.log('sync: ', sync)
+      // console.log('sync: ', sync)
       context.store._liveSync = sync
     },
     $save: () => {
-      console.log('Pushing to API', {
-        key: context.store._storeName,
-        value: context.store.$state
-      })
+      // console.log('Pushing to API', {
+      //   key: context.store._storeName,
+      //   value: context.store.$state
+      // })
       StoreApi.store({ key: context.store._storeName, value: context.store.$state }).then()
     },
-    $get: (key: string) => {
-      StoreApi.get({ key: key ?? context.store._storeName }).then((result: IApiResponse<any>) => {
+    $get: (key: string): Promise<IApiResponse<{ data: any, store: string }>> => {
+      StoreApi.get({ key: key ?? context.store._storeName }).then((response: IApiResponse<{ data: any, store: string }>) => {
         context.store.$sync(false)
-        context.store.$state = result.data
+        context.store.$state = response.data
         context.store.$sync(context.store._liveSync)
+        resolve(response.data)
       })
     }
   }
