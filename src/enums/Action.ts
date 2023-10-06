@@ -6,9 +6,9 @@
 enum Action {
     CREATE = 'create',
     VIEW = 'view',
-    READ = 'view',
+    READ = 'read',
     EDIT = 'edit',
-    UPDATE = 'edit',
+    UPDATE = 'update',
     DELETE = 'delete'
 }
 

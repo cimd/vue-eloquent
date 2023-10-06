@@ -12,13 +12,14 @@ import { IApiResponse } from '../api/IApiResponse'
 import { mapRules } from './MapRules'
 import Api from '../api/Api'
 import { IApi } from '../api/IApi'
+import { IModelParams } from '@/model/IModelParams'
 
-export default abstract class Model extends Validator {
+export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * Model values
    * Should be a reactive object
    */
-  declare public model: object
+  declare public model: T
   /**
    * Model relationships
    */
@@ -35,6 +36,12 @@ export default abstract class Model extends Validator {
    * Added for devtools support
    */
   public uuid: string
+  /**
+   * Laravel Precognition's error messages
+   */
+  public errors: any[] = []
+  public isValid: boolean = true
+  public isInvalid: boolean = false
   /**
    * To check if model is dirty / has been modified
    */
@@ -54,15 +61,6 @@ export default abstract class Model extends Validator {
   private defaultModel = {}
 
   /**
-   * Action being performed on the model (CRUD): CREATE, READ, UPDATE, DELETE
-   * @param { Action } action
-   */
-  crud = reactive({
-    action: Action.CREATE,
-    isReadOnly: false
-  })
-
-  /**
    * @constructor
    */
   protected constructor() {
@@ -70,12 +68,6 @@ export default abstract class Model extends Validator {
     this.uuid = uuid()
     addModelInspector(this).then()
     addTimelineEvent({ title: 'Model Initialized', data: { uuid: this.uuid }})
-  }
-
-  protected static instance(): Model<any>
-  {
-    // @ts-ignore
-    return new this
   }
 
   /**
@@ -93,6 +85,13 @@ export default abstract class Model extends Validator {
 
     return self
   }
+
+  protected static instance(): Model<any>
+  {
+    // @ts-ignore
+    return new this
+  }
+
   /**
    * Creates instance of the model from API
    *
@@ -392,164 +391,6 @@ export default abstract class Model extends Validator {
     return result.data
   }
 
-  protected getDefault(param: string): any
-  {
-    return this.parameters[ param ]
-  }
-
-  /**
-   * Creates a new instance of the model based on existing Object
-   *
-   * @param { any } model Model object
-   * @protected
-   */
-  protected factory(model?: any): void
-  {
-    this.defaultModel = Object.assign({}, this.model)
-    if (model) this.setModel(model)
-    _forEach(this.parameters, (value, key) => {
-      if (this.model[ key ] === undefined) {
-        this.model[ key ] = value
-      }
-    })
-    this.setOriginal()
-  }
-
-  protected batchCreating(): void {
-    return
-  }
-
-  protected batchUpdating(): void {
-    return
-  }
-
-  /**
-   * Updates the model property with new data
-   *
-   * @protected
-   * @param { any } data - new model data
-   * @return { VoidFunction }
-   */
-  protected setModel(data: T): void {
-    Object.assign(this.model, data)
-    refreshInspector().then()
-  }
-
-  /**
-   * Creates a copy of the original model instance for refreshing if needed
-   *
-   * @return { VoidFunction }
-   */
-  protected setOriginal(): void {
-    Object.assign(this.originalModel, this.model)
-    refreshInspector().then()
-  }
-
-  protected retrieving(): void { return }
-
-  /**
-   * Retrieved runs after show method
-   */
-  protected retrieved(): void { return }
-
-  /**
-   * Runs before model is created
-   */
-  protected creating(): void { return }
-
-  /**
-   * Runs after model is created
-   */
-  protected created(): void { return }
-
-  /**
-   * Runs before model is updated
-   */
-  protected updating(): void { return }
-
-  /**
-   * Runs after model is updated
-   */
-  protected updated(): void { return }
-
-  /**
-   * Runs before model is saved
-   */
-  protected saving(): void { return }
-
-  /**
-   * Runs after model is saved
-   */
-  protected saved(): void { return }
-
-  /**
-   * Runs before model is deleted
-   */
-  protected deleting(): void { return }
-
-  /**
-   * Runs after model is created
-   */
-  protected deleted(): void { return }
-
-  /**
-   * API starts loading state
-   */
-  protected setStateLoading(): void
-  {
-    this.state.isLoading = true
-    this.state.isSuccess = true
-    this.state.isError = false
-    refreshInspector().then()
-    addTimelineEvent({ title: 'Loading', data: this.state })
-  }
-
-  /**
-   * API returned success response
-   */
-  protected setStateSuccess()
-  {
-    this.state.isLoading = false
-    this.state.isSuccess = true
-    this.state.isError = false
-    refreshInspector().then()
-    addTimelineEvent({ title: 'Loading success', data: this.state })
-  }
-
-  // async hasOne(api: any, primaryKey: number): Promise<any>
-  // async hasOne(api: any, fnName: string, primaryKey: number): Promise<any> {
-  //   let result = undefined
-  //   if (fnName !== undefined) {
-  //     console.log(fnName)
-  //     result = await (api[ fnName ])(primaryKey)
-  //   } else {
-  //     result = await api.show(primaryKey)
-  //   }
-  //   return result.data
-  // }
-
-  /**
-   * API return error response
-   */
-  protected setStateError(): void
-  {
-    this.state.isLoading = false
-    this.state.isSuccess = false
-    this.state.isError = true
-    refreshInspector().then()
-    addTimelineEvent({ title: 'Loading error', data: this.state })
-  }
-
-
-  // Laravel validation testing
-
-  /**
-   * Laravel Precognition's error messages
-   */
-  public errors: any[] = []
-  public isValid: boolean = true
-  public isInvalid: boolean = false
-
   async getValidationRules(action?: Action)
   {
     let rules: unknown = []
@@ -618,13 +459,154 @@ export default abstract class Model extends Validator {
     }
   }
 
-  get action(): Action
+  protected getDefault(param: string): any
   {
-    return this.crud.action
+    return this.parameters[ param ]
   }
-  set action(mode: Action)
+
+  /**
+   * Creates a new instance of the model based on existing Object
+   *
+   * @param { any } model Model object
+   * @protected
+   */
+  protected factory(model?: any): void
   {
-    this.crud.action = mode
-    this.crud.isReadOnly = (mode === Action.READ)
+    this.defaultModel = Object.assign({}, this.model)
+    if (model) this.setModel(model)
+    _forEach(this.parameters, (value, key) => {
+      if (this.model[ key ] === undefined) {
+        this.model[ key ] = value
+      }
+    })
+    this.setOriginal()
+  }
+
+  protected batchCreating(): void {
+    return
+  }
+
+  protected batchUpdating(): void {
+    return
+  }
+
+  /**
+   * Updates the model property with new data
+   *
+   * @protected
+   * @param { any } data - new model data
+   * @return { VoidFunction }
+   */
+  protected setModel(data: T): void {
+    Object.assign(this.model, data)
+    refreshInspector().then()
+  }
+
+  /**
+   * Creates a copy of the original model instance for refreshing if needed
+   *
+   * @return { VoidFunction }
+   */
+  protected setOriginal(): void {
+    Object.assign(this.originalModel, this.model)
+    refreshInspector().then()
+  }
+
+  protected retrieving(): void { return }
+
+  // async hasOne(api: any, primaryKey: number): Promise<any>
+  // async hasOne(api: any, fnName: string, primaryKey: number): Promise<any> {
+  //   let result = undefined
+  //   if (fnName !== undefined) {
+  //     console.log(fnName)
+  //     result = await (api[ fnName ])(primaryKey)
+  //   } else {
+  //     result = await api.show(primaryKey)
+  //   }
+  //   return result.data
+  // }
+
+  /**
+   * Retrieved runs after show method
+   */
+  protected retrieved(): void { return }
+
+
+  // Laravel validation testing
+
+  /**
+   * Runs before model is created
+   */
+  protected creating(): void { return }
+
+  /**
+   * Runs after model is created
+   */
+  protected created(): void { return }
+
+  /**
+   * Runs before model is updated
+   */
+  protected updating(): void { return }
+
+  /**
+   * Runs after model is updated
+   */
+  protected updated(): void { return }
+
+  /**
+   * Runs before model is saved
+   */
+  protected saving(): void { return }
+
+  /**
+   * Runs after model is saved
+   */
+  protected saved(): void { return }
+
+  /**
+   * Runs before model is deleted
+   */
+  protected deleting(): void { return }
+
+  /**
+   * Runs after model is created
+   */
+  protected deleted(): void { return }
+
+  /**
+   * API starts loading state
+   */
+  protected setStateLoading(): void
+  {
+    this.state.isLoading = true
+    this.state.isSuccess = true
+    this.state.isError = false
+    refreshInspector().then()
+    addTimelineEvent({ title: 'Loading', data: this.state })
+  }
+
+  /**
+   * API returned success response
+   */
+  protected setStateSuccess()
+  {
+    this.state.isLoading = false
+    this.state.isSuccess = true
+    this.state.isError = false
+    refreshInspector().then()
+    addTimelineEvent({ title: 'Loading success', data: this.state })
+  }
+
+  /**
+   * API return error response
+   */
+  protected setStateError(): void
+  {
+    this.state.isLoading = false
+    this.state.isSuccess = false
+    this.state.isError = true
+    refreshInspector().then()
+    addTimelineEvent({ title: 'Loading error', data: this.state })
   }
 }

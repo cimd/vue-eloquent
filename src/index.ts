@@ -23,6 +23,7 @@ import StateApi from './states/StateApi'
 import ModelApi from './api/ModelApi'
 import VueEloquentPlugin from './devtools/devToolsPlugin'
 import Store from './states/Store'
+import Permissions from './acl/Permissions'
 
 export {
   Action,
@@ -47,6 +48,7 @@ export {
   Listener,
   ModelApi,
   ModelError,
+  Permissions,
   PresenceChannel,
   PrivateChannel,
   StateApi,
