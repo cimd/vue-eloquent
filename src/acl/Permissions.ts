@@ -9,23 +9,26 @@ export type IPermissions = {
 }
 
 export default class Permissions {
+  /**
+   * Create a new Permissions instance.
+   *
+   * @private
+   * @params { IPermissions } permissions: CRUD
+   */
   private permissions = reactive({
     create: false,
     read: false,
     update: false,
     delete: false
   } as IPermissions)
-
-  constructor(args?: IPermissions) {
-    if (args) this.set(args)
-  }
-
   /**
    * Action being performed on the model (CRUD): CREATE, READ, UPDATE, DELETE
    * @param { Ref(Action) } action
    */
   private _action = ref(Action.CREATE)
-
+  constructor(args?: IPermissions) {
+    if (args) this.set(args)
+  }
   get action(): Action
   {
     return this._action.value
@@ -37,6 +40,11 @@ export default class Permissions {
     // this.crud.isReadOnly = (mode === Action.READ)
   }
 
+  /**
+   * Sets the user permissions
+   *
+   * @param { IPermissions } args
+   */
   set(args: IPermissions)
   {
     (typeof args.create !== 'undefined') ? this.permissions.create = args.create : this.permissions.create = false;
@@ -46,36 +54,62 @@ export default class Permissions {
     // console.log(this.permissions)
   }
 
+  /**
+   * Returns true if the user can perform the given action on the model
+   *
+   * @param { Action } action
+   * @returns { boolean }
+   */
   can(action: Action): boolean
   {
     // console.log(action)
     return this.permissions[ action ]
   }
 
+  /**
+   * Returns true if the model is in read-only mode
+   *
+   * @returns { boolean }
+   */
   isReadOnly(): boolean
   {
     return this.permissions.update && (this._action.value === Action.READ)
   }
 
-  edit()
+  edit(): boolean
   {
-    this._action.value = Action.EDIT
+    if (!this.permissions.update) return false
+
+    this._action.value = Action.UPDATE
+    return true
   }
 
-  creating()
+  creating(): boolean
   {
+    if (!this.permissions.create) return false
+
     this._action.value = Action.CREATE
+    return true
   }
-  reading()
+  reading(): boolean
   {
+    if (!this.permissions.read) return false
+
     this._action.value = Action.READ
+    return true
   }
-  updating()
+  updating(): boolean
   {
+    if (!this.permissions.update) return false
+
     this._action.value = Action.UPDATE
+    return true
   }
-  deleting()
+  deleting(): boolean
   {
+    if (!this.permissions.delete) return false
+
     this._action.value = Action.DELETE
+    return true
   }
 }
