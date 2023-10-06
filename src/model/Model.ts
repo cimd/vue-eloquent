@@ -13,12 +13,12 @@ import { mapRules } from './MapRules'
 import Api from '../api/Api'
 import { IApi } from '../api/IApi'
 
-export default abstract class Model<T> extends Validator {
+export default abstract class Model extends Validator {
   /**
    * Model values
    * Should be a reactive object
    */
-  declare public model: any
+  declare public model: object
   /**
    * Model relationships
    */
@@ -54,6 +54,15 @@ export default abstract class Model<T> extends Validator {
   private defaultModel = {}
 
   /**
+   * Action being performed on the model (CRUD): CREATE, READ, UPDATE, DELETE
+   * @param { Action } action
+   */
+  crud = reactive({
+    action: Action.CREATE,
+    isReadOnly: false
+  })
+
+  /**
    * @constructor
    */
   protected constructor() {
@@ -62,8 +71,6 @@ export default abstract class Model<T> extends Validator {
     addModelInspector(this).then()
     addTimelineEvent({ title: 'Model Initialized', data: { uuid: this.uuid }})
   }
-
-
 
   protected static instance(): Model<any>
   {
@@ -252,7 +259,7 @@ export default abstract class Model<T> extends Validator {
     }
   }
 
-  async batchUpdate(): Promise<T[]>
+  async batchUpdate<T>(): Promise<T[]>
   {
     try {
       this.setStateLoading()
@@ -324,7 +331,7 @@ export default abstract class Model<T> extends Validator {
     }
   }
 
-  public getOriginal(): any
+  getOriginal(): any
   {
     return this.originalModel
   }
@@ -335,7 +342,7 @@ export default abstract class Model<T> extends Validator {
    * @param { String | String[] } args - Relationships to load
    * @return { Promise<any> } Model or Models
    */
-  public async load(args?: string | string[]): Promise<any>
+  async load(args?: string | string[]): Promise<any>
   {
     switch (typeof args) {
     case 'string':
@@ -609,5 +616,15 @@ export default abstract class Model<T> extends Validator {
       // console.log(this.errors)
       return false
     }
+  }
+
+  get action(): Action
+  {
+    return this.crud.action
+  }
+  set action(mode: Action)
+  {
+    this.crud.action = mode
+    this.crud.isReadOnly = (mode === Action.READ)
   }
 }
