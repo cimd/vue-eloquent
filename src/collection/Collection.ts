@@ -52,16 +52,15 @@ export default abstract class Collection extends ApiQuery {
   }
 
   /**
-   * Creates instance of the collection
+   * Creates an instance of the collection from a given array
    *
-   * @deprecated
    * @template T
    * @param { T[]? } collection - Use the where method instead
    */
   protected factory<T>(collection: T[]): void
   {
     if (collection && collection.length) {
-      this.data = [...collection]
+      this.data = reactive([...collection])
     }
   }
 
@@ -214,7 +213,7 @@ export default abstract class Collection extends ApiQuery {
 
   protected updateDataSource<T>(data: T[]): void
   {
-    Object.assign(this.data, data)
+    this.data = reactive([...data])
     refreshInspector().then()
     addTimelineEvent({ title: 'Data Update', data: data })
   }
