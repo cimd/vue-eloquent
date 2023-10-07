@@ -6,23 +6,18 @@ import ApiQuery from '../api/ApiQuery'
 import { addModelInspector } from '../model/modelInspector'
 import { v4 as uuid } from 'uuid'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
-import { IApiResponse } from '@/api/IApiResponse'
-import { IApi } from '@/api/IApi'
+import { IApiResponse } from '../api/IApiResponse'
+import { IApi } from '../api/IApi'
 
-export default abstract class Collection<T> extends ApiQuery {
+export default abstract class Collection extends ApiQuery {
   /**
    * Collection data source
    */
-  declare public data: T[]
-  /**
-   * API class related to the model
-   */
-  protected api: IApi
+  declare public data: any[]
   /**
    * Added for devtools support
    */
   public uuid: string
-
   /**
    * Loading, success and error messages from API requests
    */
@@ -31,7 +26,10 @@ export default abstract class Collection<T> extends ApiQuery {
     isSuccess: true,
     isError: false
   })
-
+  /**
+   * API class related to the model
+   */
+  protected api: IApi
   protected isBroadcasting: boolean = false
 
   /**
@@ -51,18 +49,14 @@ export default abstract class Collection<T> extends ApiQuery {
     })
   }
 
-  protected factory(collection?: any[]): void
-  {
-    if (collection) {
-      this.data = [...collection]
-    }
-  }
-
   /**
    * Creates instance of the model from API
-   * @param { any } filter - DEPRECATED Use where method instead
+   *
+   * @template T
+   * @param { any? } filter - DEPRECATED Use where method instead
+   * @return { Promise<T[]> } The data from the API
    */
-  public async get(filter?: any): Promise<any>
+  async get<T>(filter?: any): Promise<T[]>
   {
     let queryString: any
     this.setStateLoading()
@@ -76,7 +70,7 @@ export default abstract class Collection<T> extends ApiQuery {
       })
 
       this.fetching(queryString)
-      const response: IApiResponse = await this.api.get(queryString)
+      const response = await this.api.get(queryString) as IApiResponse<T[]>
       this.fetched(response)
       this.updateDataSource(response.data)
 
@@ -91,21 +85,6 @@ export default abstract class Collection<T> extends ApiQuery {
       throw new CollectionError('Get', e)
     }
   }
-
-  /**
-   * Fetching runs before get method
-   * @param { any } payload Payload
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetching(payload?: any): void { return }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetchingError(err?: any): void { return }
-  /**
-   * Fetched runs after get method
-   * @param { any } payload Payload
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetched(payload?: any): void { return }
 
   /**
    * Joins the broadcast channel
@@ -147,6 +126,36 @@ export default abstract class Collection<T> extends ApiQuery {
     refreshInspector().then()
     addTimelineEvent({ title: 'Leaving Broadcast Channel', data: { channel: this.channel }})
   }
+
+  /**
+   * Creates an instance of the collection from a given array
+   *
+   * @template T
+   * @param { T[]? } collection - Use the where method instead
+   */
+  protected factory<T>(collection: T[]): void
+  {
+    if (collection && collection.length) {
+      this.data = reactive([...collection])
+    }
+  }
+
+  /**
+   * Fetching runs before get method
+   * @param { any } payload Payload
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetching(payload?: any): void { return }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetchingError(err?: any): void { return }
+
+  /**
+   * Fetched runs after get method
+   * @param { any } payload Payload
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetched(payload: any): void { return }
 
   /**
    * Broadcast created event
@@ -202,9 +211,9 @@ export default abstract class Collection<T> extends ApiQuery {
     addTimelineEvent({ title: 'Loading error', data: this.state })
   }
 
-  protected updateDataSource(data: T[]): void
+  protected updateDataSource<T>(data: T[]): void
   {
-    Object.assign(this.data, data)
+    this.data = reactive([...data])
     refreshInspector().then()
     addTimelineEvent({ title: 'Data Update', data: data })
   }

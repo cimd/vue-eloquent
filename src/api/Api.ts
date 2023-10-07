@@ -5,6 +5,7 @@ import ApiError from '../api/ApiError'
 import type { IAxiosError } from './IAxiosError'
 import { IApiResponse } from './IApiResponse'
 import ApiQuery from '../api/ApiQuery'
+import { IModelParams } from '../model/IModelParams'
 
 export default abstract class Api extends ApiQuery {
   /**
@@ -47,8 +48,9 @@ export default abstract class Api extends ApiQuery {
    * @static
    * @return { this }
    */
-  static instance(): this
+  static instance(): Api
   {
+    // @ts-ignore
     return new this()
   }
 
@@ -57,10 +59,11 @@ export default abstract class Api extends ApiQuery {
    *
    * @async
    * @static
-   * @param { any } payload - DEPRECATED. Use the where method instead
-   * @return { Promise<any> } The data from the API
+   * @template T
+   * @param { Partial<T> } payload - DEPRECATED. Use the where method instead
+   * @return { IApiResponse<T[]> } The data from the API
    */
-  get<T>(payload?: any): Promise<IApiResponse<T[]>>
+  get<T>(payload?: Partial<T>): Promise<IApiResponse<T[]>>
   {
     const url = _join([this.apiPrefix, this.resource], '/')
 
@@ -85,7 +88,7 @@ export default abstract class Api extends ApiQuery {
     })
   }
 
-  static async get<T>(payload?: any): Promise<IApiResponse<T[]>>
+  static async get<T>(payload?: Partial<T>): Promise<IApiResponse<T[]>>
   {
     const self = this.instance()
     return await self.get(payload)
@@ -96,6 +99,7 @@ export default abstract class Api extends ApiQuery {
    *
    * @async
    * @static
+   * @template T
    * @param { number } id - Model ID
    * @return { Promise<any> } The data from the API
    */
@@ -125,6 +129,7 @@ export default abstract class Api extends ApiQuery {
    *
    * @async
    * @static
+   * @template T
    * @param { any } payload - Model
    * @return { Promise<any> } The data from the API
    */
@@ -153,10 +158,11 @@ export default abstract class Api extends ApiQuery {
    *
    * @async
    * @static
+   * @template {T extends IModelParams}
    * @param { any } payload - Model
    * @return { Promise<any> } The data from the API
    */
-  static update<T>(payload: Partial<T>): Promise<IApiResponse<T>>
+  static update<T extends IModelParams>(payload: Partial<T>): Promise<IApiResponse<T>>
   {
     const self = this.instance()
     const url: string = _join([self.apiPrefix, self.resource, payload.id], '/')
@@ -185,8 +191,9 @@ export default abstract class Api extends ApiQuery {
    *
    * @async
    * @static
-   * @param { any } payload - Model
-   * @return { Promise<any> } The data from the API
+   * @template T
+   * @param { Partial<T> } payload - Model
+   * @return { Promise<IApiResponse<T>> } The data from the API
    */
   static store<T>(payload: Partial<T>): Promise<IApiResponse<T>>
   {
@@ -274,18 +281,31 @@ export default abstract class Api extends ApiQuery {
    *
    * @async
    * @static
-   * @param { any | number } payload - Model or Model Id
+   * @template T
+   * @param { Partial<T> | number } payload - Model or Model Id
+   * @param { boolean } isModel - If it's a model, it will automatically push the model's id to the API
    * @return { Promise<IApiResponse<T> } The data from the API
    */
-  static destroy<T>(payload: Partial<T> | number): Promise<IApiResponse<T>>
+  static destroy<T extends IModelParams>(payload: Partial<T> | number, isModel = true): Promise<IApiResponse<T>>
   {
-    const id: number = typeof payload === 'number'? payload : payload.id
+    const id: number = typeof payload === 'number'? payload : payload?.id
     const self = this.instance()
-    const url:string = _join([self.apiPrefix, self.resource, id], '/')
+
+    let params = null
+    !isModel ? params = payload : null
+
+    let url = ''
+    if (isModel) {
+      url = _join([self.apiPrefix, self.resource, id], '/')
+    } else {
+      url = _join([self.apiPrefix, self.resource], '/')
+    }
+
     self.destroying(payload)
     return new Promise((resolve, reject) => {
       http
         .delete(url, {
+          params,
           transformResponse: [(data: string) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
@@ -304,8 +324,9 @@ export default abstract class Api extends ApiQuery {
    *
    * @async
    * @static
-   * @param { any[] } payload - Models. Will be wrapped in a data ({data: payload}) property before submitting to the API
-   * @return { Promise<any> } The data from the API
+   * @template T
+   * @param { T[] } payload - Models. Will be wrapped in a data ({data: payload}) property before submitting to the API
+   * @return { Promise<IApiResponse<T[]>> } The data from the API
    */
   static batchStore<T>(payload: T[]): Promise<IApiResponse<T[]>>
   {
@@ -338,8 +359,9 @@ export default abstract class Api extends ApiQuery {
    *
    * @async
    * @static
+   * @template T
    * @param { any[] } payload - Models. Will be wrapped in a data property before submitting to the API
-   * @return { Promise<any> } The data from the API
+   * @return { Promise<IApiResponse<T[]>> } The data from the API
    */
   static batchUpdate<T>(payload: T[]): Promise<IApiResponse<T[]>>
   {
@@ -398,7 +420,8 @@ export default abstract class Api extends ApiQuery {
    *
    * @async
    * @static
-   * @param { any[] } payload - Models. Will be wrapped in a data property before submitting to the API
+   * @template T
+   * @param { T[] } payload - Models. Will be wrapped in a data property before submitting to the API
    * @return { Promise<any> } The data from the API
    */
   static batchDestroy<T>(payload: T[]): Promise<IApiResponse<T[]>>

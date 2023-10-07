@@ -1,4 +1,4 @@
-const validate = {
+const model = {
   mounted: (_el, binding, vnode, _prevNode) => {
     // el.dataset.cy = 'location-id'
 
@@ -9,9 +9,7 @@ const validate = {
     const props = vnode.ctx.props
     props.error = model.$model[ field ]?.$error
     props.errorMessage = model.$model[ field ]?.$errors[ 0 ]?.$message
-    // props.readonly = model.$acl.isReadOnly()
-
-    console.log(vnode)
+    props.readonly = model.$acl.isReadOnly()
   },
   updated(_el: any, binding: any, vnode: any, _prevVnode: any) {
     // console.log(_el.model)
@@ -22,8 +20,8 @@ const validate = {
     // console.log(model.$model[ field ])
     props.error = model.$model[ field ]?.$error
     props.errorMessage = model.$model[ field ]?.$errors[ 0 ]?.$message
-    // props.readonly = model.$acl.isReadOnly()
+    props.readonly = model.$acl.isReadOnly()
   },
 }
 
-export default validate
+export default model

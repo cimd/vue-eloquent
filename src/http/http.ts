@@ -3,6 +3,7 @@ let apiPrefix: string = 'api'
 
 /**
  * Create an instance of the HTTP service.
+ *
  * @param { Object } config The configuration
  * @param { any } [config.httpClient] AxiosInstance
  * @param { string } [config.apiPrefix='/api'] The API prefix
