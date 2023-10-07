@@ -4,3 +4,7 @@ api: src/api/**
 model: src/model/**
 collection: src/collection/**
 devtools: src/devtools/**
+plugins: src/plugins/**
+helpers: src/helpers/**
+states: src/states/**
+enums: src/enums/**
