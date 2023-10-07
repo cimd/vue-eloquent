@@ -4,15 +4,14 @@ import PostApi from './PostApi'
 import { IPost } from './PostInterface'
 
 export default class PostsCollection extends Collection {
+  public data = reactive([] as IPost[])
   protected api = PostApi
   // protected listener = new PostsListener('PostsEvent')
   protected channel = 'posts'
 
-  public data = reactive([] as IPost[])
-
   constructor(posts?: IPost[]){
     super()
-    // this.factory(posts)
+    if (posts) super.factory(posts)
   }
 
   protected async broadcastCreated(e: any): Promise<{ data: IPost }>

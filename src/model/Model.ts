@@ -101,7 +101,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   async find<T>(id: number): Promise<void>
   {
     this.setStateLoading()
-    if (typeof this.defaultModel === undefined) Object.assign(this.defaultModel, this.model)
+    if (typeof this.defaultModel === 'undefined') Object.assign(this.defaultModel, this.model)
 
     try {
       this.retrieving()
@@ -529,6 +529,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * Retrieved runs after show method
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected retrieved(payload: any): void { return }
 
 
@@ -542,6 +543,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * Runs after model is created
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected created(payload: any): void { return }
 
   /**
@@ -552,6 +554,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * Runs after model is updated
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected updated(payload: any): void { return }
 
   /**
@@ -562,6 +565,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * Runs after model is saved
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected saved(payload: any): void { return }
 
   /**
@@ -572,6 +576,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * Runs after model is created
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected deleted(payload: any): void { return }
 
   /**

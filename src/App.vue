@@ -89,7 +89,7 @@ export default defineComponent({
     testStore() {
       createHttp({ httpClient: http })
       console.log('testStore')
-      const store = new UserStore()
+      const _store = new UserStore()
       setTimeout(() => {
         // console.log('timout')
         // store.state.id = 1

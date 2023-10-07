@@ -15,14 +15,9 @@ export default abstract class Collection extends ApiQuery {
    */
   declare public data: any[]
   /**
-   * API class related to the model
-   */
-  protected api: IApi
-  /**
    * Added for devtools support
    */
   public uuid: string
-
   /**
    * Loading, success and error messages from API requests
    */
@@ -31,7 +26,10 @@ export default abstract class Collection extends ApiQuery {
     isSuccess: true,
     isError: false
   })
-
+  /**
+   * API class related to the model
+   */
+  protected api: IApi
   protected isBroadcasting: boolean = false
 
   /**
@@ -49,19 +47,6 @@ export default abstract class Collection extends ApiQuery {
     onBeforeUnmount(() => {
       this.leaveChannel()
     })
-  }
-
-  /**
-   * Creates an instance of the collection from a given array
-   *
-   * @template T
-   * @param { T[]? } collection - Use the where method instead
-   */
-  protected factory<T>(collection: T[]): void
-  {
-    if (collection && collection.length) {
-      this.data = reactive([...collection])
-    }
   }
 
   /**
@@ -100,19 +85,6 @@ export default abstract class Collection extends ApiQuery {
       throw new CollectionError('Get', e)
     }
   }
-
-  /**
-   * Fetching runs before get method
-   * @param { any } payload Payload
-   */
-  protected fetching(payload?: any): void { return }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetchingError(err?: any): void { return }
-  /**
-   * Fetched runs after get method
-   * @param { any } payload Payload
-   */
-  protected fetched(payload: any): void { return }
 
   /**
    * Joins the broadcast channel
@@ -154,6 +126,36 @@ export default abstract class Collection extends ApiQuery {
     refreshInspector().then()
     addTimelineEvent({ title: 'Leaving Broadcast Channel', data: { channel: this.channel }})
   }
+
+  /**
+   * Creates an instance of the collection from a given array
+   *
+   * @template T
+   * @param { T[]? } collection - Use the where method instead
+   */
+  protected factory<T>(collection: T[]): void
+  {
+    if (collection && collection.length) {
+      this.data = reactive([...collection])
+    }
+  }
+
+  /**
+   * Fetching runs before get method
+   * @param { any } payload Payload
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetching(payload?: any): void { return }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetchingError(err?: any): void { return }
+
+  /**
+   * Fetched runs after get method
+   * @param { any } payload Payload
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected fetched(payload: any): void { return }
 
   /**
    * Broadcast created event
