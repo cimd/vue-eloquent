@@ -11,14 +11,14 @@ declare module 'pinia' {
       name?: string;
       sync?: boolean;
     }
-    $sync(): void;
+    $sync(sync: boolean): void;
     $save(): void;
-    $get(): Promise<IApiResponse<{ data: any, store: string }>>;
+    $get(key: string): Promise<IApiResponse<{ data: any, store: string }>>;
   }
 }
 
 export default function PiniaApiPlugin(context: PiniaPluginContext) {
-  console.log(context)
+  // console.log(context)
 
   context.store._liveSync = context.options.persist?.sync ?? false
 
@@ -29,11 +29,11 @@ export default function PiniaApiPlugin(context: PiniaPluginContext) {
     context.options.persist?.suffix ? joinArray.push(context.options.persist.suffix) : null
     context.store._storeName = _join(joinArray, '-')
   }
-  console.log('Store Name :', context.store._storeName)
+  // console.log('Store Name :', context.store._storeName)
 
-  context.store.$subscribe((mutation, state) => {
-    console.log('mutation', mutation)
-    console.log('state', state)
+  context.store.$subscribe((_mutation, _state) => {
+    // console.log('mutation', mutation)
+    // console.log('state', state)
     if (context.store._liveSync) {
       context.store.$save()
     }
@@ -43,23 +43,18 @@ export default function PiniaApiPlugin(context: PiniaPluginContext) {
   })
   return {
     $sync: (sync: boolean = true) => {
-      // console.log('sync: ', sync)
       context.store._liveSync = sync
     },
     $save: () => {
-      // console.log('Pushing to API', {
-      //   key: context.store._storeName,
-      //   value: context.store.$state
-      // })
       StoreApi.store({ key: context.store._storeName, value: context.store.$state }).then()
     },
-    $get: (key: string): Promise<IApiResponse<{ data: any, store: string }>> => {
-      StoreApi.get({ key: key ?? context.store._storeName }).then((response: IApiResponse<{ data: any, store: string }>) => {
-        context.store.$sync(false)
-        context.store.$state = response.data
-        context.store.$sync(context.store._liveSync)
-        resolve(response.data)
-      })
+    $get: async (key: string): Promise<IApiResponse<{ data: any, store: string }>> => {
+      const response: IApiResponse<{ data: any, store: string }> = await StoreApi.get({ key: key ?? context.store._storeName })
+      context.store.$sync(false)
+      context.store.$state = response.data
+      context.store.$sync(context.store._liveSync)
+
+      return response.data
     }
   }
 }

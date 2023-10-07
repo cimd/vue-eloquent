@@ -11,7 +11,10 @@ export default abstract class Store extends Api {
    * @param { string | number } prefix
    */
   declare protected prefix: string | number
-
+  /**
+   * State MUST be a reactive property.
+   */
+  state = reactive({})
   /**
    * If enabled, it will automatically fetch the API once instantiated.
    * And push any changes to the API automatically. If disabled,
@@ -22,18 +25,31 @@ export default abstract class Store extends Api {
    */
   protected liveSync = true
   protected resource = 'eloquent-api/stores'
-
   private _storename = ''
-
   private api = StoreApi
-
-  /**
-   * State MUST be a reactive property.
-   */
-  declare state = reactive({})
 
   protected constructor() {
     super()
+  }
+
+  sync(enabled: boolean = true) {
+    this.liveSync = enabled
+  }
+
+  async get()
+  {
+    const result = await this.api.get({ key: this._storename })
+    this.state = reactive(result.data)
+  }
+
+  async store()
+  {
+    await this.api.store({ key: this._storename, value: this.state })
+  }
+
+  async delete()
+  {
+    await this.api.destroy({ key: this._storename }, false)
   }
 
   protected init() {
@@ -53,26 +69,5 @@ export default abstract class Store extends Api {
       },
       { deep: true }
     )
-
-  }
-
-  sync(enabled: boolean = true) {
-    this.liveSync = enabled
-  }
-
-  async get()
-  {
-    const result = await this.api.get({ key: this._storename })
-    Object.assign(this.state, result.data)
-  }
-
-  async store()
-  {
-    await this.api.store({ key: this._storename, value: this.state })
-  }
-
-  async delete()
-  {
-    await this.api.destroy({ key: this._storename }, false)
   }
 }
