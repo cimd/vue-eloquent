@@ -54,40 +54,6 @@ export default abstract class Api extends ApiQuery {
     return new this()
   }
 
-  /**
-   * Sends the request to the API
-   *
-   * @async
-   * @static
-   * @template T
-   * @param { Partial<T> } payload - DEPRECATED. Use the where method instead
-   * @return { IApiResponse<T[]> } The data from the API
-   */
-  get<T>(payload?: Partial<T>): Promise<IApiResponse<T[]>>
-  {
-    const url = _join([this.apiPrefix, this.resource], '/')
-
-    let queryString: any
-    payload ? queryString = payload : queryString = this.queryString()
-    this.fetching(queryString)
-
-    return new Promise((resolve, reject) => {
-      http
-        .get(url, {
-          params: queryString,
-          transformResponse: [(data: any) => this.transformResponse(data)],
-        })
-        .then((response: { data: any }) => {
-          this.fetched(response.data)
-          resolve(response.data)
-        })
-        .catch((err: IAxiosError) => {
-          this.fetchingError(err)
-          reject(new ApiError('Get', err))
-        })
-    })
-  }
-
   static async get<T>(payload?: Partial<T>): Promise<IApiResponse<T[]>>
   {
     const self = this.instance()
@@ -286,7 +252,7 @@ export default abstract class Api extends ApiQuery {
    * @param { boolean } isModel - If it's a model, it will automatically push the model's id to the API
    * @return { Promise<IApiResponse<T> } The data from the API
    */
-  static destroy<T extends IModelParams>(payload: Partial<T> | number, isModel = true): Promise<IApiResponse<T>>
+  static destroy<T extends IModelParams>(payload: Partial<T> | number, isModel: boolean = true): Promise<IApiResponse<T>>
   {
     const id: number = typeof payload === 'number'? payload : payload?.id
     const self = this.instance()
@@ -350,9 +316,6 @@ export default abstract class Api extends ApiQuery {
         })
     })
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected batchStoringError?(err?: any): void { return }
-
 
   /**
    * Updates multiple models to the API
@@ -384,9 +347,6 @@ export default abstract class Api extends ApiQuery {
         })
     })
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected batchUpdatingError?(err?: any) : void { return }
 
   /**
    * @deprecated Use batchDestroy instead
@@ -445,8 +405,6 @@ export default abstract class Api extends ApiQuery {
         })
     })
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected batchDestroyingError?(err?: any): void { return }
 
   /**
    * Fetches model logs from API
@@ -484,6 +442,50 @@ export default abstract class Api extends ApiQuery {
         })
     })
   }
+
+  /**
+   * Sends the request to the API
+   *
+   * @async
+   * @static
+   * @template T
+   * @param { Partial<T> } payload - DEPRECATED. Use the where method instead
+   * @return { IApiResponse<T[]> } The data from the API
+   */
+  get<T>(payload?: Partial<T>): Promise<IApiResponse<T[]>>
+  {
+    const url = _join([this.apiPrefix, this.resource], '/')
+
+    let queryString: any
+    payload ? queryString = payload : queryString = this.queryString()
+    this.fetching(queryString)
+
+    return new Promise((resolve, reject) => {
+      http
+        .get(url, {
+          params: queryString,
+          transformResponse: [(data: any) => this.transformResponse(data)],
+        })
+        .then((response: { data: any }) => {
+          this.fetched(response.data)
+          resolve(response.data)
+        })
+        .catch((err: IAxiosError) => {
+          this.fetchingError(err)
+          reject(new ApiError('Get', err))
+        })
+    })
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected batchStoringError?(err?: any): void { return }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected batchUpdatingError?(err?: any) : void { return }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected batchDestroyingError?(err?: any): void { return }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected fetchingLogsError(err?: any): void { return }
 
