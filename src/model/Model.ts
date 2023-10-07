@@ -112,7 +112,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
 
       this.setOriginal()
       this.setStateSuccess()
-      this.retrieved(response.data)
+      this.retrieved(result.data)
     }
     catch (e: any) {
       this.setStateError()
