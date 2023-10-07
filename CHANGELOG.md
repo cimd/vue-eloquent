@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Method types
 - Added payload to Model observers
+- Updated dependencies
 
 ## [0.9.1] - 2023-09-28
 
