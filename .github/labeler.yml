@@ -1,0 +1,6 @@
+test: test/**
+example: example/**
+api: src/api/**
+model: src/model/**
+collection: src/collection/**
+devtools: src/devtools/**
