@@ -105,7 +105,6 @@ export default abstract class Collection extends ApiQuery {
    * Fetching runs before get method
    * @param { any } payload Payload
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected fetching(payload?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected fetchingError(err?: any): void { return }
@@ -113,8 +112,7 @@ export default abstract class Collection extends ApiQuery {
    * Fetched runs after get method
    * @param { any } payload Payload
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetched(payload?: any): void { return }
+  protected fetched(payload: any): void { return }
 
   /**
    * Joins the broadcast channel

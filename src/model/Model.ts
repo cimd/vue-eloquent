@@ -112,7 +112,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
 
       this.setOriginal()
       this.setStateSuccess()
-      this.retrieved()
+      this.retrieved(response.data)
     }
     catch (e: any) {
       this.setStateError()
@@ -144,7 +144,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
         model = await this.update()
         actioned = Actioned.UPDATED
       }
-      this.saved()
+      this.saved(model)
       addTimelineEvent({ title: actioned, data: { model: model }})
       return {
         actioned,
@@ -173,7 +173,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
       this.setModel(response.data)
       addTimelineEvent({ title: 'Created', data: { model: response.data }})
       this.setStateSuccess()
-      this.created()
+      this.created(response.data)
 
       return response.data
     }
@@ -201,7 +201,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
       this.setModel(response.data)
       addTimelineEvent({ title: 'Updated', data: { model: response.data }})
       this.setStateSuccess()
-      this.updated()
+      this.updated(response.data)
 
       return response.data
     }
@@ -229,7 +229,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
       this.setModel(response.data)
       addTimelineEvent({ title: 'Deleted', data: { model: response.data }})
       this.setStateSuccess()
-      this.deleted()
+      this.deleted(response.data)
 
       return response.data
     }
@@ -529,7 +529,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * Retrieved runs after show method
    */
-  protected retrieved(): void { return }
+  protected retrieved(payload: any): void { return }
 
 
   // Laravel validation testing
@@ -542,7 +542,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * Runs after model is created
    */
-  protected created(): void { return }
+  protected created(payload: any): void { return }
 
   /**
    * Runs before model is updated
@@ -552,7 +552,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * Runs after model is updated
    */
-  protected updated(): void { return }
+  protected updated(payload: any): void { return }
 
   /**
    * Runs before model is saved
@@ -562,7 +562,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * Runs after model is saved
    */
-  protected saved(): void { return }
+  protected saved(payload: any): void { return }
 
   /**
    * Runs before model is deleted
@@ -572,7 +572,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * Runs after model is created
    */
-  protected deleted(): void { return }
+  protected deleted(payload: any): void { return }
 
   /**
    * API starts loading state
