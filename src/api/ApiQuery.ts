@@ -52,8 +52,9 @@ export default abstract class ApiQuery {
    * Add a where clause to the query
    *
    * @param {object} filter - The filter to apply to the query
+   * @return { this }
    */
-  static where(filter: any)
+  static where(filter: any): this
   {
     const self = this.instance()
     return self.where(filter)
@@ -96,6 +97,18 @@ export default abstract class ApiQuery {
     this.fieldsSelection = [...fields]
     refreshInspector().then()
     return this
+  }
+
+  /**
+   * Select specific fields to be returned by the query
+   *
+   * @param {string[]} fields - The fields to select
+   * @returns {this} The query instance
+   */
+  static select(fields: string[]): this
+  {
+    const self = this.instance()
+    return self.select(fields)
   }
 
   /**
