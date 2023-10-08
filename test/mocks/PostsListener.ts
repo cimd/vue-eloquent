@@ -1,13 +1,13 @@
 import { Listener } from '../../src/index'
 import { Subject } from 'rxjs'
-import Event from '../../src/events/Event'
+import Broadcast from '@/events/Broadcast'
 import { BroadcastType } from '../../src/events/EventTypes'
 import PostsCollection from '../../examples/PostsCollection'
 
 export default class PostsListener extends Listener {
   message: any
   posts: PostsCollection
-  constructor(eventClass: Event, posts: PostsCollection)
+  constructor(eventClass: Broadcast, posts: PostsCollection)
   {
     // const eventClass = inject(eventName) as any
     // console.log(eventClass)

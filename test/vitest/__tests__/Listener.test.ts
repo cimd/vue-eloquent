@@ -2,14 +2,14 @@ import { beforeAll, describe, expect, it } from 'vitest'
 import PostsListener from '../../mocks/PostsListener'
 import broadcast from '../../mocks/pusher-mock'
 import { createBroadcast } from '../../../src/broadcast/broadcast'
-import PostsEvent from '../../mocks/PostsEvent'
+import PostsBroadcast from '../../mocks/PostsBroadcast'
 import PostsCollection from '../../../examples/PostsCollection'
 
-let event: PostsEvent
+let event: PostsBroadcast
 
 beforeAll(async () => {
   createBroadcast(broadcast)
-  event = new PostsEvent()
+  event = new PostsBroadcast()
 })
 
 describe('events', () => {

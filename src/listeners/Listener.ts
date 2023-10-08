@@ -8,7 +8,7 @@ export default abstract class Listener {
 
   protected constructor(e: Subject<any>)
   {
-    if (!e) throw new ListenerError('Constructor', new Error('Event is not defined'))
+    if (!e) throw new ListenerError('Constructor', new Error('Broadcast is not defined'))
 
     this.event = e
     this.subscribe()

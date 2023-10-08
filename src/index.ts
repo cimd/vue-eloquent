@@ -11,7 +11,7 @@ import Actioned from './enums/Actioned'
 import Collection from './collection/Collection'
 import CollectionError from './collection/CollectionError'
 import Channel from './events/Channel'
-import Event from './events/Event'
+import Broadcast from './events/Broadcast'
 import EloquentError from './EloquentError'
 import EloquentPlugin from './plugins/EloquentPlugin'
 import Listener from './listeners/Listener'
@@ -44,7 +44,7 @@ export {
   createBroadcast,
   EloquentError,
   EloquentPlugin,
-  Event,
+  Broadcast,
   formatDates,
   formatObject,
   Listener,

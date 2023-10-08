@@ -1,8 +1,8 @@
-import { Event } from '../../src/index'
+import { Broadcast } from '../../src/index'
 import Channel from '../../src/events/Channel'
 // import PresenceChannel from '../../src/events/PresenceChannel'
 
-export default class PostsEvent extends Event {
+export default class PostsBroadcast extends Broadcast {
   constructor() {
     super()
   }

@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest'
-import PostsEvent from '../../mocks/PostsEvent'
+import PostsBroadcast from '../../mocks/PostsBroadcast'
 import broadcast from '../../mocks/pusher-mock'
 import { createBroadcast } from '../../../src/broadcast/broadcast'
 import EventError from '../../../src/events/EventError'
@@ -10,7 +10,7 @@ beforeAll(async () => {
 
 describe('events', () => {
   it('intantiates new event', async () => {
-    const event = new PostsEvent()
+    const event = new PostsBroadcast()
     // console.log(event)
 
     broadcast

@@ -6,7 +6,7 @@ import http from '../test/mocks/axios-mock'
 import broadcast from '../test/mocks/pusher-mock'
 import { createBroadcast } from '../src/broadcast/broadcast'
 import EventError from '../src/events/EventError'
-import PostsEvent from '../test/mocks/PostsEvent'
+import PostsBroadcast from '../test/mocks/PostsBroadcast'
 import PostsListener from '../test/mocks/PostsListener'
 import PostApi from '../examples/PostApi'
 import UserStore from '../examples/UserStore'
@@ -66,7 +66,7 @@ export default defineComponent({
     },
     testEvent() {
       createBroadcast(broadcast)
-      const event = new PostsEvent()
+      const event = new PostsBroadcast()
       console.log(event)
       return event
     },

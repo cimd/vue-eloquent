@@ -5,7 +5,7 @@ import PostQueryApi from './PostQueryApi'
 
 export default class PostsQueryCollection extends Collection {
   protected api = PostQueryApi
-  // protected listener = new PostsListener('PostsEvent')
+  // protected listener = new PostsListener('PostsBroadcast')
   protected channel = 'posts-query'
 
   public data = reactive([] as IPost[])

@@ -6,7 +6,7 @@ import { IPost } from './PostInterface'
 export default class PostsCollection extends Collection {
   public data = reactive([] as IPost[])
   protected api = PostApi
-  // protected listener = new PostsListener('PostsEvent')
+  // protected listener = new PostsListener('PostsBroadcast')
   protected channel = 'posts'
 
   constructor(posts?: IPost[]){
