@@ -30,7 +30,7 @@ export default defineComponent({
     // this.testStore()
     // console.log(this.posts)
     createHttp({ httpClient: http })
-    const store = usePostStore()
+    // const store = usePostStore()
     // console.log(store.secret)
     // console.log(store.test)
     // store.setName()
