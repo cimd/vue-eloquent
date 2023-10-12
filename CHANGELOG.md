@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Static methods to ApiQuery class
 ### Changed
 ### Fixed
-
 
 ## [0.9.2] - 2023-10-08
 ### Added

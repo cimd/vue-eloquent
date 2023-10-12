@@ -16,7 +16,7 @@ An interface for Vue 3 and Laravel Eloquent models through API requests.
 
 ## Installation
 
-There are two packages available that can be independently but work better together.
+There are two packages available that can be used independently, but work better together.
 
 ### Vue 3 Package
 `yarn add @konnec/vue-eloquent`

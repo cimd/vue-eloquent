@@ -17,11 +17,11 @@ export default abstract class Collection extends ApiQuery {
   /**
    * Added for devtools support
    */
-  public uuid: string
+  uuid: string
   /**
    * Loading, success and error messages from API requests
    */
-  public state: IModelState = reactive({
+  state: IModelState = reactive({
     isLoading: false,
     isSuccess: true,
     isError: false

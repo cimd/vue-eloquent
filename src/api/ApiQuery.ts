@@ -52,8 +52,9 @@ export default abstract class ApiQuery {
    * Add a where clause to the query
    *
    * @param {object} filter - The filter to apply to the query
+   * @return { this }
    */
-  static where(filter: any)
+  static where(filter: any): this
   {
     const self = this.instance()
     return self.where(filter)
@@ -73,6 +74,18 @@ export default abstract class ApiQuery {
   }
 
   /**
+   * Add relationships to the query
+   *
+   * @param {string[]} relationships - The relationships to include in the query
+   * @returns {this} The query instance
+   */
+  static with(relationships: string[]): this
+  {
+    const self = this.instance()
+    return self.with(relationships)
+  }
+
+  /**
    * Add attributes to the query
    *
    * @param {string[]} attributes - The attributes to append to the query
@@ -83,6 +96,18 @@ export default abstract class ApiQuery {
     this.attributes = [...attributes]
     refreshInspector().then()
     return this
+  }
+
+  /**
+   * Add attributes to the query
+   *
+   * @param {string[]} attributes - The attributes to append to the query
+   * @returns {this} The query instance
+   */
+  static append(attributes: string[]): this
+  {
+    const self = this.instance()
+    return self.append(attributes)
   }
 
   /**
@@ -99,6 +124,18 @@ export default abstract class ApiQuery {
   }
 
   /**
+   * Select specific fields to be returned by the query
+   *
+   * @param {string[]} fields - The fields to select
+   * @returns {this} The query instance
+   */
+  static select(fields: string[]): this
+  {
+    const self = this.instance()
+    return self.select(fields)
+  }
+
+  /**
    * Sort the results of the query
    *
    * @param {string[]} sorting - The sorting criteria
@@ -112,6 +149,18 @@ export default abstract class ApiQuery {
   }
 
   /**
+   * Sort the results of the query
+   *
+   * @param {string[]} sorting - The sorting criteria
+   * @returns {this} The query instance
+   */
+  static sort(sorting: string[]): this
+  {
+    const self = this.instance()
+    return self.sort(sorting)
+  }
+
+  /**
    * Set the pagination options for the query
    *
    * @param {object} paging - The pagination options
@@ -122,6 +171,18 @@ export default abstract class ApiQuery {
     Object.assign(this.paging, paging)
     refreshInspector().then()
     return this
+  }
+
+  /**
+   * Set the pagination options for the query
+   *
+   * @param {object} paging - The pagination options
+   * @returns {this} The query instance
+   */
+  static page(paging: IQueryPage): this
+  {
+    const self = this.instance()
+    return self.page(paging)
   }
 
   /**

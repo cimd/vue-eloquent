@@ -28,9 +28,9 @@ export default defineComponent({
     // this.testListener(e)
     // this.getFilter()
     // this.testStore()
-    console.log(this.posts)
+    // console.log(this.posts)
     createHttp({ httpClient: http })
-    const store = usePostStore()
+    // const store = usePostStore()
     // console.log(store.secret)
     // console.log(store.test)
     // store.setName()
@@ -39,7 +39,8 @@ export default defineComponent({
     // store.posts.push({ id: 3, title: 'title 3', body: 'body 3' })
     // store.$sync()
     // store.name = 'Carla'
-    store.$get()
+    // store.$get()
+    this.testError()
   },
   methods: {
     async testHttp() {
@@ -104,6 +105,14 @@ export default defineComponent({
       // store.state.user.age = 10
       // console.log(store.state)
       // store.get()
+    },
+    testError() {
+      PostApi.show(100)
+        .then(() => {
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 })
