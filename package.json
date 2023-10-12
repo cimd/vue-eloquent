@@ -6,7 +6,7 @@
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "test:unit": "vitest",
-    "test:unit:coverage": "vitest run --coverage.enabled=true --coverage.reporter=json",
+    "test:unit:coverage": "vitest run --coverage.enabled=true --coverage.reporter=html",
     "test:unit:ui": "vitest --ui --coverage.enabled=true --api 9527",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
