@@ -17,7 +17,7 @@ describe('api error', () => {
   it('show method', async () => {
     let error: ApiError | undefined
     try {
-      const e = await ErrorApi.show()
+      await ErrorApi.show()
     }
     catch (err: any) {
       error = err
