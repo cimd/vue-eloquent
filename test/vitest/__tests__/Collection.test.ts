@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import PostsCollection from '../../../examples/PostsCollection'
 import PostsErrorCollection from '../../../examples/PostsErrorCollection'
 import { posts } from '../../mocks/http-handlers/post-handlers'
+import { createBroadcast } from '../../../src/broadcast/broadcast'
+import broadcast from '../../mocks/pusher-mock'
 
 describe('collection api', () => {
   it('creates instance from factory', async () => {
@@ -67,6 +69,15 @@ describe('collection api', () => {
       isSuccess: false,
       isError: true,
     })
+  })
+
+  it('channel sub', async () => {
+    createBroadcast(broadcast)
+    
+    const posts = new PostsCollection()
+    posts.joinChannel()
+    posts.leaveChannel()
+    expect(posts.data).toBeTruthy()
   })
 
   // Query Params
