@@ -12,6 +12,7 @@ An interface for Vue 3 and Laravel Eloquent models through API requests.
 <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
 <img src="https://img.shields.io/badge/TypeScript-supported-blue" alt="TypeScript Supported">
 <img alt="Maintenance Status" src="https://img.shields.io/badge/maintenance-active-green.svg" />
+<img alt="Code Coverage" src="https://img.shields.io/nycrc/cimd/vue-eloquent" />
 </p>
 
 ## Installation

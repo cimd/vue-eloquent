@@ -1,7 +1,16 @@
 import { describe, expect, it } from 'vitest'
 import PostsCollection from '../../../examples/PostsCollection'
+import PostsErrorCollection from '../../../examples/PostsErrorCollection'
+import { posts } from '../../mocks/http-handlers/post-handlers'
+import { createBroadcast } from '../../../src/broadcast/broadcast'
+import broadcast from '../../mocks/pusher-mock'
 
 describe('collection api', () => {
+  it('creates instance from factory', async () => {
+    const collection = new PostsCollection(posts)
+    expect(collection.data.length).toEqual(2)
+  })
+
   it('static get method', async () => {
     const posts = new PostsCollection()
     await posts.get()
@@ -45,6 +54,30 @@ describe('collection api', () => {
     await posts.where({ title: 'Hello' }).get()
 
     expect(posts.data.length).toEqual(2)
+  })
+
+  it('sets error state', async () => {
+    const posts = new PostsErrorCollection()
+    try {
+      await posts.get()
+    }
+    catch (err) {
+      // console.log(err)
+    }
+    expect(posts.state).toEqual({
+      isLoading: false,
+      isSuccess: false,
+      isError: true,
+    })
+  })
+
+  it('channel sub', async () => {
+    createBroadcast(broadcast)
+
+    const posts = new PostsCollection()
+    posts.joinChannel()
+    posts.leaveChannel()
+    expect(posts.data).toBeTruthy()
   })
 
   // Query Params

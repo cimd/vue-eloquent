@@ -13,7 +13,6 @@ import CollectionError from './collection/CollectionError'
 import Channel from './events/Channel'
 import Event from './events/Event'
 import EloquentError from './EloquentError'
-import EloquentPlugin from './plugins/EloquentPlugin'
 import Listener from './listeners/Listener'
 import Model from './model/Model'
 import ModelError from './model/ModelError'
@@ -21,11 +20,8 @@ import Permissions from './acl/Permissions'
 import PiniaApiPlugin from './plugins/PiniaApiPlugin'
 import PrivateChannel from './events/PrivateChannel'
 import PresenceChannel from './events/PresenceChannel'
-import StateApi from './states/StateApi'
 import ModelApi from './api/ModelApi'
 import VueEloquentPlugin from './devtools/devToolsPlugin'
-import Store from './states/Store'
-
 
 export {
   Action,
@@ -43,7 +39,6 @@ export {
   broadcast,
   createBroadcast,
   EloquentError,
-  EloquentPlugin,
   Event,
   formatDates,
   formatObject,
@@ -54,6 +49,4 @@ export {
   PiniaApiPlugin,
   PresenceChannel,
   PrivateChannel,
-  StateApi,
-  Store
 }

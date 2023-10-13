@@ -239,43 +239,43 @@ export default abstract class Model<T extends IModelParams> extends Validator {
     }
   }
 
-  async batchCreate<T>(): Promise<T[]>
-  {
-    try {
-      this.batchCreating()
-      this.setStateLoading()
-      const response = await this.api.batchStore<T>(this.model)
-      this.setOriginal()
-      // Object.assign(this.model, response.data)
-      // this.setModel(response.data)
-      this.setStateSuccess()
-
-      return response.data
-    }
-    catch (e: any) {
-      this.setStateError()
-      throw new ModelError('BatchCreate', e)
-    }
-  }
-
-  async batchUpdate<T>(): Promise<T[]>
-  {
-    try {
-      this.setStateLoading()
-      this.batchUpdating()
-      const response = await this.api.batchUpdate<T>(this.model)
-      this.setOriginal()
-      // Object.assign(this.model, response.data)
-      // this.setModel(response.data)
-      this.setStateSuccess()
-
-      return response.data
-    }
-    catch (e: any) {
-      this.setStateError()
-      throw new ModelError('BatchUpdate', e)
-    }
-  }
+  // async batchCreate<T>(): Promise<T[]>
+  // {
+  //   try {
+  //     this.batchCreating()
+  //     this.setStateLoading()
+  //     const response = await this.api.batchStore<T>(this.model)
+  //     this.setOriginal()
+  //     // Object.assign(this.model, response.data)
+  //     // this.setModel(response.data)
+  //     this.setStateSuccess()
+  //
+  //     return response.data
+  //   }
+  //   catch (e: any) {
+  //     this.setStateError()
+  //     throw new ModelError('BatchCreate', e)
+  //   }
+  // }
+  //
+  // async batchUpdate<T>(): Promise<T[]>
+  // {
+  //   try {
+  //     this.setStateLoading()
+  //     this.batchUpdating()
+  //     const response = await this.api.batchUpdate<T>(this.model)
+  //     this.setOriginal()
+  //     // Object.assign(this.model, response.data)
+  //     // this.setModel(response.data)
+  //     this.setStateSuccess()
+  //
+  //     return response.data
+  //   }
+  //   catch (e: any) {
+  //     this.setStateError()
+  //     throw new ModelError('BatchUpdate', e)
+  //   }
+  // }
 
   /**
    * Get model change logs
@@ -482,13 +482,13 @@ export default abstract class Model<T extends IModelParams> extends Validator {
     this.setOriginal()
   }
 
-  protected batchCreating(): void {
-    return
-  }
-
-  protected batchUpdating(): void {
-    return
-  }
+  // protected batchCreating(): void {
+  //   return
+  // }
+  //
+  // protected batchUpdating(): void {
+  //   return
+  // }
 
   /**
    * Updates the model property with new data

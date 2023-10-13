@@ -1,6 +1,6 @@
 import { rest } from 'msw'
 
-const posts = [
+export const posts = [
   {
     'id': 1,
     'title': 'My First Post',
@@ -31,6 +31,14 @@ export const PostHandlers = [
     )
   }),
   rest.get('http://localhost:8000/api/posts/:post', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data: posts.find(post => post.id === parseInt(<string>req.params.post)),
+      })
+    )
+  }),
+  rest.get('http://localhost:8000/api/posts/:post/logs', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import Post from '../../../examples/Post'
 
-describe('model api', () => {
+describe('model', () => {
   it('find method', async () => {
     const post = new Post()
     await post.find(1)
@@ -96,9 +96,20 @@ describe('model api', () => {
   it('validates model', async () => {
     const post = new Post()
     post.model.title = 'test'
-    post.$validate()
+    const isValid = post.$validate()
 
     expect(post.$invalid).toBe(true)
+    expect(isValid).toBe(false)
+  })
+
+  it('resets validation error', async () => {
+    const post = new Post()
+    post.model.title = 'test'
+    const isValid = post.$validate()
+    expect(isValid).toBe(false)
+
+    post.$reset()
+    expect(post.v$.value.$errors.length).toBe(0)
   })
 
   it('fetches hasOne', async () => {

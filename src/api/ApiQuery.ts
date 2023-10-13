@@ -24,7 +24,7 @@ export default abstract class ApiQuery {
   /**
    * Pagination used on GET request
    */
-  protected paging: IQueryPage = reactive({ })
+  protected paging: IQueryPage = reactive({})
   /**
    * Sorting used on GET request
    */
