@@ -1,5 +1,5 @@
 import { PiniaPluginContext } from 'pinia'
-import StoreApi from '../states/StoreApi'
+import StoreApi from './StoreApi'
 import _join from 'lodash/join'
 import { IApiResponse } from '../api/IApiResponse'
 import 'pinia'

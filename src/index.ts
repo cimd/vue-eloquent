@@ -20,11 +20,8 @@ import Permissions from './acl/Permissions'
 import PiniaApiPlugin from './plugins/PiniaApiPlugin'
 import PrivateChannel from './events/PrivateChannel'
 import PresenceChannel from './events/PresenceChannel'
-import StateApi from './states/StateApi'
 import ModelApi from './api/ModelApi'
 import VueEloquentPlugin from './devtools/devToolsPlugin'
-import Store from './states/Store'
-
 
 export {
   Action,
@@ -52,6 +49,4 @@ export {
   PiniaApiPlugin,
   PresenceChannel,
   PrivateChannel,
-  StateApi,
-  Store
 }

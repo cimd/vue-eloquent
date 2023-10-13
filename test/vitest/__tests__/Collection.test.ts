@@ -73,7 +73,7 @@ describe('collection api', () => {
 
   it('channel sub', async () => {
     createBroadcast(broadcast)
-    
+
     const posts = new PostsCollection()
     posts.joinChannel()
     posts.leaveChannel()

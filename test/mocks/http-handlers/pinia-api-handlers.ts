@@ -22,7 +22,7 @@ export const posts = [
 ]
 
 export const PiniaApiHandlers = [
-  rest.get('http://localhost:8000/api/v1/eloquent-api/stores', (req, res, ctx) => {
+  rest.get('http://localhost:8000/api/eloquent-api/stores', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -34,7 +34,7 @@ export const PiniaApiHandlers = [
       })
     )
   }),
-  rest.post('http://localhost:8000/api/v1/eloquent-api/stores', (req, res, ctx) => {
+  rest.post('http://localhost:8000/api/eloquent-api/stores', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
