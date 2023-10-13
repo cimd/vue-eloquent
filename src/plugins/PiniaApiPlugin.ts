@@ -32,8 +32,11 @@ export default function PiniaApiPlugin(context: PiniaPluginContext) {
   // console.log('Store Name :', context.store._storeName)
 
   context.store.$subscribe((_mutation, _state) => {
-    // console.log('mutation', mutation)
-    // console.log('state', state)
+    // console.log('mutation', _mutation)
+    // console.log('state', _state)
+    // console.log('$subscribe', {
+    //   _liveSync: context.store._liveSync
+    // })
     if (context.store._liveSync) {
       context.store.$save()
     }
@@ -43,18 +46,29 @@ export default function PiniaApiPlugin(context: PiniaPluginContext) {
   })
   return {
     $sync: (sync: boolean = true) => {
+      // console.log('$sync', sync)
       context.store._liveSync = sync
     },
-    $save: () => {
-      StoreApi.store({ key: context.store._storeName, value: context.store.$state }).then()
+    $save: async (): Promise<IApiResponse<{ data: any, store: string }>> => {
+      // console.log('$save', {
+      //   _liveSync: context.store._liveSync
+      // })
+      const response: IApiResponse<{ data: any, store: string }> = await StoreApi.store({ key: context.store._storeName, value: context.store.$state })
+      // console.log(response)
+      return response
     },
     $get: async (key: string): Promise<IApiResponse<{ data: any, store: string }>> => {
       const response: IApiResponse<{ data: any, store: string }> = await StoreApi.get({ key: key ?? context.store._storeName })
       context.store.$sync(false)
       context.store.$state = response.data
-      context.store.$sync(context.store._liveSync)
+      context.store.$sync(context.options.persist?.sync)
 
-      return response.data
+      // console.log('$get', {
+      //   options: context.options.persist,
+      //   _liveSync: context.store._liveSync
+      // })
+      // console.log(response)
+      return response
     }
   }
 }
