@@ -16,7 +16,7 @@ export const ErrorHandlers = [
   }),
   rest.get('http://localhost:8000/api/errors/:error', (req, res, ctx) => {
     return res(
-      ctx.status(200),
+      ctx.status(403),
       ctx.json({
         data: errorMessage,
       })
@@ -24,7 +24,7 @@ export const ErrorHandlers = [
   }),
   rest.patch('http://localhost:8000/api/errors/:error', (req, res, ctx) => {
     return res(
-      ctx.status(200),
+      ctx.status(404),
       ctx.json({
         data: errorMessage,
       })
@@ -32,15 +32,15 @@ export const ErrorHandlers = [
   }),
   rest.post('http://localhost:8000/api/errors', (req, res, ctx) => {
     return res(
-      ctx.status(200),
+      ctx.status(404),
       ctx.json({
         data: errorMessage,
       })
     )
   }),
-  rest.delete('http://localhost:8000/api/errors/1', (req, res, ctx) => {
+  rest.delete('http://localhost:8000/api/errors/:error', (req, res, ctx) => {
     return res(
-      ctx.status(200),
+      ctx.status(404),
       ctx.json({
         data: errorMessage,
       })
@@ -49,7 +49,7 @@ export const ErrorHandlers = [
   // Batch Routes
   rest.patch('http://localhost:8000/api/errors/batch', (req, res, ctx) => {
     return res(
-      ctx.status(200),
+      ctx.status(404),
       ctx.json({
         data: errorMessage,
       })
@@ -57,7 +57,7 @@ export const ErrorHandlers = [
   }),
   rest.post('http://localhost:8000/api/errors/batch', (req, res, ctx) => {
     return res(
-      ctx.status(200),
+      ctx.status(404),
       ctx.json({
         data: errorMessage,
       })
@@ -65,7 +65,7 @@ export const ErrorHandlers = [
   }),
   rest.patch('http://localhost:8000/api/errors/batch-destroy', (req, res, ctx) => {
     return res(
-      ctx.status(200),
+      ctx.status(404),
       ctx.json({
         data: errorMessage,
       })

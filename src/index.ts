@@ -13,7 +13,6 @@ import CollectionError from './collection/CollectionError'
 import Channel from './events/Channel'
 import Event from './events/Event'
 import EloquentError from './EloquentError'
-import EloquentPlugin from './plugins/EloquentPlugin'
 import Listener from './listeners/Listener'
 import Model from './model/Model'
 import ModelError from './model/ModelError'
@@ -43,7 +42,6 @@ export {
   broadcast,
   createBroadcast,
   EloquentError,
-  EloquentPlugin,
   Event,
   formatDates,
   formatObject,

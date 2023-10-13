@@ -43,7 +43,7 @@ export default abstract class Validator {
   /**
    * Validates the model and sets error messages
    */
-  $validate(): boolean
+  public $validate(): boolean
   {
     this.v$.value.$validate()
     this.$invalid = this.v$.value.$invalid
@@ -52,13 +52,13 @@ export default abstract class Validator {
     addTimelineEvent({
       title: 'Validation Response',
       data: {
-        valid: this.v$.value.$valid,
+        valid: !this.v$.value.$invalid,
         invalid: this.v$.value.$invalid,
         model: this.v$.value.model
       }
     })
 
-    return this.v$.value.$valid
+    return !this.v$.value.$invalid
   }
 
   /**

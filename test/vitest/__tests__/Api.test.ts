@@ -33,6 +33,12 @@ describe('model api', () => {
     expect(result.data).toContain({ id: 1 })
   })
 
+  it('deleted (deprecated) method', async () => {
+    const result = await PostApi.delete({ id: 1, text: 'test' })
+
+    expect(result.data).toContain({ id: 1 })
+  })
+
   it('batchStore method', async () => {
     const posts = [
       { text: 'test1' },
