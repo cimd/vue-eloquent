@@ -4,12 +4,10 @@ import PostsCollection from '../examples/PostsCollection'
 import { createHttp } from '../src/index'
 import http from '../test/mocks/axios-mock'
 import broadcast from '../test/mocks/pusher-mock'
-import { createBroadcast } from '../src/broadcast/broadcast'
 import EventError from '../src/events/EventError'
 import PostsEvent from '../test/mocks/PostsEvent'
 import PostsListener from '../test/mocks/PostsListener'
 import PostApi from '../examples/PostApi'
-import UserStore from '../examples/UserStore'
 import { usePostStore } from '../examples/PostStore'
 import { mapState } from 'pinia'
 
@@ -24,12 +22,12 @@ export default defineComponent({
   created() {
     // this.testHttp()
     // this.testBroadcast()
-    // const e = this.testEvent()
+    this.testEvent()
     // this.testListener(e)
     // this.getFilter()
     // this.testStore()
     // console.log(this.posts)
-    createHttp({ httpClient: http })
+    // createHttp({ httpClient: http })
     // const store = usePostStore()
     // console.log(store.secret)
     // console.log(store.test)
@@ -40,7 +38,7 @@ export default defineComponent({
     // store.$sync()
     // store.name = 'Carla'
     // store.$get()
-    this.testError()
+    // this.testError()
   },
   methods: {
     async testHttp() {
@@ -66,10 +64,10 @@ export default defineComponent({
         })
     },
     testEvent() {
-      createBroadcast(broadcast)
+      // createBroadcast(broadcast)
       const event = new PostsEvent()
-      console.log(event)
-      return event
+      event.dispatch({ id: 1 })
+      // console.log(event)
     },
     testListener(event) {
       const posts = new PostsCollection()
@@ -86,25 +84,6 @@ export default defineComponent({
       // const post = new PostApi()
       const result = await PostApi.where({ author_id: 1 }).with(['test']).get()
       console.log(result)
-    },
-    testStore() {
-      createHttp({ httpClient: http })
-      console.log('testStore')
-      const _store = new UserStore()
-      setTimeout(() => {
-        // console.log('timout')
-        // store.state.id = 1
-        // store.state.user.name = 'Heitor'
-        // store.delete()
-      }, 2000)
-      // store.test = 'test'
-      // console.log(store.test)
-      // store.state = { id: 1 }
-      // console.log(store.state)
-      // store.state.id = 1
-      // store.state.user.age = 10
-      // console.log(store.state)
-      // store.get()
     },
     testError() {
       PostApi.show(100)
