@@ -128,11 +128,17 @@ describe('model', () => {
     expect(readers.length).toBe(2)
   })
 
-  it('lazy loads relationship', async () => {
+  it('lazy loads single relationship', async () => {
     const post = new Post()
     await post.refresh(1)
-
     await post.load('readers')
+
+    expect(post.model.readers.length).toBe(2)
+  })
+  it('lazy loads multiple relationships', async () => {
+    const post = new Post()
+    await post.refresh(1)
+    await post.load(['readers'])
 
     expect(post.model.readers.length).toBe(2)
   })
