@@ -48,6 +48,15 @@ export interface Api {
     batchStore<T>(payload: T[]): Promise<ApiResponse<T[]>>
     update<T>(payload: Partial<T>): Promise<ApiResponse<T>>
     batchUpdate<T>(payload: T[]): Promise<ApiResponse<T[]>>
+    /**
+     * Deletes a single model through the API
+     *
+     * @deprecated
+     * @async
+     * @static
+     * @param { any } payload - Model
+     * @return { Promise<any> } The data from the API
+     */
     delete(payload: any): Promise<any>
     destroy<T>(payload: Partial<T> | number): Promise<ApiResponse<T>>
     batchDestroy<T>(payload: T[]): Promise<ApiResponse<T[]>>
