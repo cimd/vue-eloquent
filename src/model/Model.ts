@@ -18,15 +18,15 @@ export default abstract class Model<T extends IModelParams> extends Validator {
    * Model values
    * Should be a reactive object
    */
-  declare public model: T
+  declare model: T
   /**
    * Model relationships
    */
-  public relations: undefined | any[]
+  relations: undefined | any[]
   /**
    * Loading, success and error messages from API requests
    */
-  public state: ModelState = reactive({
+  state: ModelState = reactive({
     isLoading: false,
     isSuccess: true,
     isError: false
@@ -34,13 +34,13 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * Added for devtools support
    */
-  public uuid: string
+  uuid: string
   /**
    * Laravel Precognition's error messages
    */
-  public errors: any[] = []
-  public isValid: boolean = true
-  public isInvalid: boolean = false
+  errors: any[] = []
+  isValid: boolean = true
+  isInvalid: boolean = false
   /**
    * To check if model is dirty / has been modified
    */
