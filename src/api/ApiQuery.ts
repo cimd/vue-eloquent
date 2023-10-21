@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
-import type { IQuery } from '../collection/IQuery'
-import type { IQueryPage } from '../collection/IQueryPage'
+import type { Query } from '../collection/IQuery'
+import type { IQueryPage, QueryPage } from '../collection/IQueryPage'
 import { refreshInspector } from '../devtools/devtools'
 
 export default abstract class ApiQuery {
@@ -24,7 +24,7 @@ export default abstract class ApiQuery {
   /**
    * Pagination used on GET request
    */
-  protected paging: IQueryPage = reactive({})
+  protected paging: QueryPage = reactive({})
   /**
    * Sorting used on GET request
    */
@@ -190,9 +190,9 @@ export default abstract class ApiQuery {
    *
    * @returns {object} The query parameters
    */
-  protected queryString(): IQuery
+  protected queryString(): Query
   {
-    const qs: IQuery = {}
+    const qs: Query = {}
     if (this.filter) {
       qs.filter = this.filter
     }

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 ### Added
+- New interfaces
+### Changed
+### Fixed
+
+## [1.0.1]
+### Added
+- Model require
 ### Changed
 ### Fixed
 - Model lazy load relationship array

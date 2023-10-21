@@ -3,15 +3,14 @@ import { reactive } from 'vue'
 import Action from '../enums/Action'
 import Actioned from '../enums/Actioned'
 import Validator from './Validator'
-import type { IModelState } from '../model/IModelState'
+import type { ModelState } from '../model/IModelState'
 import ModelError from '../model/ModelError'
 import { addModelInspector } from './modelInspector'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 import { v4 as uuid } from 'uuid'
-import { IApiResponse } from '../api/IApiResponse'
+import { ApiResponse, IApiResponse } from '../api/IApiResponse'
 import { mapRules } from './MapRules'
 import Api from '../api/Api'
-import { IApi } from '../api/IApi'
 import { IModelParams } from '@/model/IModelParams'
 
 export default abstract class Model<T extends IModelParams> extends Validator {
@@ -23,11 +22,11 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * Model relationships
    */
-  public relations: undefined | any
+  public relations: undefined | any[]
   /**
    * Loading, success and error messages from API requests
    */
-  public state: IModelState = reactive({
+  public state: ModelState = reactive({
     isLoading: false,
     isSuccess: true,
     isError: false
@@ -53,7 +52,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * API class related to the model
    */
-  protected api: IApi
+  protected api: Api
   protected protected: string[] = ['id', 'created_at', 'updated_at', 'deleted_at']
   /**
    * To return the model to fresh/initial state
@@ -86,7 +85,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
     return self
   }
 
-  protected static instance(): Model<any>
+  protected static instance(): Model<T>
   {
     // @ts-ignore
     return new this
@@ -243,7 +242,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
    * Get model change logs
    * @async
    */
-  async logs(): Promise<IApiResponse<any[]>>
+  async logs(): Promise<ApiResponse<any[]>>
   {
     this.setStateLoading()
     try {
@@ -292,7 +291,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
     }
   }
 
-  getOriginal(): any
+  getOriginal(): T
   {
     return this.originalModel
   }
@@ -428,7 +427,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
    * @param { any } model Model object
    * @protected
    */
-  protected factory(model?: any): void
+  protected factory(model?: T): void
   {
     this.defaultModel = Object.assign({}, this.model)
     if (model) this.setModel(model)
@@ -552,7 +551,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * API returned success response
    */
-  protected setStateSuccess()
+  protected setStateSuccess(): void
   {
     this.state.isLoading = false
     this.state.isSuccess = true

@@ -7,7 +7,7 @@ import { addModelInspector } from '../model/modelInspector'
 import { v4 as uuid } from 'uuid'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 import { IApiResponse } from '../api/IApiResponse'
-import { IApi } from '../api/IApi'
+import { Api } from '../api/IApi'
 
 export default abstract class Collection extends ApiQuery {
   /**
@@ -29,7 +29,7 @@ export default abstract class Collection extends ApiQuery {
   /**
    * API class related to the model
    */
-  protected api: IApi
+  protected api: Api
   protected isBroadcasting: boolean = false
 
   /**

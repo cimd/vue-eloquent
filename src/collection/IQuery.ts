@@ -8,3 +8,12 @@ export interface IQuery {
     page?: IQueryPage,
     sort?: string
 }
+
+export interface Query {
+    fields?: string,
+    include?: string,
+    append?: string[],
+    filter?: any[],
+    page?: IQueryPage,
+    sort?: string
+}
