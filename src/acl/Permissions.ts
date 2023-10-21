@@ -15,12 +15,12 @@ export default class Permissions {
    * @private
    * @params { IPermissions } permissions: CRUD
    */
-  private permissions = reactive({
+  private permissions: IPermissions = reactive({
     create: false,
     read: false,
     update: false,
     delete: false
-  } as IPermissions)
+  })
   /**
    * Action being performed on the model (CRUD): CREATE, READ, UPDATE, DELETE
    * @param { Ref(Action) } action
