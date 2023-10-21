@@ -5,7 +5,7 @@ import { IQuery, Query } from './collection/IQuery'
 import { IQueryPage, QueryPage } from './collection/IQueryPage'
 import { IModel, Model } from './model/IModel'
 import { IModelState, ModelState } from './model/IModelState'
-import { IModelParams } from './model/IModelParams'
+import { IModelParams, ModelParams } from './model/IModelParams'
 import { ApiResponse, IApiResponse } from './api/IApiResponse'
 import { BroadcastMessage } from './events/EventTypes'
 
@@ -15,9 +15,11 @@ export {
   AxiosError,
   Collection,
   Model,
+  ModelParams,
   ModelState,
   Query,
   QueryPage,
+  BroadcastMessage,
 
   // Deprecated
   IApi,
@@ -28,6 +30,5 @@ export {
   IQueryPage,
   IModel,
   IModelParams,
-  IModelState,
-  BroadcastMessage
+  IModelState
 }

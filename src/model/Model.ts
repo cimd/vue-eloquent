@@ -11,9 +11,9 @@ import { v4 as uuid } from 'uuid'
 import { ApiResponse, IApiResponse } from '../api/IApiResponse'
 import { mapRules } from './MapRules'
 import Api from '../api/Api'
-import { IModelParams } from '@/model/IModelParams'
+import { ModelParams } from 'src/model/IModelParams'
 
-export default abstract class Model<T extends IModelParams> extends Validator {
+export default abstract class Model<T extends ModelParams> extends Validator {
   /**
    * Model values
    * Should be a reactive object

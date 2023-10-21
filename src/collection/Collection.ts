@@ -1,6 +1,6 @@
 import { onBeforeUnmount, reactive } from 'vue'
 import { broadcast } from '../broadcast/broadcast'
-import type { IModelState } from '../model/IModelState'
+import type { ModelState } from '../model/IModelState'
 import CollectionError from '../collection/CollectionError'
 import ApiQuery from '../api/ApiQuery'
 import { addModelInspector } from '../model/modelInspector'
@@ -21,7 +21,7 @@ export default abstract class Collection extends ApiQuery {
   /**
    * Loading, success and error messages from API requests
    */
-  state: IModelState = reactive({
+  state: ModelState = reactive({
     isLoading: false,
     isSuccess: true,
     isError: false
