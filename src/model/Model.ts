@@ -327,7 +327,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
    * @param { string } primaryKey of the relationship
    * @return { Promise<any> } Model
    */
-  async hasOne<K>(api: typeof Api, primaryKey: number): Promise<K>
+  async hasOne<K>(api: Api, primaryKey: number): Promise<K>
   {
     const result = await api.show<K>(primaryKey)
     return result.data
@@ -342,7 +342,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
    * @param { number } id of the relationship
    * @return { Promise<any> } Collection of Models
    */
-  async hasMany<K>(api: typeof Api, primaryKey: string, id: number): Promise<K[]>
+  async hasMany<K>(api: Api, primaryKey: string, id: number): Promise<K[]>
   {
     const result = await api.get<K>({ primary_key: id })
     return result.data
