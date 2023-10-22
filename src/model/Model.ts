@@ -10,7 +10,7 @@ import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 import { v4 as uuid } from 'uuid'
 import { ApiResponse, IApiResponse } from '../api/IApiResponse'
 import { mapRules } from './MapRules'
-import Api from '../api/Api'
+import { Api } from '../api/IApi'
 import { ModelParams } from 'src/model/IModelParams'
 
 export default abstract class Model<T extends ModelParams> extends Validator {

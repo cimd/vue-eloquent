@@ -5,6 +5,13 @@ export interface IApi {
     apiPrefix: string
     dates: string[]
 
+    /**
+     * Returns the resource
+     *
+     * @return { string } resource
+     */
+    getResource(): string
+
     get<T>(payload?: any): Promise<IApiResponse<T[]>>
     show<T>(id: number): Promise<IApiResponse<T>>
     store<T>(payload: Partial<T>): Promise<IApiResponse<T>>

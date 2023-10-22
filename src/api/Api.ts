@@ -444,6 +444,16 @@ export default abstract class Api extends ApiQuery {
   }
 
   /**
+   * Returns the resource
+   * 
+   * @return { string } resource
+   */
+  getResource(): string
+  {
+    return this.resource
+  }
+
+  /**
    * Sends the request to the API
    *
    * @async
