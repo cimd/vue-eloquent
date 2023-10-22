@@ -5,11 +5,10 @@ import PostApi from './PostApi'
 import { IPost } from './PostInterface'
 import UserApi from './UserApi'
 import { IUser } from './UserInterface'
+import CommentApi from './CommentApi'
 
 export default class Post extends Model {
-  protected api = PostApi
-
-  public model = reactive({
+  public model = reactive<IPost>({
     id: undefined,
     created_at: undefined,
     updated_at: undefined,
@@ -19,18 +18,11 @@ export default class Post extends Model {
     text: undefined,
     author: undefined as IUser,
     readers: undefined as IUser[],
-  } as IPost)
-
+  })
+  protected api = PostApi
   protected parameters = {
     title: 'New Post',
   }
-
-  constructor(post?: IPost) {
-    super()
-    super.factory(post)
-    super.initValidations()
-  }
-
   protected validations = computed(() => ({
     model: {
       title: {
@@ -40,9 +32,10 @@ export default class Post extends Model {
     }
   }))
 
-  protected updating()
-  {
-    // strip html tags from this.model.text
+  constructor(post?: IPost) {
+    super()
+    super.factory(post)
+    super.initValidations()
   }
 
   async author()
@@ -50,8 +43,13 @@ export default class Post extends Model {
     return await this.hasOne<IUser>(UserApi, this.model.author_id)
   }
 
-  async readers()
+  async comments()
   {
-    return await this.hasMany<IUser>(UserApi, 'id', this.model.author_id)
+    return await this.hasMany(CommentApi, this.model.id)
+  }
+
+  protected updating()
+  {
+    // strip html tags from this.model.text
   }
 }

@@ -1,13 +1,15 @@
 import { PostHandlers } from './post-handlers'
 import { UserHandlers } from './user-handlers'
 import { ErrorHandlers } from './error-handlers'
-import { PostQueryHandlers } from './post-query-handlers'
 import { PiniaApiHandlers } from './pinia-api-handlers'
+import { PostCommentHandlers } from './post-comment-handlers'
+import { PostAuthorHandlers } from './post-author-handlers'
 
 export const handlers = [
   ...PiniaApiHandlers,
   ...PostHandlers,
-  ...PostQueryHandlers,
+  ...PostCommentHandlers,
+  ...PostAuthorHandlers,
   ...UserHandlers,
   ...ErrorHandlers
 ]

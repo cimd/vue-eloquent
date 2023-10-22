@@ -304,13 +304,15 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    */
   async load(args?: string | string[]): Promise<any>
   {
+    // console.log(args)
+    // console.log(this)
     switch (typeof args) {
     case 'string':
-      this.model[ args ] = await this[ args ]()
+      this.model[ args ] = await this[ args ]().get()
       break
     case 'object':
       for (const arg of args) {
-        this.model[ arg ] = await this[ arg ]()
+        this.model[ arg ] = await this[ arg ]().get()
       }
       break
     default:
@@ -327,10 +329,36 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * @param { string } primaryKey of the relationship
    * @return { Promise<any> } Model
    */
-  async hasOne<K>(api: Api, primaryKey: number): Promise<K>
+  // async hasOne<K>(name: string, api: Api, primaryKey: number): Promise<K>
+  // {
+  //   const result = await api.show<K>(primaryKey)
+  //   return result.data
+  // }
+
+  hasOne(api: Api, primaryKey: number): any
   {
-    const result = await api.show<K>(primaryKey)
-    return result.data
+    const parentResource = this.api.getResource()
+    return {
+      get: async (payload: any) => {
+        return await api.hasOne().get(parentResource, primaryKey, payload)
+      },
+      show: async (payload: any) => {
+        const result = await api.hasOne().show(parentResource, primaryKey, payload)
+        return result.data
+      },
+      create: async (payload: any) => {
+        const result = await api.hasOne().create(parentResource, primaryKey, payload)
+        return result.data
+      },
+      update: async (payload: any) => {
+        const result = await api.hasOne().update(parentResource, primaryKey, payload)
+        return result.data
+      },
+      delete: async (payload: any) => {
+        const result = await api.hasOne().delete(parentResource, primaryKey, payload)
+        return result.data
+      },
+    }
   }
 
   /**
@@ -342,10 +370,37 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * @param { number } id of the relationship
    * @return { Promise<any> } Collection of Models
    */
-  async hasMany<K>(api: Api, primaryKey: string, id: number): Promise<K[]>
+
+  // async hasMany<K>(api: Api, primaryKey: string, id: number): Promise<K[]>
+  // {
+  //   const result = await api.get<K>({ primary_key: id })
+  //   return result.data
+  // }
+  hasMany(api: Api, primaryKey: number): any
   {
-    const result = await api.get<K>({ primary_key: id })
-    return result.data
+    // console.log('hasMany relationship')
+    const parentResource = this.api.getResource()
+    return {
+      get: async (payload: any) => {
+        return await api.hasMany().get(parentResource, primaryKey, payload)
+      },
+      show: async (payload: any) => {
+        const result = await api.hasMany().show(parentResource, primaryKey, payload)
+        return result.data
+      },
+      create: async (payload: any) => {
+        const result = await api.hasMany().create(parentResource, primaryKey, payload)
+        return result.data
+      },
+      update: async (payload: any) => {
+        const result = await api.hasMany().update(parentResource, primaryKey, payload)
+        return result.data
+      },
+      delete: async (payload: any) => {
+        const result = await api.hasMany().delete(parentResource, primaryKey, payload)
+        return result.data
+      },
+    }
   }
 
   async getValidationRules(action?: Action)
