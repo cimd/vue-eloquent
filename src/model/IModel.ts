@@ -83,8 +83,8 @@ export interface Model<T> {
     saved(payload: any): void
 
     load(args?: string | string[]): Promise<any>
-    hasOne<K>(api: typeof Api, primaryKey: number): Promise<K>
-    hasMany<K>(api: typeof Api, primaryKey: string, id: number): Promise<K[]>
+    hasOne<K>(api: Api, primaryKey: number): Promise<K>
+    hasMany<K>(api: Api, primaryKey: string, id: number): Promise<K[]>
 
     setStateLoading(): void
     setStateSuccess(): void

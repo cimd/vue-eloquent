@@ -1,5 +1,5 @@
 import { Api, IApi } from './api/IApi'
-import { IAxiosError, AxiosError } from './api/IAxiosError'
+import { AxiosError, IAxiosError } from './api/IAxiosError'
 import { Collection, ICollection } from './collection/ICollection'
 import { IQuery, Query } from './collection/IQuery'
 import { IQueryPage, QueryPage } from './collection/IQueryPage'
@@ -8,6 +8,7 @@ import { IModelState, ModelState } from './model/IModelState'
 import { IModelParams, ModelParams } from './model/IModelParams'
 import { ApiResponse, IApiResponse } from './api/IApiResponse'
 import { BroadcastMessage } from './events/EventTypes'
+import { Permissions, Policy } from './policy/IPolicy'
 
 export {
   Api,
@@ -17,6 +18,8 @@ export {
   Model,
   ModelParams,
   ModelState,
+  Permissions,
+  Policy,
   Query,
   QueryPage,
   BroadcastMessage,

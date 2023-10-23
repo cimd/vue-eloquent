@@ -16,7 +16,7 @@ import EloquentError from './EloquentError'
 import Listener from './listeners/Listener'
 import Model from './model/Model'
 import ModelError from './model/ModelError'
-import Permissions from './acl/Permissions'
+import Policy from './policy/Policy'
 import PiniaApiPlugin from './plugins/PiniaApiPlugin'
 import PrivateChannel from './events/PrivateChannel'
 import PresenceChannel from './events/PresenceChannel'
@@ -45,7 +45,7 @@ export {
   Listener,
   ModelApi,
   ModelError,
-  Permissions,
+  Policy,
   PiniaApiPlugin,
   PresenceChannel,
   PrivateChannel,

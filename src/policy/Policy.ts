@@ -1,34 +1,31 @@
 import { reactive, ref } from 'vue'
 import Action from '../enums/Action'
+import type { Permissions } from './IPolicy'
 
-export type IPermissions = {
-  create?: boolean,
-  read?: boolean,
-  update?: boolean,
-  delete?: boolean
-}
-
-export default class Permissions {
+export default class Policy {
   /**
-   * Create a new Permissions instance.
+   * Create a new Policy instance.
    *
    * @private
-   * @params { IPermissions } permissions: CRUD
+   * @params { Permissions } permissions: CRUD
    */
-  private permissions: IPermissions = reactive({
+  private permissions: Permissions = reactive({
     create: false,
     read: false,
     update: false,
     delete: false
   })
+
+  constructor(args?: Permissions) {
+    if (args) this.set(args)
+  }
+
   /**
    * Action being performed on the model (CRUD): CREATE, READ, UPDATE, DELETE
    * @param { Ref(Action) } action
    */
   private _action = ref(Action.CREATE)
-  constructor(args?: IPermissions) {
-    if (args) this.set(args)
-  }
+
   get action(): Action
   {
     return this._action.value
@@ -43,9 +40,9 @@ export default class Permissions {
   /**
    * Sets the user permissions
    *
-   * @param { IPermissions } args
+   * @param { Permissions } args
    */
-  set(args: IPermissions)
+  set(args: Permissions)
   {
     (typeof args.create !== 'undefined') ? this.permissions.create = args.create : this.permissions.create = false;
     (typeof args.read !== 'undefined') ? this.permissions.read = args.read : this.permissions.read = false;
@@ -67,6 +64,18 @@ export default class Permissions {
   }
 
   /**
+   * Returns true if the user cannot perform the given action on the model
+   *
+   * @param { Action } action
+   * @returns { boolean }
+   */
+  cannot(action: Action): boolean
+  {
+    // console.log(action)
+    return !this.permissions[ action ]
+  }
+
+  /**
    * Returns true if the model is in read-only mode
    *
    * @returns { boolean }
@@ -76,6 +85,11 @@ export default class Permissions {
     return this.permissions.update && (this._action.value === Action.READ)
   }
 
+  /**
+   * Puts the model in edit mode if the user has permission
+   *
+   * @returns { boolean }
+   */
   edit(): boolean
   {
     if (!this.permissions.update) return false
