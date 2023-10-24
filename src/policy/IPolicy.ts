@@ -7,7 +7,7 @@ export type Permissions = {
   delete?: boolean
 }
 
-export interface Policy {
+export declare class Policy {
   /**
    * Create a new Policy instance.
    *
@@ -17,6 +17,7 @@ export interface Policy {
   permissions: Permissions
   action: Action
 
+  constructor(args?: Permissions)
   /**
    * Sets the user permissions
    *

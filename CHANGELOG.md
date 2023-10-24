@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased]
 ### Added
 - New interfaces
+- Policy class
 ### Changed
 ### Fixed
 - Correctly exporting types

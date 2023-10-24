@@ -7,7 +7,6 @@ export interface IModel {
     model: any
     originalModel: any
     defaultModel: any
-    parameters: undefined | any
     api: IApi
     protected: string[]
     relations: undefined | any[]
@@ -46,50 +45,50 @@ export interface IModel {
     hasMany(api: any, primaryKey: string, id: number): Promise<any[]>
 }
 
-export interface Model<T> {
-    model: T
-    originalModel: any
-    defaultModel: any
-    parameters: undefined | Partial<T>
-    api: Api
-    protected: string[]
-    relations: undefined | any[]
-    state: ModelState
+export declare class Model<T> {
+  model: T
+  originalModel: any
+  defaultModel: any
+  parameters: undefined | Partial<T>
+  api: Api
+  protected: string[]
+  relations: undefined | any[]
+  state: ModelState
 
-    getDefault(param: string): any
-    factory(model?: T): void
-    setModel(data: T): void
-    setOriginal(): void
-    instance(): Model<T>
+  getDefault(param: string): any
+  factory(model?: T): void
+  setModel(data: T): void
+  setOriginal(): void
+  instance(): Model<T>
 
-    find<T>(id: number): Promise<Model<T>>
-    save(action?: Action): Promise<{ model: T, actioned: Actioned.CREATED | Actioned.UPDATED }>
-    create<T>(): Promise<T>
-    update<T>(): Promise<T>
-    delete<T>(): Promise<T>
+  find<T>(id: number): Promise<Model<T>>
+  save(action?: Action): Promise<{ model: T, actioned: Actioned.CREATED | Actioned.UPDATED }>
+  create<T>(): Promise<T>
+  update<T>(): Promise<T>
+  delete<T>(): Promise<T>
 
-    fresh(): void
-    refresh(id?: number): Promise<void>
-    getOriginal(): T
+  fresh(): void
+  refresh(id?: number): Promise<void>
+  getOriginal(): T
 
-    retrieving(): void
-    retrieved(payload: any): void
-    creating(): void
-    created(payload: any): void
-    updating(): void
-    updated(payload: any): void
-    deleting(): void
-    deleted(payload: any): void
-    saved(payload: any): void
+  retrieving(): void
+  retrieved(payload: any): void
+  creating(): void
+  created(payload: any): void
+  updating(): void
+  updated(payload: any): void
+  deleting(): void
+  deleted(payload: any): void
+  saved(payload: any): void
 
-    load(args?: string | string[]): Promise<any>
-    hasOne<K>(api: Api, primaryKey: number): Promise<K>
-    hasMany<K>(api: Api, primaryKey: string, id: number): Promise<K[]>
+  load(args?: string | string[]): Promise<any>
+  hasOne<K>(api: Api, primaryKey: number): Promise<K>
+  hasMany<K>(api: Api, primaryKey: string, id: number): Promise<K[]>
 
-    setStateLoading(): void
-    setStateSuccess(): void
-    setStateError(): void
+  setStateLoading(): void
+  setStateSuccess(): void
+  setStateError(): void
 
-    hasOne(api: any, primaryKey: number): Promise<any>
-    hasMany(api: any, primaryKey: string, id: number): Promise<any[]>
+  hasOne(api: any, primaryKey: number): Promise<any>
+  hasMany(api: any, primaryKey: string, id: number): Promise<any[]>
 }

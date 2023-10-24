@@ -37,25 +37,25 @@ export interface IApi {
     updateValidationRules<T>(payload: any): Promise<IApiResponse<T>>
 }
 
-export interface Api {
-    resource: string
-    apiPrefix: string
-    dates: string[]
+export declare class Api {
+  resource: string
+  apiPrefix: string
+  dates: string[]
 
-    /**
+  /**
      * Returns the resource
      *
      * @return { string } resource
      */
-    getResource(): string
+  getResource(): string
 
-    get<T>(payload?: any): Promise<ApiResponse<T[]>>
-    show<T>(id: number): Promise<ApiResponse<T>>
-    store<T>(payload: Partial<T>): Promise<ApiResponse<T>>
-    batchStore<T>(payload: T[]): Promise<ApiResponse<T[]>>
-    update<T>(payload: Partial<T>): Promise<ApiResponse<T>>
-    batchUpdate<T>(payload: T[]): Promise<ApiResponse<T[]>>
-    /**
+  get<T>(payload?: any): Promise<ApiResponse<T[]>>
+  show<T>(id: number): Promise<ApiResponse<T>>
+  store<T>(payload: Partial<T>): Promise<ApiResponse<T>>
+  batchStore<T>(payload: T[]): Promise<ApiResponse<T[]>>
+  update<T>(payload: Partial<T>): Promise<ApiResponse<T>>
+  batchUpdate<T>(payload: T[]): Promise<ApiResponse<T[]>>
+  /**
      * Deletes a single model through the API
      *
      * @deprecated
@@ -64,28 +64,28 @@ export interface Api {
      * @param { any } payload - Model
      * @return { Promise<any> } The data from the API
      */
-    delete(payload: any): Promise<any>
-    destroy<T>(payload: Partial<T> | number): Promise<ApiResponse<T>>
-    batchDestroy<T>(payload: T[]): Promise<ApiResponse<T[]>>
-    logs(payload: { id: number } | number): Promise<any[]>
+  delete(payload: any): Promise<any>
+  destroy<T>(payload: Partial<T> | number): Promise<ApiResponse<T>>
+  batchDestroy<T>(payload: T[]): Promise<ApiResponse<T[]>>
+  logs(payload: { id: number } | number): Promise<any[]>
 
-    transformResponse(response: string): any
-    fetching(payload: any): void
-    fetchingError(err: any): void
-    fetched(payload: any): void
-    retrieving(payload: any): void
-    retrievingError(err: any): void
-    retrieved(payload: any): void
-    storing(payload: any): void
-    storingError(err: any): void
-    stored(payload: any): void
-    updating(payload: any): void
-    updatingError(err: any): void
-    updated(payload: any): void
-    destroying(payload: any): void
-    destroyingError(err: any): void
-    destroyed(payload: any): void
+  transformResponse(response: string): any
+  fetching(payload: any): void
+  fetchingError(err: any): void
+  fetched(payload: any): void
+  retrieving(payload: any): void
+  retrievingError(err: any): void
+  retrieved(payload: any): void
+  storing(payload: any): void
+  storingError(err: any): void
+  stored(payload: any): void
+  updating(payload: any): void
+  updatingError(err: any): void
+  updated(payload: any): void
+  destroying(payload: any): void
+  destroyingError(err: any): void
+  destroyed(payload: any): void
 
-    storeValidationRules<T>(payload: any): Promise<ApiResponse<T>>
-    updateValidationRules<T>(payload: any): Promise<ApiResponse<T>>
+  storeValidationRules<T>(payload: any): Promise<ApiResponse<T>>
+  updateValidationRules<T>(payload: any): Promise<ApiResponse<T>>
 }

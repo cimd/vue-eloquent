@@ -11,10 +11,11 @@
       "path": "./tsconfig.vitest.json"
     }
   ],
+  "emitDeclarationOnly": true,
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "baseUrl": ".",
     "types": ["@types/lodash"],
     "lib": [
