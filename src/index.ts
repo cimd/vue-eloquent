@@ -10,16 +10,16 @@ import Action from './enums/Action'
 import Actioned from './enums/Actioned'
 import Collection from './collection/Collection'
 import CollectionError from './collection/CollectionError'
-import Channel from './events/Channel'
-import Event from './events/Event'
+// import Channel from './events/Channel'
+// import Event from './events/Event'
 import EloquentError from './EloquentError'
 import Listener from './listeners/Listener'
 import Model from './model/Model'
 import ModelError from './model/ModelError'
 import Policy from './policy/Policy'
 import PiniaApiPlugin from './plugins/PiniaApiPlugin'
-import PrivateChannel from './events/PrivateChannel'
-import PresenceChannel from './events/PresenceChannel'
+// import PrivateChannel from './events/PrivateChannel'
+// import PresenceChannel from './events/PresenceChannel'
 import ModelApi from './api/ModelApi'
 import VueEloquentPlugin from './devtools/devToolsPlugin'
 
@@ -30,7 +30,7 @@ export {
   ApiError,
   ApiQuery,
   Model,
-  Channel,
+  // Channel,
   Collection,
   CollectionError,
   createHttp,
@@ -39,7 +39,7 @@ export {
   broadcast,
   createBroadcast,
   EloquentError,
-  Event,
+  // Event,
   formatDates,
   formatObject,
   Listener,
@@ -47,6 +47,6 @@ export {
   ModelError,
   Policy,
   PiniaApiPlugin,
-  PresenceChannel,
-  PrivateChannel,
+  // PresenceChannel,
+  // PrivateChannel,
 }

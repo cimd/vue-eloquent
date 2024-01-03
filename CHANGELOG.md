@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Policy class
 - Bump dependencies
 ### Changed
+- Removed Event exports
 ### Fixed
 - Correctly exporting types
 
