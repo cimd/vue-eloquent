@@ -46,4 +46,12 @@ export const PiniaApiHandlers = [
       })
     )
   }),
+  rest.delete('http://localhost:8000/api/eloquent-api/stores/state-posts-1', (req, res, ctx) => {
+    return res(
+      ctx.status(204),
+      ctx.json({
+        data: null,
+      })
+    )
+  }),
 ]

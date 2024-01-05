@@ -13,3 +13,17 @@ export interface IAxiosError {
         request?: any
     }
 }
+
+export interface AxiosError {
+    code: string
+    config: any
+    request: any
+    response: {
+        data?: any,
+        status?: number,
+        statusText?: string
+        headers?: AxiosHeaders
+        config?: any
+        request?: any
+    }
+}

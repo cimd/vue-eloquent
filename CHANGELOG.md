@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 ### Changed
 ### Fixed
+
+## [1.1.0]
+### Added
+- New interfaces
+- Policy class
+- Bump dependencies
+### Changed
+- Removed Event exports
+### Fixed
+- Correctly exporting types
+
+## [1.0.1]
+### Added
+- Model require
+### Changed
+### Fixed
 - Model lazy load relationship array
 
 ## [1.0.0]

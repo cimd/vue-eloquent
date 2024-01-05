@@ -11,9 +11,10 @@ declare module 'pinia' {
       name?: string;
       sync?: boolean;
     }
-    $sync(sync: boolean): void;
-    $save(): void;
-    $get(key: string): Promise<IApiResponse<{ data: any, store: string }>>;
+    $sync(sync?: boolean): void;
+    $save(): Promise<IApiResponse<{ data: any, store: string }>>;
+    $get(key?: string): Promise<IApiResponse<{ data: any, store: string }>>;
+    $delete(key?: string): Promise<IApiResponse<{ data: any, store: string }>>;
   }
 }
 
@@ -57,7 +58,7 @@ export default function PiniaApiPlugin(context: PiniaPluginContext) {
       // console.log(response)
       return response
     },
-    $get: async (key: string): Promise<IApiResponse<{ data: any, store: string }>> => {
+    $get: async (key?: string): Promise<IApiResponse<{ data: any, store: string }>> => {
       const response: IApiResponse<{ data: any, store: string }> = await StoreApi.get({ key: key ?? context.store._storeName })
       context.store.$sync(false)
       context.store.$state = response.data
@@ -69,6 +70,11 @@ export default function PiniaApiPlugin(context: PiniaPluginContext) {
       // })
       // console.log(response)
       return response
-    }
+    },
+    $delete: async (key?: string):Promise<IApiResponse<{ data: any, store: string }>> => {
+      const response: IApiResponse<{ data: any, store: string }> = await StoreApi.destroy({ key: key ?? context.store._storeName })
+      context.store.$sync(false)
+      return response
+    },
   }
 }

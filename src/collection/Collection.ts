@@ -1,13 +1,13 @@
 import { onBeforeUnmount, reactive } from 'vue'
 import { broadcast } from '../broadcast/broadcast'
-import type { IModelState } from '../model/IModelState'
+import type { ModelState } from '../model/IModelState'
 import CollectionError from '../collection/CollectionError'
 import ApiQuery from '../api/ApiQuery'
 import { addModelInspector } from '../model/modelInspector'
 import { v4 as uuid } from 'uuid'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 import { IApiResponse } from '../api/IApiResponse'
-import { IApi } from '../api/IApi'
+import { Api } from '../api/IApi'
 
 export default abstract class Collection extends ApiQuery {
   /**
@@ -21,7 +21,7 @@ export default abstract class Collection extends ApiQuery {
   /**
    * Loading, success and error messages from API requests
    */
-  state: IModelState = reactive({
+  state: ModelState = reactive({
     isLoading: false,
     isSuccess: true,
     isError: false
@@ -29,7 +29,7 @@ export default abstract class Collection extends ApiQuery {
   /**
    * API class related to the model
    */
-  protected api: IApi
+  protected api: Api
   protected isBroadcasting: boolean = false
 
   /**

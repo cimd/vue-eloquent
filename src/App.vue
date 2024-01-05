@@ -9,9 +9,10 @@ import EventError from '../src/events/EventError'
 import PostsEvent from '../test/mocks/PostsEvent'
 import PostsListener from '../test/mocks/PostsListener'
 import PostApi from '../examples/PostApi'
-import UserStore from '../examples/UserStore'
+// import UserStore from '../examples/UserStore'
 import { usePostStore } from '../examples/PostStore'
 import { mapState } from 'pinia'
+import Post from '../examples/Post'
 
 export default defineComponent({
   name: 'IndexPage',
@@ -40,7 +41,8 @@ export default defineComponent({
     // store.$sync()
     // store.name = 'Carla'
     // store.$get()
-    this.testError()
+    // this.testError()
+    this.testRelations()
   },
   methods: {
     async testHttp() {
@@ -113,6 +115,10 @@ export default defineComponent({
         .catch(err => {
           console.log(err)
         })
+    },
+    testRelations() {
+      this.post = new Post({ id: 1 })
+      console.log(this.post.comments().delete({ id: 1, comment: 'Testing' }))
     }
   }
 })

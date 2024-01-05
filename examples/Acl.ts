@@ -1,6 +1,6 @@
-import { Permissions } from '../src/index'
+import { Policy } from '../src/index'
 
-export default class Acl extends Permissions {
+export default class Acl extends Policy {
 
   constructor(acl?: any)
   {

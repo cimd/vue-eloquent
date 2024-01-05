@@ -3,31 +3,30 @@ import { reactive } from 'vue'
 import Action from '../enums/Action'
 import Actioned from '../enums/Actioned'
 import Validator from './Validator'
-import type { IModelState } from '../model/IModelState'
+import type { ModelState } from '../model/IModelState'
 import ModelError from '../model/ModelError'
 import { addModelInspector } from './modelInspector'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 import { v4 as uuid } from 'uuid'
-import { IApiResponse } from '../api/IApiResponse'
+import { ApiResponse, IApiResponse } from '../api/IApiResponse'
 import { mapRules } from './MapRules'
-import Api from '../api/Api'
-import { IApi } from '../api/IApi'
-import { IModelParams } from '@/model/IModelParams'
+import { Api } from '../api/IApi'
+import { ModelParams } from 'src/model/IModelParams'
 
-export default abstract class Model<T extends IModelParams> extends Validator {
+export default abstract class Model<T extends ModelParams> extends Validator {
   /**
    * Model values
    * Should be a reactive object
    */
-  declare public model: T
+  declare model: T
   /**
    * Model relationships
    */
-  public relations: undefined | any
+  relations: undefined | any[]
   /**
    * Loading, success and error messages from API requests
    */
-  public state: IModelState = reactive({
+  state: ModelState = reactive({
     isLoading: false,
     isSuccess: true,
     isError: false
@@ -35,13 +34,13 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * Added for devtools support
    */
-  public uuid: string
+  uuid: string
   /**
    * Laravel Precognition's error messages
    */
-  public errors: any[] = []
-  public isValid: boolean = true
-  public isInvalid: boolean = false
+  errors: any[] = []
+  isValid: boolean = true
+  isInvalid: boolean = false
   /**
    * To check if model is dirty / has been modified
    */
@@ -53,7 +52,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * API class related to the model
    */
-  protected api: IApi
+  protected api: Api
   protected protected: string[] = ['id', 'created_at', 'updated_at', 'deleted_at']
   /**
    * To return the model to fresh/initial state
@@ -86,7 +85,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
     return self
   }
 
-  protected static instance(): Model<any>
+  protected static instance(): Model<T>
   {
     // @ts-ignore
     return new this
@@ -243,7 +242,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
    * Get model change logs
    * @async
    */
-  async logs(): Promise<IApiResponse<any[]>>
+  async logs(): Promise<ApiResponse<any[]>>
   {
     this.setStateLoading()
     try {
@@ -292,7 +291,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
     }
   }
 
-  getOriginal(): any
+  getOriginal(): T
   {
     return this.originalModel
   }
@@ -305,13 +304,15 @@ export default abstract class Model<T extends IModelParams> extends Validator {
    */
   async load(args?: string | string[]): Promise<any>
   {
+    // console.log(args)
+    // console.log(this)
     switch (typeof args) {
     case 'string':
-      this.model[ args ] = await this[ args ]()
+      this.model[ args ] = await this[ args ]().get()
       break
     case 'object':
       for (const arg of args) {
-        this.model[ arg ] = await this[ arg ]()
+        this.model[ arg ] = await this[ arg ]().get()
       }
       break
     default:
@@ -328,10 +329,36 @@ export default abstract class Model<T extends IModelParams> extends Validator {
    * @param { string } primaryKey of the relationship
    * @return { Promise<any> } Model
    */
-  async hasOne<K>(api: typeof Api, primaryKey: number): Promise<K>
+  // async hasOne<K>(name: string, api: Api, primaryKey: number): Promise<K>
+  // {
+  //   const result = await api.show<K>(primaryKey)
+  //   return result.data
+  // }
+
+  hasOne(api: Api, primaryKey: number): any
   {
-    const result = await api.show<K>(primaryKey)
-    return result.data
+    const parentResource = this.api.getResource()
+    return {
+      get: async (payload: any) => {
+        return await api.hasOne().get(parentResource, primaryKey, payload)
+      },
+      show: async (payload: any) => {
+        const result = await api.hasOne().show(parentResource, primaryKey, payload)
+        return result.data
+      },
+      create: async (payload: any) => {
+        const result = await api.hasOne().create(parentResource, primaryKey, payload)
+        return result.data
+      },
+      update: async (payload: any) => {
+        const result = await api.hasOne().update(parentResource, primaryKey, payload)
+        return result.data
+      },
+      delete: async (payload: any) => {
+        const result = await api.hasOne().delete(parentResource, primaryKey, payload)
+        return result.data
+      },
+    }
   }
 
   /**
@@ -343,10 +370,37 @@ export default abstract class Model<T extends IModelParams> extends Validator {
    * @param { number } id of the relationship
    * @return { Promise<any> } Collection of Models
    */
-  async hasMany<K>(api: typeof Api, primaryKey: string, id: number): Promise<K[]>
+
+  // async hasMany<K>(api: Api, primaryKey: string, id: number): Promise<K[]>
+  // {
+  //   const result = await api.get<K>({ primary_key: id })
+  //   return result.data
+  // }
+  hasMany(api: Api, primaryKey: number): any
   {
-    const result = await api.get<K>({ primary_key: id })
-    return result.data
+    // console.log('hasMany relationship')
+    const parentResource = this.api.getResource()
+    return {
+      get: async (payload: any) => {
+        return await api.hasMany().get(parentResource, primaryKey, payload)
+      },
+      show: async (payload: any) => {
+        const result = await api.hasMany().show(parentResource, primaryKey, payload)
+        return result.data
+      },
+      create: async (payload: any) => {
+        const result = await api.hasMany().create(parentResource, primaryKey, payload)
+        return result.data
+      },
+      update: async (payload: any) => {
+        const result = await api.hasMany().update(parentResource, primaryKey, payload)
+        return result.data
+      },
+      delete: async (payload: any) => {
+        const result = await api.hasMany().delete(parentResource, primaryKey, payload)
+        return result.data
+      },
+    }
   }
 
   async getValidationRules(action?: Action)
@@ -428,7 +482,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
    * @param { any } model Model object
    * @protected
    */
-  protected factory(model?: any): void
+  protected factory(model?: T): void
   {
     this.defaultModel = Object.assign({}, this.model)
     if (model) this.setModel(model)
@@ -552,7 +606,7 @@ export default abstract class Model<T extends IModelParams> extends Validator {
   /**
    * API returned success response
    */
-  protected setStateSuccess()
+  protected setStateSuccess(): void
   {
     this.state.isLoading = false
     this.state.isSuccess = true

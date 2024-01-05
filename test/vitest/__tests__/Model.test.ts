@@ -115,9 +115,10 @@ describe('model', () => {
   it('fetches hasOne', async () => {
     const post = new Post()
     await post.refresh(1)
-    const author = await post.author()
+    const comments = await post.comments().show()
+    console.log(comments)
 
-    expect(author).toContain({ id: 1 })
+    expect(comments).toContain({ id: 1 })
   })
 
   it('fetches hasMany', async () => {
