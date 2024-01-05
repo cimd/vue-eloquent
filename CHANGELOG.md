@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 ### Added
+### Changed
+### Fixed
+
+## [1.1.0]
+### Added
 - New interfaces
 - Policy class
 - Bump dependencies
