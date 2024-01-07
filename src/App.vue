@@ -4,9 +4,8 @@ import PostsCollection from '../examples/PostsCollection'
 import { createHttp } from '../src/index'
 import http from '../test/mocks/axios-mock'
 import broadcast from '../test/mocks/pusher-mock'
-import { createBroadcast } from '../src/broadcast/broadcast'
 import EventError from '../src/events/EventError'
-import PostsEvent from '../test/mocks/PostsEvent'
+// import PostsEvent from '../test/mocks/PostsEvent'
 import PostsListener from '../test/mocks/PostsListener'
 import PostApi from '../examples/PostApi'
 // import UserStore from '../examples/UserStore'
@@ -68,10 +67,10 @@ export default defineComponent({
         })
     },
     testEvent() {
-      createBroadcast(broadcast)
-      const event = new PostsEvent()
-      console.log(event)
-      return event
+      // createBroadcast(broadcast)
+      // const event = new PostsEvent()
+      // console.log(event)
+      // return event
     },
     testListener(event) {
       const posts = new PostsCollection()
