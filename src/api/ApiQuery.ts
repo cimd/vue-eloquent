@@ -166,7 +166,7 @@ export default abstract class ApiQuery {
    * @param {object} paging - The pagination options
    * @returns {this} The query instance
    */
-  page(paging: IQueryPage): this
+  paginate(paging: IQueryPage): this
   {
     Object.assign(this.paging, paging)
     refreshInspector().then()
@@ -179,10 +179,10 @@ export default abstract class ApiQuery {
    * @param {object} paging - The pagination options
    * @returns {this} The query instance
    */
-  static page(paging: IQueryPage): this
+  static paginate(paging: IQueryPage): this
   {
     const self = this.instance()
-    return self.page(paging)
+    return self.paginate(paging)
   }
 
   /**
@@ -209,7 +209,7 @@ export default abstract class ApiQuery {
       qs.append = this.attributes
     }
     if (this.paging) {
-      qs.page = this.paging
+      qs.paginate = this.paging
     }
 
     return qs

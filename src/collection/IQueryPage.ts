@@ -2,22 +2,22 @@ export interface IQueryPage {
     /*
     * The page number that the client is requesting
     */
-    number?: number,
+    page?: number,
 
     /*
     * A limit on the number of resources to be returned
     */
-    limit?: number
+    pageSize?: number
 }
 
 export interface QueryPage {
     /*
     * The page number that the client is requesting
     */
-    number?: number,
+    page?: number,
 
     /*
     * A limit on the number of resources to be returned
     */
-    limit?: number
+    pageSize?: number
 }
