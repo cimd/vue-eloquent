@@ -4,17 +4,12 @@ import PostsCollection from '../examples/PostsCollection'
 import { createHttp } from '../src/index'
 import http from '../test/mocks/axios-mock'
 import broadcast from '../test/mocks/pusher-mock'
-import EventError from '../src/events/EventError'
-// import PostsEvent from '../test/mocks/PostsEvent'
-import PostsListener from '../test/mocks/PostsListener'
 import PostApi from '../examples/PostApi'
-// import UserStore from '../examples/UserStore'
 import { usePostStore } from '../examples/PostStore'
 import { mapState } from 'pinia'
 import Post from '../examples/Post'
 
 export default defineComponent({
-  name: 'IndexPage',
   data() {
     return {}
   },
@@ -59,28 +54,12 @@ export default defineComponent({
       // createBroadcast(broadcast)
       broadcast
         .channel('test')
-        .error((error: any) => {
-          throw new EventError('Event', error)
+        .error((_error: any) => {
+          // throw new EventError('Event', error)
         })
         .listen('.created', (e: any) => {
           console.log(e)
         })
-    },
-    testEvent() {
-      // createBroadcast(broadcast)
-      // const event = new PostsEvent()
-      // console.log(event)
-      // return event
-    },
-    testListener(event) {
-      const posts = new PostsCollection()
-      console.log(posts)
-      const listener = new PostsListener(event, posts)
-      console.log(listener)
-      console.log(posts.data)
-      setTimeout(() => {
-        console.log(posts.data)
-      }, 5000)
     },
     async getFilter() {
       createHttp({ httpClient: http })
@@ -89,15 +68,15 @@ export default defineComponent({
       console.log(result)
     },
     testStore() {
-      createHttp({ httpClient: http })
-      console.log('testStore')
-      const _store = new UserStore()
-      setTimeout(() => {
-        // console.log('timout')
-        // store.state.id = 1
-        // store.state.user.name = 'Heitor'
-        // store.delete()
-      }, 2000)
+      // createHttp({ httpClient: http })
+      // console.log('testStore')
+      // const _store = new UserStore()
+      // setTimeout(() => {
+      //   // console.log('timout')
+      //   // store.state.id = 1
+      //   // store.state.user.name = 'Heitor'
+      //   // store.delete()
+      // }, 2000)
       // store.test = 'test'
       // console.log(store.test)
       // store.state = { id: 1 }
@@ -117,7 +96,7 @@ export default defineComponent({
     },
     testRelations() {
       this.post = new Post({ id: 1 })
-      console.log(this.post.comments().delete({ id: 1, comment: 'Testing' }))
+      // console.log(this.post.comments().delete({ id: 1, comment: 'Testing' }))
     }
   }
 })
