@@ -19,11 +19,10 @@
     "axios": "^1.6.5",
     "laravel-echo": "^1.15.3",
     "lodash": "^4.17.21",
-    "rxjs": "^7.8.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.6.1",
+    "@rushstack/eslint-patch": "1.5.1",
     "@types/jsdom": "^21.1.6",
     "@types/lodash": "^4.14.199",
     "@types/node": "^20.8.4",
@@ -33,7 +32,7 @@
     "@vitest/coverage-istanbul": "^0.34.6",
     "@vitest/ui": "^0.34.6",
     "@vue/devtools-api": "^6.5.1",
-    "@vue/eslint-config-prettier": "^8.0.0",
+    "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^12.0.0",
     "@vue/test-utils": "^2.4.1",
     "@vue/tsconfig": "^0.5.1",
@@ -50,7 +49,7 @@
     "pusher-js": "^8.3.0",
     "pusher-js-mock": "^0.3.8",
     "typescript": "5.2.2",
-    "vite": "^4.4.11",
+    "vite": "^5.0.11",
     "vitest": "^0.34.6",
     "vue": "^3.3.4",
     "vue-tsc": "^1.8.27"
