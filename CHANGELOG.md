@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased]
 ### Added
 ### Changed
+### Fixed
+
+## [1.1.2]
+### Added
+- retriving and retrived callbacks to Model's refresh method
+### Changed
 - Pagination api
 ### Fixed
 
