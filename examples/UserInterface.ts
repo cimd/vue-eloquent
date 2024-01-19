@@ -1,6 +1,6 @@
-import { IModel } from '../../src/model/ModelInterface'
+import { IModelParams } from 'src/model/IModelParams'
 
-export interface IUser extends IModel {
+export interface IUser extends IModelParams {
     id: number
     name: string
 }

@@ -278,11 +278,13 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   {
     try {
       this.setStateLoading()
+      this.retrieving()
       const modelId = id ? id : this.model.id
       const response: IApiResponse<T> = await this.api.show<T>(modelId)
       this.setOriginal()
       this.setStateSuccess()
       this.factory(response.data)
+      this.retrieved(response.data)
       addTimelineEvent({ title: 'Refreshed', data: { model: response.data }})
     }
     catch (e: any) {

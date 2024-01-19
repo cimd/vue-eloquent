@@ -28,8 +28,8 @@ describe('model api', () => {
 
     expect(result.data.length).toBe(2)
   })
-  it('page method', async () => {
-    const result = await PostApi.page({ number: 1 }).get<IPost>()
+  it('paginate method', async () => {
+    const result = await PostApi.paginate({ page: 1, pageSize: 5 }).get<IPost>()
 
     expect(result.data.length).toBe(2)
   })

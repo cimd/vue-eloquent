@@ -7,7 +7,7 @@ import UserApi from './UserApi'
 import { IUser } from './UserInterface'
 import CommentApi from './CommentApi'
 
-export default class Post extends Model {
+export default class Post extends Model<IPost> {
   public model = reactive<IPost>({
     id: undefined,
     created_at: undefined,

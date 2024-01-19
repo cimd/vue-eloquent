@@ -14,7 +14,7 @@ export interface IAxiosError {
     }
 }
 
-export interface AxiosError {
+export interface AxiosError extends Error{
     code: string
     config: any
     request: any

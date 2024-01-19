@@ -5,7 +5,7 @@ export interface IQuery {
     include?: string,
     append?: string[],
     filter?: any[],
-    page?: IQueryPage,
+    paginate?: IQueryPage,
     sort?: string
 }
 
@@ -14,6 +14,6 @@ export interface Query {
     include?: string,
     append?: string[],
     filter?: any[],
-    page?: IQueryPage,
+    paginate?: IQueryPage,
     sort?: string
 }
