@@ -1,4 +1,4 @@
-import { Api, IApi } from './api/IApi'
+import { IApi } from './api/IApi'
 import { AxiosError, IAxiosError } from './api/IAxiosError'
 import { Collection, ICollection } from './collection/ICollection'
 import { IQuery, Query } from './collection/IQuery'
@@ -8,6 +8,8 @@ import { IModelState, ModelState } from './model/IModelState'
 import { IModelParams, ModelParams } from './model/IModelParams'
 import { ApiResponse, IApiResponse } from './api/IApiResponse'
 import { Permissions, Policy } from './policy/IPolicy'
+
+import Api from './api/Api'
 
 export {
   Api,
