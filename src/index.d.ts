@@ -7,7 +7,6 @@ import { IModel, Model } from './model/IModel'
 import { IModelState, ModelState } from './model/IModelState'
 import { IModelParams, ModelParams } from './model/IModelParams'
 import { ApiResponse, IApiResponse } from './api/IApiResponse'
-import { BroadcastMessage } from './events/EventTypes'
 import { Permissions, Policy } from './policy/IPolicy'
 
 export {
@@ -22,7 +21,6 @@ export {
   Policy,
   Query,
   QueryPage,
-  BroadcastMessage,
 
   // Deprecated
   IApi,
