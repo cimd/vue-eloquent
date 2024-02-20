@@ -65,15 +65,15 @@ export declare class Collection<T> {
 
   joinChannel(channel?: string): void
   leaveChannel(): void
-  broadcastCreated(e: any): void
-  broadcastUpdated(e: any): void
-  broadcastDeleted(e: any): void
+  protected broadcastCreated(e: any): void
+  protected broadcastUpdated(e: any): void
+  protected broadcastDeleted(e: any): void
 
   setStateLoading(): void
   setStateSuccess(): void
   setStateError(): void
 
-  updateDataSource<T>(data: T[]): void
+  protected updateDataSource<T>(data: T[]): void
   queryString(): Query
 
   fetching(payload?: any): void
