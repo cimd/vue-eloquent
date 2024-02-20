@@ -2,6 +2,7 @@ import { IModelState } from '../model/IModelState'
 import { IQueryPage, QueryPage } from '../collection/IQueryPage'
 import { IQuery, Query } from '../collection/IQuery'
 import { IApi } from '../api/IApi'
+import Api from '@/api/Api'
 
 export interface ICollection<T> {
     data: T[]
@@ -41,7 +42,7 @@ export interface ICollection<T> {
 
 export declare class Collection<T> {
   data: T[]
-  api: IApi
+  api: Api
   state: IModelState
 
   filter: any
