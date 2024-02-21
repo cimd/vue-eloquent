@@ -49,8 +49,8 @@ export declare class Model<T> {
   model: T
   originalModel: any
   defaultModel: any
-  parameters: undefined | Partial<T>
-  api: Api
+  protected parameters: undefined | Partial<T>
+  protected api: Api
   protected: string[]
   relations: undefined | any[]
   state: ModelState
@@ -73,9 +73,9 @@ export declare class Model<T> {
 
   retrieving(): void
   retrieved(payload: any): void
-  creating(): void
+  protected creating(): void
   created(payload: any): void
-  updating(): void
+  protected updating(): void
   updated(payload: any): void
   deleting(): void
   deleted(payload: any): void

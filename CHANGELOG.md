@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 ### Fixed
 
+## [1.1.3]
+### Added
+### Changed
+- Bump versions
+### Fixed
+- Types exports
+
 ## [1.1.2]
 ### Added
 - retriving and retrived callbacks to Model's refresh method
