@@ -2,6 +2,7 @@ import { IModelState } from '../model/IModelState'
 import { IQueryPage, QueryPage } from '../collection/IQueryPage'
 import { IQuery, Query } from '../collection/IQuery'
 import { IApi } from '../api/IApi'
+import Api from '@/api/Api'
 
 export interface ICollection<T> {
     data: T[]
@@ -41,7 +42,7 @@ export interface ICollection<T> {
 
 export declare class Collection<T> {
   data: T[]
-  api: IApi
+  api: Api
   state: IModelState
 
   filter: any
@@ -64,15 +65,15 @@ export declare class Collection<T> {
 
   joinChannel(channel?: string): void
   leaveChannel(): void
-  broadcastCreated(e: any): void
-  broadcastUpdated(e: any): void
-  broadcastDeleted(e: any): void
+  protected broadcastCreated(e: any): void
+  protected broadcastUpdated(e: any): void
+  protected broadcastDeleted(e: any): void
 
   setStateLoading(): void
   setStateSuccess(): void
   setStateError(): void
 
-  updateDataSource<T>(data: T[]): void
+  protected updateDataSource<T>(data: T[]): void
   queryString(): Query
 
   fetching(payload?: any): void

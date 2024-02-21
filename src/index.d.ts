@@ -10,6 +10,13 @@ import { ApiResponse, IApiResponse } from './api/IApiResponse'
 import { Permissions, Policy } from './policy/IPolicy'
 
 import Api from './api/Api'
+import { createHttp } from './http/http'
+import { createBroadcast } from './broadcast/broadcast'
+import Action from './enums/Action'
+import Actioned from './enums/Actioned'
+import { formatDates } from './helpers/formatDates'
+import VueEloquentPlugin from './devtools/devToolsPlugin'
+import ModelError from './model/ModelError'
 
 export {
   Api,
@@ -23,6 +30,14 @@ export {
   Policy,
   Query,
   QueryPage,
+
+  createHttp,
+  createBroadcast,
+  Action,
+  Actioned,
+  formatDates,
+  VueEloquentPlugin,
+  ModelError,
 
   // Deprecated
   IApi,
