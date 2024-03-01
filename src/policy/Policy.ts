@@ -34,7 +34,6 @@ export default class Policy {
   set action(mode: Action)
   {
     this._action.value = mode
-    // this.crud.isReadOnly = (mode === Action.READ)
   }
 
   /**
@@ -48,7 +47,6 @@ export default class Policy {
     (typeof args.read !== 'undefined') ? this.permissions.read = args.read : this.permissions.read = false;
     (typeof args.update!== 'undefined') ? this.permissions.update = args.update : this.permissions.update = false;
     (typeof args.delete!== 'undefined') ? this.permissions.delete = args.delete : this.permissions.delete = false
-    // console.log(this.permissions)
   }
 
   /**
@@ -59,7 +57,6 @@ export default class Policy {
    */
   can(action: Action): boolean
   {
-    // console.log(action)
     return this.permissions[ action ]
   }
 
@@ -71,7 +68,6 @@ export default class Policy {
    */
   cannot(action: Action): boolean
   {
-    // console.log(action)
     return !this.permissions[ action ]
   }
 
@@ -105,6 +101,7 @@ export default class Policy {
     this._action.value = Action.CREATE
     return true
   }
+
   reading(): boolean
   {
     if (!this.permissions.read) return false
@@ -112,6 +109,7 @@ export default class Policy {
     this._action.value = Action.READ
     return true
   }
+
   updating(): boolean
   {
     if (!this.permissions.update) return false
@@ -119,6 +117,7 @@ export default class Policy {
     this._action.value = Action.UPDATE
     return true
   }
+
   deleting(): boolean
   {
     if (!this.permissions.delete) return false
