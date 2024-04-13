@@ -73,7 +73,7 @@ export default class Policy {
 
   /**
    * Returns true if the model is in read-only mode
-   *
+   * @deprecated Use isReading() instead
    * @returns { boolean }
    */
   isReadOnly(): boolean
@@ -124,5 +124,22 @@ export default class Policy {
 
     this._action.value = Action.DELETE
     return true
+  }
+
+  isReading(): boolean
+  {
+    return this._action.value === Action.READ
+  }
+  isUpdating(): boolean
+  {
+    return this._action.value === Action.UPDATE
+  }
+  isDeleting(): boolean
+  {
+    return this._action.value === Action.DELETE
+  }
+  isCreating(): boolean
+  {
+    return this._action.value === Action.CREATE
   }
 }

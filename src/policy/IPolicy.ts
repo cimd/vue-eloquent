@@ -50,13 +50,54 @@ export declare class Policy {
 
   /**
    * Puts the model in edit mode if the user has permission
-   *
+   * @deprecated Use editing() instead
    * @returns { boolean }
    */
   edit(): boolean
 
+  /**
+   * Puts the model in create mode if the user has permission
+   *
+   * @returns { boolean }
+   */
   creating(): boolean
+  /**
+   * Puts the model in read mode if the user has permission
+   *
+   * @returns { boolean }
+   */
   reading(): boolean
+  /**
+   * Puts the model in update mode if the user has permission
+   *
+   * @returns { boolean }
+   */
   updating(): boolean
+
+  /**
+   * Puts the model in delete mode if the user has permission
+   *
+   * @returns { boolean }
+   */
   deleting(): boolean
+
+  /**
+   * Returns true if the model is in read state
+   */
+  isReading(): boolean
+
+  /**
+   * Returns true if the model is in update state
+   */
+  isUpdating(): boolean
+
+  /**
+   * Returns true if the model is in delete state
+   */
+  isDeleting(): boolean
+
+  /**
+   * Returns true if the model is in create state
+   */
+  isCreating(): boolean
 }
