@@ -115,8 +115,9 @@ describe('model', () => {
   it('fetches hasOne', async () => {
     const post = new Post()
     await post.refresh(1)
-    const comments = await post.comments().show()
-    console.log(comments)
+    const comments = await post.comments()
+    const test = comments.show(1)
+    console.log(test)
 
     expect(comments).toHaveProperty('id', 1)
   })

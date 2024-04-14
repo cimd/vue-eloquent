@@ -7,7 +7,6 @@ import broadcast from '../test/mocks/pusher-mock'
 import PostApi from '../examples/PostApi'
 import { usePostStore } from '../examples/PostStore'
 import { mapState } from 'pinia'
-import Post from '../examples/Post'
 
 export default defineComponent({
   data() {
@@ -90,13 +89,14 @@ export default defineComponent({
       PostApi.show(100)
         .then(() => {
         })
-        .catch(err => {
+        .catch((err: any) => {
           console.log(err)
         })
     },
-    testRelations() {
-      this.post = new Post({ id: 1 })
-      // console.log(this.post.comments().delete({ id: 1, comment: 'Testing' }))
+    async testRelations() {
+      const comments = await PostApi.hasOne('comments', 1).show({ id: 1 })
+      console.log(comments)
+      // console.log(post.comments().delete({ id: 1, comment: 'Testing' }))
     }
   }
 })

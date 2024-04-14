@@ -68,4 +68,64 @@ describe('model api', () => {
 
     expect(result.data.length).toEqual(2)
   })
+
+  it('hasOne Get', async () => {
+    const comments = await PostApi.hasOne('comments', 1).get()
+
+    expect(comments).toHaveProperty('id', 1)
+  })
+
+  it('hasOne Show', async () => {
+    const comments = await PostApi.hasOne('comments', 1).show({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
+
+  it('hasOne Create', async () => {
+    const comments = await PostApi.hasOne('comments', 1).create({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
+
+  it('hasOne Update', async () => {
+    const comments = await PostApi.hasOne('comments', 1).update({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
+
+  it('hasOne Delete', async () => {
+    const comments = await PostApi.hasOne('comments', 1).delete({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
+  
+  it('hasMany Get', async () => {
+    const comments = await PostApi.hasMany('comments', 1).get()
+
+    expect(comments.length).toEqual(2)
+  })
+
+  it('hasMany Show', async () => {
+    const comments = await PostApi.hasMany('comments', 1).show({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
+
+  it('hasMany Create', async () => {
+    const comments = await PostApi.hasMany('comments', 1).create({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
+
+  it('hasMany Update', async () => {
+    const comments = await PostApi.hasMany('comments', 1).update({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
+
+  it('hasMany Delete', async () => {
+    const comments = await PostApi.hasMany('comments', 1).delete({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
 })

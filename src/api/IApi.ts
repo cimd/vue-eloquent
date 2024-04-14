@@ -69,6 +69,15 @@ export declare class Api {
   batchDestroy<T>(payload: T[]): Promise<ApiResponse<T[]>>
   logs(payload: { id: number } | number): Promise<any[]>
 
+  hasOne(
+        parentResource: string,
+        parentId: number,
+    ): Promise<any>
+  hasMany(
+        parentResource: string,
+        parentId: number,
+    ): Promise<any>
+
   transformResponse(response: string): any
   fetching(payload: any): void
   fetchingError(err: any): void

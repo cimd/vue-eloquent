@@ -382,11 +382,13 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   {
     // console.log('hasMany relationship')
     const parentResource = this.api.getResource()
+    // console.log(api, primaryKey, parentResource)
     return {
       get: async (payload: any) => {
         return await api.hasMany().get(parentResource, primaryKey, payload)
       },
       show: async (payload: any) => {
+        console.log(parentResource, primaryKey, payload)
         const result = await api.hasMany().show(parentResource, primaryKey, payload)
         return result.data
       },
