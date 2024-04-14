@@ -112,92 +112,32 @@ describe('model', () => {
     expect(post.v$.value.$errors.length).toBe(0)
   })
 
+  it('hasOne', async () => {
+    const post = new Post({ id: 1, author_id: 1 })
+    const author = await post.author()
 
+    expect(author).toHaveProperty('id', 1)
+  })
 
-  it('hasOne Get', async () => {
-    const post = new Post()
-    await post.refresh(1)
-    const comments = await post.author().get()
-    console.log(comments)
+  it('hasMany', async () => {
+    const post = new Post({ id: 1, author_id: 1 })
+    const comments = await post.comments()
 
     expect(comments.length).toEqual(2)
   })
-
-  it('hasOne Show', async () => {
-    const post = new Post()
-    await post.refresh(1)
-    const comments = await post.author().show()
-    console.log(comments)
-
-    expect(comments.length).toEqual(2)
-  })
-
-
-
-
-
-  it('hasMany Get', async () => {
-    const post = new Post()
-    await post.refresh(1)
-    const comments = await post.comments().get()
-
-    expect(comments.length).toEqual(2)
-  })
-
-  it('hasMany Show', async () => {
-    const post = new Post()
-    await post.refresh(1)
-    const comments = await post.comments().show({ id: 1 })
-
-    expect(comments).toHaveProperty('id', 1)
-  })
-
-  it('hasMany Create', async () => {
-    const post = new Post()
-    await post.refresh(1)
-    const comments = await post.comments().create({ id: 1 })
-
-    expect(comments).toHaveProperty('id', 1)
-  })
-
-  it('hasMany Update', async () => {
-    const post = new Post()
-    await post.refresh(1)
-    const comments = await post.comments().update({ id: 1 })
-
-    expect(comments).toHaveProperty('id', 1)
-  })
-
-  it('hasMany Delete', async () => {
-    const post = new Post()
-    await post.refresh(1)
-    const comments = await post.comments().delete({ id: 1 })
-
-    expect(comments).toHaveProperty('id', 1)
-  })
-
-
-
-  it('fetches hasMany', async () => {
-    const post = new Post()
-    await post.refresh(1)
-    const readers = await post.readers()
-
-    expect(readers.length).toBe(2)
-  })
-
+  
   it('lazy loads single relationship', async () => {
     const post = new Post()
     await post.refresh(1)
-    await post.load('readers')
+    await post.load('comments')
 
-    expect(post.model.readers.length).toBe(2)
+    expect(post.model.comments.length).toBe(2)
   })
   it('lazy loads multiple relationships', async () => {
     const post = new Post()
     await post.refresh(1)
-    await post.load(['readers'])
+    await post.load(['comments'])
 
-    expect(post.model.readers.length).toBe(2)
+    expect(post.model.comments.length).toBe(2)
   })
 })

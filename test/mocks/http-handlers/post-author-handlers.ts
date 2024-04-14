@@ -22,7 +22,7 @@ export const PostAuthorHandlers = [
     return res(
       ctx.status(200),
       ctx.json({
-        data: authors[ 0 ],
+        data: [authors[ 0 ]],
       })
     )
   }),
