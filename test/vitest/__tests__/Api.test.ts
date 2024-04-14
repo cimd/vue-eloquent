@@ -12,31 +12,31 @@ describe('model api', () => {
   it('show method', async () => {
     const result = await PostApi.show(1)
 
-    expect(result.data).toContain({ id: 1 })
+    expect(result.data).toHaveProperty('id', 1)
   })
 
   it('update method', async () => {
     const result = await PostApi.update({ id: 1, text: 'test' })
 
-    expect(result.data).toContain({ id: 1 })
+    expect(result.data).toHaveProperty('id', 1)
   })
 
   it('store method', async () => {
     const result = await PostApi.store({ id: 1, text: 'test' })
 
-    expect(result.data).toContain({ id: 1 })
+    expect(result.data).toHaveProperty('id', 1)
   })
 
   it('destroy method', async () => {
     const result = await PostApi.destroy({ id: 1, text: 'test' })
 
-    expect(result.data).toContain({ id: 1 })
+    expect(result.data).toHaveProperty('id', 1)
   })
 
   it('deleted (deprecated) method', async () => {
     const result = await PostApi.delete({ id: 1, text: 'test' })
 
-    expect(result.data).toContain({ id: 1 })
+    expect(result.data).toHaveProperty('id', 1)
   })
 
   it('batchStore method', async () => {

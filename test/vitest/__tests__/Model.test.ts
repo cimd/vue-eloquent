@@ -6,7 +6,7 @@ describe('model', () => {
     const post = new Post()
     await post.find(1)
 
-    expect(post.model).toContain({ id: 1 })
+    expect(post.model).toHaveProperty('id', 1)
     expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
@@ -14,7 +14,7 @@ describe('model', () => {
     const post = await Post.find(1)
 
     expect(post).toBeInstanceOf(Post)
-    expect(post.model).toContain({ id: 1 })
+    expect(post.model).toHaveProperty('id', 1)
     expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
@@ -22,17 +22,17 @@ describe('model', () => {
     const post = new Post()
 
     await post.refresh(2)
-    expect(post.model).toContain({ id: 2 })
+    expect(post.model).toHaveProperty('id', 2)
 
     await post.refresh(1)
-    expect(post.model).toContain({ id: 1 })
+    expect(post.model).toHaveProperty('id', 1)
     expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
   it('creates fresh new model', async () => {
     const post = new Post()
     await post.refresh(1)
-    expect(post.model).toContain({ id: 1 })
+    expect(post.model).toHaveProperty('id', 1)
 
     post.fresh()
     expect(post.model.id).toBeUndefined()
@@ -46,7 +46,7 @@ describe('model', () => {
 
     const result = await post.update()
 
-    expect(result).toContain({ id: 1 })
+    expect(result).toHaveProperty('id', 1)
     expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
@@ -56,7 +56,7 @@ describe('model', () => {
 
     const result = await post.create()
 
-    expect(result).toContain({ id: 1 })
+    expect(result).toHaveProperty('id', 1)
     expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
@@ -66,7 +66,7 @@ describe('model', () => {
 
     const result = await post.delete()
 
-    expect(result).toContain({ id: 1 })
+    expect(result).toHaveProperty('id', 1)
     expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
 
@@ -77,7 +77,7 @@ describe('model', () => {
 
     const { actioned, model } = await post.save()
 
-    expect(model).toContain({ id: 1 })
+    expect(model).toHaveProperty('id', 1)
     expect(actioned).toBe('updated')
     expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
@@ -88,7 +88,7 @@ describe('model', () => {
 
     const { actioned, model } = await post.save()
 
-    expect(model).toContain({ id: 1 })
+    expect(model).toHaveProperty('id', 1)
     expect(actioned).toBe('created')
     expect(post.state).toEqual({ isLoading: false, isSuccess: true, isError: false })
   })
@@ -118,7 +118,7 @@ describe('model', () => {
     const comments = await post.comments().show()
     console.log(comments)
 
-    expect(comments).toContain({ id: 1 })
+    expect(comments).toHaveProperty('id', 1)
   })
 
   it('fetches hasMany', async () => {
