@@ -38,14 +38,14 @@ export default class Post extends Model<IPost> {
     super.initValidations()
   }
 
-  async author()
+  author()
   {
-    return await this.hasOne<IUser>(UserApi, this.model.author_id)
+    return this.hasOne<IUser>(UserApi, this.model.author_id)
   }
 
-  async comments()
+  comments()
   {
-    return await this.hasMany(CommentApi, this.model.id)
+    return this.hasMany(CommentApi, this.model.id)
   }
 
   protected updating()

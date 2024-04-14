@@ -337,27 +337,27 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   //   return result.data
   // }
 
-  hasOne(api: Api, primaryKey: number): any
+  hasOne(api: Api, primaryKey: number, foreignKey: number): any
   {
-    const parentResource = this.api.getResource()
+    const childResource = api.getResource()
     return {
       get: async (payload: any) => {
-        return await api.hasOne().get(parentResource, primaryKey, payload)
+        return await this.api.hasOne(childResource, primaryKey).get({ id: foreignKey })
       },
       show: async (payload: any) => {
-        const result = await api.hasOne().show(parentResource, primaryKey, payload)
+        const result = await this.api.hasOne(childResource, primaryKey).show({ id: foreignKey })
         return result.data
       },
       create: async (payload: any) => {
-        const result = await api.hasOne().create(parentResource, primaryKey, payload)
+        const result = await this.api.hasOne(childResource, primaryKey).create({ id: foreignKey })
         return result.data
       },
       update: async (payload: any) => {
-        const result = await api.hasOne().update(parentResource, primaryKey, payload)
+        const result = await this.api.hasOne(childResource, primaryKey).update({ id: foreignKey })
         return result.data
       },
       delete: async (payload: any) => {
-        const result = await api.hasOne().delete(parentResource, primaryKey, payload)
+        const result = await this.api.hasOne(childResource, primaryKey).delete({ id: foreignKey })
         return result.data
       },
     }
@@ -372,36 +372,30 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * @param { number } id of the relationship
    * @return { Promise<any> } Collection of Models
    */
-
-  // async hasMany<K>(api: Api, primaryKey: string, id: number): Promise<K[]>
-  // {
-  //   const result = await api.get<K>({ primary_key: id })
-  //   return result.data
-  // }
   hasMany(api: Api, primaryKey: number): any
   {
     // console.log('hasMany relationship')
-    const parentResource = this.api.getResource()
-    // console.log(api, primaryKey, parentResource)
+    const childResource = api.getResource()
+    // console.log(api, primaryKey, childResource)
     return {
       get: async (payload: any) => {
-        return await api.hasMany().get(parentResource, primaryKey, payload)
+        return await this.api.hasMany(childResource, primaryKey).get(payload)
       },
       show: async (payload: any) => {
-        console.log(parentResource, primaryKey, payload)
-        const result = await api.hasMany().show(parentResource, primaryKey, payload)
+        // console.log(childResource, primaryKey, payload)
+        const result = await this.api.hasMany(childResource, primaryKey).show(payload)
         return result.data
       },
       create: async (payload: any) => {
-        const result = await api.hasMany().create(parentResource, primaryKey, payload)
+        const result = await this.api.hasMany(childResource, primaryKey).create(payload)
         return result.data
       },
       update: async (payload: any) => {
-        const result = await api.hasMany().update(parentResource, primaryKey, payload)
+        const result = await this.api.hasMany(childResource, primaryKey).update(payload)
         return result.data
       },
       delete: async (payload: any) => {
-        const result = await api.hasMany().delete(parentResource, primaryKey, payload)
+        const result = await this.api.hasMany(childResource, primaryKey).delete(payload)
         return result.data
       },
     }

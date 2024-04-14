@@ -18,7 +18,7 @@ export const authors = [
 ]
 
 export const PostAuthorHandlers = [
-  rest.get('http://localhost:8000/api/posts/1/authors', (req, res, ctx) => {
+  rest.get('http://localhost:8000/api/posts/1/users', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -26,7 +26,7 @@ export const PostAuthorHandlers = [
       })
     )
   }),
-  rest.get('http://localhost:8000/api/posts/1/authors/1', (req, res, ctx) => {
+  rest.get('http://localhost:8000/api/posts/1/users/1', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -34,7 +34,7 @@ export const PostAuthorHandlers = [
       })
     )
   }),
-  rest.patch('http://localhost:8000/api/posts/1/authors/1', (req, res, ctx) => {
+  rest.patch('http://localhost:8000/api/posts/1/users/1', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -42,7 +42,7 @@ export const PostAuthorHandlers = [
       })
     )
   }),
-  rest.post('http://localhost:8000/api/posts/1/authors', (req, res, ctx) => {
+  rest.post('http://localhost:8000/api/posts/1/users', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -50,7 +50,7 @@ export const PostAuthorHandlers = [
       })
     )
   }),
-  rest.delete('http://localhost:8000/api/posts/1/authors/1', (req, res, ctx) => {
+  rest.delete('http://localhost:8000/api/posts/1/users/1', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({

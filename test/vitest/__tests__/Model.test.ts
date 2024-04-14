@@ -112,15 +112,71 @@ describe('model', () => {
     expect(post.v$.value.$errors.length).toBe(0)
   })
 
-  it('fetches hasOne', async () => {
+
+
+  it('hasOne Get', async () => {
     const post = new Post()
     await post.refresh(1)
-    const comments = await post.comments()
-    const test = comments.show(1)
-    console.log(test)
+    const comments = await post.author().get()
+    console.log(comments)
+
+    expect(comments.length).toEqual(2)
+  })
+
+  it('hasOne Show', async () => {
+    const post = new Post()
+    await post.refresh(1)
+    const comments = await post.author().show()
+    console.log(comments)
+
+    expect(comments.length).toEqual(2)
+  })
+
+
+
+
+
+  it('hasMany Get', async () => {
+    const post = new Post()
+    await post.refresh(1)
+    const comments = await post.comments().get()
+
+    expect(comments.length).toEqual(2)
+  })
+
+  it('hasMany Show', async () => {
+    const post = new Post()
+    await post.refresh(1)
+    const comments = await post.comments().show({ id: 1 })
 
     expect(comments).toHaveProperty('id', 1)
   })
+
+  it('hasMany Create', async () => {
+    const post = new Post()
+    await post.refresh(1)
+    const comments = await post.comments().create({ id: 1 })
+
+    expect(comments).toHaveProperty('id', 1)
+  })
+
+  it('hasMany Update', async () => {
+    const post = new Post()
+    await post.refresh(1)
+    const comments = await post.comments().update({ id: 1 })
+
+    expect(comments).toHaveProperty('id', 1)
+  })
+
+  it('hasMany Delete', async () => {
+    const post = new Post()
+    await post.refresh(1)
+    const comments = await post.comments().delete({ id: 1 })
+
+    expect(comments).toHaveProperty('id', 1)
+  })
+
+
 
   it('fetches hasMany', async () => {
     const post = new Post()
