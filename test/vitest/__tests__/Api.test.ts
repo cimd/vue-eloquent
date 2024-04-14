@@ -12,31 +12,31 @@ describe('model api', () => {
   it('show method', async () => {
     const result = await PostApi.show(1)
 
-    expect(result.data).toContain({ id: 1 })
+    expect(result.data).toHaveProperty('id', 1)
   })
 
   it('update method', async () => {
     const result = await PostApi.update({ id: 1, text: 'test' })
 
-    expect(result.data).toContain({ id: 1 })
+    expect(result.data).toHaveProperty('id', 1)
   })
 
   it('store method', async () => {
     const result = await PostApi.store({ id: 1, text: 'test' })
 
-    expect(result.data).toContain({ id: 1 })
+    expect(result.data).toHaveProperty('id', 1)
   })
 
   it('destroy method', async () => {
     const result = await PostApi.destroy({ id: 1, text: 'test' })
 
-    expect(result.data).toContain({ id: 1 })
+    expect(result.data).toHaveProperty('id', 1)
   })
 
   it('deleted (deprecated) method', async () => {
     const result = await PostApi.delete({ id: 1, text: 'test' })
 
-    expect(result.data).toContain({ id: 1 })
+    expect(result.data).toHaveProperty('id', 1)
   })
 
   it('batchStore method', async () => {
@@ -67,5 +67,65 @@ describe('model api', () => {
     const result = await PostApi.batchDestroy(posts)
 
     expect(result.data.length).toEqual(2)
+  })
+
+  it('hasOne Get', async () => {
+    const comments = await PostApi.hasOne('comments', 1).get()
+
+    expect(comments).toHaveProperty('id', 1)
+  })
+
+  it('hasOne Show', async () => {
+    const comments = await PostApi.hasOne('comments', 1).show({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
+
+  it('hasOne Create', async () => {
+    const comments = await PostApi.hasOne('comments', 1).create({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
+
+  it('hasOne Update', async () => {
+    const comments = await PostApi.hasOne('comments', 1).update({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
+
+  it('hasOne Delete', async () => {
+    const comments = await PostApi.hasOne('comments', 1).delete({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
+  
+  it('hasMany Get', async () => {
+    const comments = await PostApi.hasMany('comments', 1).get()
+
+    expect(comments.length).toEqual(2)
+  })
+
+  it('hasMany Show', async () => {
+    const comments = await PostApi.hasMany('comments', 1).show({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
+
+  it('hasMany Create', async () => {
+    const comments = await PostApi.hasMany('comments', 1).create({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
+
+  it('hasMany Update', async () => {
+    const comments = await PostApi.hasMany('comments', 1).update({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
+  })
+
+  it('hasMany Delete', async () => {
+    const comments = await PostApi.hasMany('comments', 1).delete({ id: 1 })
+
+    expect(comments.data).toHaveProperty('id', 1)
   })
 })

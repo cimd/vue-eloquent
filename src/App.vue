@@ -90,13 +90,22 @@ export default defineComponent({
       PostApi.show(100)
         .then(() => {
         })
-        .catch(err => {
+        .catch((err: any) => {
           console.log(err)
         })
     },
-    testRelations() {
-      this.post = new Post({ id: 1 })
-      // console.log(this.post.comments().delete({ id: 1, comment: 'Testing' }))
+    async testRelations() {
+      const post = new Post({ id: 1, author_id: 10 })
+
+      await post.load(['author', 'comments'])
+
+      // const comments = post.comments()
+      // console.log(comments)
+      //
+      // const author = post.author()
+      // console.log(author)
+
+      console.log('testing')
     }
   }
 })

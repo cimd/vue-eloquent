@@ -94,6 +94,11 @@ export default class Policy {
     return true
   }
 
+  /**
+   * Sets the model and Creating mode
+   *
+   * @returns { boolean }
+   */
   creating(): boolean
   {
     if (!this.permissions.create) return false
@@ -102,6 +107,11 @@ export default class Policy {
     return true
   }
 
+  /**
+   * Sets the model and Reading mode
+   *
+   * @returns { boolean }
+   */
   reading(): boolean
   {
     if (!this.permissions.read) return false
@@ -110,6 +120,11 @@ export default class Policy {
     return true
   }
 
+  /**
+   * Sets the model and Updating mode
+   *
+   * @returns { boolean }
+   */
   updating(): boolean
   {
     if (!this.permissions.update) return false
@@ -118,6 +133,11 @@ export default class Policy {
     return true
   }
 
+  /**
+   * Sets the model and Deleting mode
+   *
+   * @returns { boolean }
+   */
   deleting(): boolean
   {
     if (!this.permissions.delete) return false
@@ -126,18 +146,38 @@ export default class Policy {
     return true
   }
 
+  /**
+   * Returns true if the model is in reading mode
+   *
+   * @returns { boolean }
+   */
   isReading(): boolean
   {
     return this._action.value === Action.READ
   }
+  /**
+   * Returns true if the model is in updating mode
+   *
+   * @returns { boolean }
+   */
   isUpdating(): boolean
   {
     return this._action.value === Action.UPDATE
   }
+  /**
+   * Returns true if the model is in deleting mode
+   *
+   * @returns { boolean }
+   */
   isDeleting(): boolean
   {
     return this._action.value === Action.DELETE
   }
+  /**
+   * Returns true if the model is in creating mode
+   *
+   * @returns { boolean }
+   */
   isCreating(): boolean
   {
     return this._action.value === Action.CREATE

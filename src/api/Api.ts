@@ -185,45 +185,23 @@ export default abstract class Api extends ApiQuery {
     })
   }
 
-  // static storeHasOne(
-  //   parentResource: string,
-  //   parentId: number,
-  //   payload: any
-  // ): Promise<IApiResponse<any>>
-  // {
-  //   const self = this.instance()
-  //   const url = _join([self.apiPrefix, parentResource, parentId, self.resource], '/')
-  //   self.storing(payload)
-  //   return new Promise((resolve, reject) => {
-  //     http
-  //       .post(url, payload, {
-  //         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //         // @ts-ignore
-  //         retries: 0,
-  //         transformResponse: [(data: any) => self.transformResponse(data)],
-  //       })
-  //       .then((response: { data: any }) => {
-  //         self.stored(response.data)
-  //         resolve(response.data)
-  //       })
-  //       .catch((err: any) => {
-  //         self.storingError(err)
-  //         reject(new ApiError('Store', err))
-  //       })
-  //   })
-  // }
-
+  /**
+   * hasOne relationship methods
+   *
+   * @param { string } childResource - Child resource string to be passed on the endpoint
+   * @param { number } parentId - Parent ID - or Foreign Key - of the resource to be fetched
+   * @return { Promise<{get, show, create, update, delete}> } Collection of Models
+   */
   static hasOne(
-    parentResource: string,
+    childResource: string,
     parentId: number,
   ) {
     const self = this.instance()
     return {
-      get(payload: any): Promise<any>
+      get(payload: any): Promise<any[]>
       {
-        // const self = this.instance()
-        const url = _join([self.apiPrefix, parentResource, parentId, self.resource], '/')
-        self.storing(payload)
+        const url = _join([self.apiPrefix, self.resource, parentId, childResource], '/')
+        self.fetching(payload)
         return new Promise((resolve, reject) => {
           http
             .get(url, payload, {
@@ -233,138 +211,19 @@ export default abstract class Api extends ApiQuery {
               transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
-              self.stored(response.data)
-              resolve(response.data.data)
-            })
-            .catch((err: any) => {
-              self.storingError(err)
-              reject(new ApiError('Store', err))
-            })
-        })
-      },
-      show(payload: any): Promise<IApiResponse<any>>
-      {
-        const url = _join([self.apiPrefix, parentResource, parentId, self.resource, payload.id], '/')
-        self.storing(payload)
-        return new Promise((resolve, reject) => {
-          http
-            .get(url, payload, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              retries: 0,
-              transformResponse: [(data: any) => self.transformResponse(data)],
-            })
-            .then((response: { data: any }) => {
-              self.stored(response.data)
-              resolve(response.data)
-            })
-            .catch((err: any) => {
-              self.storingError(err)
-              reject(new ApiError('Store', err))
-            })
-        })
-      },
-      create(payload:any): Promise<IApiResponse<any>>
-      {
-        const url = _join([self.apiPrefix, parentResource, parentId, self.resource], '/')
-        self.storing(payload)
-        return new Promise((resolve, reject) => {
-          http
-            .post(url, payload, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              retries: 0,
-              transformResponse: [(data: any) => self.transformResponse(data)],
-            })
-            .then((response: { data: any }) => {
-              self.stored(response.data)
-              resolve(response.data)
-            })
-            .catch((err: any) => {
-              self.storingError(err)
-              reject(new ApiError('Store', err))
-            })
-        })
-      },
-      update(payload: any): Promise<IApiResponse<any>>
-      {
-        const url = _join([self.apiPrefix, parentResource, parentId, self.resource, payload.id], '/')
-        self.storing(payload)
-        return new Promise((resolve, reject) => {
-          http
-            .patch(url, payload, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              retries: 0,
-              transformResponse: [(data: any) => self.transformResponse(data)],
-            })
-            .then((response: { data: any }) => {
-              self.stored(response.data)
-              resolve(response.data)
-            })
-            .catch((err: any) => {
-              self.storingError(err)
-              reject(new ApiError('Store', err))
-            })
-        })
-      },
-      delete(payload: any) {
-        const url = _join([self.apiPrefix, parentResource, parentId, self.resource, payload.id], '/')
-        self.storing(payload)
-        return new Promise((resolve, reject) => {
-          http
-            .delete(url, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              retries: 0,
-              transformResponse: [(data: any) => self.transformResponse(data)],
-            })
-            .then((response: { data: any }) => {
-              self.stored(response.data)
-              resolve(response.data)
-            })
-            .catch((err: any) => {
-              self.storingError(err)
-              reject(new ApiError('Store', err))
-            })
-        })
-      }
-    }
-  }
-
-  static hasMany(
-    parentResource: string,
-    parentId: number,
-  ) {
-    const self = this.instance()
-    return {
-      get(payload: any): Promise<any>
-      {
-        // const self = this.instance()
-        const url = _join([self.apiPrefix, parentResource, parentId, self.resource], '/')
-        self.storing(payload)
-        return new Promise((resolve, reject) => {
-          http
-            .get(url, payload, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              retries: 0,
-              transformResponse: [(data: any) => self.transformResponse(data)],
-            })
-            .then((response: { data: any }) => {
-              self.stored(response.data)
+              self.fetched(response.data)
               resolve(response.data.data[ 0 ])
             })
             .catch((err: any) => {
-              self.storingError(err)
+              self.fetchingError(err)
               reject(new ApiError('Store', err))
             })
         })
       },
-      show(payload: any): Promise<IApiResponse<any>>
+      show(payload: { id: number }): Promise<IApiResponse<any>>
       {
-        const url = _join([self.apiPrefix, parentResource, parentId, self.resource, payload.id], '/')
-        self.storing(payload)
+        const url = _join([self.apiPrefix, self.resource, parentId, childResource, payload.id], '/')
+        self.retrieving(payload)
         return new Promise((resolve, reject) => {
           http
             .get(url, payload, {
@@ -374,18 +233,18 @@ export default abstract class Api extends ApiQuery {
               transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
-              self.stored(response.data)
+              self.retrieved(response.data)
               resolve(response.data)
             })
             .catch((err: any) => {
-              self.storingError(err)
+              self.retrievingError(err)
               reject(new ApiError('Store', err))
             })
         })
       },
       create(payload:any): Promise<IApiResponse<any>>
       {
-        const url = _join([self.apiPrefix, parentResource, parentId, self.resource], '/')
+        const url = _join([self.apiPrefix, self.resource, parentId, childResource], '/')
         self.storing(payload)
         return new Promise((resolve, reject) => {
           http
@@ -407,11 +266,114 @@ export default abstract class Api extends ApiQuery {
       },
       update(payload: any): Promise<IApiResponse<any>>
       {
-        const url = _join([self.apiPrefix, parentResource, parentId, self.resource, payload.id], '/')
-        self.storing(payload)
+        const url = _join([self.apiPrefix, self.resource, parentId, childResource, payload.id], '/')
+        self.updating(payload)
         return new Promise((resolve, reject) => {
           http
             .patch(url, payload, {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              retries: 0,
+              transformResponse: [(data: any) => self.transformResponse(data)],
+            })
+            .then((response: { data: any }) => {
+              self.updated(response.data)
+              resolve(response.data)
+            })
+            .catch((err: any) => {
+              self.updatingError(err)
+              reject(new ApiError('Store', err))
+            })
+        })
+      },
+      delete(payload: any) {
+        const url = _join([self.apiPrefix, self.resource, parentId, childResource, payload.id], '/')
+        self.destroying(payload)
+        return new Promise((resolve, reject) => {
+          http
+            .delete(url, {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              retries: 0,
+              transformResponse: [(data: any) => self.transformResponse(data)],
+            })
+            .then((response: { data: any }) => {
+              self.destroyed(response.data)
+              resolve(response.data)
+            })
+            .catch((err: any) => {
+              self.destroyingError(err)
+              reject(new ApiError('Store', err))
+            })
+        })
+      }
+    }
+  }
+
+  /**
+   * hasMany relationship methods
+   *
+   * @param { string } childResource - Child resource string to be passed on the endpoint
+   * @param { number } parentId - Parent ID - or Foreign Key - of the resource to be fetched
+   * @return { Promise<{get, show, create, update, delete}> } Collection of Models
+   */
+  static hasMany(
+    childResource: string,
+    parentId: number,
+  ) {
+    const self = this.instance()
+    return {
+      get(payload: any): Promise<any[]>
+      {
+        const url = _join([self.apiPrefix, self.resource, parentId, childResource], '/')
+        self.fetching(payload)
+        return new Promise((resolve, reject) => {
+          http
+            .get(url, payload, {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              retries: 0,
+              transformResponse: [(data: any) => self.transformResponse(data)],
+            })
+            .then((response: { data: any }) => {
+              self.fetched(response.data)
+              resolve(response.data.data)
+            })
+            .catch((err: any) => {
+              self.fetchingError(err)
+              reject(new ApiError('Store', err))
+            })
+        })
+      },
+      show(payload: { id: number }): Promise<IApiResponse<any>>
+      {
+        const url = _join([self.apiPrefix, self.resource, parentId, childResource, payload.id], '/')
+        self.retrieving(payload)
+        return new Promise((resolve, reject) => {
+          http
+            .get(url, payload, {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              retries: 0,
+              transformResponse: [(data: any) => self.transformResponse(data)],
+            })
+            .then((response: { data: any }) => {
+              self.retrieved(response.data)
+              resolve(response.data)
+            })
+            .catch((err: any) => {
+              self.retrievingError(err)
+              reject(new ApiError('Store', err))
+            })
+        })
+      },
+      create(payload:any): Promise<IApiResponse<any>>
+      {
+        const url = _join([self.apiPrefix, self.resource, parentId, childResource], '/')
+        self.storing(payload)
+        return new Promise((resolve, reject) => {
+          http
+            .post(url, payload, {
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               retries: 0,
@@ -427,9 +389,31 @@ export default abstract class Api extends ApiQuery {
             })
         })
       },
+      update(payload: any): Promise<IApiResponse<any>>
+      {
+        const url = _join([self.apiPrefix, self.resource, parentId, childResource, payload.id], '/')
+        self.updating(payload)
+        return new Promise((resolve, reject) => {
+          http
+            .patch(url, payload, {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              retries: 0,
+              transformResponse: [(data: any) => self.transformResponse(data)],
+            })
+            .then((response: { data: any }) => {
+              self.updated(response.data)
+              resolve(response.data)
+            })
+            .catch((err: any) => {
+              self.updatingError(err)
+              reject(new ApiError('Store', err))
+            })
+        })
+      },
       delete(payload: any) {
-        const url = _join([self.apiPrefix, parentResource, parentId, self.resource, payload.id], '/')
-        self.storing(payload)
+        const url = _join([self.apiPrefix, self.resource, parentId, childResource, payload.id], '/')
+        self.destroying(payload)
         return new Promise((resolve, reject) => {
           http
             .delete(url, {
@@ -439,129 +423,17 @@ export default abstract class Api extends ApiQuery {
               transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
-              self.stored(response.data)
+              self.destroyed(response.data)
               resolve(response.data)
             })
             .catch((err: any) => {
-              self.storingError(err)
+              self.destroyingError(err)
               reject(new ApiError('Store', err))
             })
         })
       }
     }
   }
-
-  // static getHasOne(
-  //   parentResource: string,
-  //   parentId: number,
-  //   payload: any
-  // ): Promise<IApiResponse<any>>
-  // {
-  //   const self = this.instance()
-  //   const url = _join([self.apiPrefix, parentResource, parentId, self.resource], '/')
-  //   self.storing(payload)
-  //   return new Promise((resolve, reject) => {
-  //     http
-  //       .get(url, payload, {
-  //         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //         // @ts-ignore
-  //         retries: 0,
-  //         transformResponse: [(data: any) => self.transformResponse(data)],
-  //       })
-  //       .then((response: { data: any }) => {
-  //         self.stored(response.data)
-  //         resolve(response.data.data[ 0 ])
-  //       })
-  //       .catch((err: any) => {
-  //         self.storingError(err)
-  //         reject(new ApiError('Store', err))
-  //       })
-  //   })
-  // }
-
-  // static showHasOne(
-  //   parentResource: string,
-  //   parentId: number,
-  //   payload: any
-  // ): Promise<IApiResponse<any>>
-  // {
-  //   const self = this.instance()
-  //   const url = _join([self.apiPrefix, parentResource, parentId, self.resource, payload.id], '/')
-  //   self.storing(payload)
-  //   return new Promise((resolve, reject) => {
-  //     http
-  //       .get(url, payload, {
-  //         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //         // @ts-ignore
-  //         retries: 0,
-  //         transformResponse: [(data: any) => self.transformResponse(data)],
-  //       })
-  //       .then((response: { data: any }) => {
-  //         self.stored(response.data)
-  //         resolve(response.data)
-  //       })
-  //       .catch((err: any) => {
-  //         self.storingError(err)
-  //         reject(new ApiError('Store', err))
-  //       })
-  //   })
-  // }
-
-  // static updateHasOne(
-  //   parentResource: string,
-  //   parentId: number,
-  //   payload: any
-  // ): Promise<IApiResponse<any>>
-  // {
-  //   const self = this.instance()
-  //   const url = _join([self.apiPrefix, parentResource, parentId, self.resource, payload.id], '/')
-  //   self.storing(payload)
-  //   return new Promise((resolve, reject) => {
-  //     http
-  //       .patch(url, payload, {
-  //         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //         // @ts-ignore
-  //         retries: 0,
-  //         transformResponse: [(data: any) => self.transformResponse(data)],
-  //       })
-  //       .then((response: { data: any }) => {
-  //         self.stored(response.data)
-  //         resolve(response.data)
-  //       })
-  //       .catch((err: any) => {
-  //         self.storingError(err)
-  //         reject(new ApiError('Store', err))
-  //       })
-  //   })
-  // }
-
-  // static deleteHasOne(
-  //   parentResource: string,
-  //   parentId: number,
-  //   payload: any
-  // ): Promise<IApiResponse<any>>
-  // {
-  //   const self = this.instance()
-  //   const url = _join([self.apiPrefix, parentResource, parentId, self.resource, payload.id], '/')
-  //   self.storing(payload)
-  //   return new Promise((resolve, reject) => {
-  //     http
-  //       .delete(url, {
-  //         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //         // @ts-ignore
-  //         retries: 0,
-  //         transformResponse: [(data: any) => self.transformResponse(data)],
-  //       })
-  //       .then((response: { data: any }) => {
-  //         self.stored(response.data)
-  //         resolve(response.data)
-  //       })
-  //       .catch((err: any) => {
-  //         self.storingError(err)
-  //         reject(new ApiError('Store', err))
-  //       })
-  //   })
-  // }
 
   /**
    * Validate the store request

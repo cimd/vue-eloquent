@@ -8,7 +8,7 @@ import { IUser } from './UserInterface'
 import CommentApi from './CommentApi'
 
 export default class Post extends Model<IPost> {
-  public model = reactive<IPost>({
+  model = reactive<IPost>({
     id: undefined,
     created_at: undefined,
     updated_at: undefined,
@@ -17,9 +17,9 @@ export default class Post extends Model<IPost> {
     title: undefined,
     text: undefined,
     author: undefined as IUser,
-    readers: undefined as IUser[],
+    comments: undefined as IComment[]
   })
-  protected api = PostApi
+  api = PostApi
   protected parameters = {
     title: 'New Post',
   }
@@ -40,7 +40,7 @@ export default class Post extends Model<IPost> {
 
   async author()
   {
-    return await this.hasOne<IUser>(UserApi, this.model.author_id)
+    return await this.hasOne(UserApi, this.model.author_id)
   }
 
   async comments()

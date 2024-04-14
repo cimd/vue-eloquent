@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 ### Fixed
 
+## [1.2.1 - unreleased]
+### Added
+- Tests
+### Changed
+### Fixed
+- Api and Model's hasOne and hasMany relationships
+
 ## [1.2.0]
 ### Added
 - new Policy methods

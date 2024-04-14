@@ -13,6 +13,6 @@ describe('DevTools', () => {
     const post = new Post()
     await post.find(1)
 
-    expect(post.model).toContain({ id: 1 })
+    expect(post.model).toHaveProperty('id', 1)
   })
 })
