@@ -185,6 +185,13 @@ export default abstract class Api extends ApiQuery {
     })
   }
 
+  /**
+   * hasOne relationship methods
+   *
+   * @param { string } childResource - Child resource string to be passed on the endpoint
+   * @param { number } parentId - Parent ID - or Foreign Key - of the resource to be fetched
+   * @return { Promise<{get, show, create, update, delete}> } Collection of Models
+   */
   static hasOne(
     childResource: string,
     parentId: number,
@@ -193,9 +200,7 @@ export default abstract class Api extends ApiQuery {
     return {
       get(payload: any): Promise<any[]>
       {
-        // console.log(childResource)
         const url = _join([self.apiPrefix, self.resource, parentId, childResource], '/')
-        // console.log(url)
         self.fetching(payload)
         return new Promise((resolve, reject) => {
           http
@@ -305,6 +310,13 @@ export default abstract class Api extends ApiQuery {
     }
   }
 
+  /**
+   * hasMany relationship methods
+   *
+   * @param { string } childResource - Child resource string to be passed on the endpoint
+   * @param { number } parentId - Parent ID - or Foreign Key - of the resource to be fetched
+   * @return { Promise<{get, show, create, update, delete}> } Collection of Models
+   */
   static hasMany(
     childResource: string,
     parentId: number,
@@ -313,9 +325,7 @@ export default abstract class Api extends ApiQuery {
     return {
       get(payload: any): Promise<any[]>
       {
-        // console.log(childResource)
         const url = _join([self.apiPrefix, self.resource, parentId, childResource], '/')
-        // console.log(url)
         self.fetching(payload)
         return new Promise((resolve, reject) => {
           http

@@ -331,12 +331,6 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * @param { string } primaryKey of the relationship
    * @return { Promise<any> } Model
    */
-  // async hasOne<K>(name: string, api: Api, primaryKey: number): Promise<K>
-  // {
-  //   const result = await api.show<K>(primaryKey)
-  //   return result.data
-  // }
-
   hasOne(api: Api, primaryKey: number, foreignKey: number): any
   {
     const childResource = api.getResource()
@@ -366,23 +360,18 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   /**
    * HasMany relationship
    *
-   * @async
-   * @param { any } api Api class to the relationship
-   * @param { string } primaryKey of the relationship
-   * @param { number } id of the relationship
-   * @return { Promise<any> } Collection of Models
+   * @param { Api } api Api class to the relationship
+   * @param { number } primaryKey of the relationship
+   * @return { Promise<{get, show, create, update, delete}> } Collection of Models
    */
   hasMany(api: Api, primaryKey: number): any
   {
-    // console.log('hasMany relationship')
     const childResource = api.getResource()
-    // console.log(api, primaryKey, childResource)
     return {
       get: async (payload: any) => {
         return await this.api.hasMany(childResource, primaryKey).get(payload)
       },
       show: async (payload: any) => {
-        // console.log(childResource, primaryKey, payload)
         const result = await this.api.hasMany(childResource, primaryKey).show(payload)
         return result.data
       },
@@ -523,18 +512,6 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   }
 
   protected retrieving(): void { return }
-
-  // async hasOne(api: any, primaryKey: number): Promise<any>
-  // async hasOne(api: any, fnName: string, primaryKey: number): Promise<any> {
-  //   let result = undefined
-  //   if (fnName !== undefined) {
-  //     console.log(fnName)
-  //     result = await (api[ fnName ])(primaryKey)
-  //   } else {
-  //     result = await api.show(primaryKey)
-  //   }
-  //   return result.data
-  // }
 
   /**
    * Retrieved runs after show method
