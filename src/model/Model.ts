@@ -115,6 +115,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     }
     catch (e: any) {
       this.setStateError()
+      this.retrievingError(e)
       throw new ModelError('Find', e)
     }
   }
@@ -289,6 +290,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     }
     catch (e: any) {
       this.setStateError()
+      this.retrievingError(e)
       throw new ModelError('Refresh', e)
     }
   }
@@ -447,14 +449,6 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     this.setOriginal()
   }
 
-  // protected batchCreating(): void {
-  //   return
-  // }
-  //
-  // protected batchUpdating(): void {
-  //   return
-  // }
-
   /**
    * Updates the model property with new data
    *
@@ -484,7 +478,8 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected retrieved(payload: any): void { return }
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected retrievingError(err?: any): void { return }
 
   // Laravel validation testing
 

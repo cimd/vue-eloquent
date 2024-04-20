@@ -72,6 +72,7 @@ export declare class Model<T> {
   getOriginal(): T
 
   retrieving(): void
+  retrievingError(err?: any): void
   retrieved(payload: any): void
   protected creating(): void
   created(payload: any): void
