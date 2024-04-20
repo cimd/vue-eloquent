@@ -88,7 +88,7 @@ export default class Policy {
    */
   edit(): boolean
   {
-    return this.editing()
+    return this.updating()
   }
 
 
