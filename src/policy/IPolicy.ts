@@ -50,7 +50,7 @@ export declare class Policy {
 
   /**
    * Puts the model in edit mode if the user has permission
-   * @deprecated Use editing() instead
+   * @deprecated Use updating() instead
    * @returns { boolean }
    */
   edit(): boolean
