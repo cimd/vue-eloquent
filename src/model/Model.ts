@@ -346,7 +346,6 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   hasMany(api: Api, primaryKey: number): any[]
   {
     const childResource = api.getResource()
-    console.log(api)
 
     return {
       get: async () => await this.api.hasMany(childResource, primaryKey).get(),
