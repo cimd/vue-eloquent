@@ -44,13 +44,14 @@ export declare class Policy {
   /**
    * Returns true if the model is in read-only mode
    *
+   * @deprecated Use isReading() instead
    * @returns { boolean }
    */
   isReadOnly(): boolean
 
   /**
    * Puts the model in edit mode if the user has permission
-   * @deprecated Use editing() instead
+   * @deprecated Use updating() instead
    * @returns { boolean }
    */
   edit(): boolean

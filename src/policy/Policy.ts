@@ -10,10 +10,10 @@ export default class Policy {
    * @params { Permissions } permissions: CRUD
    */
   private permissions: Permissions = reactive({
-    create: false,
-    read: false,
-    update: false,
-    delete: false
+    create: true,
+    read: true,
+    update: true,
+    delete: true
   })
 
   constructor(args?: Permissions) {
@@ -83,16 +83,14 @@ export default class Policy {
 
   /**
    * Puts the model in edit mode if the user has permission
-   *
+   * @deprecated Use updating() instead
    * @returns { boolean }
    */
   edit(): boolean
   {
-    if (!this.permissions.update) return false
-
-    this._action.value = Action.UPDATE
-    return true
+    return this.updating()
   }
+
 
   /**
    * Sets the model and Creating mode

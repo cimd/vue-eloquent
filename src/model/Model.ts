@@ -115,6 +115,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     }
     catch (e: any) {
       this.setStateError()
+      this.retrievingError(e)
       throw new ModelError('Find', e)
     }
   }
@@ -289,6 +290,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     }
     catch (e: any) {
       this.setStateError()
+      this.retrievingError(e)
       throw new ModelError('Refresh', e)
     }
   }
@@ -308,11 +310,11 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   {
     switch (typeof args) {
     case 'string':
-      this.model[ args ] = await this[ args ]()
+      this.model[ args ] = await this[ args ]().get()
       break
     case 'object':
       for (const arg of args) {
-        this.model[ arg ] = await this[ arg ]()
+        this.model[ arg ] = await this[ arg ]().get()
       }
       break
     default:
@@ -343,11 +345,17 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * @param { number } primaryKey of the relationship
    * @return { Promise<{get, show, create, update, delete}> } Collection of Models
    */
-  async hasMany(api: Api, primaryKey: number): any[]
+  hasMany(api: Api, primaryKey: number): any[]
   {
     const childResource = api.getResource()
 
-    return await this.api.hasMany(childResource, primaryKey).get()
+    return {
+      get: async () => await this.api.hasMany(childResource, primaryKey).get(),
+      show: async (id: number) => await this.api.hasMany(childResource, primaryKey).show(id),
+      create: async (data: any) => await this.api.hasMany(childResource, primaryKey).store(data),
+      update: async (data: any) => await this.api.hasMany(childResource, primaryKey).update(data),
+      delete: async (data: any) => await this.api.hasMany(childResource, primaryKey).delete(data.id)
+    }
   }
 
   async getValidationRules(action?: Action)
@@ -441,14 +449,6 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     this.setOriginal()
   }
 
-  // protected batchCreating(): void {
-  //   return
-  // }
-  //
-  // protected batchUpdating(): void {
-  //   return
-  // }
-
   /**
    * Updates the model property with new data
    *
@@ -478,7 +478,8 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected retrieved(payload: any): void { return }
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected retrievingError(err?: any): void { return }
 
   // Laravel validation testing
 

@@ -242,7 +242,7 @@ export default abstract class Api extends ApiQuery {
             })
         })
       },
-      create(payload:any): Promise<IApiResponse<any>>
+      store(payload:any): Promise<IApiResponse<any>>
       {
         const url = _join([self.apiPrefix, self.resource, parentId, childResource], '/')
         self.storing(payload)
@@ -367,7 +367,7 @@ export default abstract class Api extends ApiQuery {
             })
         })
       },
-      create(payload:any): Promise<IApiResponse<any>>
+      store(payload:any): Promise<IApiResponse<any>>
       {
         const url = _join([self.apiPrefix, self.resource, parentId, childResource], '/')
         self.storing(payload)
