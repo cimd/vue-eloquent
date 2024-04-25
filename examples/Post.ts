@@ -43,9 +43,9 @@ export default class Post extends Model<IPost> {
     return await this.hasOne(UserApi, this.model.author_id)
   }
 
-  async comments()
+  comments()
   {
-    return await this.hasMany(CommentApi, this.model.id)
+    return this.hasMany(CommentApi, this.model.id)
   }
 
   protected updating()

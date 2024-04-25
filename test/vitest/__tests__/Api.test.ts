@@ -82,7 +82,7 @@ describe('model api', () => {
   })
 
   it('hasOne Create', async () => {
-    const comments = await PostApi.hasOne('comments', 1).create({ id: 1 })
+    const comments = await PostApi.hasOne('comments', 1).store({ id: 1 })
 
     expect(comments.data).toHaveProperty('id', 1)
   })
@@ -98,7 +98,7 @@ describe('model api', () => {
 
     expect(comments.data).toHaveProperty('id', 1)
   })
-  
+
   it('hasMany Get', async () => {
     const comments = await PostApi.hasMany('comments', 1).get()
 
@@ -112,7 +112,7 @@ describe('model api', () => {
   })
 
   it('hasMany Create', async () => {
-    const comments = await PostApi.hasMany('comments', 1).create({ id: 1 })
+    const comments = await PostApi.hasMany('comments', 1).store({ id: 1 })
 
     expect(comments.data).toHaveProperty('id', 1)
   })

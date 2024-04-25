@@ -121,11 +121,11 @@ describe('model', () => {
 
   it('hasMany', async () => {
     const post = new Post({ id: 1, author_id: 1 })
-    const comments = await post.comments()
+    const comments = await (post.comments()).get()
 
     expect(comments.length).toEqual(2)
   })
-  
+
   it('lazy loads single relationship', async () => {
     const post = new Post()
     await post.refresh(1)
