@@ -3,72 +3,72 @@ const errorMessage = {
   message: 'Not Found'
 }
 
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 export const ErrorHandlers = [
-  rest.get('http://localhost:8000/api/errors', (req, res, ctx) => {
-    return res(
-      ctx.status(422),
-      ctx.json({
+  http.get('http://localhost:8000/api/errors', () => {
+    return HttpResponse.json(
+      {
         data: errorMessage
-      })
+      },
+      { status: 422 }
     )
   }),
-  rest.get('http://localhost:8000/api/errors/:error', (req, res, ctx) => {
-    return res(
-      ctx.status(403),
-      ctx.json({
-        data: errorMessage,
-      })
+  http.get('http://localhost:8000/api/errors/:error', () => {
+    return HttpResponse.json(
+      {
+        data: errorMessage
+      },
+      { status: 403 }
     )
   }),
-  rest.patch('http://localhost:8000/api/errors/:error', (req, res, ctx) => {
-    return res(
-      ctx.status(404),
-      ctx.json({
-        data: errorMessage,
-      })
+  http.patch('http://localhost:8000/api/errors/:error', () => {
+    return HttpResponse.json(
+      {
+        data: errorMessage
+      },
+      { status: 404 }
     )
   }),
-  rest.post('http://localhost:8000/api/errors', (req, res, ctx) => {
-    return res(
-      ctx.status(404),
-      ctx.json({
-        data: errorMessage,
-      })
+  http.post('http://localhost:8000/api/errors', () => {
+    return HttpResponse.json(
+      {
+        data: errorMessage
+      },
+      { status: 404 }
     )
   }),
-  rest.delete('http://localhost:8000/api/errors/:error', (req, res, ctx) => {
-    return res(
-      ctx.status(404),
-      ctx.json({
-        data: errorMessage,
-      })
+  http.delete('http://localhost:8000/api/errors/:error', () => {
+    return HttpResponse.json(
+      {
+        data: errorMessage
+      },
+      { status: 404 }
     )
   }),
   // Batch Routes
-  rest.patch('http://localhost:8000/api/errors/batch', (req, res, ctx) => {
-    return res(
-      ctx.status(404),
-      ctx.json({
-        data: errorMessage,
-      })
+  http.patch('http://localhost:8000/api/errors/batch', () => {
+    return HttpResponse.json(
+      {
+        data: errorMessage
+      },
+      { status: 404 }
     )
   }),
-  rest.post('http://localhost:8000/api/errors/batch', (req, res, ctx) => {
-    return res(
-      ctx.status(404),
-      ctx.json({
-        data: errorMessage,
-      })
+  http.post('http://localhost:8000/api/errors/batch', () => {
+    return HttpResponse.json(
+      {
+        data: errorMessage
+      },
+      { status: 404 }
     )
   }),
-  rest.patch('http://localhost:8000/api/errors/batch-destroy', (req, res, ctx) => {
-    return res(
-      ctx.status(404),
-      ctx.json({
-        data: errorMessage,
-      })
+  http.patch('http://localhost:8000/api/errors/batch-destroy', () => {
+    return HttpResponse.json(
+      {
+        data: errorMessage
+      },
+      { status: 404 }
     )
-  }),
+  })
 ]
