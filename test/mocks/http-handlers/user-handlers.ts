@@ -1,59 +1,59 @@
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 const users = [
   {
-    'id': 1,
-    'name': 'John Doe',
-    'created_at': '2020-06-12T18:19:32.000000Z',
-    'updated_at': '2022-06-13T01:43:59.000000Z',
+    id: 1,
+    name: 'John Doe',
+    created_at: '2020-06-12T18:19:32.000000Z',
+    updated_at: '2022-06-13T01:43:59.000000Z'
   },
   {
-    'id': 2,
-    'name': 'Jane Lines',
-    'created_at': '2020-06-15T18:19:32.000000Z',
-    'updated_at': '2022-06-16T01:43:59.000000Z'
+    id: 2,
+    name: 'Jane Lines',
+    created_at: '2020-06-15T18:19:32.000000Z',
+    updated_at: '2022-06-16T01:43:59.000000Z'
   }
 ]
 
 export const UserHandlers = [
-  rest.get('http://localhost:8000/api/users', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
+  http.get('http://localhost:8000/api/users', () => {
+    return HttpResponse.json(
+      {
         data: users
-      })
+      },
+      { status: 200 }
     )
   }),
-  rest.get('http://localhost:8000/api/users/:user', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        data: users.find(el => el.id === parseInt(<string>req.params.user)),
-      })
+  http.get('http://localhost:8000/api/users/:user', ({ params }) => {
+    return HttpResponse.json(
+      {
+        data: users.find((el) => el.id === parseInt(<string>params.user))
+      },
+      { status: 200 }
     )
   }),
-  rest.post('http://localhost:8000/api/users/:user', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        data: users.find(el => el.id === parseInt(<string>req.params.user)),
-      })
+  http.post('http://localhost:8000/api/users/:user', ({ params }) => {
+    return HttpResponse.json(
+      {
+        data: users.find((el) => el.id === parseInt(<string>params.user))
+      },
+      { status: 200 }
     )
   }),
-  rest.patch('http://localhost:8000/api/users/:user', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        data: users.find(el => el.id === parseInt(<string>req.params.user)),
-      })
+  http.patch('http://localhost:8000/api/users/:user', ({ params }) => {
+    return HttpResponse.json(
+      {
+        data: users.find((el) => el.id === parseInt(<string>params.user))
+      },
+      { status: 200 }
     )
   }),
-  rest.delete('http://localhost:8000/api/users/:user', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        data: users.find(el => el.id === parseInt(<string>req.params.user)),
-      })
+  http.delete('http://localhost:8000/api/users/:user', ({ params }) => {
+    return HttpResponse.json(
+      {
+        data: users.find((el) => el.id === parseInt(<string>params.user))
+      },
+      { status: 200 }
     )
-  }),
+  })
 ]
