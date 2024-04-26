@@ -2,6 +2,7 @@ import { IModelState, ModelState } from 'src/model/IModelState'
 import Action from 'src/enums/Action'
 import Actioned from 'src/enums/Actioned'
 import { Api, IApi } from 'src/api/IApi'
+import Validator from './Validator'
 
 export interface IModel {
     model: any
@@ -45,12 +46,12 @@ export interface IModel {
     hasMany(api: any, primaryKey: string, id: number): Promise<any[]>
 }
 
-export declare class Model<T> {
+export declare class Model<T> extends Validator {
   model: T
-  originalModel: any
-  defaultModel: any
+  originalModel: T
+  defaultModel: T
   protected parameters: undefined | Partial<T>
-  protected api: Api
+  api: Api
   protected: string[]
   relations: undefined | any[]
   state: ModelState

@@ -21,37 +21,12 @@ export const posts = [
   }
 ]
 
-export const PiniaApiHandlers = [
-  http.get('http://localhost:8000/api/eloquent-api/stores', () => {
+export const ModelApiHandlers = [
+  http.get('http://localhost:8000/api/eloquent-api/models', () => {
     return HttpResponse.json(
       {
-        data: {
-          posts: posts,
-          name: 'John Doe'
-        },
-        store: 'state-posts-1'
+        data: posts
       },
       { status: 200 }
     )
-  }),
-  http.post('http://localhost:8000/api/eloquent-api/stores', () => {
-    return HttpResponse.json(
-      {
-        data: {
-          posts: posts,
-          name: 'John Doe'
-        },
-        store: 'state-posts-1'
-      },
-      { status: 200 }
-    )
-  }),
-  http.delete('http://localhost:8000/api/eloquent-api/stores/state-posts-1', () => {
-    return HttpResponse.json(
-      {
-        data: null
-      },
-      { status: 204 }
-    )
-  })
-]
+  }),]

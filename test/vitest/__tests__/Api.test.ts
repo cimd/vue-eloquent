@@ -9,16 +9,32 @@ describe('model api', () => {
     expect(result.data.length).toBe(2)
   })
 
+  it('get method-error', async () => {
+    const result = PostApi.get<IPost>(123)
+    expect(result).rejects.toThrowError('Get |||')
+  })
+
   it('show method', async () => {
     const result = await PostApi.show(1)
 
     expect(result.data).toHaveProperty('id', 1)
   })
 
+  it('show method-error', async () => {
+    const result = PostApi.show(11)
+
+    expect(result).rejects.toThrowError('Show |||')
+  })
+
   it('update method', async () => {
     const result = await PostApi.update({ id: 1, text: 'test' })
 
     expect(result.data).toHaveProperty('id', 1)
+  })
+  it('update method-error', async () => {
+    const result = PostApi.update({ id: 10, text: 'test' })
+
+    expect(result).rejects.toThrowError('Update |||')
   })
 
   it('store method', async () => {
@@ -31,6 +47,11 @@ describe('model api', () => {
     const result = await PostApi.destroy({ id: 1, text: 'test' })
 
     expect(result.data).toHaveProperty('id', 1)
+  })
+  it('destroy method-error', async () => {
+    const result = PostApi.destroy({ id: 10, text: 'test' })
+
+    expect(result).rejects.toThrowError('Destroy |||')
   })
 
   it('deleted (deprecated) method', async () => {

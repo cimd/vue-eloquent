@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 ### Fixed
 
+## [1.2.3]
+### Added
+- Tests
+### Changed
+- Bumped MSW
+### Fixed
+- Model extending Validators
+
 ## [1.2.2]
 ### Added
 ### Changed
