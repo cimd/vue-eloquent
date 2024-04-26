@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import Acl from '../../../examples/Acl'
+import { Action } from '../../../src/index.js'
 
 const permission = {
   create: true,
@@ -35,6 +36,7 @@ describe('permissions', () => {
 
     expect(result).toBeTruthy()
     expect(acl.action).toEqual('create')
+    expect(acl.isCreating()).toBeTruthy()
   })
   it('updating', async () => {
     const acl = new Acl(permission)
@@ -43,6 +45,7 @@ describe('permissions', () => {
 
     expect(result).toBeTruthy()
     expect(acl.action).toEqual('update')
+    expect(acl.isUpdating()).toBeTruthy()
   })
   it('deleting', async () => {
     const acl = new Acl(permission)
@@ -51,6 +54,7 @@ describe('permissions', () => {
 
     expect(result).toBeTruthy()
     expect(acl.action).toEqual('delete')
+    expect(acl.isDeleting()).toBeTruthy()
   })
   it('reading', async () => {
     const acl = new Acl(permission)
@@ -59,6 +63,7 @@ describe('permissions', () => {
 
     expect(result).toBeTruthy()
     expect(acl.action).toEqual('read')
+    expect(acl.isReading()).toBeTruthy()
   })
   it('edit form', async () => {
     const acl = new Acl(permission)
@@ -79,5 +84,16 @@ describe('permissions', () => {
     acl.updating()
 
     expect(acl.isReadOnly()).toBeFalsy()
+  })
+  it('sets actions', async () => {
+    const acl = new Acl(permission)
+    acl.action = Action.UPDATE
+
+    expect(acl.action).toEqual(Action.UPDATE)
+  })
+  it('reports cannot', async () => {
+    const acl = new Acl(permission)
+
+    expect(acl.cannot(Action.CREATE)).toBeFalsy()
   })
 })

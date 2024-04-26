@@ -30,10 +30,18 @@ export const PostHandlers = [
       { status: 200 }
     )
   }),
-  http.get('http://localhost:8000/api/posts/:post', ({ params }) => {
+  http.get('http://localhost:8000/api/posts/1', ({ params }) => {
     return HttpResponse.json(
       {
-        data: posts.find((post) => post.id === parseInt(<string>params.post))
+        data: posts.find((post) => post.id === 1)
+      },
+      { status: 200 }
+    )
+  }),
+  http.get('http://localhost:8000/api/posts/2', ({ params }) => {
+    return HttpResponse.json(
+      {
+        data: posts.find((post) => post.id === 2)
       },
       { status: 200 }
     )

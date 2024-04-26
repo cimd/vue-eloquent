@@ -48,10 +48,10 @@ export interface IModel {
 
 export declare class Model<T> extends Validator {
   model: T
-  originalModel: any
-  defaultModel: any
+  originalModel: T
+  defaultModel: T
   protected parameters: undefined | Partial<T>
-  protected api: Api
+  api: Api
   protected: string[]
   relations: undefined | any[]
   state: ModelState
