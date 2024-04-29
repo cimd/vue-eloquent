@@ -48,6 +48,7 @@
     "prettier": "^3.2.5",
     "pusher-js": "^8.3.0",
     "pusher-js-mock": "^0.3.8",
+    "strip-ansi": "^6.0.1",
     "typescript": "^5.4.5",
     "vite": "^5.2.8",
     "vitest": "^1.5.0",
