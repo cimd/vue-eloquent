@@ -89,5 +89,6 @@
   "bugs": {
     "url": "https://github.com/cimd/vue-eloquent/issues"
   },
-  "homepage": "https://vue-eloquent.netlify.app"
+  "homepage": "https://vue-eloquent.netlify.app",
+  "packageManager": "yarn@1.22.19"
 }
