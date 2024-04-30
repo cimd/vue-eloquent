@@ -30,7 +30,7 @@ export const PostHandlers = [
       { status: 200 }
     )
   }),
-  http.get('http://localhost:8000/api/posts/1', ({ params }) => {
+  http.get('http://localhost:8000/api/posts/1', () => {
     return HttpResponse.json(
       {
         data: posts.find((post) => post.id === 1)
@@ -38,7 +38,7 @@ export const PostHandlers = [
       { status: 200 }
     )
   }),
-  http.get('http://localhost:8000/api/posts/2', ({ params }) => {
+  http.get('http://localhost:8000/api/posts/2', () => {
     return HttpResponse.json(
       {
         data: posts.find((post) => post.id === 2)
