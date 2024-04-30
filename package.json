@@ -74,7 +74,7 @@
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/cimd/vue-eloquent.git"
-  },  
+  },
   "keywords": [
     "Vue",
     "Laravel",
