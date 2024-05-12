@@ -19,17 +19,26 @@ declare module 'pinia' {
 }
 
 export default function PiniaApiPlugin(context: PiniaPluginContext) {
-  console.log(context)
-  console.log(context.store)
+  if (!context.store) return
 
-  context.store._liveSync = context.options.persist?.sync ?? false
+  if (!context.options?.persist?.sync) return
+
+  console.log(context.store?.$id, context)
+  // console.log(context)
+
+  context.store._liveSync = context.options?.persist?.sync ?? false
 
   if (context.options.persist?.name) {
     context.store._storeName = context.options.persist.name
   } else {
+    console.log('suffix: ', context.options.persist.suffix)
+    console.log('state: ', context.store[context.options.persist.suffix])
+
+
     const joinArray = ['store', context.store.$id]
-    context.options.persist?.suffix ? joinArray.push(context.options.persist.suffix) : null
+    context.options.persist?.suffix ? joinArray.push(context.store[context.options.persist.suffix]) : null
     context.store._storeName = _join(joinArray, '-')
+    console.log('_storeName: ', joinArray )
   }
   // console.log('Store Name :', context.store._storeName)
 
@@ -44,7 +53,7 @@ export default function PiniaApiPlugin(context: PiniaPluginContext) {
     }
   })
   context.store.$onAction((args) => {
-    console.log('$onAction', args)
+    // console.log('$onAction', args)
   })
   return {
     $sync: (sync: boolean = true) => {
