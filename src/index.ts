@@ -17,7 +17,7 @@ import Policy from './policy/Policy'
 import PiniaApiPlugin from './plugins/PiniaApiPlugin'
 import ModelApi from './api/ModelApi'
 import VueEloquentPlugin from './devtools/devToolsPlugin'
-import Auth from '@/auth/Auth'
+import Auth from './auth/Auth'
 
 export {
   Action,

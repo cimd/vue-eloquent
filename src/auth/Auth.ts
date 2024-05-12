@@ -2,7 +2,7 @@ import { apiPrefix, http } from '../http/http.js'
 import { computed } from 'vue'
 
 export default class Auth {
-  protected urls= {
+  protected urls = {
     login: 'login',
     logout: 'logout',
     forgotPassword: 'users/forgot-password',
@@ -12,27 +12,25 @@ export default class Auth {
   /**
    * @param config
    */
-  constructor(config: { login?: string, logout?: string, forgotPassword?: string, resetPassword?: string }) {
-    if (config.login) {
+  constructor(config?: { login?: string, logout?: string, forgotPassword?: string, resetPassword?: string }) {
+    if (config?.login) {
       this.urls.login = config.login
     }
-    if (config.logout) {
+    if (config?.logout) {
       this.urls.logout = config.logout
     }
-    if (config.forgotPassword) {
+    if (config?.forgotPassword) {
       this.urls.forgotPassword = config.forgotPassword
     }
-    if (config.resetPassword) {
+    if (config?.resetPassword) {
       this.urls.resetPassword = config.resetPassword
     }
   }
 
-  get token(): string | null
-  {
+  get token(): string | null {
     return localStorage.getItem('sanctum_token')
   }
-  set token(token: string)
-  {
+  set token(token: string) {
     localStorage.setItem('sanctum_token', token)
   }
 
@@ -43,8 +41,7 @@ export default class Auth {
   * @param { any } payload
   * @return { Promise<any> }
   */
-  login(payload: any)
-  {
+  login(payload: any) {
     return new Promise((resolve, reject) => {
       http
         .get('/api/csrf-cookie')
@@ -70,12 +67,10 @@ export default class Auth {
     })
   }
 
-  loggedIn(_payload: any)
-  {
+  loggedIn(_payload: any) {
     return
   }
-  loginError(_er: any)
-  {
+  loginError(_er: any) {
     return
   }
 
@@ -83,8 +78,7 @@ export default class Auth {
     return localStorage.getItem('sanctum_token') !== null
   })
 
-  logout()
-  {
+  logout() {
     const logoutUrl = `${apiPrefix}/${this.urls.logout}`
     return new Promise((resolve, reject) => {
       http
@@ -104,17 +98,14 @@ export default class Auth {
         })
     })
   }
-  loggedOut(_payload: any)
-  {
+  loggedOut(_payload: any) {
     return
   }
-  logoutError(_er: any)
-  {
+  logoutError(_er: any) {
     return
   }
 
-  forgotPassword(email: string)
-  {
+  forgotPassword(email: string) {
     const forgotPasswordUrl = `${apiPrefix}/${this.urls.forgotPassword}`
     return new Promise((resolve, reject) => {
       http
@@ -129,8 +120,7 @@ export default class Auth {
     })
   }
 
-  resetPassword(payload: any)
-  {
+  resetPassword(payload: any) {
     const resetPasswordUrl = `${apiPrefix}/${this.urls.resetPassword}`
     return new Promise((resolve, reject) => {
       http
