@@ -3,6 +3,7 @@ import StoreApi from './StoreApi'
 import _join from 'lodash/join'
 import { IApiResponse } from '../api/IApiResponse'
 import 'pinia'
+import { computed } from 'vue'
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
@@ -21,26 +22,25 @@ declare module 'pinia' {
 export default function PiniaApiPlugin(context: PiniaPluginContext) {
   if (!context.store) return
 
-  if (!context.options?.persist?.sync) return
+  if (!context.options?.persist) return
 
   console.log(context.store?.$id, context)
   // console.log(context)
 
   context.store._liveSync = context.options?.persist?.sync ?? false
 
-  if (context.options.persist?.name) {
-    context.store._storeName = context.options.persist.name
-  } else {
-    console.log('suffix: ', context.options.persist.suffix)
-    console.log('state: ', context.store[context.options.persist.suffix])
+  context.store._storeName = computed(() => {
+    if (context.options.persist?.name) {
+      return context.options.persist.name
+    } else {
+      console.log('suffix: ', context.options.persist.suffix)
+      console.log('state: ', context.store[context.options.persist.suffix])
 
-
-    const joinArray = ['store', context.store.$id]
-    context.options.persist?.suffix ? joinArray.push(context.store[context.options.persist.suffix]) : null
-    context.store._storeName = _join(joinArray, '-')
-    console.log('_storeName: ', joinArray )
-  }
-  // console.log('Store Name :', context.store._storeName)
+      const joinArray = ['store', context.store.$id]
+      context.options.persist?.suffix ? joinArray.push(context.store[context.options.persist.suffix]) : null
+      return _join(joinArray, '-')
+    }
+  })
 
   context.store.$subscribe((_mutation, _state) => {
     // console.log('mutation', _mutation)
@@ -69,6 +69,7 @@ export default function PiniaApiPlugin(context: PiniaPluginContext) {
       return response
     },
     $get: async (key?: string): Promise<IApiResponse<{ data: any, store: string }>> => {
+      console.log(context.store)
       const response: IApiResponse<{ data: any, store: string }> = await StoreApi.get({ key: key ?? context.store._storeName })
       context.store.$sync(false)
       context.store.$state = response.data
