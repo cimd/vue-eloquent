@@ -5,16 +5,11 @@ import { createHttp } from '../src/index'
 import http from '../test/mocks/axios-mock'
 import broadcast from '../test/mocks/pusher-mock'
 import PostApi from '../examples/PostApi'
-import { usePostStore } from '../examples/PostStore'
-import { mapState } from 'pinia'
 import Post from '../examples/Post'
 
 export default defineComponent({
   data() {
     return {}
-  },
-  computed: {
-    ...mapState(usePostStore, ['posts'])
   },
   created() {
     // this.testHttp()
