@@ -12,10 +12,27 @@ declare module 'pinia' {
       name?: string;
       sync?: boolean;
     }
+    $storeName(): void;
     $sync(sync?: boolean): void;
     $save(): Promise<IApiResponse<{ data: any, store: string }>>;
     $get(key?: string): Promise<IApiResponse<{ data: any, store: string }>>;
     $delete(key?: string): Promise<IApiResponse<{ data: any, store: string }>>;
+  }
+}
+
+function storeName(context: PiniaPluginContext) {
+  if (context.options.persist?.name) {
+    return context.options.persist.name
+  } else {
+    const suffix = context.options.persist.suffix
+    console.log('suffix: ', suffix)
+    console.log('store: ', context.store)
+    console.log('options: ', context.options)
+    console.log('state: ',context.store[suffix])
+
+    const joinArray = ['store', context.store.$id]
+    context.options.persist?.suffix ? joinArray.push(context.store[suffix]) : null
+    return _join(joinArray, '-')
   }
 }
 
@@ -28,19 +45,6 @@ export default function PiniaApiPlugin(context: PiniaPluginContext) {
   // console.log(context)
 
   context.store._liveSync = context.options?.persist?.sync ?? false
-
-  context.store._storeName = computed(() => {
-    if (context.options.persist?.name) {
-      return context.options.persist.name
-    } else {
-      console.log('suffix: ', context.options.persist.suffix)
-      console.log('state: ', context.store[context.options.persist.suffix])
-
-      const joinArray = ['store', context.store.$id]
-      context.options.persist?.suffix ? joinArray.push(context.store[context.options.persist.suffix]) : null
-      return _join(joinArray, '-')
-    }
-  })
 
   context.store.$subscribe((_mutation, _state) => {
     // console.log('mutation', _mutation)
@@ -56,6 +60,10 @@ export default function PiniaApiPlugin(context: PiniaPluginContext) {
     // console.log('$onAction', args)
   })
   return {
+    $storeName: () => {
+      context.store._storeName = storeName(context)
+      console.log(context.store._storeName)
+    },
     $sync: (sync: boolean = true) => {
       // console.log('$sync', sync)
       context.store._liveSync = sync
@@ -69,7 +77,7 @@ export default function PiniaApiPlugin(context: PiniaPluginContext) {
       return response
     },
     $get: async (key?: string): Promise<IApiResponse<{ data: any, store: string }>> => {
-      console.log(context.store)
+      console.log(context.store._storeName)
       const response: IApiResponse<{ data: any, store: string }> = await StoreApi.get({ key: key ?? context.store._storeName })
       context.store.$sync(false)
       context.store.$state = response.data
