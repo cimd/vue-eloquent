@@ -17,9 +17,11 @@ import Actioned from './enums/Actioned'
 import { formatDates } from './helpers/formatDates'
 import VueEloquentPlugin from './devtools/devToolsPlugin'
 import ModelError from './model/ModelError'
+import Auth from './auth/Auth'
 
 export {
   Api,
+  Auth,
   ApiResponse,
   AxiosError,
   Collection,

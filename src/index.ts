@@ -17,6 +17,7 @@ import Policy from './policy/Policy'
 import PiniaApiPlugin from './plugins/PiniaApiPlugin'
 import ModelApi from './api/ModelApi'
 import VueEloquentPlugin from './devtools/devToolsPlugin'
+import Auth from '@/auth/Auth'
 
 export {
   Action,
@@ -24,6 +25,7 @@ export {
   Api,
   ApiError,
   ApiQuery,
+  Auth,
   Model,
   Collection,
   CollectionError,
@@ -38,5 +40,5 @@ export {
   ModelApi,
   ModelError,
   Policy,
-  PiniaApiPlugin,
+  PiniaApiPlugin
 }
