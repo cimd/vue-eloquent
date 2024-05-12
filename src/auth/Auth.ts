@@ -1,5 +1,4 @@
 import { apiPrefix, http } from '../http/http.js'
-import { computed } from 'vue'
 
 export default class Auth {
   protected urls = {
@@ -51,7 +50,9 @@ export default class Auth {
             .post(loginUrl, payload)
             .then((resp: any) => {
               this.token = resp.data.token
+              http.defaults.headers.common.Authorization = `Bearer ${this.token}`
               this.loggedIn(resp.data)
+
               resolve(resp.data)
             })
             .catch((e: any) => {
@@ -74,11 +75,13 @@ export default class Auth {
     return
   }
 
-  isAuthenticated = computed(() => {
+  isAuthenticated(): boolean
+  {
     return localStorage.getItem('sanctum_token') !== null
-  })
+  }
 
-  logout() {
+  logout()
+  {
     const logoutUrl = `${apiPrefix}/${this.urls.logout}`
     return new Promise((resolve, reject) => {
       http
@@ -86,7 +89,6 @@ export default class Auth {
         .then((response: any) => {
           localStorage.removeItem('sanctum_token')
           this.loggedOut(response.data)
-          resolve(response.data)
 
           resolve(response.data)
         })
@@ -127,7 +129,9 @@ export default class Auth {
         .post(resetPasswordUrl, payload)
         .then((response: any) => {
           this.token = response.data.token
+          http.defaults.headers.common.Authorization = `Bearer ${this.token}`
           this.loggedIn(response.data)
+
           resolve(response.data)
         })
         .catch((err: any) => {
