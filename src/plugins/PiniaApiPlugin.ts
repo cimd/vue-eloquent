@@ -3,7 +3,6 @@ import StoreApi from './StoreApi'
 import _join from 'lodash/join'
 import { IApiResponse } from '../api/IApiResponse'
 import 'pinia'
-import { computed } from 'vue'
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
@@ -28,10 +27,10 @@ function storeName(context: PiniaPluginContext) {
     console.log('suffix: ', suffix)
     console.log('store: ', context.store)
     console.log('options: ', context.options)
-    console.log('state: ',context.store[suffix])
+    console.log('state: ', context.store[ suffix ])
 
     const joinArray = ['store', context.store.$id]
-    context.options.persist?.suffix ? joinArray.push(context.store[suffix]) : null
+    context.options.persist?.suffix ? joinArray.push(context.store[ suffix ]) : null
     return _join(joinArray, '-')
   }
 }
