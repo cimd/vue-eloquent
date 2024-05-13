@@ -55,7 +55,7 @@ export default function PiniaApiPlugin(context: PiniaPluginContext) {
       context.store.$save()
     }
   })
-  context.store.$onAction((args) => {
+  context.store.$onAction((_args) => {
     // console.log('$onAction', args)
   })
   return {
