@@ -14,7 +14,6 @@ import EloquentError from './EloquentError'
 import Model from './model/Model'
 import ModelError from './model/ModelError'
 import Policy from './policy/Policy'
-import PiniaApiPlugin from './plugins/PiniaApiPlugin'
 import ModelApi from './api/ModelApi'
 import VueEloquentPlugin from './devtools/devToolsPlugin'
 import Auth from './auth/Auth'
@@ -39,6 +38,5 @@ export {
   formatObject,
   ModelApi,
   ModelError,
-  Policy,
-  PiniaApiPlugin
+  Policy
 }
