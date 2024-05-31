@@ -18,7 +18,6 @@ import { formatDates } from './helpers/formatDates'
 import VueEloquentPlugin from './devtools/devToolsPlugin'
 import ModelError from './model/ModelError'
 import Auth from './auth/Auth'
-import PiniaApiPlugin from './plugins/PiniaApiPlugin'
 
 export {
   Api,
@@ -40,7 +39,6 @@ export {
   Actioned,
   formatDates,
   VueEloquentPlugin,
-  PiniaApiPlugin,
   ModelError,
 
   // Deprecated
