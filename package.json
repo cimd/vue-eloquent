@@ -22,6 +22,9 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^2.1.1",
+    "@eslint/js": "~8.57.0",
+    "@nx/eslint": "19.2.3",
     "@rushstack/eslint-patch": "1.10.2",
     "@types/jsdom": "^21.1.6",
     "@types/lodash": "^4.17.1",
@@ -44,6 +47,7 @@
     "jsdom": "^24.0.0",
     "msw": "^2.3.0",
     "npm-run-all": "^4.1.5",
+    "nx": "19.2.3",
     "pinia": "^2.1.7",
     "prettier": "^3.2.5",
     "pusher-js": "^8.3.0",
@@ -93,5 +97,6 @@
   "bugs": {
     "url": "https://github.com/cimd/vue-eloquent/issues"
   },
-  "homepage": "https://vue-eloquent.netlify.app"
+  "homepage": "https://vue-eloquent.netlify.app",
+  "nx": {}
 }
