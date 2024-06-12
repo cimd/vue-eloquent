@@ -3,6 +3,7 @@ import js from '@eslint/js'
 import eslintPluginUnusedImports from 'eslint-plugin-unused-imports'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import 'dotenv/config'
 
 const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file
 const __dirname = path.dirname(__filename) // get the name of the directory
@@ -17,105 +18,77 @@ export default [
   ...compat.extends(
     'plugin:vue/vue3-essential',
     '@vue/eslint-config-typescript',
-    '@vue/eslint-config-prettier/skip-formatting'
+    '@vue/eslint-config-prettier/skip-formatting',
   ),
-  {
-    files: ['**/*.vue', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs', '**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts', '**/*.d.ts', '**/*.cy.{js,jsx,ts,tsx}']
-  },
-  { plugins: { 'unused-imports': eslintPluginUnusedImports }},
+  { plugins: {
+    // '@typescript-eslint',
+    'unused-imports': eslintPluginUnusedImports
+  }},
   { languageOptions: { parserOptions: { ecmaVersion: 'latest' }}},
   {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
+      // this rule, if on, would require explicit return type on the `render` function
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/semi': ['warn', 'never'],
+
+      // in plain CommonJS modules, you can't use `import foo = require('foo')` to pass this rule, so it has to be disabled
       '@typescript-eslint/no-var-requires': 'warn',
       '@typescript-eslint/no-this-alias': 'error',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
-          vars: 'all',
-          varsIgnorePattern: '^_',
-          args: 'after-used',
-          argsIgnorePattern: '^_'
+          'vars': 'all',
+          'varsIgnorePattern': '^_',
+          'args': 'after-used',
+          'argsIgnorePattern': '^_'
         }
       ],
+
+      // 'brace-style': [2, 'stroustrup', { allowSingleLine: true }],
       'unused-imports/no-unused-imports': 'warn',
-      'generator-star-spacing': [
-        'error',
-        {
-          before: true,
-          after: false
-        }
-      ],
+
+      // allow async-await
+      'generator-star-spacing': ['error', { before: true, after: false }],
+      // allow paren-less arrow functions
       'arrow-parens': 'off',
       'one-var': 'off',
-      '@typescript-eslint/object-curly-spacing': [
-        'warn',
-        'always',
-        {
-          arraysInObjects: false,
-          objectsInObjects: false
-        }
-      ],
-      'object-curly-spacing': [
-        'warn',
-        'always',
-        {
-          arraysInObjects: false,
-          objectsInObjects: false
-        }
-      ],
+      '@typescript-eslint/object-curly-spacing': ['warn', 'always', { 'arraysInObjects': false, 'objectsInObjects': false }],
+      'object-curly-spacing': ['warn', 'always', { 'arraysInObjects': false, 'objectsInObjects': false }],
+
       'array-bracket-spacing': ['warn', 'never'],
       'computed-property-spacing': ['warn', 'always'],
-      '@typescript-eslint/comma-spacing': [
-        'warn',
-        {
-          before: false,
-          after: true
-        }
-      ],
-      'comma-spacing': [
-        'warn',
-        {
-          before: false,
-          after: true
-        }
-      ],
+
+      '@typescript-eslint/comma-spacing': ['warn', { 'before': false, 'after': true }],
+      'comma-spacing': ['warn', { 'before': false, 'after': true }],
+
       'space-in-parens': ['warn', 'never'],
+
       'default-case-last': 'warn',
       'dot-notation': 'warn',
-      'arrow-spacing': [
-        'warn',
-        {
-          before: true,
-          after: true
-        }
-      ],
+
+      'arrow-spacing': ['warn', { 'before': true, 'after': true }],
       'block-spacing': 'warn',
-      'key-spacing': [
-        'warn',
-        {
-          beforeColon: false,
-          afterColon: true
-        }
-      ],
+      'key-spacing': ['warn', { 'beforeColon': false, 'afterColon': true }],
       'no-multi-spaces': 'warn',
-      'space-before-function-paren': [
-        'warn',
-        {
-          anonymous: 'always',
-          named: 'never',
-          asyncArrow: 'always'
-        }
-      ],
+      'space-before-function-paren': ['warn', { 'anonymous': 'always', 'named': 'never', 'asyncArrow': 'always' }],
       'template-curly-spacing': 'warn',
+
       'import/first': 'off',
+      // 'import/named': 'error',
+      // 'import/namespace': 'error',
+      // 'import/default': 'error',
+      // 'import/export': 'error',
       'import/extensions': 'off',
       'import/no-unresolved': 'off',
       'import/no-extraneous-dependencies': 'off',
       'prefer-promise-reject-errors': 'error',
-      'no-debugger': 'off',
+
+      // allow debugger during development only
+      // eslint-disable-next-line no-undef
+      'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+
+      // My Custom
       'sort-imports': [
         'error',
         {
@@ -123,8 +96,8 @@ export default [
           ignoreDeclarationSort: true,
           ignoreMemberSort: false,
           memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-          allowSeparatedGroups: false
-        }
+          allowSeparatedGroups: false,
+        },
       ],
       'vue/html-indent': [
         'error',
@@ -134,12 +107,14 @@ export default [
           baseIndent: 1,
           closeBracket: 0,
           alignAttributesVertically: true,
-          ignores: []
-        }
+          ignores: [],
+        },
       ],
-      indent: ['warn', 2],
+
+      'indent': ['warn', 2],
+
       'vue/html-quotes': ['error', 'single', { avoidEscape: true }],
-      quotes: ['warn', 'single', { avoidEscape: true }],
+      'quotes': ['warn', 'single', { 'avoidEscape': true }],
       'vue/component-options-name-casing': ['error', 'PascalCase'],
       'vue/html-comment-content-spacing': ['error', 'always'],
       'vue/no-this-in-before-route-enter': ['error'],
@@ -148,12 +123,17 @@ export default [
         {
           groups: ['props'],
           deepData: false,
-          ignorePublicMembers: false
-        }
+          ignorePublicMembers: false,
+        },
       ],
       'vue/padding-line-between-blocks': ['error', 'always'],
       'vue/component-definition-name-casing': ['error', 'PascalCase'],
-      'vue/no-multi-spaces': ['error', { ignoreProperties: true }],
+      'vue/no-multi-spaces': [
+        'error',
+        {
+          ignoreProperties: true,
+        },
+      ],
       'vue/prop-name-casing': ['error', 'camelCase'],
       'vue/v-bind-style': ['error', 'shorthand'],
       'vue/v-on-style': ['error', 'shorthand'],
@@ -162,8 +142,8 @@ export default [
         {
           atComponent: 'longform',
           default: 'longform',
-          named: 'longform'
-        }
+          named: 'longform',
+        },
       ],
       'vue/mustache-interpolation-spacing': ['error', 'always'],
       'vue/no-spaces-around-equal-signs-in-attribute': ['error'],
@@ -172,8 +152,8 @@ export default [
         'always',
         {
           autofix: true,
-          ignore: []
-        }
+          ignore: [],
+        },
       ],
       'vue/order-in-components': [
         'error',
@@ -211,9 +191,9 @@ export default [
             'LIFECYCLE_HOOKS',
             'methods',
             ['template', 'render'],
-            'renderError'
-          ]
-        }
+            'renderError',
+          ],
+        },
       ],
       'vue/this-in-template': ['error', 'never'],
       'vue/attributes-order': [
@@ -230,29 +210,41 @@ export default [
             'OTHER_DIRECTIVES',
             'OTHER_ATTR',
             'EVENTS',
-            'CONTENT'
+            'CONTENT',
           ],
-          alphabetical: true
-        }
+          alphabetical: true,
+        },
       ],
       'vue/html-closing-bracket-spacing': [
         'error',
         {
           startTag: 'never',
           endTag: 'never',
-          selfClosingTag: 'always'
-        }
+          selfClosingTag: 'always',
+        },
       ],
-      'vue/component-tags-order': ['error', { order: [['template', 'script'], 'style']}],
+      'vue/component-tags-order': [
+        'error',
+        {
+          order: [['template', 'script'], 'style'],
+        },
+      ],
       'vue/max-attributes-per-line': [
         'error',
         {
-          singleline: { max: 10 },
-          multiline: { max: 1 }
-        }
+          singleline: {
+            max: 10,
+          },
+          multiline: {
+            max: 1,
+          },
+        },
       ],
-      'vue/valid-v-for': 0
-    }
+      'vue/valid-v-for': 0,
+    },
+  },
+  {
+    files: ['**/*.vue', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs', '**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts', '**/*.d.ts', '**/*.cy.{js,jsx,ts,tsx}']
   },
   {
     ignores: ['.gitignore']
