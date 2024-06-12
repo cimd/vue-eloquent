@@ -15,7 +15,7 @@ module.exports = [
     '@vue/eslint-config-prettier/skip-formatting'
   ),
   {
-    files: ['**/*.vue', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs', '**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts', '**/*.d.ts']
+    files: ['**/*.vue', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs', '**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts', '**/*.d.ts', '**/*.cy.{js,jsx,ts,tsx}']
   },
   { plugins: { 'unused-imports': eslintPluginUnusedImports } },
   { languageOptions: { parserOptions: { ecmaVersion: 'latest' } } },
@@ -249,5 +249,4 @@ module.exports = [
       'vue/valid-v-for': 0
     }
   },
-  { files: ['**/*.cy.{js,jsx,ts,tsx}'] }
 ]
