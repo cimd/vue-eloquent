@@ -249,4 +249,7 @@ module.exports = [
       'vue/valid-v-for': 0
     }
   },
+  {
+    ignores: ['.gitignore']
+  }
 ]
