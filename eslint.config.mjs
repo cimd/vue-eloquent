@@ -1,13 +1,18 @@
-const { FlatCompat } = require('@eslint/eslintrc')
-const js = require('@eslint/js')
-const eslintPluginUnusedImports = require('eslint-plugin-unused-imports')
+import { FlatCompat } from '@eslint/eslintrc'
+import js from '@eslint/js'
+import eslintPluginUnusedImports from 'eslint-plugin-unused-imports'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file
+const __dirname = path.dirname(__filename) // get the name of the directory
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
   recommendedConfig: js.configs.recommended
 })
 
-module.exports = [
+export default [
   js.configs.recommended,
   ...compat.extends(
     'plugin:vue/vue3-essential',
@@ -17,8 +22,8 @@ module.exports = [
   {
     files: ['**/*.vue', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs', '**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts', '**/*.d.ts', '**/*.cy.{js,jsx,ts,tsx}']
   },
-  { plugins: { 'unused-imports': eslintPluginUnusedImports } },
-  { languageOptions: { parserOptions: { ecmaVersion: 'latest' } } },
+  { plugins: { 'unused-imports': eslintPluginUnusedImports }},
+  { languageOptions: { parserOptions: { ecmaVersion: 'latest' }}},
   {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
@@ -238,7 +243,7 @@ module.exports = [
           selfClosingTag: 'always'
         }
       ],
-      'vue/component-tags-order': ['error', { order: [['template', 'script'], 'style'] }],
+      'vue/component-tags-order': ['error', { order: [['template', 'script'], 'style']}],
       'vue/max-attributes-per-line': [
         'error',
         {
