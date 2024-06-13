@@ -136,7 +136,7 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .patch(url, payload, {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
@@ -169,7 +169,7 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .post(url, payload, {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
@@ -205,7 +205,7 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .get(url, payload, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+               
               // @ts-ignore
               retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
@@ -227,7 +227,7 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .get(url, payload, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+               
               // @ts-ignore
               retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
@@ -249,7 +249,7 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .post(url, payload, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+               
               // @ts-ignore
               retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
@@ -271,7 +271,7 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .patch(url, payload, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+               
               // @ts-ignore
               retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
@@ -292,7 +292,7 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .delete(url, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+               
               // @ts-ignore
               retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
@@ -330,7 +330,7 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .get(url, payload, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+               
               // @ts-ignore
               retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
@@ -352,7 +352,7 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .get(url, payload, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+               
               // @ts-ignore
               retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
@@ -374,7 +374,7 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .post(url, payload, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+               
               // @ts-ignore
               retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
@@ -396,7 +396,7 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .patch(url, payload, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+               
               // @ts-ignore
               retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
@@ -417,7 +417,7 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .delete(url, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+               
               // @ts-ignore
               retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
@@ -551,7 +551,7 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .post(url, { data: payload }, {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
@@ -583,7 +583,7 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .patch(url, { data: payload }, {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
@@ -610,7 +610,7 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .post(url, { data: payload }, {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
@@ -641,7 +641,7 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .patch(url, { data: payload }, {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+           
           // @ts-ignore
           retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
@@ -677,7 +677,7 @@ export default abstract class Api extends ApiQuery {
 
     return new Promise((resolve, reject) => {
       http
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+       
       // @ts-ignore
         .get(url, {
           // params: payload,
