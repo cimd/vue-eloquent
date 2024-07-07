@@ -60,7 +60,7 @@ export default abstract class ValidatorV2 {
   /**
    * Validates the model and sets error messages
    */
-  public $validate(): boolean
+  $validate(): boolean
   {
     this.$v.value.$validate()
     this.$invalid = this.$v.value.$invalid
@@ -84,14 +84,15 @@ export default abstract class ValidatorV2 {
   $reset(): void
   {
     this.$v.value.$reset()
-    Object.assign(this.$invalid, this.$v.value.$invalid)
+    this.$invalid = reactive(this.$v.value.$invalid)
+
     refreshInspector().then()
     addTimelineEvent({ title: 'Validation Reset', data: this.$v.value.model })
   }
 
   protected set$Model(model: any): void
   {
-    Object.assign(this.$model, model)
+    this.$model = reactive(model)
     refreshInspector().then()
   }
 }
