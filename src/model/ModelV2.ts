@@ -10,6 +10,7 @@ import ApiV2 from '../api/ApiV2'
 import Action from '../enums/Action'
 import Actioned from '../enums/Actioned'
 import { ApiResponse, IApiResponse } from '../api/IApiResponse'
+import diff from '../helpers/objects/diff'
 
 export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2 {
 
@@ -26,6 +27,9 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    */
   $uuid: string
 
+  /**
+   * Reactive model instance, to be used inside Vue components
+   */
   $model = reactive<T>(this)
   /**
    * To check if model is dirty / has been modified
@@ -40,15 +44,15 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
         enumerable: false,
         writable: true,
       },
+      $originalModel: {
+        enumerable: false,
+        writable: true,
+      },
       $uuid: {
         enumerable: false,
         writable: true,
       },
       $state: {
-        enumerable: false,
-        writable: true,
-      },
-      $originalModel: {
         enumerable: false,
         writable: true,
       },
@@ -91,7 +95,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
     try {
       this.retrieving()
       const result = await this.api().show<T>(id)
-      this.setModel(result.data)
+      this.factory(result.data)
 
       addTimelineEvent({ title: 'Model Retrieved', data: { model: result.data }})
 
@@ -153,8 +157,8 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
       this.creating()
       this.setStateLoading()
       const response = await this.api().store<T>(this)
+      this.factory(response.data)
       this.setOriginal()
-      this.setModel(response.data)
       addTimelineEvent({ title: 'Created', data: { model: response.data }})
       this.setStateSuccess()
       this.created(response.data)
@@ -177,11 +181,17 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    */
   async update<T>(): Promise<T> {
     try {
+      const dirty = diff(this.$model, this.$originalModel)
+      if (Object.keys(dirty).length === 0) return
+
       this.setStateLoading()
       this.updating()
-      const response: IApiResponse<T> = await this.api().update<T>(this)
+      dirty.id = this.$model.id
+
+      const response: IApiResponse<T> = await this.api().update<T>(dirty)
+      this.factory(response.data)
       this.setOriginal()
-      this.setModel(response.data)
+
       addTimelineEvent({ title: 'Updated', data: { model: response.data }})
       this.setStateSuccess()
       this.updated(response.data)
@@ -207,8 +217,8 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
       this.deleting()
       this.setStateLoading()
       const response: IApiResponse<T> = await this.api().destroy<T>(this)
+      this.factory(response.data)
       this.setOriginal()
-      this.setModel(response.data)
       addTimelineEvent({ title: 'Deleted', data: { model: response.data }})
       this.setStateSuccess()
       this.deleted(response.data)
@@ -239,16 +249,6 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
   }
 
   /**
-   * Creates new instance of the model with default values
-   *
-   * @return { void }
-   */
-  fresh(): void {
-    this.setModel(this.defaultModel)
-    addTimelineEvent({ title: 'Fresh Model', data: { model: this.defaultModel }})
-  }
-
-  /**
    * Refresh model from API
    *
    * @async
@@ -261,9 +261,9 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
       this.retrieving()
       const modelId = id ? id : this.id
       const response: IApiResponse<T> = await this.api().show<T>(modelId)
-      this.setOriginal()
       this.setStateSuccess()
       this.factory(response.data)
+      this.setOriginal()
       this.retrieved(response.data)
       addTimelineEvent({ title: 'Refreshed', data: { model: response.data }})
     }
@@ -274,6 +274,12 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
     }
   }
 
+  /**
+   * Serializes the model
+   *
+   * @param model
+   * @protected
+   */
   protected factory(model: T) {
     for (const key in model) {
       if (Object.prototype.hasOwnProperty.call(model, key)) {
@@ -286,22 +292,10 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
         } else {
           this[ key ] = model[ key ]
         }
-
       }
     }
   }
 
-  /**
-   * Updates the model property with new data
-   *
-   * @protected
-   * @param { any } data - new model data
-   * @return { VoidFunction }
-   */
-  protected setModel(data: T): void {
-    Object.assign(this, data)
-    refreshInspector().then()
-  }
 
   protected casts() {
     return {
@@ -322,7 +316,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
       if (value) {
         return Number(value)
       }
-      return Number(value)
+      return value
     default:
       return cast(this, key, value, this.casts())
     }
@@ -334,7 +328,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * @return { VoidFunction }
    */
   protected setOriginal(): void {
-    Object.assign(this.$originalModel, this)
+    this.$originalModel = reactive(Object.assign({}, this))
     refreshInspector().then()
   }
 
