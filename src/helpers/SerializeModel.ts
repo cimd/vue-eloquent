@@ -1,7 +1,7 @@
 import Model from '@/model/Model'
 
 export const serializeModel = (response: any[], model: Model) => {
-  console.log('serializeModel: ', response, model)
+  // console.log('serializeModel: ', response, model)
   /**
    * If no response, return undefined
    */
@@ -22,7 +22,7 @@ export const serializeModel = (response: any[], model: Model) => {
    * If response is an array, serialize each model
    */
   return response.map(el => {
-    console.log('Serializing array')
+    console.log('Serializing array of models')
     return new model(el)
   })
 }
