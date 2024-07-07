@@ -41,7 +41,7 @@ export default abstract class ValidatorV2 {
         enumerable: false,
         writable: true,
       },
-    });
+    })
   }
 
   /**

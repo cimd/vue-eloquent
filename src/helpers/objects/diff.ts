@@ -4,7 +4,7 @@
 const diff = (original: any, modified: any) => {
   const changes = {}
   for (const key in original) {
-    if (original.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(original, key)) {
       const val1 = original[ key ]
       const val2 = modified[ key ]
       if (val1 !== val2) {
