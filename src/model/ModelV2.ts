@@ -1,15 +1,15 @@
-import type { ModelState } from '@/model/IModelState'
+import type { ModelState } from './IModelState'
 import { reactive } from 'vue'
-import { ModelParams } from '@/model/IModelParams'
-import ValidatorV2 from '@/model/ValidatorV2'
-import { addModelInspector } from '@/model/modelInspector'
-import { addTimelineEvent, refreshInspector } from '@/devtools/devtools'
+import { ModelParams } from './IModelParams'
+import ValidatorV2 from './ValidatorV2'
+import { addModelInspector } from './modelInspector'
+import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 import { v4 as uuid } from 'uuid'
-import ModelError from '@/model/ModelError'
-import ApiV2 from '@/api/ApiV2'
-import Action from '@/enums/Action'
-import Actioned from '@/enums/Actioned'
-import { ApiResponse, IApiResponse } from '@/api/IApiResponse'
+import ModelError from './ModelError'
+import ApiV2 from '../api/ApiV2'
+import Action from '../enums/Action'
+import Actioned from '../enums/Actioned'
+import { ApiResponse, IApiResponse } from '../api/IApiResponse'
 
 export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2 {
 
@@ -32,6 +32,22 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
 
   protected constructor() {
     super()
+
+    Object.defineProperties(this, {
+      $uuid: {
+        enumerable: false,
+        writable: true,
+      },
+      $state: {
+        enumerable: false,
+        writable: true,
+      },
+      $originalModel: {
+        enumerable: false,
+        writable: true,
+      },
+    });
+
     this.$uuid = uuid()
     addModelInspector(this).then()
     addTimelineEvent({ title: 'Model Initialized', data: { uuid: this.$uuid }})
@@ -102,7 +118,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
     let actioned = '' as Actioned
     this.saving()
     try {
-      if (!this.model.id || (action === Action.CREATE)) {
+      if (!this.id || (action === Action.CREATE)) {
         model = await this.create()
         actioned = Actioned.CREATED
       }
@@ -162,7 +178,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
     try {
       this.setStateLoading()
       this.updating()
-      const response: IApiResponse<T> = await this.api().update<T>(this.model)
+      const response: IApiResponse<T> = await this.api().update<T>(this)
       this.setOriginal()
       this.setModel(response.data)
       addTimelineEvent({ title: 'Updated', data: { model: response.data }})
@@ -320,55 +336,55 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
     refreshInspector().then()
   }
 
-  protected retrieving(): void
+  protected retrieving(): void {return}
 
   /**
    * Retrieved runs after show method
    */
-  protected retrieved(payload: any): void
+  protected retrieved(payload: any): void {return}
 
-  protected retrievingError(err?: any): void
+  protected retrievingError(err?: any): void {return}
 
   /**
    * Runs before model is created
    */
-  protected creating(): void
+  protected creating(): void {return}
 
   /**
    * Runs after model is created
    */
-  protected created(payload: any): void
+  protected created(payload: any): void {return}
 
 
   /**
    * Runs before model is updated
    */
-  protected updating(): void
+  protected updating(): void {return}
 
   /**
    * Runs after model is updated
    */
-  protected updated(payload: any): void
+  protected updated(payload: any): void {return}
 
   /**
    * Runs before model is saved
    */
-  protected saving(): void
+  protected saving(): void {return}
 
   /**
    * Runs after model is saved
    */
-  protected saved(payload: any): void
+  protected saved(payload: any): void {return}
 
   /**
    * Runs before model is deleted
    */
-  protected deleting(): void
+  protected deleting(): void {return}
 
   /**
    * Runs after model is created
    */
-  protected deleted(payload: any): void
+  protected deleted(payload: any): void {return}
 
   /**
    * API starts loading state

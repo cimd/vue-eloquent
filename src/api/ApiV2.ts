@@ -1,16 +1,16 @@
-import { IApiResponse } from '@/api/IApiResponse'
+import { IApiResponse } from './IApiResponse'
 import { apiPrefix, http } from '../http/http'
 import ApiError from './ApiError'
 import ApiQuery from './ApiQuery'
-import { IAxiosError } from '@/api/IAxiosError'
-import Model from '@/model/Model'
-import { serializeModel } from '@/helpers/SerializeModel'
-import joinUrl from '@/helpers/strings/joinUrl'
-import { IModelParams } from '@/model/IModelParams'
+import { IAxiosError } from './IAxiosError'
+import { serializeModel } from '../helpers/SerializeModel'
+import joinUrl from '../helpers/strings/joinUrl'
+import { IModelParams } from '../model/IModelParams'
+import ModelV2 from '../model/ModelV2'
 
 export interface ApiConfig {
   serialize: boolean
-  model: Model
+  model: ModelV2
 }
 
 export default abstract class ApiV2 extends ApiQuery {
@@ -25,10 +25,10 @@ export default abstract class ApiV2 extends ApiQuery {
     return self.config(params)
   }
 
-  static async get<T>(payload?: Partial<T>): Promise<IApiResponse<T[]>>
+  static async get<T>(): Promise<IApiResponse<T[]>>
   {
     const self = new this()
-    return await self.get(payload)
+    return await self.get()
   }
 
   /**
@@ -43,7 +43,7 @@ export default abstract class ApiV2 extends ApiQuery {
   static show<T>(id: number): Promise<IApiResponse<T>>
   {
     const self = new this()
-    const url = joinUrl([self.apiPrefix(), self.resource(), id], '/')
+    const url = joinUrl([self.apiPrefix(), self.resource, id], '/')
     self.retrieving(id)
     return new Promise((resolve, reject) => {
       http
@@ -73,14 +73,13 @@ export default abstract class ApiV2 extends ApiQuery {
   static update<T extends IModelParams>(payload: Partial<T>): Promise<IApiResponse<T>>
   {
     const self = new this()
-    const url: string = joinUrl([self.apiPrefix(), self.resource(), payload.id], '/')
+    console.log(self.resource)
+    const url: string = joinUrl([self.apiPrefix(), self.resource, payload.id], '/')
+    console.log(url)
     self.updating(payload)
     return new Promise((resolve, reject) => {
       http
         .patch(url, payload, {
-
-          // @ts-ignore
-          retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
@@ -106,7 +105,7 @@ export default abstract class ApiV2 extends ApiQuery {
   static store<T>(payload: Partial<T>): Promise<IApiResponse<T>>
   {
     const self = new this()
-    const url = joinUrl([self.apiPrefix(), self.resource()], '/')
+    const url = joinUrl([self.apiPrefix(), self.resource], '/')
     self.storing(payload)
     return new Promise((resolve, reject) => {
       http
@@ -144,9 +143,9 @@ export default abstract class ApiV2 extends ApiQuery {
 
     let url = ''
     if (isModel) {
-      url = joinUrl([self.apiPrefix(), self.resource(), id], '/')
+      url = joinUrl([self.apiPrefix(), self.resource, id], '/')
     } else {
-      url = joinUrl([self.apiPrefix(), self.resource()], '/')
+      url = joinUrl([self.apiPrefix(), self.resource], '/')
     }
 
     self.destroying(payload)
@@ -179,7 +178,7 @@ export default abstract class ApiV2 extends ApiQuery {
   static batchStore<T>(payload: T[]): Promise<IApiResponse<T[]>>
   {
     const self = new this()
-    const url = joinUrl([self.apiPrefix(), self.resource(), 'batch'], '/')
+    const url = joinUrl([self.apiPrefix(), self.resource, 'batch'], '/')
     return new Promise((resolve, reject) => {
       http
         .post(url, { data: payload }, {
@@ -208,7 +207,7 @@ export default abstract class ApiV2 extends ApiQuery {
   static batchUpdate<T>(payload: T[]): Promise<IApiResponse<T[]>>
   {
     const self = new this()
-    const url = joinUrl([self.apiPrefix(), self.resource(), 'batch'], '/')
+    const url = joinUrl([self.apiPrefix(), self.resource, 'batch'], '/')
     return new Promise((resolve, reject) => {
       http
         .patch(url, { data: payload }, {
@@ -236,7 +235,7 @@ export default abstract class ApiV2 extends ApiQuery {
   static batchDestroy<T>(payload: T[]): Promise<IApiResponse<T[]>>
   {
     const self = new this()
-    const url = joinUrl([self.apiPrefix(), self.resource(), 'batch-destroy'], '/')
+    const url = joinUrl([self.apiPrefix(), self.resource, 'batch-destroy'], '/')
     return new Promise((resolve, reject) => {
       http
         .patch(url, { data: payload }, {
@@ -296,7 +295,7 @@ export default abstract class ApiV2 extends ApiQuery {
 
   get<T>(): Promise<IApiResponse<T[]>>
   {
-    const url = joinUrl([this.apiPrefix(), this.resource()], '/')
+    const url = joinUrl([this.apiPrefix(), this.resource], '/')
 
     const queryString = this.queryString()
     this.fetching(queryString)
@@ -318,10 +317,10 @@ export default abstract class ApiV2 extends ApiQuery {
     })
   }
 
-  protected resource()
-  {
-    return ''
-  }
+  // protected resource()
+  // {
+  //   return 'locations'
+  // }
 
   protected apiPrefix()
   {
@@ -330,7 +329,7 @@ export default abstract class ApiV2 extends ApiQuery {
 
   protected model()
   {
-    return Model
+    return ModelV2
   }
 
   /**
@@ -347,50 +346,50 @@ export default abstract class ApiV2 extends ApiQuery {
     return responseObj
   }
 
-  protected batchStoringError?(err?: any): void
+  protected batchStoringError?(err?: any): void { return }
 
-  protected batchUpdatingError?(err?: any) : void
+  protected batchUpdatingError?(err?: any) : void { return }
 
-  protected batchDestroyingError?(err?: any): void
+  protected batchDestroyingError?(err?: any): void { return }
 
-  protected fetchingLogsError(err?: any): void
+  protected fetchingLogsError(err?: any): void { return }
 
   /**
    * Fetching runs before get method
    * @param { any } payload Payload
    */
-  protected fetching(payload?: any): void
-  protected fetchingError(err?: any): void
+  protected fetching(payload?: any): void { return }
+  protected fetchingError(err?: any): void { return }
   /**
    * Fetched runs after get method
    * @param { any } payload Payload
    */
 
-  protected fetched(payload?: any): void
+  protected fetched(payload?: any): void { return }
 
-  protected retrieving(payload?: any): void
-  protected retrievingError(err?: any): void
+  protected retrieving(payload?: any): void { return }
+  protected retrievingError(err?: any): void { return }
   /**
    * Retrieved runs after show method
    * @param { any } payload Payload
    */
 
-  protected retrieved(payload?: any): void
+  protected retrieved(payload?: any): void { return }
 
-  protected storing(payload?: any): void
+  protected storing(payload?: any): void { return }
 
-  protected storingError(err?: any): void
+  protected storingError(err?: any): void { return }
 
-  protected stored(payload?: any): void
+  protected stored(payload?: any): void { return }
 
-  protected updating(payload?: any): void
+  protected updating(payload?: any): void { return }
 
-  protected updatingError(err?: any): void
+  protected updatingError(err?: any): void { return }
 
-  protected updated(payload?: any): void
+  protected updated(payload?: any): void { return }
 
-  protected destroying(payload?: any): void
+  protected destroying(payload?: any): void { return }
 
-  protected destroyingError(err?: any): void
-  protected destroyed(payload?: any): void
+  protected destroyingError(err?: any): void { return }
+  protected destroyed(payload?: any): void { return }
 }

@@ -4,7 +4,7 @@ import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 
 export default abstract class ValidatorV2 {
 
-  public model: any
+  model: any
   /**
    * Holds the validation error states and messages
    * @param { any } v$ Validations
@@ -13,18 +13,35 @@ export default abstract class ValidatorV2 {
   /**
    * Returns true if any errors are found
    */
-  public $invalid: any = reactive({})
-  public $model: any = reactive({})
+  $invalid = reactive({})
+  $model = reactive({})
   /**
    * Validations as per Vuelidate
    * https://vuelidate-next.netlify.app/guide.html#basics
    * Should be a computed property
    */
-  protected validations: any = computed(() => ({}))
+  protected $validations = computed(() => ({}))
 
   protected constructor()
   {
-    return
+    Object.defineProperties(this, {
+      $v: {
+        enumerable: false,
+        writable: true,
+      },
+      $model: {
+        enumerable: false,
+        writable: true,
+      },
+      $invalid: {
+        enumerable: false,
+        writable: true,
+      },
+      $validations: {
+        enumerable: false,
+        writable: true,
+      },
+    });
   }
 
   /**
@@ -34,7 +51,7 @@ export default abstract class ValidatorV2 {
   initValidations(): void
   {
     const model = this.model
-    this.$v = useVuelidate(this.validations, { model })
+    this.$v = useVuelidate(this.$validations, { model })
     this.set$Model(this.$v.value.model)
 
     addTimelineEvent({ title: 'Validation Initialized', data: this.$v.value.model })
