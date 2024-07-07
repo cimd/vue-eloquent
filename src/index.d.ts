@@ -10,6 +10,7 @@ import { ApiResponse, IApiResponse } from './api/IApiResponse'
 import { Permissions, Policy } from './policy/IPolicy'
 
 import Api from './api/Api'
+import ApiV2 from './api/ApiV2'
 import { createHttp } from './http/http'
 import { createBroadcast } from './broadcast/broadcast'
 import Action from './enums/Action'
@@ -17,15 +18,18 @@ import Actioned from './enums/Actioned'
 import { formatDates } from './helpers/formatDates'
 import VueEloquentPlugin from './devtools/devToolsPlugin'
 import ModelError from './model/ModelError'
+import ModelV2 from './model/ModelV2'
 import Auth from './auth/Auth'
 
 export {
   Api,
+  ApiV2,
   Auth,
   ApiResponse,
   AxiosError,
   Collection,
   Model,
+  ModelV2,
   ModelParams,
   ModelState,
   Permissions,

@@ -4,6 +4,7 @@ import { formatObject } from './helpers/formatObject'
 import { createHttp, http } from './http/http'
 
 import Api from './api/Api'
+import ApiV2 from './api/ApiV2'
 import ApiError from './api/ApiError'
 import ApiQuery from './api/ApiQuery'
 import Action from './enums/Action'
@@ -12,6 +13,7 @@ import Collection from './collection/Collection'
 import CollectionError from './collection/CollectionError'
 import EloquentError from './EloquentError'
 import Model from './model/Model'
+import ModelV2 from './model/ModelV2'
 import ModelError from './model/ModelError'
 import Policy from './policy/Policy'
 import ModelApi from './api/ModelApi'
@@ -22,10 +24,12 @@ export {
   Action,
   Actioned,
   Api,
+  ApiV2,
   ApiError,
   ApiQuery,
   Auth,
   Model,
+  ModelV2,
   Collection,
   CollectionError,
   createHttp,
