@@ -25,6 +25,8 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * Added for devtools support
    */
   $uuid: string
+
+  $model = reactive<T>(this)
   /**
    * To check if model is dirty / has been modified
    */
@@ -34,6 +36,10 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
     super()
 
     Object.defineProperties(this, {
+      $model: {
+        enumerable: false,
+        writable: true,
+      },
       $uuid: {
         enumerable: false,
         writable: true,
