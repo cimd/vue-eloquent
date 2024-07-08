@@ -3,7 +3,7 @@ import { apiPrefix, http } from '../http/http'
 import ApiError from './ApiError'
 import ApiQuery from './ApiQuery'
 import { IAxiosError } from './IAxiosError'
-import { serializeModel } from '../helpers/SerializeModel'
+import { serializeModel } from '../helpers/objects/SerializeModel'
 import joinUrl from '../helpers/strings/joinUrl'
 import { IModelParams } from '../model/IModelParams'
 import ModelV2 from '../model/ModelV2'
@@ -308,7 +308,7 @@ export default abstract class ApiV2 extends ApiQuery {
   /**
   * Resource name. Will be appended to the apiPrefix endpoint
   * @protected
-  * @return { string } 
+  * @return { string }
   */
   protected resource() {
     return ''

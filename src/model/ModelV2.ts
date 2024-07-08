@@ -9,15 +9,15 @@ import ModelError from './ModelError'
 import ApiV2 from '../api/ApiV2'
 import Action from '../enums/Action'
 import Actioned from '../enums/Actioned'
-import { ApiResponse, IApiResponse } from '../api/IApiResponse'
+import { ApiResponse } from '../api/IApiResponse'
 import diff from '../helpers/objects/diff'
 
-export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2 {
+export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2<T> {
 
   /**
    * Loading, success and error messages from API requests
    */
-  $state: ModelState = reactive({
+  $state = reactive<ModelState>({
     isLoading: false,
     isSuccess: true,
     isError: false
@@ -71,7 +71,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * @param { Number } id - Model ID
    * @return { Promise<this> } An instance of the model
    */
-  static async find<T>(id: number): Promise<ModelV2<T>> {
+  static async find(id: number): Promise<ModelV2<T>> {
     const self = new this()
     await self.find<T>(id)
 
@@ -88,7 +88,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * @async
    * @param { Number } id - Model ID
    */
-  async find<T>(id: number): Promise<void> {
+  async find(id: number): Promise<void> {
     this.setStateLoading()
     // if (typeof this.defaultModel === 'undefined') Object.assign(this.defaultModel, this.model)
 
@@ -152,7 +152,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * @template T
    * @return { Promise<T> } Model
    */
-  async create<T>(): Promise<T> {
+  async create(): Promise<T> {
     try {
       this.creating()
       this.setStateLoading()
@@ -179,7 +179,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * @template T
    * @return { Promise<T> } Model
    */
-  async update<T>(): Promise<T> {
+  async update(): Promise<T> {
     try {
       const dirty = diff(this.$model, this.$originalModel)
       if (Object.keys(dirty).length === 0) return
@@ -188,7 +188,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
       this.updating()
       dirty.id = this.$model.id
 
-      const response: IApiResponse<T> = await this.api().update<T>(dirty)
+      const response: ApiResponse<T> = await this.api().update<T>(dirty)
       this.factory(response.data)
       this.setOriginal()
 
@@ -212,11 +212,11 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * @template T
    * @return { Promise<T> } Model
    */
-  async delete<T>(): Promise<T> {
+  async delete(): Promise<T> {
     try {
       this.deleting()
       this.setStateLoading()
-      const response: IApiResponse<T> = await this.api().destroy<T>(this)
+      const response: ApiResponse<T> = await this.api().destroy<T>(this)
       this.factory(response.data)
       this.setOriginal()
       addTimelineEvent({ title: 'Deleted', data: { model: response.data }})
@@ -260,7 +260,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
       this.setStateLoading()
       this.retrieving()
       const modelId = id ? id : this.id
-      const response: IApiResponse<T> = await this.api().show<T>(modelId)
+      const response: ApiResponse<T> = await this.api().show<T>(modelId)
       this.setStateSuccess()
       this.factory(response.data)
       this.setOriginal()

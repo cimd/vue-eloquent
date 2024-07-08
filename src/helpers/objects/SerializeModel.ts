@@ -1,4 +1,4 @@
-import ModelV2 from '../model/Model'
+import ModelV2 from '../../model/Model'
 
 export const serializeModel = (response: any[], model: ModelV2) => {
   // console.log('serializeModel: ', response, model)
