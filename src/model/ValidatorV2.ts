@@ -14,7 +14,7 @@ export default abstract class ValidatorV2<T> {
    * Returns true if any errors are found
    */
   $invalid = reactive({})
-  $validationModel = reactive({})
+  $validation = reactive({})
   /**
    * Validations as per Vuelidate
    * https://vuelidate-next.netlify.app/guide.html#basics
@@ -33,11 +33,7 @@ export default abstract class ValidatorV2<T> {
         enumerable: false,
         writable: true,
       },
-      $validations: {
-        enumerable: false,
-        writable: true,
-      },
-      $validationModel: {
+      $validation: {
         enumerable: false,
         writable: true,
       },
@@ -50,11 +46,10 @@ export default abstract class ValidatorV2<T> {
    */
   initValidations(): void
   {
-    const model = this.$model
-    this.$v = useVuelidate(this.$validations, { model })
-    this.set$Model(this.$v.value.model)
+    this.$v = useVuelidate(this.$validations, this.$model)
+    this.set$Validation(this.$v.value)
 
-    addTimelineEvent({ title: 'Validation Initialized', data: this.$v.value.model })
+    addTimelineEvent({ title: 'Validation Initialized', data: this.$v.value })
   }
 
   /**
@@ -90,9 +85,9 @@ export default abstract class ValidatorV2<T> {
     addTimelineEvent({ title: 'Validation Reset', data: this.$v.value.model })
   }
 
-  protected set$Model(model: any): void
+  protected set$Validation(model: any): void
   {
-    this.$validationModel = reactive(model)
+    this.$validation = reactive(model)
     refreshInspector().then()
   }
 }

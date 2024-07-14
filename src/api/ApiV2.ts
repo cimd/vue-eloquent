@@ -5,7 +5,7 @@ import ApiQuery from './ApiQuery'
 import { IAxiosError } from './IAxiosError'
 import { serializeModel } from '../helpers/objects/SerializeModel'
 import joinUrl from '../helpers/strings/joinUrl'
-import { IModelParams } from '../model/IModelParams'
+import { ModelParams } from '../model/IModelParams'
 import ModelV2 from '../model/ModelV2'
 
 export interface ApiConfig {
@@ -13,18 +13,40 @@ export interface ApiConfig {
   model: ModelV2
 }
 
-export default abstract class ApiV2 extends ApiQuery {
+export interface config {
+  resource: string
+}
 
-  protected constructor() {
+export default class ApiV2<T extends ModelParams> extends ApiQuery {
+
+  /**
+   * Resource name. Will be appended to the apiPrefix endpoint
+   */
+  $resource: string
+
+  protected constructor(config: config) {
     super()
+
+    if (!config.resource) {
+      throw new Error('Resource name is required')
+    }
+
+    this.$resource = config.resource
+
+    Object.defineProperties(this, {
+      $resource: {
+        enumerable: false,
+        writable: true,
+      },
+    })
   }
 
-  static config(params: ApiConfig): this {
+  static config (params: ApiConfig): this {
     const self = new this()
     return self.config(params)
   }
 
-  static async get<T>(): Promise<IApiResponse<T[]>> {
+  static async get (): Promise<IApiResponse<T[]>> {
     const self = new this()
     return await self.get()
   }
@@ -38,7 +60,7 @@ export default abstract class ApiV2 extends ApiQuery {
    * @param { number } id - Model ID
    * @return { Promise<any> } The data from the API
    */
-  static show<T>(id: number): Promise<IApiResponse<T>> {
+  static show (id: number): Promise<IApiResponse<T>> {
     const self = new this()
     const url = joinUrl([self.apiPrefix(), self.resource(), id])
     self.retrieving(id)
@@ -67,9 +89,9 @@ export default abstract class ApiV2 extends ApiQuery {
    * @param { any } payload - Model
    * @return { Promise<any> } The data from the API
    */
-  static update<T extends IModelParams>(payload: Partial<T>): Promise<IApiResponse<T>> {
+  static update (payload: Partial<T>): Promise<IApiResponse<T>> {
     const self = new this()
-    const url: string = joinUrl([self.apiPrefix(), self.resource(), payload.id])
+    const url: string = joinUrl([self.apiPrefix(), self.$resource, payload.id])
 
 
     self.updating(payload)
@@ -98,9 +120,9 @@ export default abstract class ApiV2 extends ApiQuery {
    * @param { Partial<T> } payload - Model
    * @return { Promise<IApiResponse<T>> } The data from the API
    */
-  static store<T>(payload: Partial<T>): Promise<IApiResponse<T>> {
+  static store (payload: Partial<T>): Promise<IApiResponse<T>> {
     const self = new this()
-    const url = joinUrl([self.apiPrefix(), this.resource()])
+    const url = joinUrl([self.apiPrefix(), this.$resource])
     self.storing(payload)
     return new Promise((resolve, reject) => {
       http
@@ -128,7 +150,7 @@ export default abstract class ApiV2 extends ApiQuery {
    * @param { boolean } isModel - If it's a model, it will automatically push the model's id to the API
    * @return { Promise<IApiResponse<T> } The data from the API
    */
-  static destroy<T extends IModelParams>(payload: Partial<T> | number, isModel: boolean = true): Promise<IApiResponse<T>> {
+  static destroy (payload: Partial<T> | number, isModel: boolean = true): Promise<IApiResponse<T>> {
     const id: number = typeof payload === 'number' ? payload : payload?.id
     const self = new this()
 
@@ -137,9 +159,9 @@ export default abstract class ApiV2 extends ApiQuery {
 
     let url = ''
     if (isModel) {
-      url = joinUrl([self.apiPrefix(), this.resource(), id])
+      url = joinUrl([self.apiPrefix(), this.$resource, id])
     } else {
-      url = joinUrl([self.apiPrefix(), this.resource()])
+      url = joinUrl([self.apiPrefix(), this.$resource])
     }
 
     self.destroying(payload)
@@ -169,9 +191,9 @@ export default abstract class ApiV2 extends ApiQuery {
    * @param { T[] } payload - Models. Will be wrapped in a data ({data: payload}) property before submitting to the API
    * @return { Promise<IApiResponse<T[]>> } The data from the API
    */
-  static batchStore<T>(payload: T[]): Promise<IApiResponse<T[]>> {
+  static batchStore (payload: T[]): Promise<IApiResponse<T[]>> {
     const self = new this()
-    const url = joinUrl([self.apiPrefix(), this.resource(), 'batch'])
+    const url = joinUrl([self.apiPrefix(), this.$resource, 'batch'])
     return new Promise((resolve, reject) => {
       http
         .post(url, { data: payload }, {
@@ -197,9 +219,9 @@ export default abstract class ApiV2 extends ApiQuery {
    * @param { any[] } payload - Models. Will be wrapped in a data property before submitting to the API
    * @return { Promise<IApiResponse<T[]>> } The data from the API
    */
-  static batchUpdate<T>(payload: T[]): Promise<IApiResponse<T[]>> {
+  static batchUpdate (payload: T[]): Promise<IApiResponse<T[]>> {
     const self = new this()
-    const url = joinUrl([self.apiPrefix(), this.resource(), 'batch'])
+    const url = joinUrl([self.apiPrefix(), this.$resource, 'batch'])
     return new Promise((resolve, reject) => {
       http
         .patch(url, { data: payload }, {
@@ -224,9 +246,9 @@ export default abstract class ApiV2 extends ApiQuery {
    * @param { T[] } payload - Models. Will be wrapped in a data property before submitting to the API
    * @return { Promise<any> } The data from the API
    */
-  static batchDestroy<T>(payload: T[]): Promise<IApiResponse<T[]>> {
+  static batchDestroy (payload: T[]): Promise<IApiResponse<T[]>> {
     const self = new this()
-    const url = joinUrl([self.apiPrefix(), this.resource(), 'batch-destroy'])
+    const url = joinUrl([self.apiPrefix(), this.$resource, 'batch-destroy'])
     return new Promise((resolve, reject) => {
       http
         .patch(url, { data: payload }, {
@@ -250,7 +272,7 @@ export default abstract class ApiV2 extends ApiQuery {
    * @param { any | number } payload Payload
    * @return { Promise<IApiResponse<any[]>> } The data from the API
    */
-  static logs(payload: { id: number } | number): Promise<IApiResponse<any[]>> {
+  static logs (payload: { id: number } | number): Promise<IApiResponse<any[]>> {
     const self = new this()
     let id: number
     if (typeof payload === 'number') {
@@ -258,7 +280,7 @@ export default abstract class ApiV2 extends ApiQuery {
     } else {
       id = payload.id
     }
-    const url = joinUrl([self.apiPrefix, this.resource(), id, 'logs'])
+    const url = joinUrl([self.apiPrefix, this.$resource, id, 'logs'])
 
     return new Promise((resolve, reject) => {
       http
@@ -275,15 +297,15 @@ export default abstract class ApiV2 extends ApiQuery {
     })
   }
 
-  config(params?: ApiConfig): ApiConfig {
+  config (params?: ApiConfig): ApiConfig {
     return params ? params : {
       serialize: true,
       model: this.model()
     }
   }
 
-  get<T>(): Promise<IApiResponse<T[]>> {
-    const url = joinUrl([this.apiPrefix(), this.resource()])
+  get (): Promise<IApiResponse<T[]>> {
+    const url = joinUrl([this.apiPrefix(), this.$resource])
 
     const queryString = this.queryString()
     this.fetching(queryString)
@@ -305,20 +327,11 @@ export default abstract class ApiV2 extends ApiQuery {
     })
   }
 
-  /**
-  * Resource name. Will be appended to the apiPrefix endpoint
-  * @protected
-  * @return { string }
-  */
-  protected resource() {
-    return ''
-  }
-
-  protected apiPrefix() {
+  protected apiPrefix () {
     return apiPrefix
   }
 
-  protected model() {
+  protected model () {
     return ModelV2
   }
 
@@ -328,7 +341,7 @@ export default abstract class ApiV2 extends ApiQuery {
    * @param { string } response
    * @protected
    */
-  protected transformResponse(response: string): any {
+  protected transformResponse (response: string): any {
     const responseObj = JSON.parse(response)
     responseObj.data = serializeModel(responseObj.data, this.model())
 
@@ -339,62 +352,62 @@ export default abstract class ApiV2 extends ApiQuery {
   protected batchStoringError?(err?: any): void { return }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected batchUpdatingError?(err?: any) : void { return }
+  protected batchUpdatingError?(err?: any): void { return }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected batchDestroyingError?(err?: any): void { return }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetchingLogsError(err?: any): void { return }
+  protected fetchingLogsError (err?: any): void { return }
 
   /**
    * Fetching runs before get method
    * @param { any } payload Payload
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetching(payload?: any): void { return }
+  protected fetching (payload?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetchingError(err?: any): void { return }
+  protected fetchingError (err?: any): void { return }
   /**
    * Fetched runs after get method
    * @param { any } payload Payload
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetched(payload?: any): void { return }
+  protected fetched (payload?: any): void { return }
 
   /**
    * Retrieving runs before show method
    * @param { any } payload Payload
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrieving(payload?: any): void { return }
+  protected retrieving (payload?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrievingError(err?: any): void { return }
+  protected retrievingError (err?: any): void { return }
   /**
    * Retrieved runs after show method
    * @param { any } payload Payload
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrieved(payload?: any): void { return }
+  protected retrieved (payload?: any): void { return }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected storing(payload?: any): void { return }
+  protected storing (payload?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected storingError(err?: any): void { return }
+  protected storingError (err?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected stored(payload?: any): void { return }
+  protected stored (payload?: any): void { return }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected updating(payload?: any): void { return }
+  protected updating (payload?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected updatingError(err?: any): void { return }
+  protected updatingError (err?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected updated(payload?: any): void { return }
+  protected updated (payload?: any): void { return }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected destroying(payload?: any): void { return }
+  protected destroying (payload?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected destroyingError(err?: any): void { return }
+  protected destroyingError (err?: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected destroyed(payload?: any): void { return }
+  protected destroyed (payload?: any): void { return }
 }
