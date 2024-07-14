@@ -17,21 +17,16 @@ export interface config {
   resource: string
 }
 
-export default class ApiV2<T extends ModelParams> extends ApiQuery {
+export default abstract class ApiV2<T extends ModelParams> extends ApiQuery {
 
   /**
    * Resource name. Will be appended to the apiPrefix endpoint
    */
   $resource: string
 
-  protected constructor(config: config) {
+  protected constructor() {
+    console.log('ApiV2 Constructor')
     super()
-
-    if (!config.resource) {
-      throw new Error('Resource name is required')
-    }
-
-    this.$resource = config.resource
 
     Object.defineProperties(this, {
       $resource: {
@@ -41,18 +36,13 @@ export default class ApiV2<T extends ModelParams> extends ApiQuery {
     })
   }
 
-  protected instance (): this {
-    console.log(this)
-    return new this({ resource: this.$resource })
-  }
-
   static config (params: ApiConfig): this {
     const self = this.instance()
     return self.config(params)
   }
 
   static async get (): Promise<ApiResponse<T[]>> {
-    const self = this.instance()
+    const self = new this()
     return await self.get()
   }
 
@@ -95,9 +85,8 @@ export default class ApiV2<T extends ModelParams> extends ApiQuery {
    * @return { Promise<any> } The data from the API
    */
   static update (payload: Partial<T>): Promise<ApiResponse<T>> {
-    const self = this.instance()
+    const self = new this()
     const url: string = joinUrl([self.apiPrefix(), self.$resource, payload.id])
-
 
     self.updating(payload)
     return new Promise((resolve, reject) => {

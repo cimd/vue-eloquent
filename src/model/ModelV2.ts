@@ -11,6 +11,7 @@ import Action from '../enums/Action'
 import Actioned from '../enums/Actioned'
 import { ApiResponse } from '../api/IApiResponse'
 import diff from '../helpers/objects/diff'
+import BaseApiV2 from '../api/BaseApiV2'
 
 export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2<T> {
 
@@ -30,7 +31,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
   /**
    * Instance of ApiV2 class
    */
-  $api: ApiV2
+  $api: ApiV2<T>
 
   /**
    * Reactive model instance, to be used inside Vue components
@@ -41,21 +42,8 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    */
   protected $originalModel = reactive<T>({})
 
-  protected constructor(config: { api?: ApiV2, resource?: string }) {
+  protected constructor() {
     super()
-
-    if (!config.api && !config.resource) {
-      throw new Error('API class or Api Resource are required for creating a model')
-    }
-
-    if (config.api) {
-      // if (!(config.api instanceof ApiV2)) {
-      //   throw new Error('API must be an instance of ApiV2')
-      // }
-      this.$api = config.api
-    } else {
-      this.$api = new ApiV2<T>({ resource: config.resource })
-    }
 
     Object.defineProperties(this, {
       $model: {
@@ -83,11 +71,6 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
     this.$uuid = uuid()
     addModelInspector(this).then()
     addTimelineEvent({ title: 'Model Initialized', data: { uuid: this.$uuid } })
-  }
-
-  protected instance(): this
-  {
-    return new this({api: this.$api})
   }
 
   /**
