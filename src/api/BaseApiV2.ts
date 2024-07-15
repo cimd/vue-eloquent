@@ -1,13 +1,10 @@
-import { ApiV2 } from '../index'
+import ApiV2 from './ApiV2'
 
 
 export default class BaseApiV2 extends ApiV2 {
 
-  $resource: string
-
-  protected constructor(resource: string) {
-    super()
-
-    this.$resource = resource
+  constructor(resource: string) {
+    console.log(resource)
+    super({ resource: resource })
   }
 }

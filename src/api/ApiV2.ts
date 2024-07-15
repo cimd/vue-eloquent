@@ -1,4 +1,4 @@
-import { ApiResponse } from './ApiResponse'
+import { ApiResponse } from './IApiResponse'
 import { apiPrefix, http } from '../http/http'
 import ApiError from './ApiError'
 import ApiQuery from './ApiQuery'
@@ -22,18 +22,23 @@ export default abstract class ApiV2<T extends ModelParams> extends ApiQuery {
   /**
    * Resource name. Will be appended to the apiPrefix endpoint
    */
-  $resource: string
+  static $resource: string
 
-  protected constructor() {
+  protected constructor(config?: config) {
     console.log('ApiV2 Constructor')
     super()
 
-    Object.defineProperties(this, {
-      $resource: {
-        enumerable: false,
-        writable: true,
-      },
-    })
+    if (config && config.resource) {
+      this.$resource = config.resource
+      console.log('this.$resource', this.$resource)
+    }
+
+    // Object.defineProperties(this, {
+    //   $resource: {
+    //     enumerable: false,
+    //     writable: true,
+    //   },
+    // })
   }
 
   static config(params: ApiConfig): this {
