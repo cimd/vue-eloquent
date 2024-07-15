@@ -7,15 +7,17 @@ import { serializeModel } from '../helpers/objects/SerializeModel'
 import joinUrl from '../helpers/strings/joinUrl'
 import { ModelParams } from '../model/IModelParams'
 import ModelV2 from '../model/ModelV2'
-
-export interface ApiConfig {
-  serialize: boolean
-  model: ModelV2
-}
+import _join from 'lodash/join'
 
 export interface config {
+  serialize: boolean
+  model: ModelV2
   resource: string
 }
+
+// export interface config {
+//   resource: string
+// }
 
 export default abstract class ApiV2<T extends ModelParams> extends ApiQuery {
 
@@ -24,14 +26,14 @@ export default abstract class ApiV2<T extends ModelParams> extends ApiQuery {
    */
   static $resource: string
 
-  protected constructor(config?: config) {
+  protected constructor() {
     console.log('ApiV2 Constructor')
     super()
 
-    if (config && config.resource) {
-      this.$resource = config.resource
-      console.log('this.$resource', this.$resource)
-    }
+    // if (config && config.resource) {
+    //   this.$resource = config.resource
+    //   console.log('this.$resource', this.$resource)
+    // }
 
     // Object.defineProperties(this, {
     //   $resource: {
@@ -41,7 +43,19 @@ export default abstract class ApiV2<T extends ModelParams> extends ApiQuery {
     // })
   }
 
-  static config(params: ApiConfig): this {
+  /**
+   * Returns instance
+   *
+   * @async
+   * @static
+   * @return { this }
+   */
+  static instance(): this
+  {
+    return new this()
+  }
+
+  static config(params: config): this {
     const self = this.instance()
     return self.config(params)
   }
@@ -62,27 +76,23 @@ export default abstract class ApiV2<T extends ModelParams> extends ApiQuery {
    */
   static async show(id: number): Promise<ApiResponse<T>> {
     const self = this.instance()
-
-    const config = {
-      resource: self.$resource,
-      apiPrefix: self.apiPrefix(),
-      model: self.model(),
-      transformResponse: (response: string) => serializeModel(JSON.parse(response), self.config().model),
-    }
-
-    const callbacks = {
-      retrieving: (payload?: any) => {
-        self.retrieving(payload)
-      },
-      retrieved: (payload?: any) => {
-        self.retrieved(payload)
-      },
-      retrievingError: (err?: any) => {
-        self.retrievingError(err)
-      },
-    }
-
-    return await show<T>(id, config, callbacks)
+    console.log('SHOW SELF', self)
+    const url = _join([self.apiPrefix(), this.$resource, id], '/')
+    self.retrieving(id)
+    return new Promise((resolve, reject) => {
+      http
+        .get(url, {
+          transformResponse: [(data: any) => self.transformResponse(data)],
+        })
+        .then((response: { data: any }) => {
+          self.retrieved(response.data)
+          resolve(response.data)
+        })
+        .catch((err: any) => {
+          self.retrievingError(err)
+          reject(new ApiError('Show', err))
+        })
+    })
   }
 
   /**
@@ -301,7 +311,7 @@ export default abstract class ApiV2<T extends ModelParams> extends ApiQuery {
     })
   }
 
-  config(params?: ApiConfig): ApiConfig {
+  config(params?: config): config {
     return params ? params : {
       serialize: true,
       model: this.model()

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import PostApiV2 from '../../../examples/PostApiV2.js'
 import PostV2 from '../../../examples/PostV2.js'
-import show from '../../../src/api/functions/show.ts'
+import show from '@/api/functions/show'
 import transformResponse from '../../../src/api/functions/transformResponse.ts'
 import { BaseApiV2 } from '../../../src/index.js'
 
@@ -32,8 +32,8 @@ describe('model api', () => {
   })
 
   it('creates BaseApiV2', async () => {
-    const resource = 'posts'
-    const api = new BaseApiV2(resource)
+    const api = BaseApiV2
+    api.$resource = 'posts'
     console.log(api)
     const show = await api.show(1)
     console.log(show)

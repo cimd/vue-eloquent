@@ -29,4 +29,11 @@ describe('model', () => {
     expect(post.updated_at).toBeInstanceOf(Date)
     expect(post.author).toEqual('John Doe')
   })
+
+  it('creates v2', async () => {
+    const post = new PostV2()
+    console.log('post1:', post)
+    await post.refresh(1)
+    console.log('post2:', post)
+  })
 })

@@ -41,7 +41,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    */
   protected $originalModel = reactive<T>({})
 
-  protected constructor() {
+  protected constructor(config: { api?: ApiV2, resource?: string }) {
     super()
 
     Object.defineProperties(this, {
@@ -66,6 +66,17 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
         writable: true,
       },
     })
+
+    // if (!config) throw new Error('ModelV2 requires an ApiV2 instance or a resource')
+    // if (!(config.resource) || !(config.api)) throw new Error('ModelV2 requires an ApiV2 instance or a resource')
+
+    if (config.api) {
+      this.$api = config.api
+    } else {
+      this.$api = ApiV2
+      this.$api.$resource = config.resource
+    }
+    console.log('$api', this.$api)
 
     this.$uuid = uuid()
     addModelInspector(this).then()

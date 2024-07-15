@@ -11,10 +11,10 @@ export default class PostV2 extends ModelV2<IPost> {
   created_at!: string
   updated_at!: string
 
-  constructor(post: IPost)
+  constructor(post?: IPost)
   {
-    super()
-    super.factory(post)
+    super({ resource: 'posts' })
+    if (post) super.factory(post)
   }
 
   protected casts() {

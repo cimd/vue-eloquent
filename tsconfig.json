@@ -17,6 +17,9 @@
     "module": "esnext",
     "moduleResolution": "nodenext",
     "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "types": ["@types/lodash"],
     "lib": [
       "esnext",
