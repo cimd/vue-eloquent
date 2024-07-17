@@ -19,7 +19,6 @@ import Policy from './policy/Policy'
 import ModelApi from './api/ModelApi'
 import VueEloquentPlugin from './devtools/devToolsPlugin'
 import Auth from './auth/Auth'
-import BaseApiV2 from './api/BaseApiV2'
 
 export {
   Action,
@@ -29,7 +28,6 @@ export {
   ApiError,
   ApiQuery,
   Auth,
-  BaseApiV2,
   Model,
   ModelV2,
   Collection,

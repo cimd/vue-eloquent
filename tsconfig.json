@@ -18,9 +18,16 @@
     "moduleResolution": "nodenext",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@": [
+        "./src"
+      ],
     },
-    "types": ["@types/lodash"],
+    "types": [
+      "@types/lodash"
+    ],
     "lib": [
       "esnext",
       "dom"
@@ -35,5 +42,10 @@
     "test/**/*.ts",
     "*.ts"
   ],
-  "exclude": ["node_modules", ".vscode", "public", "*.js"]
+  "exclude": [
+    "node_modules",
+    ".vscode",
+    "public",
+    "*.js"
+  ]
 }

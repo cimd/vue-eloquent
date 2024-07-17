@@ -20,7 +20,6 @@ import VueEloquentPlugin from './devtools/devToolsPlugin'
 import ModelError from './model/ModelError'
 import ModelV2 from './model/ModelV2'
 import Auth from './auth/Auth'
-import BaseApiV2 from './api/BaseApiV2'
 
 export {
   Api,
@@ -28,7 +27,6 @@ export {
   Auth,
   ApiResponse,
   AxiosError,
-  BaseApiV2,
   Collection,
   Model,
   ModelV2,
