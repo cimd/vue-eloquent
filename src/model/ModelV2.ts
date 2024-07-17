@@ -1,16 +1,16 @@
 import type { ModelState } from '@/model/IModelState'
 import { reactive } from 'vue'
 import { ModelParams } from '@/model/IModelParams'
-import ValidatorV2 from '@/model/ValidatorV2'
-import { addModelInspector } from '@/model/modelInspector'
-import { addTimelineEvent, refreshInspector } from '@/devtools/devtools'
+import ValidatorV2 from './ValidatorV2'
+import { addModelInspector } from './modelInspector'
+import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 import { v4 as uuid } from 'uuid'
 import ModelError from './ModelError'
 import ApiV2 from '@/api/ApiV2'
-import Action from '@/enums/Action'
-import Actioned from '@/enums/Actioned'
+import Action from '../enums/Action'
+import Actioned from '../enums/Actioned'
 import { ApiResponse } from '@/api/IApiResponse'
-import diff from '@/helpers/objects/diff'
+import diff from '../helpers/objects/diff'
 
 export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2<T> {
 
