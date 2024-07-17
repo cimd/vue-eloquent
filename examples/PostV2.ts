@@ -13,7 +13,7 @@ export default class PostV2 extends ModelV2<IPost> {
 
   constructor(post?: IPost)
   {
-    super({ resource: 'posts' })
+    super()
     if (post) super.factory(post)
   }
 

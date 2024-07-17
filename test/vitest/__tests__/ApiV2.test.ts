@@ -2,8 +2,7 @@ import { describe, expect, it } from 'vitest'
 import PostApiV2 from '../../../examples/PostApiV2.js'
 import PostV2 from '../../../examples/PostV2.js'
 import show from '@/api/functions/show'
-import transformResponse from '../../../src/api/functions/transformResponse.ts'
-import { BaseApiV2 } from '../../../src/index.js'
+import transformResponse from '@/api/functions/transformResponse'
 
 describe('model api', () => {
   it('get', async () => {
@@ -29,13 +28,5 @@ describe('model api', () => {
 
     const post = await show(1, config)
     console.log(post)
-  })
-
-  it('creates BaseApiV2', async () => {
-    const api = BaseApiV2
-    api.$resource = 'posts'
-    console.log(api)
-    const show = await api.show(1)
-    console.log(show)
   })
 })

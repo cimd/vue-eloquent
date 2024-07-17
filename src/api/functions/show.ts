@@ -1,8 +1,8 @@
-import joinUrl from '../../helpers/strings/joinUrl'
-import { http } from '../../http/http'
-import ApiError from '../ApiError'
-import { ApiResponse } from '../api/IApiResponse'
-import ModelV2 from '../../model/ModelV2'
+import joinUrl from '@/helpers/strings/joinUrl'
+import { http } from '@/http/http'
+import ApiError from '@/api/ApiError'
+import { ApiResponse } from '@/api/IApiResponse'
+import ModelV2 from '@/model/ModelV2'
 
 export type config = {
     resource: string,
