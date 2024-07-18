@@ -1,6 +1,6 @@
 import useVuelidate from '@vuelidate/core'
 import { computed, reactive } from 'vue'
-import { addTimelineEvent, refreshInspector } from '@/devtools/devtools'
+import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 
 export default abstract class ValidatorV2<T> {
 
@@ -37,7 +37,7 @@ export default abstract class ValidatorV2<T> {
    * Creates the validator
    * Sets Vuelidate
    */
-  initValidations(): void {
+  initValidations (): void {
     console.log('Rules: ', this.rules())
 
     this.$v = useVuelidate(this.rules(), this.$model)
@@ -49,7 +49,7 @@ export default abstract class ValidatorV2<T> {
   /**
    * Validates the model and sets error messages
    */
-  $validate(): boolean {
+  $validate (): boolean {
     this.$v.value.$validate()
     this.$invalid = this.$v.value.$invalid
 
@@ -69,7 +69,7 @@ export default abstract class ValidatorV2<T> {
   /**
    * Resets all error messages
    */
-  $reset(): void {
+  $reset (): void {
     this.$v.value.$reset()
     this.$invalid = reactive(this.$v.value.$invalid)
 
@@ -82,11 +82,11 @@ export default abstract class ValidatorV2<T> {
    * https://vuelidate-next.netlify.app/guide.html#basics
    * Should be a computed property
    */
-  protected rules(): any {
+  protected rules (): any {
     return computed(() => ({}))
   }
 
-  protected set$Validation(model: any): void {
+  protected set$Validation (model: any): void {
     this.$validation = reactive(model)
     refreshInspector().then()
   }
