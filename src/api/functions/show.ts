@@ -17,7 +17,7 @@ export type callbacks = {
   retrievingError?: (err?: any) => void,
 }
 
-function show<T> (id: number, config: config, callbacks?: callbacks): Promise<ApiResponse<T>> {
+function show<T>(id: number, config: config, callbacks?: callbacks): Promise<ApiResponse<T>> {
   const url = joinUrl([config.apiPrefix, config.resource, id])
 
   if (callbacks && callbacks.retrieving) { callbacks.retrieving(id) }
@@ -25,7 +25,7 @@ function show<T> (id: number, config: config, callbacks?: callbacks): Promise<Ap
   return new Promise((resolve, reject) => {
     http
       .get(url, {
-        transformResponse: [(data: any) => config.transformResponse(data, config.model)],
+        transformResponse: [(data: any) => config.transformResponse(data, config?.model)],
       })
       .then((response: { data: any }) => {
         if (callbacks && callbacks.retrieved) { callbacks.retrieved(response.data) }

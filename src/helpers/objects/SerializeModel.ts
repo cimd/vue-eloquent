@@ -1,6 +1,6 @@
 import ModelV2 from '../../model/Model'
 
-export const serializeModel = (response: any[], model: ModelV2) => {
+export const serializeModel = (response: any|any[], model: ModelV2) => {
   // console.log('serializeModel: ', response, model)
   /**
    * If no response, return undefined

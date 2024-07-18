@@ -69,7 +69,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
 
     this.$uuid = uuid()
     addModelInspector(this).then()
-    addTimelineEvent({ title: 'Model Initialized', data: { uuid: this.$uuid } })
+    addTimelineEvent({ title: 'Model Initialized', data: { uuid: this.$uuid }})
   }
 
   /**
@@ -80,7 +80,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * @param { Number } id - Model ID
    * @return { Promise<this> } An instance of the model
    */
-  static async find (id: number): Promise<ModelV2<T>> {
+  static async find(id: number): Promise<ModelV2<T>> {
     const self = new this()
     await self.find<T>(id)
 
@@ -93,7 +93,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * @async
    * @param { Number } id - Model ID
    */
-  async find (id: number): Promise<void> {
+  async find(id: number): Promise<void> {
     this.setStateLoading()
     // if (typeof this.defaultModel === 'undefined') Object.assign(this.defaultModel, this.model)
 
@@ -102,7 +102,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
       const result = await this.$api.show<T>(id)
       this.factory(result.data)
 
-      addTimelineEvent({ title: 'Model Retrieved', data: { model: result.data } })
+      addTimelineEvent({ title: 'Model Retrieved', data: { model: result.data }})
 
       this.setOriginal()
       this.setStateSuccess()
@@ -125,7 +125,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * @param { Action } action - Action from enum
    * @return { Promise<{ model: any, actioned: Actioned.CREATED | Actioned.UPDATED }> } Actioned enum and Model
    */
-  async save (action?: Action): Promise<{ model: T, actioned: Actioned.CREATED | Actioned.UPDATED }> {
+  async save(action?: Action): Promise<{ model: T, actioned: Actioned.CREATED | Actioned.UPDATED }> {
     let model: T
     let actioned = '' as Actioned
     this.saving()
@@ -139,7 +139,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
         actioned = Actioned.UPDATED
       }
       this.saved(model)
-      addTimelineEvent({ title: actioned, data: { model: model } })
+      addTimelineEvent({ title: actioned, data: { model: model }})
       return {
         actioned,
         model
@@ -157,14 +157,14 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * @template T
    * @return { Promise<T> } Model
    */
-  async create (): Promise<T> {
+  async create(): Promise<T> {
     try {
       this.creating()
       this.setStateLoading()
       const response = await this.$api.store<T>(this)
       this.factory(response.data)
       this.setOriginal()
-      addTimelineEvent({ title: 'Created', data: { model: response.data } })
+      addTimelineEvent({ title: 'Created', data: { model: response.data }})
       this.setStateSuccess()
       this.created(response.data)
 
@@ -184,7 +184,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * @template T
    * @return { Promise<T> } Model
    */
-  async update (): Promise<T> {
+  async update(): Promise<T> {
     try {
       const dirty = diff(this.$model, this.$originalModel)
       if (Object.keys(dirty).length === 0) return
@@ -197,7 +197,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
       this.factory(response.data)
       this.setOriginal()
 
-      addTimelineEvent({ title: 'Updated', data: { model: response.data } })
+      addTimelineEvent({ title: 'Updated', data: { model: response.data }})
       this.setStateSuccess()
       this.updated(response.data)
 
@@ -217,14 +217,14 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * @template T
    * @return { Promise<T> } Model
    */
-  async delete (): Promise<T> {
+  async delete(): Promise<T> {
     try {
       this.deleting()
       this.setStateLoading()
       const response: ApiResponse<T> = await this.$api.destroy<T>(this)
       this.factory(response.data)
       this.setOriginal()
-      addTimelineEvent({ title: 'Deleted', data: { model: response.data } })
+      addTimelineEvent({ title: 'Deleted', data: { model: response.data }})
       this.setStateSuccess()
       this.deleted(response.data)
 
@@ -240,7 +240,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * Get model change logs
    * @async
    */
-  async logs (): Promise<ApiResponse<any[]>> {
+  async logs(): Promise<ApiResponse<any[]>> {
     this.setStateLoading()
     try {
       const response: any = await this.$api.logs(this.id)
@@ -260,17 +260,17 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * @param { number? } id - Model id
    * @return { Promise<void> }
    */
-  async refresh (id?: number): Promise<void> {
+  async refresh(id?: number): Promise<void> {
     try {
       this.setStateLoading()
       this.retrieving()
       const modelId = id ? id : this.id
-      const response: ApiResponse<T> = await this.$api.show<T>(modelId)
+      const response: ApiResponse<T> = await this.$api.show(modelId)
       this.setStateSuccess()
       this.factory(response.data)
       this.setOriginal()
       this.retrieved(response.data)
-      addTimelineEvent({ title: 'Refreshed', data: { model: response.data } })
+      addTimelineEvent({ title: 'Refreshed', data: { model: response.data }})
     }
     catch (e: any) {
       this.setStateError()
@@ -285,24 +285,24 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    * @param model
    * @protected
    */
-  protected factory (model: T) {
+  protected factory(model: T) {
     for (const key in model) {
       if (Object.prototype.hasOwnProperty.call(model, key)) {
         if (this.hasCast(key)) {
-          this[key] = this.castTo(
+          this[ key ] = this.castTo(
             this.getCast(key),
             key,
-            model[key]
+            model[ key ]
           )
         } else {
-          this[key] = model[key]
+          this[ key ] = model[ key ]
         }
       }
     }
   }
 
 
-  protected casts () {
+  protected casts() {
     return {
       'created_at': 'date',
       'updated_at': 'date',
@@ -310,20 +310,21 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
     }
   }
 
-  protected castTo (cast: string | Function, key: string, value: any) {
+
+  protected castTo(cast: string | Function, key: string, value: any) {
     switch (cast) {
-      case 'date':
-        if (value) {
-          return new Date(value)
-        }
-        return value
-      case 'number':
-        if (value) {
-          return Number(value)
-        }
-        return value
-      default:
-        return cast(this, key, value, this.casts())
+    case 'date':
+      if (value) {
+        return new Date(value)
+      }
+      return value
+    case 'number':
+      if (value) {
+        return Number(value)
+      }
+      return value
+    default:
+      return cast(this, key, value, this.casts())
     }
   }
 
@@ -332,71 +333,71 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
    *
    * @return { VoidFunction }
    */
-  protected setOriginal (): void {
+  protected setOriginal(): void {
     this.$originalModel = reactive(Object.assign({}, this))
     refreshInspector().then()
   }
 
-  protected retrieving (): void { return }
+  protected retrieving(): void { return }
 
   /**
    * Retrieved runs after show method
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrieved (payload: any): void { return }
+  protected retrieved(payload: any): void { return }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrievingError (err?: any): void { return }
+  protected retrievingError(err?: any): void { return }
 
   // Laravel validation testing
 
   /**
    * Runs before model is created
    */
-  protected creating (): void { return }
+  protected creating(): void { return }
 
   /**
    * Runs after model is created
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected created (payload: any): void { return }
+  protected created(payload: any): void { return }
 
   /**
    * Runs before model is updated
    */
-  protected updating (): void { return }
+  protected updating(): void { return }
 
   /**
    * Runs after model is updated
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected updated (payload: any): void { return }
+  protected updated(payload: any): void { return }
 
   /**
    * Runs before model is saved
    */
-  protected saving (): void { return }
+  protected saving(): void { return }
 
   /**
    * Runs after model is saved
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected saved (payload: any): void { return }
+  protected saved(payload: any): void { return }
 
   /**
    * Runs before model is deleted
    */
-  protected deleting (): void { return }
+  protected deleting(): void { return }
 
   /**
    * Runs after model is created
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected deleted (payload: any): void { return }
+  protected deleted(payload: any): void { return }
 
   /**
    * API starts loading state
    */
-  protected setStateLoading (): void {
+  protected setStateLoading(): void {
     this.$state.isLoading = true
     this.$state.isSuccess = true
     this.$state.isError = false
@@ -407,7 +408,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
   /**
    * API returned success response
    */
-  protected setStateSuccess (): void {
+  protected setStateSuccess(): void {
     this.$state.isLoading = false
     this.$state.isSuccess = true
     this.$state.isError = false
@@ -418,7 +419,7 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
   /**
    * API return error response
    */
-  protected setStateError (): void {
+  protected setStateError(): void {
     this.$state.isLoading = false
     this.$state.isSuccess = false
     this.$state.isError = true
@@ -426,14 +427,14 @@ export default abstract class ModelV2<T extends ModelParams> extends ValidatorV2
     addTimelineEvent({ title: 'Loading error', data: this.$state })
   }
 
-  private hasCast (key: string) {
+  private hasCast(key: string) {
     // console.log('hasCast: ', key, Object.prototype.hasOwnProperty.call(this.casts(), key))
     return Object.prototype.hasOwnProperty.call(this.casts(), key)
   }
 
-  private getCast (key: string) {
+  private getCast(key: string) {
     if (!this.hasCast(key)) return
 
-    return this.casts()[key]
+    return this.casts()[ key ]
   }
 }
