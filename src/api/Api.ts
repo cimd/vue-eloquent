@@ -135,9 +135,6 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .patch(url, payload, {
-
-          // @ts-ignore
-          retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
@@ -168,9 +165,6 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .post(url, payload, {
-
-          // @ts-ignore
-          retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
@@ -203,10 +197,8 @@ export default abstract class Api extends ApiQuery {
         self.fetching(payload)
         return new Promise((resolve, reject) => {
           http
-            .get(url, payload, {
-
-              // @ts-ignore
-              retries: 0,
+            .get(url, {
+              params: payload,
               transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
@@ -225,10 +217,8 @@ export default abstract class Api extends ApiQuery {
         self.retrieving(payload)
         return new Promise((resolve, reject) => {
           http
-            .get(url, payload, {
-
-              // @ts-ignore
-              retries: 0,
+            .get(url, {
+              params: payload,
               transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
@@ -248,9 +238,6 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .post(url, payload, {
-
-              // @ts-ignore
-              retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
@@ -270,9 +257,6 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .patch(url, payload, {
-
-              // @ts-ignore
-              retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
@@ -291,9 +275,6 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .delete(url, {
-
-              // @ts-ignore
-              retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
@@ -328,10 +309,8 @@ export default abstract class Api extends ApiQuery {
         self.fetching(payload)
         return new Promise((resolve, reject) => {
           http
-            .get(url, payload, {
-
-              // @ts-ignore
-              retries: 0,
+            .get(url, {
+              params: payload,
               transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
@@ -350,10 +329,8 @@ export default abstract class Api extends ApiQuery {
         self.retrieving(payload)
         return new Promise((resolve, reject) => {
           http
-            .get(url, payload, {
-
-              // @ts-ignore
-              retries: 0,
+            .get(url, {
+              params: payload,
               transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
@@ -373,9 +350,6 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .post(url, payload, {
-
-              // @ts-ignore
-              retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
@@ -395,9 +369,6 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .patch(url, payload, {
-
-              // @ts-ignore
-              retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
@@ -416,9 +387,6 @@ export default abstract class Api extends ApiQuery {
         return new Promise((resolve, reject) => {
           http
             .delete(url, {
-
-              // @ts-ignore
-              retries: 0,
               transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
@@ -550,9 +518,6 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .post(url, { data: payload }, {
-
-          // @ts-ignore
-          retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
@@ -582,9 +547,6 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .patch(url, { data: payload }, {
-
-          // @ts-ignore
-          retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
@@ -609,9 +571,6 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .post(url, { data: payload }, {
-
-          // @ts-ignore
-          retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
@@ -640,9 +599,6 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .patch(url, { data: payload }, {
-
-          // @ts-ignore
-          retries: 0,
           transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
@@ -675,13 +631,9 @@ export default abstract class Api extends ApiQuery {
     const url = _join([self.apiPrefix, self.resource, id, 'logs'], '/')
 
     return new Promise((resolve, reject) => {
-      http
-
-      // @ts-ignore
-        .get(url, {
-          // params: payload,
-          transformResponse: [(data: any) => self.transformResponse(data)],
-        })
+      http.get(url, {
+        transformResponse: [(data: any) => self.transformResponse(data)],
+      })
         .then((response: { data: any }) => {
           resolve(response.data)
         })
