@@ -8,10 +8,10 @@ import ModelError from '../model/ModelError'
 import { addModelInspector } from './modelInspector'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 import { v4 as uuid } from 'uuid'
-import { ApiResponse, IApiResponse } from '../api/IApiResponse'
+import type { ApiResponse, IApiResponse } from '../api/IApiResponse'
 import { mapRules } from './MapRules'
-import { Api } from '../api/IApi'
-import { ModelParams } from 'src/model/IModelParams'
+import type { Api } from '../api/IApi'
+import type { ModelParams } from 'src/model/IModelParams'
 
 export default abstract class Model<T extends ModelParams> extends Validator {
   /**
@@ -39,8 +39,8 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * Laravel Precognition's error messages
    */
   errors: any[] = []
-  isValid: boolean = true
-  isInvalid: boolean = false
+  isValid = true
+  isInvalid = false
   /**
    * To check if model is dirty / has been modified
    */
@@ -85,10 +85,10 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     return self
   }
 
-  protected static instance(): Model<T>
-  {
-    // @ts-ignore
-    return new this
+  protected static instance<U>(): Model<U> {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    return new this()
   }
 
   /**

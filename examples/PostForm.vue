@@ -19,7 +19,8 @@
 
 <script lang="ts">
 import Post from './Post'
-import { defineComponent, PropType } from 'vue'
+import type { PropType } from 'vue'
+import { defineComponent } from 'vue'
 import { Action } from '@konnec/vue-eloquent'
 
 export default defineComponent({

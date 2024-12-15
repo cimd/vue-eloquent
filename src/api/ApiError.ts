@@ -1,6 +1,6 @@
 import EloquentError from '../EloquentError'
-import { IEloquentError } from '../IEloquentError'
-import { IAxiosError } from './IAxiosError'
+import type { IEloquentError } from '../IEloquentError'
+import type { IAxiosError } from './IAxiosError'
 
 export default class ApiError extends EloquentError {
   name: string

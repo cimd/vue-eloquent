@@ -6,8 +6,8 @@ import ApiQuery from '../api/ApiQuery'
 import { addModelInspector } from '../model/modelInspector'
 import { v4 as uuid } from 'uuid'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
-import { IApiResponse } from '../api/IApiResponse'
-import { Api } from '../api/IApi'
+import type { IApiResponse } from '../api/IApiResponse'
+import type { Api } from '../api/IApi'
 
 export default abstract class Collection extends ApiQuery {
   /**
@@ -30,7 +30,7 @@ export default abstract class Collection extends ApiQuery {
    * API class related to the model
    */
   protected api: Api
-  protected isBroadcasting: boolean = false
+  protected isBroadcasting = false
 
   /**
    * Broadcast channel name
@@ -57,11 +57,16 @@ export default abstract class Collection extends ApiQuery {
    * @return { Promise<T[]> } The data from the API
    */
   async get<T>(filter?: any): Promise<T[]>
+  async get<T>(filter?: any): Promise<T[]>
   {
     let queryString: any
     this.setStateLoading()
     try {
-      filter ? queryString = filter : queryString = this.queryString()
+      if (filter) {
+        queryString = filter
+      } else {
+        queryString = this.queryString()
+      }
       addTimelineEvent({
         title: 'Fetching',
         data: {

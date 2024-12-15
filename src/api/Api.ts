@@ -3,16 +3,16 @@ import { apiPrefix, http } from '../http/http'
 import _join from 'lodash/join'
 import ApiError from '../api/ApiError'
 import type { IAxiosError } from './IAxiosError'
-import { IApiResponse } from './IApiResponse'
+import type { IApiResponse } from './IApiResponse'
 import ApiQuery from '../api/ApiQuery'
-import { IModelParams } from '../model/IModelParams'
+import type { IModelParams } from '../model/IModelParams'
 
 export default abstract class Api extends ApiQuery {
   /**
    * Resource name. Will be appended to the apiPrefix endpoint
    * @param { string } resource
    */
-  protected resource: string = ''
+  protected resource = ''
 
   /**
    * Base API endpoint
@@ -469,21 +469,24 @@ export default abstract class Api extends ApiQuery {
    * @param { boolean } isModel - If it's a model, it will automatically push the model's id to the API
    * @return { Promise<IApiResponse<T> } The data from the API
    */
-  static destroy<T extends IModelParams>(payload: Partial<T> | number, isModel: boolean = true): Promise<IApiResponse<T>>
+  static destroy<T extends IModelParams>(payload: Partial<T> | number, isModel = true): Promise<IApiResponse<T>>
+  static destroy<T extends IModelParams>(payload: Partial<T> | number, isModel = true): Promise<IApiResponse<T>>
   {
     const id: number = typeof payload === 'number'? payload : payload?.id
     const self = this.instance()
-
+  
     let params = null
-    !isModel ? params = payload : null
-
+    if (!isModel) {
+      params = payload
+    }
+  
     let url = ''
     if (isModel) {
       url = _join([self.apiPrefix, self.resource, id], '/')
     } else {
       url = _join([self.apiPrefix, self.resource], '/')
     }
-
+  
     self.destroying(payload)
     return new Promise((resolve, reject) => {
       http
@@ -665,13 +668,18 @@ export default abstract class Api extends ApiQuery {
    * @return { IApiResponse<T[]> } The data from the API
    */
   get<T>(payload?: Partial<T>): Promise<IApiResponse<T[]>>
+  get<T>(payload?: Partial<T>): Promise<IApiResponse<T[]>>
   {
     const url = _join([this.apiPrefix, this.resource], '/')
-
+  
     let queryString: any
-    payload ? queryString = payload : queryString = this.queryString()
+    if (payload) {
+      queryString = payload
+    } else {
+      queryString = this.queryString()
+    }
     this.fetching(queryString)
-
+  
     return new Promise((resolve, reject) => {
       http
         .get(url, {

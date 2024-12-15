@@ -27,7 +27,7 @@ export const UserHandlers = [
   http.get('http://localhost:8000/api/users/:user', ({ params }) => {
     return HttpResponse.json(
       {
-        data: users.find((el) => el.id === parseInt(<string>params.user))
+        data: users.find((el) => el.id === parseInt((params.user as string)))
       },
       { status: 200 }
     )
@@ -35,7 +35,7 @@ export const UserHandlers = [
   http.post('http://localhost:8000/api/users/:user', ({ params }) => {
     return HttpResponse.json(
       {
-        data: users.find((el) => el.id === parseInt(<string>params.user))
+        data: users.find((el) => el.id === parseInt((params.user as string)))
       },
       { status: 200 }
     )
@@ -43,7 +43,7 @@ export const UserHandlers = [
   http.patch('http://localhost:8000/api/users/:user', ({ params }) => {
     return HttpResponse.json(
       {
-        data: users.find((el) => el.id === parseInt(<string>params.user))
+        data: users.find((el) => el.id === parseInt((params.user as string)))
       },
       { status: 200 }
     )
@@ -51,7 +51,7 @@ export const UserHandlers = [
   http.delete('http://localhost:8000/api/users/:user', ({ params }) => {
     return HttpResponse.json(
       {
-        data: users.find((el) => el.id === parseInt(<string>params.user))
+        data: users.find((el) => el.id === parseInt((params.user as string)))
       },
       { status: 200 }
     )

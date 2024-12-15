@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import { Collection } from '../src/index'
 import PostApi from './PostApi'
-import { IPost } from './PostInterface'
+import type { IPost } from './PostInterface'
 
 export default class PostsCollection extends Collection {
   public data = reactive([] as IPost[])

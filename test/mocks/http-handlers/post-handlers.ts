@@ -49,7 +49,7 @@ export const PostHandlers = [
   http.get('http://localhost:8000/api/posts/:post/logs', ({ params }) => {
     return HttpResponse.json(
       {
-        data: posts.find((post) => post.id === parseInt(<string>params.post))
+        data: posts.find((post) => post.id === parseInt((params.post as string)))
       },
       { status: 200 }
     )

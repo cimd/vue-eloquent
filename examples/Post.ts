@@ -2,9 +2,9 @@ import { required } from '@vuelidate/validators'
 import { computed, reactive } from 'vue'
 import { Model } from '../src/index'
 import PostApi from './PostApi'
-import { IPost } from './PostInterface'
+import type { IPost } from './PostInterface'
 import UserApi from './UserApi'
-import { IUser } from './UserInterface'
+import type { IUser } from './UserInterface'
 import CommentApi from './CommentApi'
 
 export default class Post extends Model<IPost> {

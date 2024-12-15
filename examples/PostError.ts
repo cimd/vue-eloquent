@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import { Model } from '../src/index'
-import { IPost } from './PostInterface'
-import { IUser } from './UserInterface'
+import type { IPost } from './PostInterface'
+import type { IUser } from './UserInterface'
 import PostErrorApi from './PostErrorApi'
 
 export default class Post extends Model {

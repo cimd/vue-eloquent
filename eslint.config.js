@@ -1,38 +1,87 @@
-import { FlatCompat } from '@eslint/eslintrc'
 import js from '@eslint/js'
+import globals from 'globals'
 import pluginVue from 'eslint-plugin-vue'
-import eslintPluginUnusedImports from 'eslint-plugin-unused-imports'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import 'dotenv/config'
-
-const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file
-const __dirname = path.dirname(__filename) // get the name of the directory
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended
-})
+import vueTsEslintConfig from '@vue/eslint-config-typescript'
+import prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting'
+import stylisticJs from '@stylistic/eslint-plugin-js'
 
 export default [
-  js.configs.recommended,
-  ...pluginVue.configs[ 'flat/recommended' ],
-  ...compat.extends(
-    'plugin:vue/vue3-recommended',
-    '@vue/eslint-config-typescript',
-    '@vue/eslint-config-prettier/skip-formatting',
-  ),
-  { plugins: {
-    // '@typescript-eslint',
-    'unused-imports': eslintPluginUnusedImports
-  }},
-  { languageOptions: { parserOptions: { ecmaVersion: 'latest' }}},
   {
+    /**
+     * Ignore the following files.
+     * Please note that pluginQuasar.configs.recommended already ignores
+     * the "node_modules" folder for you (and all other Quasar project
+     * relevant folders and files).
+     *
+     * ESLint requires "ignores" key to be the only one in this object
+     */
+    // ignores: []
+  },
+
+  // ...pluginQuasar.configs.recommended(),
+  js.configs.recommended,
+
+  /**
+   * https://eslint.vuejs.org
+   *
+   * pluginVue.configs.base
+   *   -> Settings and rules to enable correct ESLint parsing.
+   * pluginVue.configs[ 'flat/essential']
+   *   -> base, plus rules to prevent errors or unintended behavior.
+   * pluginVue.configs["flat/strongly-recommended"]
+   *   -> Above, plus rules to considerably improve code readability and/or dev experience.
+   * pluginVue.configs["flat/recommended"]
+   *   -> Above, plus rules to enforce subjective community defaults to ensure consistency.
+   */
+  ...pluginVue.configs[ 'flat/recommended' ],
+
+  // https://github.com/vuejs/eslint-config-typescript
+  ...vueTsEslintConfig({
+    // Optional: extend additional configurations from typescript-eslint'.
+    // Supports all the configurations in
+    // https://typescript-eslint.io/users/configs#recommended-configurations
+    extends: [
+      // By default, only the recommended rules are enabled.
+      'recommended',
+      // You can also manually enable the stylistic rules.
+      'stylistic',
+
+      // Other utility configurations, such as 'eslintRecommended', (note that it's in camelCase)
+      // are also extendable here. But we don't recommend using them directly.
+    ]
+  }),
+
+  {
+    plugins: {
+      '@stylistic/js': stylisticJs
+    },
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+
+      globals: {
+        ...globals.browser,
+        ...globals.node, // SSR, Electron, config files
+        process: 'readonly', // process.env.*
+        ga: 'readonly', // Google Analytics
+        cordova: 'readonly',
+        Capacitor: 'readonly',
+        chrome: 'readonly', // BEX related
+        browser: 'readonly' // BEX related
+      }
+    },
+
+    // add your custom rules here
     rules: {
+      'prefer-promise-reject-errors': 'warn',
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { prefer: 'type-imports' }
+      ],
       '@typescript-eslint/no-explicit-any': 'off',
       // this rule, if on, would require explicit return type on the `render` function
-      '@typescript-eslint/explicit-function-return-type': 'warn',
-      '@typescript-eslint/semi': ['warn', 'never'],
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@stylistic/js/semi': ['warn', 'never'],
 
       // in plain CommonJS modules, you can't use `import foo = require('foo')` to pass this rule, so it has to be disabled
       '@typescript-eslint/no-var-requires': 'warn',
@@ -46,26 +95,25 @@ export default [
           'argsIgnorePattern': '^_'
         }
       ],
-
-      // 'brace-style': [2, 'stroustrup', { allowSingleLine: true }],
-      'unused-imports/no-unused-imports': 'warn',
+      '@typescript-eslint/no-unused-expressions': 'warn',
+      '@typescript-eslint/no-require-imports': 'warn',
+      // 'unused-imports/no-unused-imports': 'warn',
 
       // allow async-await
       'generator-star-spacing': ['error', { before: true, after: false }],
       // allow paren-less arrow functions
       'arrow-parens': 'off',
       'one-var': 'off',
-      '@typescript-eslint/object-curly-spacing': ['warn', 'always', { 'arraysInObjects': false, 'objectsInObjects': false }],
+      '@stylistic/js/object-curly-spacing': ['warn', 'always', { 'arraysInObjects': false, 'objectsInObjects': false }],
       'object-curly-spacing': ['warn', 'always', { 'arraysInObjects': false, 'objectsInObjects': false }],
 
       'array-bracket-spacing': ['warn', 'never'],
       'computed-property-spacing': ['warn', 'always'],
 
-      '@typescript-eslint/comma-spacing': ['warn', { 'before': false, 'after': true }],
+      '@stylistic/js/comma-spacing': ['warn', { 'before': false, 'after': true }],
       'comma-spacing': ['warn', { 'before': false, 'after': true }],
 
       'space-in-parens': ['warn', 'never'],
-
       'default-case-last': 'warn',
       'dot-notation': 'warn',
 
@@ -75,7 +123,6 @@ export default [
       'no-multi-spaces': 'warn',
       'space-before-function-paren': ['warn', { 'anonymous': 'always', 'named': 'never', 'asyncArrow': 'always' }],
       'template-curly-spacing': 'warn',
-
       'import/first': 'off',
       // 'import/named': 'error',
       // 'import/namespace': 'error',
@@ -84,10 +131,8 @@ export default [
       'import/extensions': 'off',
       'import/no-unresolved': 'off',
       'import/no-extraneous-dependencies': 'off',
-      'prefer-promise-reject-errors': 'error',
 
       // allow debugger during development only
-      // eslint-disable-next-line no-undef
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 
       // My Custom
@@ -235,7 +280,7 @@ export default [
         'error',
         {
           singleline: {
-            max: 10,
+            max: 5,
           },
           multiline: {
             max: 1,
@@ -243,12 +288,17 @@ export default [
         },
       ],
       'vue/valid-v-for': 0,
-    },
+    }
   },
+
   {
-    files: ['**/*.vue', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs', '**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts', '**/*.d.ts', '**/*.cy.{js,jsx,ts,tsx}']
+    files: [ 'src-pwa/custom-service-worker.ts' ],
+    languageOptions: {
+      globals: {
+        ...globals.serviceworker
+      }
+    }
   },
-  {
-    ignores: ['.gitignore']
-  }
+
+  prettierSkipFormatting
 ]

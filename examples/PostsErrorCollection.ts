@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import { Collection } from '../src/index'
-import { IPost } from './PostInterface'
+import type { IPost } from './PostInterface'
 import PostErrorApi from './PostErrorApi'
 
 export default class PostsCollection extends Collection {

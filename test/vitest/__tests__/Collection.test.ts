@@ -62,7 +62,7 @@ describe('collection api', () => {
       await posts.get()
     }
     catch (err) {
-      // console.log(err)
+      console.log(err)
     }
     expect(posts.state).toEqual({
       isLoading: false,

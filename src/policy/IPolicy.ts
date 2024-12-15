@@ -1,6 +1,6 @@
-import Action from '../enums/Action'
+import type Action from '../enums/Action'
 
-export type Permissions = {
+export interface Permissions {
   create?: boolean,
   read?: boolean,
   update?: boolean,

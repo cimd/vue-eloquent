@@ -6,7 +6,7 @@ describe('model errors', () => {
     const post = new PostError()
     try {
       await post.find(1)
-    } catch (e) { /* empty */ }
+    } catch (e) { console.log(e) }
 
     expect(post.state).toEqual({ isLoading: false, isSuccess: false, isError: true })
   })
@@ -15,7 +15,7 @@ describe('model errors', () => {
     const post = new PostError({ id: 1 })
     try {
       await post.refresh({ id: 2 })
-    } catch (e) { /* empty */ }
+    } catch (e) { console.log(e) }
 
     expect(post.state).toEqual({ isLoading: false, isSuccess: false, isError: true })
   })
@@ -24,7 +24,7 @@ describe('model errors', () => {
     const post = new PostError()
     try {
       await post.update({ id: 1 })
-    } catch (e) { /* empty */ }
+    } catch (e) { console.log(e) }
 
     expect(post.state).toEqual({ isLoading: false, isSuccess: false, isError: true })
   })
@@ -33,7 +33,7 @@ describe('model errors', () => {
     const post = new PostError()
     try {
       await post.create({ id: 1 })
-    } catch (e) { /* empty */ }
+    } catch (e) { console.log(e) }
 
     expect(post.state).toEqual({ isLoading: false, isSuccess: false, isError: true })
   })
@@ -42,7 +42,7 @@ describe('model errors', () => {
     const post = new PostError({ id: 1 })
     try {
       await post.delete()
-    } catch (e) { /* empty */ }
+    } catch (e) { console.log(e) }
 
     expect(post.state).toEqual({ isLoading: false, isSuccess: false, isError: true })
   })
@@ -51,7 +51,7 @@ describe('model errors', () => {
     const post = new PostError({ id: 1 })
     try {
       await post.save()
-    } catch (e) { /* empty */ }
+    } catch (e) { console.log(e) }
 
     expect(post.state).toEqual({ isLoading: false, isSuccess: false, isError: true })
   })
@@ -62,7 +62,7 @@ describe('model errors', () => {
 
     try {
       await post.save()
-    } catch (e) { /* empty */ }
+    } catch (e) { console.log(e) }
     expect(post.state).toEqual({ isLoading: false, isSuccess: false, isError: true })
   })
 })

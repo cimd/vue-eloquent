@@ -1,5 +1,5 @@
-import { IUser } from './UserInterface'
-import { IModelParams } from '@/model/IModelParams'
+import type { IUser } from './UserInterface'
+import type { IModelParams } from '@/model/IModelParams'
 
 export interface IPost extends IModelParams {
     id: undefined | number

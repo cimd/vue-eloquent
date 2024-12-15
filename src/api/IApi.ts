@@ -1,4 +1,4 @@
-import { ApiResponse, IApiResponse } from '../api/IApiResponse'
+import type { ApiResponse, IApiResponse } from '../api/IApiResponse'
 
 export interface IApi {
     resource: string

@@ -1,7 +1,8 @@
-import axios, { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'axios'
+import axios from 'axios'
 
 let http: AxiosInstance
-let apiPrefix: string = 'api'
+let apiPrefix = 'api'
 
 /**
  * Create an instance of the HTTP service.

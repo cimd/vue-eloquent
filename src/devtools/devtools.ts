@@ -1,5 +1,6 @@
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
-import { App, nextTick } from 'vue'
+import type { App } from 'vue'
+import { nextTick } from 'vue'
 import { stateMap, useModelInspector } from '../model/modelInspector'
 
 const inspectorId = 'vue-eloquent'
@@ -7,7 +8,6 @@ const timelineLayerId = 'vue-eloquent'
 let API: any
 
 export function setupDevtools(app: App) {
-  // @ts-ignore
   setupDevtoolsPlugin({
     id: inspectorId,
     label: 'Vue Eloquent',

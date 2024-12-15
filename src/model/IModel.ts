@@ -1,7 +1,7 @@
-import { IModelState, ModelState } from 'src/model/IModelState'
-import Action from 'src/enums/Action'
-import Actioned from 'src/enums/Actioned'
-import { Api, IApi } from 'src/api/IApi'
+import type { IModelState, ModelState } from 'src/model/IModelState'
+import type Action from 'src/enums/Action'
+import type Actioned from 'src/enums/Actioned'
+import type { Api, IApi } from 'src/api/IApi'
 import Validator from './Validator'
 
 export interface IModel {
@@ -85,12 +85,13 @@ export declare class Model<T> extends Validator {
 
   load(args?: string | string[]): Promise<any>
   hasOne<K>(api: Api, primaryKey: number): Promise<K>
+  hasOne(api: any, primaryKey: number): Promise<any>
   hasMany<K>(api: Api, primaryKey: string, id: number): Promise<K[]>
-
+  hasMany(api: any, primaryKey: string, id: number): Promise<any[]>
   setStateLoading(): void
   setStateSuccess(): void
   setStateError(): void
 
-  hasOne(api: any, primaryKey: number): Promise<any>
-  hasMany(api: any, primaryKey: string, id: number): Promise<any[]>
+
+
 }

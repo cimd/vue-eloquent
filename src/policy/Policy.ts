@@ -43,10 +43,29 @@ export default class Policy {
    */
   set(args: Permissions)
   {
-    (typeof args.create !== 'undefined') ? this.permissions.create = args.create : this.permissions.create = false;
-    (typeof args.read !== 'undefined') ? this.permissions.read = args.read : this.permissions.read = false;
-    (typeof args.update!== 'undefined') ? this.permissions.update = args.update : this.permissions.update = false;
-    (typeof args.delete!== 'undefined') ? this.permissions.delete = args.delete : this.permissions.delete = false
+    if (typeof args.create !== 'undefined') {
+      this.permissions.create = args.create
+    } else {
+      this.permissions.create = false
+    }
+
+    if (typeof args.read !== 'undefined') {
+      this.permissions.read = args.read
+    } else {
+      this.permissions.read = false
+    }
+
+    if (typeof args.update!== 'undefined') {
+      this.permissions.update = args.update
+    } else {
+      this.permissions.update = false
+    }
+
+    if (typeof args.delete!== 'undefined') {
+      this.permissions.delete = args.delete
+    } else {
+      this.permissions.delete = false
+    }
   }
 
   /**

@@ -1,4 +1,4 @@
-import { AxiosHeaders } from 'axios'
+import type { AxiosHeaders } from 'axios'
 
 export interface IAxiosError {
     code: string
@@ -14,7 +14,7 @@ export interface IAxiosError {
     }
 }
 
-export interface AxiosError extends Error{
+export interface AxiosError extends Error {
     code: string
     config: any
     request: any

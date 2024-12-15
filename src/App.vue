@@ -83,8 +83,7 @@ export default defineComponent({
     },
     testError() {
       PostApi.show(100)
-        .then(() => {
-        })
+        .then()
         .catch((err: any) => {
           console.log(err)
         })
