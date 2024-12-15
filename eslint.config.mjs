@@ -1,5 +1,6 @@
 import { FlatCompat } from '@eslint/eslintrc'
 import js from '@eslint/js'
+import pluginVue from 'eslint-plugin-vue'
 import eslintPluginUnusedImports from 'eslint-plugin-unused-imports'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -15,8 +16,9 @@ const compat = new FlatCompat({
 
 export default [
   js.configs.recommended,
+  ...pluginVue.configs[ 'flat/recommended' ],
   ...compat.extends(
-    'plugin:vue/vue3-essential',
+    'plugin:vue/vue3-recommended',
     '@vue/eslint-config-typescript',
     '@vue/eslint-config-prettier/skip-formatting',
   ),
@@ -29,7 +31,7 @@ export default [
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       // this rule, if on, would require explicit return type on the `render` function
-      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'warn',
       '@typescript-eslint/semi': ['warn', 'never'],
 
       // in plain CommonJS modules, you can't use `import foo = require('foo')` to pass this rule, so it has to be disabled
