@@ -34,6 +34,7 @@ export default defineComponent({
       type: String as PropType<Action>
     },
   },
+  emits: ['close'],
   data() {
     return {
       post: new Post()
