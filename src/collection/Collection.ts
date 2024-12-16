@@ -101,7 +101,7 @@ export default abstract class Collection extends ApiQuery {
       this.channel = channel
     }
     broadcast
-      .join(this.channel)
+      ?.join(this.channel)
       .error((error: any) => {
         console.error(error)
       })
@@ -125,7 +125,7 @@ export default abstract class Collection extends ApiQuery {
   leaveChannel(): void
   {
     if (this.isBroadcasting) {
-      broadcast.leave(this.channel)
+      broadcast?.leave(this.channel)
       this.isBroadcasting = false
     }
     refreshInspector().then()
