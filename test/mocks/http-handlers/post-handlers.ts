@@ -49,7 +49,7 @@ export const PostHandlers = [
   http.get('http://localhost:8000/api/posts/:post/logs', ({ params }) => {
     return HttpResponse.json(
       {
-        data: posts.find((post) => post.id === parseInt((params.post as string)))
+        data: posts.find((post) => post.id === parseInt(params.post as string))
       },
       { status: 200 }
     )
@@ -65,7 +65,7 @@ export const PostHandlers = [
   http.post('http://localhost:8000/api/posts', () => {
     return HttpResponse.json(
       {
-        data: posts[ 0 ]
+        data: posts[0]
       },
       { status: 200 }
     )
@@ -73,7 +73,7 @@ export const PostHandlers = [
   http.delete('http://localhost:8000/api/posts/1', () => {
     return HttpResponse.json(
       {
-        data: { ...posts[ 0 ], deleted_at: '2022-06-17T01:43:59.000000Z' }
+        data: { ...posts[0], deleted_at: '2022-06-17T01:43:59.000000Z' }
       },
       { status: 200 }
     )

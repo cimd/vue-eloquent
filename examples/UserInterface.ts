@@ -1,6 +1,6 @@
 import type { IModelParams } from 'src/model/IModelParams'
 
 export interface IUser extends IModelParams {
-    id: number
-    name: string
+  id: number
+  name: string
 }

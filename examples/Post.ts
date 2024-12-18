@@ -21,14 +21,14 @@ export default class Post extends Model<IPost> {
   })
   api = PostApi
   protected parameters = {
-    title: 'New Post',
+    title: 'New Post'
   }
   protected validations = computed(() => ({
     model: {
       title: {
         required
       },
-      description: { required },
+      description: { required }
     }
   }))
 
@@ -38,18 +38,15 @@ export default class Post extends Model<IPost> {
     super.initValidations()
   }
 
-  async author()
-  {
+  async author() {
     return await this.hasOne(UserApi, this.model.author_id)
   }
 
-  comments()
-  {
+  comments() {
     return this.hasMany(CommentApi, this.model.id)
   }
 
-  protected updating()
-  {
+  protected updating() {
     // strip html tags from this.model.text
   }
 }

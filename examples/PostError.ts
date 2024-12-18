@@ -16,11 +16,11 @@ export default class Post extends Model {
     title: undefined,
     text: undefined,
     author: undefined as IUser,
-    readers: undefined as IUser[],
+    readers: undefined as IUser[]
   } as IPost)
 
   protected parameters = {
-    title: 'New Post',
+    title: 'New Post'
   }
 
   constructor(post?: IPost) {

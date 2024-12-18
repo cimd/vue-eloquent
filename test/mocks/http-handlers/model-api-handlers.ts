@@ -29,4 +29,5 @@ export const ModelApiHandlers = [
       },
       { status: 200 }
     )
-  }),]
+  })
+]

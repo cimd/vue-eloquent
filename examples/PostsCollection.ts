@@ -9,13 +9,12 @@ export default class PostsCollection extends Collection {
   // protected listener = new PostsListener('PostsEvent')
   protected channel = 'posts'
 
-  constructor(posts?: IPost[]){
+  constructor(posts?: IPost[]) {
     super()
     if (posts) super.factory(posts)
   }
 
-  protected async broadcastCreated(e: any): Promise<{ data: IPost }>
-  {
+  protected async broadcastCreated(e: any): Promise<{ data: IPost }> {
     // add new post to the collection
     const newPost = await this.api.show(e.id)
     this.data.push(newPost)

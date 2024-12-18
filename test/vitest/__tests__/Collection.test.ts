@@ -18,13 +18,16 @@ describe('collection api', () => {
   })
 
   it('returns response from get method', async () => {
-    const posts = await (new PostsCollection).get()
+    const posts = await new PostsCollection().get()
     expect(posts.length).toEqual(2)
   })
 
   it('where filter', async () => {
     const posts = new PostsCollection()
-    const results = await posts.where({ title: 'Hello' }).where({ description: 'Chaining...' }).get()
+    const results = await posts
+      .where({ title: 'Hello' })
+      .where({ description: 'Chaining...' })
+      .get()
 
     expect(results.length).toEqual(2)
     expect(posts.filter).toEqual({ title: 'Hello', description: 'Chaining...' })
@@ -60,14 +63,13 @@ describe('collection api', () => {
     const posts = new PostsErrorCollection()
     try {
       await posts.get()
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err)
     }
     expect(posts.state).toEqual({
       isLoading: false,
       isSuccess: false,
-      isError: true,
+      isError: true
     })
   })
 

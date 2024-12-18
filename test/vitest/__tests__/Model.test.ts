@@ -121,7 +121,7 @@ describe('model', () => {
 
   it('hasMany', async () => {
     const post = new Post({ id: 1, author_id: 1 })
-    const comments = await (post.comments()).get()
+    const comments = await post.comments().get()
 
     expect(comments.length).toEqual(2)
   })

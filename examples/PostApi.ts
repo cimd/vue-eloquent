@@ -6,7 +6,7 @@ export default class PostApi extends Api {
   protected dates = [
     'created_at',
     'updated_at',
-    'deleted_at',
+    'deleted_at'
     // 'author.created_at'
   ]
 

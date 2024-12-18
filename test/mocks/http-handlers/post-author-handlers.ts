@@ -21,7 +21,7 @@ export const PostAuthorHandlers = [
   http.get('http://localhost:8000/api/posts/1/users', () => {
     return HttpResponse.json(
       {
-        data: [authors[ 0 ]]
+        data: [authors[0]]
       },
       { status: 200 }
     )
@@ -29,7 +29,7 @@ export const PostAuthorHandlers = [
   http.get('http://localhost:8000/api/posts/1/users/1', () => {
     return HttpResponse.json(
       {
-        data: authors[ 0 ]
+        data: authors[0]
       },
       { status: 200 }
     )
@@ -37,7 +37,7 @@ export const PostAuthorHandlers = [
   http.patch('http://localhost:8000/api/posts/1/users/1', () => {
     return HttpResponse.json(
       {
-        data: authors[ 0 ]
+        data: authors[0]
       },
       { status: 200 }
     )
@@ -45,7 +45,7 @@ export const PostAuthorHandlers = [
   http.post('http://localhost:8000/api/posts/1/users', () => {
     return HttpResponse.json(
       {
-        data: authors[ 0 ]
+        data: authors[0]
       },
       { status: 200 }
     )
@@ -53,7 +53,7 @@ export const PostAuthorHandlers = [
   http.delete('http://localhost:8000/api/posts/1/users/1', () => {
     return HttpResponse.json(
       {
-        data: { ...authors[ 0 ], deleted_at: '2022-06-17T01:43:59.000000Z' }
+        data: { ...authors[0], deleted_at: '2022-06-17T01:43:59.000000Z' }
       },
       { status: 200 }
     )

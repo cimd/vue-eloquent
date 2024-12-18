@@ -3,10 +3,9 @@ import { defineStore } from 'pinia'
 export const useUserStore = defineStore('user', {
   state: () => ({
     favouritePosts: [1, 2],
-    token: 'asjdlkfjaZH:Hhkjhlkhk',
+    token: 'asjdlkfjaZH:Hhkjhlkhk'
   }),
-  actions: {
-  },
+  actions: {},
   persist: {
     sync: true,
     suffix: 1,

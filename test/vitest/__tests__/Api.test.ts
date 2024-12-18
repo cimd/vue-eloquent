@@ -61,10 +61,7 @@ describe('model api', () => {
   })
 
   it('batchStore method', async () => {
-    const posts = [
-      { text: 'test1' },
-      { text: 'test2' },
-    ]
+    const posts = [{ text: 'test1' }, { text: 'test2' }]
     const result = await PostApi.batchStore(posts)
 
     expect(result.data.length).toEqual(2)
@@ -73,7 +70,7 @@ describe('model api', () => {
   it('batchUpdate method', async () => {
     const posts = [
       { id: 1, text: 'test1' },
-      { id: 2, text: 'test2' },
+      { id: 2, text: 'test2' }
     ]
     const result = await PostApi.batchUpdate(posts)
 
@@ -83,7 +80,7 @@ describe('model api', () => {
   it('batchDestroy method', async () => {
     const posts = [
       { id: 1, text: 'test1' },
-      { id: 2, text: 'test2' },
+      { id: 2, text: 'test2' }
     ]
     const result = await PostApi.batchDestroy(posts)
 
