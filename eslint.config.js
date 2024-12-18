@@ -1,9 +1,10 @@
 import js from '@eslint/js'
-import globals from 'globals'
-import pluginVue from 'eslint-plugin-vue'
-import vueTsEslintConfig from '@vue/eslint-config-typescript'
-import prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 import stylisticJs from '@stylistic/eslint-plugin-js'
+import vitest from '@vitest/eslint-plugin'
+import prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting'
+import vueTsEslintConfig from '@vue/eslint-config-typescript'
+import pluginVue from 'eslint-plugin-vue'
+import globals from 'globals'
 
 export default [
   {
@@ -16,6 +17,7 @@ export default [
      * ESLint requires "ignores" key to be the only one in this object
      */
     // ignores: []
+    files: ['**/*.js', '**/*.ts', '**/*.vue']
   },
 
   // ...pluginQuasar.configs.recommended(),
@@ -33,7 +35,7 @@ export default [
    * pluginVue.configs["flat/recommended"]
    *   -> Above, plus rules to enforce subjective community defaults to ensure consistency.
    */
-  ...pluginVue.configs[ 'flat/recommended' ],
+  ...pluginVue.configs['flat/recommended'],
 
   // https://github.com/vuejs/eslint-config-typescript
   ...vueTsEslintConfig({
@@ -44,7 +46,7 @@ export default [
       // By default, only the recommended rules are enabled.
       'recommended',
       // You can also manually enable the stylistic rules.
-      'stylistic',
+      'stylistic'
 
       // Other utility configurations, such as 'eslintRecommended', (note that it's in camelCase)
       // are also extendable here. But we don't recommend using them directly.
@@ -74,10 +76,7 @@ export default [
     // add your custom rules here
     rules: {
       'prefer-promise-reject-errors': 'warn',
-      '@typescript-eslint/consistent-type-imports': [
-        'error',
-        { prefer: 'type-imports' }
-      ],
+      '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
       '@typescript-eslint/no-explicit-any': 'off',
       // this rule, if on, would require explicit return type on the `render` function
       '@typescript-eslint/explicit-function-return-type': 'off',
@@ -89,10 +88,10 @@ export default [
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
-          'vars': 'all',
-          'varsIgnorePattern': '^_',
-          'args': 'after-used',
-          'argsIgnorePattern': '^_'
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_'
         }
       ],
       '@typescript-eslint/no-unused-expressions': 'warn',
@@ -104,24 +103,35 @@ export default [
       // allow paren-less arrow functions
       'arrow-parens': 'off',
       'one-var': 'off',
-      '@stylistic/js/object-curly-spacing': ['warn', 'always', { 'arraysInObjects': false, 'objectsInObjects': false }],
-      'object-curly-spacing': ['warn', 'always', { 'arraysInObjects': false, 'objectsInObjects': false }],
+      '@stylistic/js/object-curly-spacing': [
+        'warn',
+        'always',
+        { arraysInObjects: false, objectsInObjects: false }
+      ],
+      'object-curly-spacing': [
+        'warn',
+        'always',
+        { arraysInObjects: false, objectsInObjects: false }
+      ],
 
       'array-bracket-spacing': ['warn', 'never'],
       'computed-property-spacing': ['warn', 'always'],
 
-      '@stylistic/js/comma-spacing': ['warn', { 'before': false, 'after': true }],
-      'comma-spacing': ['warn', { 'before': false, 'after': true }],
+      '@stylistic/js/comma-spacing': ['warn', { before: false, after: true }],
+      'comma-spacing': ['warn', { before: false, after: true }],
 
       'space-in-parens': ['warn', 'never'],
       'default-case-last': 'warn',
       'dot-notation': 'warn',
 
-      'arrow-spacing': ['warn', { 'before': true, 'after': true }],
+      'arrow-spacing': ['warn', { before: true, after: true }],
       'block-spacing': 'warn',
-      'key-spacing': ['warn', { 'beforeColon': false, 'afterColon': true }],
+      'key-spacing': ['warn', { beforeColon: false, afterColon: true }],
       'no-multi-spaces': 'warn',
-      'space-before-function-paren': ['warn', { 'anonymous': 'always', 'named': 'never', 'asyncArrow': 'always' }],
+      'space-before-function-paren': [
+        'warn',
+        { anonymous: 'always', named: 'never', asyncArrow: 'always' }
+      ],
       'template-curly-spacing': 'warn',
       'import/first': 'off',
       // 'import/named': 'error',
@@ -143,8 +153,8 @@ export default [
           ignoreDeclarationSort: true,
           ignoreMemberSort: false,
           memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-          allowSeparatedGroups: false,
-        },
+          allowSeparatedGroups: false
+        }
       ],
       'vue/html-indent': [
         'error',
@@ -154,14 +164,14 @@ export default [
           baseIndent: 1,
           closeBracket: 0,
           alignAttributesVertically: true,
-          ignores: [],
-        },
+          ignores: []
+        }
       ],
 
-      'indent': ['warn', 2],
+      indent: ['warn', 2],
 
       'vue/html-quotes': ['error', 'single', { avoidEscape: true }],
-      'quotes': ['warn', 'single', { 'avoidEscape': true }],
+      quotes: ['warn', 'single', { avoidEscape: true }],
       'vue/component-options-name-casing': ['error', 'PascalCase'],
       'vue/html-comment-content-spacing': ['error', 'always'],
       'vue/no-this-in-before-route-enter': ['error'],
@@ -170,16 +180,16 @@ export default [
         {
           groups: ['props'],
           deepData: false,
-          ignorePublicMembers: false,
-        },
+          ignorePublicMembers: false
+        }
       ],
       'vue/padding-line-between-blocks': ['error', 'always'],
       'vue/component-definition-name-casing': ['error', 'PascalCase'],
       'vue/no-multi-spaces': [
         'error',
         {
-          ignoreProperties: true,
-        },
+          ignoreProperties: true
+        }
       ],
       'vue/prop-name-casing': ['error', 'camelCase'],
       'vue/v-bind-style': ['error', 'shorthand'],
@@ -189,8 +199,8 @@ export default [
         {
           atComponent: 'longform',
           default: 'longform',
-          named: 'longform',
-        },
+          named: 'longform'
+        }
       ],
       'vue/mustache-interpolation-spacing': ['error', 'always'],
       'vue/no-spaces-around-equal-signs-in-attribute': ['error'],
@@ -199,8 +209,8 @@ export default [
         'always',
         {
           autofix: true,
-          ignore: [],
-        },
+          ignore: []
+        }
       ],
       'vue/order-in-components': [
         'error',
@@ -238,9 +248,9 @@ export default [
             'LIFECYCLE_HOOKS',
             'methods',
             ['template', 'render'],
-            'renderError',
-          ],
-        },
+            'renderError'
+          ]
+        }
       ],
       'vue/this-in-template': ['error', 'never'],
       'vue/attributes-order': [
@@ -257,42 +267,52 @@ export default [
             'OTHER_DIRECTIVES',
             'OTHER_ATTR',
             'EVENTS',
-            'CONTENT',
+            'CONTENT'
           ],
-          alphabetical: true,
-        },
+          alphabetical: true
+        }
       ],
       'vue/html-closing-bracket-spacing': [
         'error',
         {
           startTag: 'never',
           endTag: 'never',
-          selfClosingTag: 'always',
-        },
+          selfClosingTag: 'always'
+        }
       ],
       'vue/component-tags-order': [
         'error',
         {
-          order: [['template', 'script'], 'style'],
-        },
+          order: [['template', 'script'], 'style']
+        }
       ],
       'vue/max-attributes-per-line': [
         'error',
         {
           singleline: {
-            max: 5,
+            max: 5
           },
           multiline: {
-            max: 1,
-          },
-        },
+            max: 1
+          }
+        }
       ],
-      'vue/valid-v-for': 0,
+      'vue/valid-v-for': 0
     }
   },
-
   {
-    files: [ 'src-pwa/custom-service-worker.ts' ],
+    files: ['**/*.vitest.test.js'],
+    plugins: {
+      vitest
+    },
+    rules: {
+      ...vitest.configs.recommended.rules,
+      '@typescript-eslint/no-explicit-any': 'off',
+      'vitest/no-commented-out-tests': 'warn'
+    }
+  },
+  {
+    files: ['src-pwa/custom-service-worker.ts'],
     languageOptions: {
       globals: {
         ...globals.serviceworker
