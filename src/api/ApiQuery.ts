@@ -4,7 +4,6 @@ import type { IQueryPage, QueryPage } from '../collection/IQueryPage'
 import { refreshInspector } from '../devtools/devtools'
 
 export default abstract class ApiQuery {
-
   /**
    * Filters used on GET request
    */

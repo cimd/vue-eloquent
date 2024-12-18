@@ -8,69 +8,71 @@ const timelineLayerId = 'vue-eloquent'
 let API: any
 
 export function setupDevtools(app: App) {
-  setupDevtoolsPlugin({
-    id: inspectorId,
-    label: 'Vue Eloquent',
-    packageName: 'vue-eloquent',
-    homepage: 'https://vue-eloquent.netlify.app/',
-    app
-  },
-  api => {
-    API = api
-    console.log('🚀 Vue Eloquent DevTools Plugin installed')
-
-    api.addInspector({
+  setupDevtoolsPlugin(
+    {
       id: inspectorId,
       label: 'Vue Eloquent',
-      icon: 'api',
-    })
+      packageName: 'vue-eloquent',
+      homepage: 'https://vue-eloquent.netlify.app/',
+      app
+    },
+    (api) => {
+      API = api
+      console.log('🚀 Vue Eloquent DevTools Plugin installed')
 
-    api.addTimelineLayer({
-      id: timelineLayerId,
-      color: 0xff984f,
-      label: 'Vue Eloquent',
-    })
+      api.addInspector({
+        id: inspectorId,
+        label: 'Vue Eloquent',
+        icon: 'api'
+      })
 
-    api.on.getInspectorTree((payload, _context) => {
-      if (payload.inspectorId === inspectorId) {
-        payload.rootNodes =
-            [
-              {
-                id: 'Models',
-                label: 'Models',
-                children: useModelInspector().childrenNodes.filter(node => node.type === 'model')
-              },
-              {
-                id: 'Collections',
-                label: 'Collections',
-                children: useModelInspector().childrenNodes.filter(node => node.type === 'collection')
-              }
-            ]
-      }
-    })
+      api.addTimelineLayer({
+        id: timelineLayerId,
+        color: 0xff984f,
+        label: 'Vue Eloquent'
+      })
 
-    api.on.getInspectorState((payload, _context) => {
-      if (payload.inspectorId === inspectorId) {
-        if (payload.nodeId) {
-          const node = useModelInspector().childrenStates.find(el => el.id === payload.nodeId)
-          if (node === undefined) {
-            payload.state = {}
-            return
-          }
-
-          payload.state = stateMap(node.type, node.id)
+      api.on.getInspectorTree((payload, _context) => {
+        if (payload.inspectorId === inspectorId) {
+          payload.rootNodes = [
+            {
+              id: 'Models',
+              label: 'Models',
+              children: useModelInspector().childrenNodes.filter((node) => node.type === 'model')
+            },
+            {
+              id: 'Collections',
+              label: 'Collections',
+              children: useModelInspector().childrenNodes.filter(
+                (node) => node.type === 'collection'
+              )
+            }
+          ]
         }
-      }
-    })
+      })
 
-  })
+      api.on.getInspectorState((payload, _context) => {
+        if (payload.inspectorId === inspectorId) {
+          if (payload.nodeId) {
+            const node = useModelInspector().childrenStates.find((el) => el.id === payload.nodeId)
+            if (node === undefined) {
+              payload.state = {}
+              return
+            }
+
+            payload.state = stateMap(node.type, node.id)
+          }
+        }
+      })
+    }
+  )
 }
 
 /**
-* Refresh devtools inspector
-*
-* Tree + State
-*/
+ * Refresh devtools inspector
+ *
+ * Tree + State
+ */
 export const refreshInspector = async () => {
   if (!API) return
 
@@ -81,10 +83,9 @@ export const refreshInspector = async () => {
   }, 100)
 }
 
-
 /**
-* Add timeline event
-*/
+ * Add timeline event
+ */
 export const addTimelineEvent = ({ data, title = 'Event' }) => {
   if (!API) return
 

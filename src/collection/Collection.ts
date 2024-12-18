@@ -37,8 +37,7 @@ export default abstract class Collection extends ApiQuery {
    */
   protected channel?: string = ''
 
-  protected constructor()
-  {
+  protected constructor() {
     super()
     this.uuid = uuid()
     addModelInspector(this).then()
@@ -57,8 +56,7 @@ export default abstract class Collection extends ApiQuery {
    * @return { Promise<T[]> } The data from the API
    */
   async get<T>(filter?: any): Promise<T[]>
-  async get<T>(filter?: any): Promise<T[]>
-  {
+  async get<T>(filter?: any): Promise<T[]> {
     let queryString: any
     this.setStateLoading()
     try {
@@ -70,16 +68,16 @@ export default abstract class Collection extends ApiQuery {
       addTimelineEvent({
         title: 'Fetching',
         data: {
-          query: queryString,
+          query: queryString
         }
       })
 
       this.fetching(queryString)
-      const response = await this.api.get(queryString) as IApiResponse<T[]>
+      const response = (await this.api.get(queryString)) as IApiResponse<T[]>
       this.fetched(response)
       this.updateDataSource(response.data)
 
-      addTimelineEvent({ title: 'Fetched', data: { data: response.data }})
+      addTimelineEvent({ title: 'Fetched', data: { data: response.data } })
       this.setStateSuccess()
 
       return response.data
@@ -95,8 +93,7 @@ export default abstract class Collection extends ApiQuery {
    * Joins the broadcast channel
    * @param { string } channel Will join the default channel if null
    */
-  joinChannel(channel?: string): void
-  {
+  joinChannel(channel?: string): void {
     if (channel) {
       this.channel = channel
     }
@@ -116,20 +113,19 @@ export default abstract class Collection extends ApiQuery {
       })
     this.isBroadcasting = true
     refreshInspector().then()
-    addTimelineEvent({ title: 'Broadcasting', data: { channel: this.channel }})
+    addTimelineEvent({ title: 'Broadcasting', data: { channel: this.channel } })
   }
 
   /**
    * Leaves the broadcast channel
    */
-  leaveChannel(): void
-  {
+  leaveChannel(): void {
     if (this.isBroadcasting) {
       broadcast?.leave(this.channel)
       this.isBroadcasting = false
     }
     refreshInspector().then()
-    addTimelineEvent({ title: 'Leaving Broadcast Channel', data: { channel: this.channel }})
+    addTimelineEvent({ title: 'Leaving Broadcast Channel', data: { channel: this.channel } })
   }
 
   /**
@@ -138,8 +134,7 @@ export default abstract class Collection extends ApiQuery {
    * @template T
    * @param { T[]? } collection - Use the where method instead
    */
-  protected factory<T>(collection: T[]): void
-  {
+  protected factory<T>(collection: T[]): void {
     if (collection && collection.length) {
       this.data = reactive([...collection])
     }
@@ -150,17 +145,23 @@ export default abstract class Collection extends ApiQuery {
    * @param { any } payload Payload
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetching(payload?: any): void { return }
+  protected fetching(payload?: any): void {
+    return
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetchingError(err?: any): void { return }
+  protected fetchingError(err?: any): void {
+    return
+  }
 
   /**
    * Fetched runs after get method
    * @param { any } payload Payload
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetched(payload: any): void { return }
+  protected fetched(payload: any): void {
+    return
+  }
 
   /**
    * Broadcast created event
@@ -183,8 +184,7 @@ export default abstract class Collection extends ApiQuery {
   /**
    * API starts loading state
    */
-  protected setStateLoading(): void
-  {
+  protected setStateLoading(): void {
     this.state.isLoading = true
     this.state.isSuccess = true
     this.state.isError = false
@@ -195,8 +195,7 @@ export default abstract class Collection extends ApiQuery {
   /**
    * API returned success response
    */
-  protected setStateSuccess(): void
-  {
+  protected setStateSuccess(): void {
     this.state.isLoading = false
     this.state.isSuccess = true
     this.state.isError = false
@@ -207,8 +206,7 @@ export default abstract class Collection extends ApiQuery {
   /**
    * API return error response
    */
-  protected setStateError(): void
-  {
+  protected setStateError(): void {
     this.state.isLoading = false
     this.state.isSuccess = false
     this.state.isError = true
@@ -216,8 +214,7 @@ export default abstract class Collection extends ApiQuery {
     addTimelineEvent({ title: 'Loading error', data: this.state })
   }
 
-  protected updateDataSource<T>(data: T[]): void
-  {
+  protected updateDataSource<T>(data: T[]): void {
     this.data = reactive([...data])
     refreshInspector().then()
     addTimelineEvent({ title: 'Data Update', data: data })

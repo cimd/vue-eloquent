@@ -1,9 +1,9 @@
 import type Action from '../enums/Action'
 
 export interface Permissions {
-  create?: boolean,
-  read?: boolean,
-  update?: boolean,
+  create?: boolean
+  read?: boolean
+  update?: boolean
   delete?: boolean
 }
 

@@ -13,30 +13,28 @@ let apiPrefix = 'api'
  * @param { string } [config.apiPrefix='/api'] The API prefix
  */
 function createHttp(config: {
-  httpClient?: AxiosInstance,
-  baseURL?: string,
-  apiPrefix?: string, bearerToken?: string | null
-}): AxiosInstance
-{
-  if (!config.httpClient && !config.baseURL) throw new Error('You must provide either a httpClient or a baseURL')
+  httpClient?: AxiosInstance
+  baseURL?: string
+  apiPrefix?: string
+  bearerToken?: string | null
+}): AxiosInstance {
+  if (!config.httpClient && !config.baseURL)
+    throw new Error('You must provide either a httpClient or a baseURL')
 
   if (config.httpClient) {
     http = config.httpClient
   } else {
     http = axios.create({
       withCredentials: true,
-      baseURL: config.baseURL,
+      baseURL: config.baseURL
     })
   }
 
   if (config.apiPrefix) apiPrefix = config.apiPrefix
-  if (config.bearerToken) http.defaults.headers.common.Authorization = `Bearer ${config.bearerToken}`
+  if (config.bearerToken)
+    http.defaults.headers.common.Authorization = `Bearer ${config.bearerToken}`
 
   return http
 }
 
-export {
-  http,
-  createHttp,
-  apiPrefix
-}
+export { http, createHttp, apiPrefix }

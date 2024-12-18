@@ -3,8 +3,7 @@ export const mapRules = (rules: any[]): any => {
   // const mapping = {}
   rules.forEach((rule: any) => {
     switch (rule) {
-    case 'required':
-
+      case 'required':
     }
   })
 }

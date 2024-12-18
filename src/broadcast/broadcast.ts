@@ -6,7 +6,4 @@ function createBroadcast(client: any) {
   broadcast = client
 }
 
-export {
-  broadcast,
-  createBroadcast
-}
+export { broadcast, createBroadcast }

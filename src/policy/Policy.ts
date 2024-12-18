@@ -26,13 +26,11 @@ export default class Policy {
    */
   private _action = ref(Action.CREATE)
 
-  get action(): Action
-  {
+  get action(): Action {
     return this._action.value
   }
 
-  set action(mode: Action)
-  {
+  set action(mode: Action) {
     this._action.value = mode
   }
 
@@ -41,8 +39,7 @@ export default class Policy {
    *
    * @param { Permissions } args
    */
-  set(args: Permissions)
-  {
+  set(args: Permissions) {
     if (typeof args.create !== 'undefined') {
       this.permissions.create = args.create
     } else {
@@ -55,13 +52,13 @@ export default class Policy {
       this.permissions.read = false
     }
 
-    if (typeof args.update!== 'undefined') {
+    if (typeof args.update !== 'undefined') {
       this.permissions.update = args.update
     } else {
       this.permissions.update = false
     }
 
-    if (typeof args.delete!== 'undefined') {
+    if (typeof args.delete !== 'undefined') {
       this.permissions.delete = args.delete
     } else {
       this.permissions.delete = false
@@ -74,9 +71,8 @@ export default class Policy {
    * @param { Action } action
    * @returns { boolean }
    */
-  can(action: Action): boolean
-  {
-    return this.permissions[ action ]
+  can(action: Action): boolean {
+    return this.permissions[action]
   }
 
   /**
@@ -85,9 +81,8 @@ export default class Policy {
    * @param { Action } action
    * @returns { boolean }
    */
-  cannot(action: Action): boolean
-  {
-    return !this.permissions[ action ]
+  cannot(action: Action): boolean {
+    return !this.permissions[action]
   }
 
   /**
@@ -95,9 +90,8 @@ export default class Policy {
    * @deprecated Use isReading() instead
    * @returns { boolean }
    */
-  isReadOnly(): boolean
-  {
-    return this.permissions.update && (this._action.value === Action.READ)
+  isReadOnly(): boolean {
+    return this.permissions.update && this._action.value === Action.READ
   }
 
   /**
@@ -105,19 +99,16 @@ export default class Policy {
    * @deprecated Use updating() instead
    * @returns { boolean }
    */
-  edit(): boolean
-  {
+  edit(): boolean {
     return this.updating()
   }
-
 
   /**
    * Sets the model and Creating mode
    *
    * @returns { boolean }
    */
-  creating(): boolean
-  {
+  creating(): boolean {
     if (!this.permissions.create) return false
 
     this._action.value = Action.CREATE
@@ -129,8 +120,7 @@ export default class Policy {
    *
    * @returns { boolean }
    */
-  reading(): boolean
-  {
+  reading(): boolean {
     if (!this.permissions.read) return false
 
     this._action.value = Action.READ
@@ -142,8 +132,7 @@ export default class Policy {
    *
    * @returns { boolean }
    */
-  updating(): boolean
-  {
+  updating(): boolean {
     if (!this.permissions.update) return false
 
     this._action.value = Action.UPDATE
@@ -155,8 +144,7 @@ export default class Policy {
    *
    * @returns { boolean }
    */
-  deleting(): boolean
-  {
+  deleting(): boolean {
     if (!this.permissions.delete) return false
 
     this._action.value = Action.DELETE
@@ -168,8 +156,7 @@ export default class Policy {
    *
    * @returns { boolean }
    */
-  isReading(): boolean
-  {
+  isReading(): boolean {
     return this._action.value === Action.READ
   }
   /**
@@ -177,8 +164,7 @@ export default class Policy {
    *
    * @returns { boolean }
    */
-  isUpdating(): boolean
-  {
+  isUpdating(): boolean {
     return this._action.value === Action.UPDATE
   }
   /**
@@ -186,8 +172,7 @@ export default class Policy {
    *
    * @returns { boolean }
    */
-  isDeleting(): boolean
-  {
+  isDeleting(): boolean {
     return this._action.value === Action.DELETE
   }
   /**
@@ -195,8 +180,7 @@ export default class Policy {
    *
    * @returns { boolean }
    */
-  isCreating(): boolean
-  {
+  isCreating(): boolean {
     return this._action.value === Action.CREATE
   }
 }

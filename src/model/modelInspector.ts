@@ -6,11 +6,11 @@ export const eloquentModels: any[] = []
 export const childrenNodes: any[] = []
 export const childrenStates: any[] = []
 
-export const addModelInspector = async (model: Model<any>|Collection<any>) => {
+export const addModelInspector = async (model: Model<any> | Collection<any>) => {
   if (!model) throw new Error('Model is not defined')
 
   // console.log('Inspecting ', model.constructor.name)
-  const type = model instanceof Model? 'model' : 'collection'
+  const type = model instanceof Model ? 'model' : 'collection'
 
   eloquentModels.push(model)
   childrenNodes.push({
@@ -42,7 +42,7 @@ export const useModelInspector = () => {
 }
 
 export const stateMap = (type: string, nodeUuid: string) => {
-  if (type ==='model') {
+  if (type === 'model') {
     return modelStateMap(nodeUuid)
   }
   if (type === 'collection') {
@@ -51,53 +51,53 @@ export const stateMap = (type: string, nodeUuid: string) => {
 }
 
 function modelStateMap(nodeUuid: string) {
-  const model = childrenStates.find(element => element.id === nodeUuid)
+  const model = childrenStates.find((element) => element.id === nodeUuid)
 
   return {
-    'model': [
+    model: [
       { key: 'uuid', value: model.model.uuid },
       { key: 'model', value: model.model.model },
       { key: 'defaultModel', value: model.model.defaultModel },
-      { key: 'relations', value: model.model.relations },
+      { key: 'relations', value: model.model.relations }
     ],
-    'state': [
+    state: [
       { key: 'isLoading', value: model.model.state.isLoading },
       { key: 'isSuccess', value: model.model.state.isSuccess },
-      { key: 'isError', value: model.model.state.isError },
+      { key: 'isError', value: model.model.state.isError }
     ],
-    'validation': [
+    validation: [
       { key: '$model', value: model.model.$model },
       { key: '$invalid', value: model.model.$invalid },
-      { key: 'validations', value: model.model.validations },
+      { key: 'validations', value: model.model.validations }
     ]
   }
 }
 
 function collectionStateMap(nodeUuid: string) {
-  const collection = childrenStates.find(element => element.id === nodeUuid)
+  const collection = childrenStates.find((element) => element.id === nodeUuid)
 
   return {
-    'data': [
+    data: [
       { key: 'uuid', value: collection.model.uuid },
       { key: 'data', value: collection.model.data },
-      { key: 'api', value: collection.model.api },
+      { key: 'api', value: collection.model.api }
     ],
-    'state': [
+    state: [
       { key: 'isLoading', value: collection.model.state.isLoading },
       { key: 'isSuccess', value: collection.model.state.isSuccess },
-      { key: 'isError', value: collection.model.state.isError },
+      { key: 'isError', value: collection.model.state.isError }
     ],
-    'query': [
+    query: [
       { key: 'filter', value: collection.model.filter },
       { key: 'relationships', value: collection.model.include },
       { key: 'attributes', value: collection.model.attributes },
       { key: 'fields', value: collection.model.fieldsSelection },
       { key: 'paging', value: collection.model.paging },
-      { key: 'sorting', value: collection.model.sorting },
+      { key: 'sorting', value: collection.model.sorting }
     ],
-    'broadcast': [
+    broadcast: [
       { key: 'isBroadcasting', value: collection.model.isBroadcasting },
-      { key: 'channel', value: collection.model.channel },
-    ],
+      { key: 'channel', value: collection.model.channel }
+    ]
   }
 }

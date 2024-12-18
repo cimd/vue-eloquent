@@ -3,7 +3,6 @@ import { computed, reactive } from 'vue'
 import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
 
 export default abstract class Validator {
-
   public model: any
   /**
    * Holds the validation error states and messages
@@ -22,8 +21,7 @@ export default abstract class Validator {
    */
   protected validations: any = computed(() => ({}))
 
-  protected constructor()
-  {
+  protected constructor() {
     return
   }
 
@@ -31,8 +29,7 @@ export default abstract class Validator {
    * Creates the validator
    * Sets Vuelidate
    */
-  initValidations(): void
-  {
+  initValidations(): void {
     const model = this.model
     this.v$ = useVuelidate(this.validations, { model })
     this.set$Model(this.v$.value.model)
@@ -43,8 +40,7 @@ export default abstract class Validator {
   /**
    * Validates the model and sets error messages
    */
-  public $validate(): boolean
-  {
+  public $validate(): boolean {
     this.v$.value.$validate()
     this.$invalid = this.v$.value.$invalid
 
@@ -64,16 +60,14 @@ export default abstract class Validator {
   /**
    * Resets all error messages
    */
-  $reset(): void
-  {
+  $reset(): void {
     this.v$.value.$reset()
     Object.assign(this.$invalid, this.v$.value.$invalid)
     refreshInspector().then()
     addTimelineEvent({ title: 'Validation Reset', data: this.v$.value.model })
   }
 
-  protected set$Model(model: any): void
-  {
+  protected set$Model(model: any): void {
     Object.assign(this.$model, model)
     refreshInspector().then()
   }

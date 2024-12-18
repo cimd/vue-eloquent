@@ -41,7 +41,7 @@ export default defineComponent({
         .where({ author_id: 1 })
         .with(['author', 'comments'])
         .sort(['title'])
-      // .page({ number: 1, limit: 15 })
+        // .page({ number: 1, limit: 15 })
         .get()
       console.log(posts)
     },
@@ -106,9 +106,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <header>
-  </header>
+  <header></header>
 
-  <main>
-  </main>
+  <main></main>
 </template>
