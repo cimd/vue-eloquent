@@ -68,10 +68,10 @@
   ],
   "main": "./dist/vue-eloquent.umd.cjs",
   "module": "./dist/vue-eloquent.js",
-  "types": "./dist/src/index.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/src/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/vue-eloquent.js",
       "require": "./dist/vue-eloquent.umd.cjs"
     }

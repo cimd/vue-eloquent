@@ -10,7 +10,7 @@ export default defineConfig({
     vue(),
     dts({
       insertTypesEntry: true,
-      // rollupTypes: true,
+      rollupTypes: false,
       tsconfigPath: "./tsconfig.json",
       exclude: ["test/**"]
     })
