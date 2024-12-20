@@ -1,7 +1,7 @@
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import type { App } from 'vue'
 import { nextTick } from 'vue'
-import { stateMap, useModelInspector } from '../model/modelInspector'
+import { stateMap, useModelInspector } from '@/model/modelInspector'
 
 const inspectorId = 'vue-eloquent'
 const timelineLayerId = 'vue-eloquent'
@@ -32,7 +32,7 @@ export function setupDevtools(app: App) {
         label: 'Vue Eloquent'
       })
 
-      api.on.getInspectorTree((payload, _context) => {
+      api.on.getInspectorTree((payload: any, _context: any) => {
         if (payload.inspectorId === inspectorId) {
           payload.rootNodes = [
             {
@@ -51,7 +51,7 @@ export function setupDevtools(app: App) {
         }
       })
 
-      api.on.getInspectorState((payload, _context) => {
+      api.on.getInspectorState((payload: any, _context: any) => {
         if (payload.inspectorId === inspectorId) {
           if (payload.nodeId) {
             const node = useModelInspector().childrenStates.find((el) => el.id === payload.nodeId)

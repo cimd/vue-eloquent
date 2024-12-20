@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import Acl from '../../../examples/Acl'
-import { Action } from '../../../src/index.js'
+import Action from '@/enums/Action.js'
 
 const permission = {
   create: true,
@@ -13,21 +13,21 @@ describe('permissions', () => {
   it('creates instance', async () => {
     const acl = new Acl(permission)
 
-    expect(acl.can('create')).toBeTruthy()
-    expect(acl.can('update')).toBeTruthy()
-    expect(acl.can('read')).toBeTruthy()
-    expect(acl.can('delete')).toBeTruthy()
-    expect(acl.can('view')).toBe(undefined)
+    expect(acl.can(Action.CREATE)).toBeTruthy()
+    expect(acl.can(Action.UPDATE)).toBeTruthy()
+    expect(acl.can(Action.READ)).toBeTruthy()
+    expect(acl.can(Action.DELETE)).toBeTruthy()
+    expect(acl.can(Action.VIEW)).toBe(undefined)
   })
   it('no permissions', async () => {
     console.log('NO PERMISSIONS')
     const acl = new Acl({ update: true })
     acl.updating()
 
-    expect(acl.can('create')).toBeFalsy()
-    expect(acl.can('update')).toBeTruthy()
-    expect(acl.can('read')).toBeFalsy()
-    expect(acl.can('delete')).toBeFalsy()
+    expect(acl.can(Action.CREATE)).toBeFalsy()
+    expect(acl.can(Action.UPDATE)).toBeTruthy()
+    expect(acl.can(Action.READ)).toBeFalsy()
+    expect(acl.can(Action.DELETE)).toBeFalsy()
   })
   it('creating', async () => {
     const acl = new Acl(permission)

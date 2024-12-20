@@ -6,6 +6,7 @@ import type { IPost } from './PostInterface'
 import UserApi from './UserApi'
 import type { IUser } from './UserInterface'
 import CommentApi from './CommentApi'
+import type { IComment } from './CommentInterface'
 
 export default class Post extends Model<IPost> {
   model = reactive<IPost>({
@@ -17,7 +18,7 @@ export default class Post extends Model<IPost> {
     title: undefined,
     text: undefined,
     author: undefined as IUser,
-    comments: undefined as IComment[]
+    comments: [] as IComment[]
   })
   api = PostApi
   protected parameters = {

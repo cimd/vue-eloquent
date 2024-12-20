@@ -29,7 +29,7 @@ export default abstract class Collection extends ApiQuery {
   /**
    * API class related to the model
    */
-  protected api: Api
+  declare api: Api
   protected isBroadcasting = false
 
   /**

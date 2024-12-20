@@ -1,18 +1,18 @@
-import { formatObject } from '../helpers/formatObject'
-import { apiPrefix, http } from '../http/http'
+import { formatObject } from '@/helpers/formatObject'
+import { apiPrefix, http } from '@/http/http'
 import _join from 'lodash/join'
 import ApiError from '../api/ApiError'
 import type { IAxiosError } from './IAxiosError'
 import type { IApiResponse } from './IApiResponse'
 import ApiQuery from '../api/ApiQuery'
-import type { IModelParams } from '../model/IModelParams'
+import type { IModelParams } from '@/model/IModelParams'
 
 export default abstract class Api extends ApiQuery {
   /**
    * Resource name. Will be appended to the apiPrefix endpoint
    * @param { string } resource
    */
-  protected resource = ''
+  declare resource: string
 
   /**
    * Base API endpoint
@@ -26,15 +26,6 @@ export default abstract class Api extends ApiQuery {
    * @param { string[] } dates
    */
   protected dates: string[] = ['created_at', 'updated_at', 'deleted_at']
-
-  /**
-   * Relates to Laravel Precognition
-   *
-   * If set to true it will append a header of Precognition = true
-   * to the store and update requests
-   * @param { boolean } validateRequests
-   */
-  protected validateRequests = false
 
   protected constructor() {
     super()

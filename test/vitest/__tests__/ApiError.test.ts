@@ -16,6 +16,8 @@ describe('api error', () => {
   it('show method', async () => {
     let error: ApiError | undefined
     try {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       await ErrorApi.show()
     } catch (err: any) {
       error = err

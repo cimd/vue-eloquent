@@ -1,8 +1,8 @@
 export default class EloquentError extends Error {
-  message: string
+  declare message: string
   name = ''
   error: Error
-  stack: any
+  declare stack: any
   constructor(message: string, err: Error) {
     super(message)
     this.message = message + ' ||| ' + err.message

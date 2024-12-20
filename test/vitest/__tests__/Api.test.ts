@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import PostApi from '../../../examples/PostApi'
 import type { IPost } from '../../../examples/PostInterface'
+import { IComment } from '../../../examples/CommentInterface.js'
+import { ApiResponse } from '@/api/IApiResponse.js'
 
 describe('model api', () => {
   it('get method', async () => {
@@ -10,6 +12,8 @@ describe('model api', () => {
   })
 
   it('get method-error', async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     const result = PostApi.get<IPost>(123)
     expect(result).rejects.toThrowError('Get |||')
   })
@@ -112,7 +116,7 @@ describe('model api', () => {
   })
 
   it('hasOne Delete', async () => {
-    const comments = await PostApi.hasOne('comments', 1).delete({ id: 1 })
+    const comments: ApiResponse<IComment[]> = await PostApi.hasOne('comments', 1).delete({ id: 1 })
 
     expect(comments.data).toHaveProperty('id', 1)
   })
@@ -142,7 +146,7 @@ describe('model api', () => {
   })
 
   it('hasMany Delete', async () => {
-    const comments = await PostApi.hasMany('comments', 1).delete({ id: 1 })
+    const comments: ApiResponse<IComment[]> = await PostApi.hasMany('comments', 1).delete({ id: 1 })
 
     expect(comments.data).toHaveProperty('id', 1)
   })

@@ -26,7 +26,7 @@ function createHttp(config: {
   } else {
     http = axios.create({
       withCredentials: true,
-      baseURL: config.baseURL
+      baseURL: config.baseURL as string
     })
   }
 

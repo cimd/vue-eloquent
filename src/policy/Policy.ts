@@ -91,7 +91,7 @@ export default class Policy {
    * @returns { boolean }
    */
   isReadOnly(): boolean {
-    return this.permissions.update && this._action.value === Action.READ
+    return this.permissions.update && (this._action.value === Action.READ)
   }
 
   /**

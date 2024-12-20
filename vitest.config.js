@@ -1,12 +1,8 @@
 import { fileURLToPath } from 'node:url'
-import { mergeConfig } from 'vite'
-import { configDefaults, defineConfig } from 'vitest/config'
-import viteConfig from './vite.config'
+import { defineConfig, configDefaults } from 'vitest/config'
 
-// https://vitejs.dev/config/
-export default mergeConfig(
-  viteConfig,
-  defineConfig({
+/// <reference types="vitest/config" />
+export default defineConfig({
     test: {
       environment: 'jsdom',
       globals: true,
@@ -22,4 +18,3 @@ export default mergeConfig(
       },
     }
   })
-)

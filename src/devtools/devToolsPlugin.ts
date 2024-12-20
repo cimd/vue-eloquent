@@ -1,4 +1,4 @@
-import { setupDevtools } from './devtools'
+import { setupDevtools } from '@/devtools/devtools'
 import type { App } from 'vue'
 
 export default {

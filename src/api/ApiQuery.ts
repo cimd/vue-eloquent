@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
-import type { Query } from '../collection/IQuery'
-import type { IQueryPage, QueryPage } from '../collection/IQueryPage'
-import { refreshInspector } from '../devtools/devtools'
+import type { Query } from '@/collection/IQuery'
+import type { IQueryPage, QueryPage } from '@/collection/IQueryPage'
+import { refreshInspector } from '@/devtools/devtools'
 
 export default abstract class ApiQuery {
   /**

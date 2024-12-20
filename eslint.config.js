@@ -75,7 +75,10 @@ export default [
       'vue/block-lang': 'off',
       'no-constant-binary-expression': 'warn',
       'no-async-promise-executor': 'warn',
-
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { prefer: 'type-imports' }
+      ],
 
       'prefer-promise-reject-errors': 'off',
       '@typescript-eslint/no-explicit-any': 'off',

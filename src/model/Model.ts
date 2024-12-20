@@ -44,7 +44,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   /**
    * To check if model is dirty / has been modified
    */
-  protected originalModel = {}
+  protected originalModel = {} as T
   /**
    * Default values for model paramters
    */
@@ -52,12 +52,12 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   /**
    * API class related to the model
    */
-  protected api: Api
+  declare api: Api
   protected protected: string[] = ['id', 'created_at', 'updated_at', 'deleted_at']
   /**
    * To return the model to fresh/initial state
    */
-  private defaultModel = {}
+  private defaultModel = {} as T
 
   /**
    * @constructor
@@ -236,7 +236,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   async logs(): Promise<ApiResponse<any[]>> {
     this.setStateLoading()
     try {
-      const response: any = await this.api.logs(this.model.id)
+      const response: any = await this.api.logs(this.model.id as number)
       this.setStateSuccess()
       return response.data
     } catch (e) {
@@ -266,7 +266,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     try {
       this.setStateLoading()
       this.retrieving()
-      const modelId = id ? id : this.model.id
+      const modelId: number = id ? id : (this.model.id as number)
       const response: IApiResponse<T> = await this.api.show<T>(modelId)
       this.setOriginal()
       this.setStateSuccess()
@@ -374,32 +374,6 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     })
   }
 
-  /**
-   * Validates model from Laravel's Precognition API
-   *
-   * @return { boolean }
-   */
-  async validate(action?: Action): Promise<boolean> {
-    try {
-      if (!this.model.id || action === Action.CREATE) {
-        await this.api.validateStore(this.model)
-      } else {
-        await this.api.validateUpdate(this.model)
-      }
-      this.errors = []
-      this.isValid = true
-      this.isInvalid = false
-
-      return true
-    } catch (e: any) {
-      this.errors = e.data.errors
-      this.isValid = false
-      this.isInvalid = true
-      // console.log(this.errors)
-      return false
-    }
-  }
-
   protected getDefault(param: string): any {
     return this.parameters[param]
   }
@@ -413,7 +387,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   protected factory(model?: T): void {
     this.defaultModel = Object.assign({}, this.model)
     if (model) this.setModel(model)
-    _forEach(this.parameters, (value, key) => {
+    _forEach(this.parameters, (value: any, key: any) => {
       if (this.model[key] === undefined) {
         this.model[key] = value
       }
