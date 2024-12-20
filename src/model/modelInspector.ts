@@ -1,6 +1,6 @@
-import Model from './Model'
-import { refreshInspector } from '../devtools/devtools'
-import type Collection from '../collection/Collection'
+import Model from '@/model/Model'
+import { refreshInspector } from '@/devtools/devtools'
+import type Collection from '@/collection/Collection'
 
 export const eloquentModels: any[] = []
 export const childrenNodes: any[] = []

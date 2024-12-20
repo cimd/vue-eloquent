@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import PostApi from '../../../examples/PostApi'
 import type { IPost } from '../../../examples/PostInterface'
-import { IComment } from '../../../examples/CommentInterface.js'
-import { ApiResponse } from '@/api/IApiResponse.js'
+import type { IComment } from '../../../examples/CommentInterface.js'
+import type { ApiResponse } from '@/api/IApiResponse.js'
 
 describe('model api', () => {
   it('get method', async () => {

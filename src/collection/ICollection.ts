@@ -1,8 +1,8 @@
-import type { IModelState } from '../model/IModelState'
-import type { IQueryPage, QueryPage } from '../collection/IQueryPage'
-import type { IQuery, Query } from '../collection/IQuery'
-import type { IApi } from '../api/IApi'
-import type Api from '../api/Api'
+import type { IModelState } from '@/model/IModelState'
+import type { IQueryPage, QueryPage } from '@/collection/IQueryPage'
+import type { IQuery, Query } from '@/collection/IQuery'
+import type { IApi } from '@/api/IApi'
+import type Api from '@/api/Api'
 
 export interface ICollection<T> {
   data: T[]

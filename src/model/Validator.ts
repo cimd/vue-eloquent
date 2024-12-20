@@ -1,6 +1,6 @@
 import useVuelidate from '@vuelidate/core'
 import { computed, reactive } from 'vue'
-import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
+import { addTimelineEvent, refreshInspector } from '@/devtools/devtools'
 
 export default abstract class Validator {
   public model: any

@@ -1,13 +1,13 @@
 import { onBeforeUnmount, reactive } from 'vue'
-import { broadcast } from '../broadcast/broadcast'
-import type { ModelState } from '../model/IModelState'
-import CollectionError from '../collection/CollectionError'
-import ApiQuery from '../api/ApiQuery'
-import { addModelInspector } from '../model/modelInspector'
+import { broadcast } from '@/broadcast/broadcast'
+import type { ModelState } from '@/model/IModelState'
+import CollectionError from '@/collection/CollectionError'
+import ApiQuery from '@/api/ApiQuery'
+import { addModelInspector } from '@/model/modelInspector'
 import { v4 as uuid } from 'uuid'
-import { addTimelineEvent, refreshInspector } from '../devtools/devtools'
-import type { IApiResponse } from '../api/IApiResponse'
-import type { Api } from '../api/IApi'
+import { addTimelineEvent, refreshInspector } from '@/devtools/devtools'
+import type { IApiResponse } from '@/api/IApiResponse'
+import type { Api } from '@/api/IApi'
 
 export default abstract class Collection extends ApiQuery {
   /**

@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import Post from '../../../examples/Post'
 
-const postExample = { id: 1, title: 'test', text:'text', author_id: 1, author: { id: 1, name: 'John Doe' }, readers: [{ id: 1, name: 'Jane Doe' }] }
+const postExample = {
+  id: 1,
+  title: 'test',
+  text: 'text',
+  author_id: 1,
+  author: { id: 1, name: 'John Doe' },
+  readers: [{ id: 1, name: 'Jane Doe' }]
+}
 
 describe('model', () => {
   it('find method', async () => {

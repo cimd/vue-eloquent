@@ -1,10 +1,10 @@
 import { formatObject } from '@/helpers/formatObject'
 import { apiPrefix, http } from '@/http/http'
 import _join from 'lodash/join'
-import ApiError from '../api/ApiError'
-import type { IAxiosError } from './IAxiosError'
-import type { IApiResponse } from './IApiResponse'
-import ApiQuery from '../api/ApiQuery'
+import ApiError from '@/api/ApiError'
+import type { IAxiosError } from '@/api/IAxiosError'
+import type { IApiResponse } from '@/api/IApiResponse'
+import ApiQuery from '@/api/ApiQuery'
 import type { IModelParams } from '@/model/IModelParams'
 
 export default abstract class Api extends ApiQuery {
@@ -12,7 +12,7 @@ export default abstract class Api extends ApiQuery {
    * Resource name. Will be appended to the apiPrefix endpoint
    * @param { string } resource
    */
-  declare resource: string
+  declare protected resource: string
 
   /**
    * Base API endpoint

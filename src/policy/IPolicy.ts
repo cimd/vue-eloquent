@@ -1,4 +1,4 @@
-import type Action from '../enums/Action'
+import type Action from '@/enums/Action'
 
 export interface Permissions {
   create?: boolean

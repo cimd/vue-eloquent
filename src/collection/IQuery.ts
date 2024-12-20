@@ -1,4 +1,4 @@
-import type { IQueryPage } from '../collection/IQueryPage'
+import type { IQueryPage } from '@/collection/IQueryPage'
 
 export interface IQuery {
   fields?: string

@@ -1,4 +1,4 @@
-import type { ApiResponse, IApiResponse } from '../api/IApiResponse'
+import type { ApiResponse, IApiResponse } from '@/api/IApiResponse'
 
 export interface IApi {
   resource: string
@@ -38,7 +38,7 @@ export interface IApi {
 }
 
 export declare class Api {
-  resource: string
+  protected resource: string
   apiPrefix: string
   dates: string[]
 

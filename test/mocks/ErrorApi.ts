@@ -1,4 +1,4 @@
-import { Api } from '../../src/index'
+import { Api } from '@/index'
 
 export default class ErrorApi extends Api {
   protected resource = 'errors'

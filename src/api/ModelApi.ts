@@ -1,8 +1,8 @@
-import Api from './Api'
+import Api from '@/api/Api'
 
 // TODO: Testing generic api
 export default class ModelApi extends Api {
-  resource = 'eloquent-api/models'
+  override resource = 'eloquent-api/models'
 
   constructor() {
     super()

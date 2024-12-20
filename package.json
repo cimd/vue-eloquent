@@ -60,21 +60,17 @@
     "vue": "^3.5.13",
     "vue-tsc": "^2.1.10"
   },
-  "resolutions": {
-    "strip-ansi": "6.0.1",
-    "string-width": "4.2.2",
-    "wrap-ansi": "7.0.0"
-  },
   "description": "An interface for Vue and Laravel Eloquent through API",
-  "main": "./src/index.ts",
   "type": "module",
-  "module": "./src/index.ts",
+  "files": ["dist"],
+  "main": "./dist/vue-eloquent.umd.cjs",
+  "module": "./dist/vue-eloquent.js",
   "types": "./src/index.d.ts",
   "exports": {
     ".": {
       "types": "./src/index.d.ts",
-      "import": "./src/index.ts",
-      "require": "./src/index.ts"
+      "import": "./dist/vue-eloquent.js",
+      "require": "./dist/vue-eloquent.umd.cjs"
     }
   },
   "repository": {

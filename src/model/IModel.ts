@@ -1,8 +1,8 @@
-import type { IModelState, ModelState } from 'src/model/IModelState'
-import type Action from 'src/enums/Action'
-import type Actioned from 'src/enums/Actioned'
-import type { Api, IApi } from 'src/api/IApi'
-import Validator from './Validator'
+import type { IModelState, ModelState } from '@/model/IModelState'
+import type Action from '@/enums/Action'
+import type Actioned from '@/enums/Actioned'
+import type { Api, IApi } from '@/api/IApi'
+import Validator from '@/model/Validator'
 
 export interface IModel {
   model: any

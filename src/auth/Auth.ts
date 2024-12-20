@@ -1,4 +1,4 @@
-import { apiPrefix, http } from '../http/http.js'
+import { apiPrefix, http } from '@/http/http'
 
 export default class Auth {
   protected urls = {

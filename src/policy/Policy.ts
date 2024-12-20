@@ -1,6 +1,6 @@
 import { reactive, ref } from 'vue'
-import Action from '../enums/Action'
-import type { Permissions } from './IPolicy'
+import Action from '@/enums/Action'
+import type { Permissions } from '@/policy/IPolicy'
 
 export default class Policy {
   /**
@@ -91,7 +91,7 @@ export default class Policy {
    * @returns { boolean }
    */
   isReadOnly(): boolean {
-    return this.permissions.update && (this._action.value === Action.READ)
+    return this.permissions.update && this._action.value === Action.READ
   }
 
   /**

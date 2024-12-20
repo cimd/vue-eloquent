@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import PostError from '../../../examples/PostError'
 
-const postExample = { id: 1, title: 'test', text:'text', author_id: 1, author: { id: 1, name: 'John Doe' }, readers: [{ id: 1, name: 'Jane Doe' }] }
+const postExample = {
+  id: 1,
+  title: 'test',
+  text: 'text',
+  author_id: 1,
+  author: { id: 1, name: 'John Doe' },
+  readers: [{ id: 1, name: 'Jane Doe' }]
+}
 
 describe('model errors', () => {
   it('error state', async () => {
@@ -18,7 +25,7 @@ describe('model errors', () => {
   it('refresh error', async () => {
     const post = new PostError(postExample)
     try {
-      await post.refresh(2 )
+      await post.refresh(2)
     } catch (e) {
       console.log(e)
     }
