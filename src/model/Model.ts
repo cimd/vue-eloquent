@@ -314,7 +314,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * @param { string } primaryKey of the relationship
    * @return { Promise<any> } Model
    */
-  async hasOne(api: Api, primaryKey: number): any {
+  async hasOne(api: Api, primaryKey: number): Promise<any> {
     const childResource = api.getResource()
     return await this.api.hasOne(childResource, primaryKey).get()
   }
