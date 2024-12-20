@@ -6,8 +6,8 @@ import ApiQuery from '@/api/ApiQuery'
 import { addModelInspector } from '@/model/modelInspector'
 import { v4 as uuid } from 'uuid'
 import { addTimelineEvent, refreshInspector } from '@/devtools/devtools'
-import type { IApiResponse } from '@/api/IApiResponse'
-import type { Api } from '@/api/IApi'
+import type { ApiResponse } from '@/api/IApiResponse'
+import type Api from '@/api/Api'
 
 export default abstract class Collection extends ApiQuery {
   /**
@@ -73,7 +73,7 @@ export default abstract class Collection extends ApiQuery {
       })
 
       this.fetching(queryString)
-      const response = (await this.api.get(queryString)) as IApiResponse<T[]>
+      const response = (await this.api.get(queryString)) as ApiResponse<T[]>
       this.fetched(response)
       this.updateDataSource(response.data)
 

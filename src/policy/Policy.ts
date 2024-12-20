@@ -1,6 +1,6 @@
 import { reactive, ref } from 'vue'
 import Action from '@/enums/Action'
-import type { Permissions } from '@/policy/IPolicy'
+import type { Permissions } from '@/policy/IPermissions'
 
 export default class Policy {
   /**

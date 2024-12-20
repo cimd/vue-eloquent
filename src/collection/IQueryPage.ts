@@ -1,4 +1,4 @@
-export interface IQueryPage {
+export interface QueryPage {
   /*
    * The page number that the client is requesting
    */

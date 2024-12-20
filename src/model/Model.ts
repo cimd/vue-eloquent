@@ -8,9 +8,9 @@ import ModelError from '../model/ModelError'
 import { addModelInspector } from './modelInspector'
 import { addTimelineEvent, refreshInspector } from '@/devtools/devtools'
 import { v4 as uuid } from 'uuid'
-import type { ApiResponse, IApiResponse } from '@/api/IApiResponse'
+import type { ApiResponse } from '@/api/IApiResponse'
 import { mapRules } from '@/model/MapRules'
-import type { Api } from '@/api/IApi'
+import type Api from '@/api/Api'
 import type { ModelParams } from '@/model/IModelParams'
 
 export default abstract class Model<T extends ModelParams> extends Validator {
@@ -42,6 +42,10 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   isValid = true
   isInvalid = false
   /**
+   * API class related to the model
+   */
+  declare api: Api
+  /**
    * To check if model is dirty / has been modified
    */
   protected originalModel = {} as T
@@ -49,10 +53,6 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * Default values for model paramters
    */
   protected parameters: undefined | Partial<T>
-  /**
-   * API class related to the model
-   */
-  declare api: Api
   protected protected: string[] = ['id', 'created_at', 'updated_at', 'deleted_at']
   /**
    * To return the model to fresh/initial state
@@ -84,7 +84,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     return self
   }
 
-  protected static instance<U>(): Model<U> {
+  protected static instance<U extends ModelParams>(): Model<U> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     return new this()
@@ -189,7 +189,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     try {
       this.setStateLoading()
       this.updating()
-      const response: IApiResponse<T> = await this.api.update<T>(this.model)
+      const response: ApiResponse<T> = await this.api.update<T>(this.model)
       this.setOriginal()
       this.setModel(response.data)
       addTimelineEvent({ title: 'Updated', data: { model: response.data } })
@@ -215,7 +215,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     try {
       this.deleting()
       this.setStateLoading()
-      const response: IApiResponse<T> = await this.api.destroy<T>(this.model)
+      const response: ApiResponse<T> = await this.api.destroy<T>(this.model)
       this.setOriginal()
       this.setModel(response.data)
       addTimelineEvent({ title: 'Deleted', data: { model: response.data } })
@@ -267,7 +267,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
       this.setStateLoading()
       this.retrieving()
       const modelId: number = id ? id : (this.model.id as number)
-      const response: IApiResponse<T> = await this.api.show<T>(modelId)
+      const response: ApiResponse<T> = await this.api.show<T>(modelId)
       this.setOriginal()
       this.setStateSuccess()
       this.factory(response.data)

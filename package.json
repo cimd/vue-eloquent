@@ -1,6 +1,6 @@
 {
   "name": "@konnec/vue-eloquent",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
@@ -55,7 +55,7 @@
     "pusher-js": "^8.3.0",
     "pusher-js-mock": "^0.3.8",
     "typescript": "^5.7.2",
-    "vite": "^6.0.4",
+    "vite": "^6.0.5",
     "vite-plugin-dts": "^4.4.0",
     "vitest": "^2.1.8",
     "vue": "^3.5.13",

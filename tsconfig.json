@@ -3,9 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -14,6 +14,8 @@
     "noImplicitOverride": true,
     "exactOptionalPropertyTypes": true,
     "noUncheckedIndexedAccess": true,
+    "declaration": true,
+    "declarationDir": "./types",
     "paths": {
       "@/*": [
         "./src/*",
@@ -43,6 +45,7 @@
     "node_modules",
     ".vscode",
     "public",
-    "*.js"
+    "*.js",
+    "dist"
   ]
 }
