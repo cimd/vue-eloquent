@@ -1,4 +1,4 @@
-import type { IApi } from '@/api/IApi'
+import type { IApi, Api } from '@/api/IApi'
 import type { AxiosError, IAxiosError } from '@/api/IAxiosError'
 import type { Collection, ICollection } from '@/collection/ICollection'
 import type { IQuery, Query } from '@/collection/IQuery'
@@ -9,7 +9,6 @@ import type { IModelParams, ModelParams } from '@/model/IModelParams'
 import type { ApiResponse, IApiResponse } from '@/api/IApiResponse'
 import type { Permissions, Policy } from '@/policy/IPolicy'
 
-import Api from '@/api/Api'
 import { createHttp } from '@/http/http'
 import { createBroadcast } from '@/broadcast/broadcast'
 import Action from '@/enums/Action'
