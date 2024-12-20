@@ -7,5 +7,4 @@ describe('ModeApi', () => {
 
     expect(result.data.length).toBe(2)
   })
-
 })

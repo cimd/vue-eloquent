@@ -2,10 +2,11 @@ import { required } from '@vuelidate/validators'
 import { computed, reactive } from 'vue'
 import { Model } from '../src/index'
 import PostApi from './PostApi'
-import { IPost } from './PostInterface'
+import type { IPost } from './PostInterface'
 import UserApi from './UserApi'
-import { IUser } from './UserInterface'
+import type { IUser } from './UserInterface'
 import CommentApi from './CommentApi'
+import type { IComment } from './CommentInterface'
 
 export default class Post extends Model<IPost> {
   model = reactive<IPost>({
@@ -17,18 +18,18 @@ export default class Post extends Model<IPost> {
     title: undefined,
     text: undefined,
     author: undefined as IUser,
-    comments: undefined as IComment[]
+    comments: [] as IComment[]
   })
   api = PostApi
   protected parameters = {
-    title: 'New Post',
+    title: 'New Post'
   }
   protected validations = computed(() => ({
     model: {
       title: {
         required
       },
-      description: { required },
+      description: { required }
     }
   }))
 
@@ -38,18 +39,15 @@ export default class Post extends Model<IPost> {
     super.initValidations()
   }
 
-  async author()
-  {
+  async author() {
     return await this.hasOne(UserApi, this.model.author_id)
   }
 
-  comments()
-  {
+  comments() {
     return this.hasMany(CommentApi, this.model.id)
   }
 
-  protected updating()
-  {
+  protected updating() {
     // strip html tags from this.model.text
   }
 }

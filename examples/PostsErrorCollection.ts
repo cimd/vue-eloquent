@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import { Collection } from '../src/index'
-import { IPost } from './PostInterface'
+import type { IPost } from './PostInterface'
 import PostErrorApi from './PostErrorApi'
 
 export default class PostsCollection extends Collection {
@@ -9,7 +9,7 @@ export default class PostsCollection extends Collection {
   // protected listener = new PostsListener('PostsEvent')
   protected channel = 'posts'
 
-  constructor(posts?: IPost[]){
+  constructor(posts?: IPost[]) {
     super()
     if (posts) super.factory(posts)
   }

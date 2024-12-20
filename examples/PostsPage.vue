@@ -1,22 +1,21 @@
 <template>
   <q-page>
+    <span class="text-white text-h6">Posts Page</span>
 
-    <span class='text-white text-h6'>Posts Page</span>
-
-    <div class='row'>
+    <div class="row">
       <!--  Display your posts here -->
     </div>
 
-    <q-dialog v-model='open'>
+    <q-dialog v-model="open">
       <post-form
-        :action='action'
-        :post-id='postId'
-        @close='open = false'
-        @created='onCreated'
-        @deleted='onDeleted'
-        @updated='onUpdated' />
+        :action="action"
+        :post-id="postId"
+        @close="open = false"
+        @created="onCreated"
+        @deleted="onDeleted"
+        @updated="onUpdated"
+      />
     </q-dialog>
-
   </q-page>
 </template>
 
@@ -34,7 +33,7 @@ export default defineComponent({
     return {
       posts: new PostsCollection(),
       open: false,
-      action: Action.CREATE as Action,
+      action: Action.CREATE as Action
     }
   },
   created() {
@@ -49,7 +48,7 @@ export default defineComponent({
     },
     onDeleted(_args) {
       // do something
-    },
-  },
+    }
+  }
 })
 </script>

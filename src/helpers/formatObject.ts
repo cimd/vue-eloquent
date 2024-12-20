@@ -1,4 +1,4 @@
-import { formatDates } from './formatDates'
+import { formatDates } from '@/helpers/formatDates'
 
 export const formatObject = (response: any[], datesArray: any[]) => {
   if (typeof response !== 'undefined') {

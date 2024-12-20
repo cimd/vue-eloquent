@@ -34,7 +34,7 @@ export const PostCommentHandlers = [
   http.get('http://localhost:8000/api/posts/1/comments/1', () => {
     return HttpResponse.json(
       {
-        data: comments[ 0 ]
+        data: comments[0]
       },
       { status: 200 }
     )
@@ -42,7 +42,7 @@ export const PostCommentHandlers = [
   http.patch('http://localhost:8000/api/posts/1/comments/1', () => {
     return HttpResponse.json(
       {
-        data: comments[ 0 ]
+        data: comments[0]
       },
       { status: 200 }
     )
@@ -50,7 +50,7 @@ export const PostCommentHandlers = [
   http.post('http://localhost:8000/api/posts/1/comments', () => {
     return HttpResponse.json(
       {
-        data: comments[ 0 ]
+        data: comments[0]
       },
       { status: 200 }
     )
@@ -58,7 +58,7 @@ export const PostCommentHandlers = [
   http.delete('http://localhost:8000/api/posts/1/comments/1', () => {
     return HttpResponse.json(
       {
-        data: { ...comments[ 0 ], deleted_at: '2022-06-17T01:43:59.000000Z' }
+        data: { ...comments[0], deleted_at: '2022-06-17T01:43:59.000000Z' }
       },
       { status: 200 }
     )

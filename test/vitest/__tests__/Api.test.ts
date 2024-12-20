@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import PostApi from '../../../examples/PostApi'
-import { IPost } from '../../../examples/PostInterface'
+import type { IPost } from '../../../examples/PostInterface'
+import type { IComment } from '../../../examples/CommentInterface.js'
+import type { ApiResponse } from '@/api/IApiResponse.js'
 
 describe('model api', () => {
   it('get method', async () => {
@@ -10,6 +12,8 @@ describe('model api', () => {
   })
 
   it('get method-error', async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     const result = PostApi.get<IPost>(123)
     expect(result).rejects.toThrowError('Get |||')
   })
@@ -61,10 +65,7 @@ describe('model api', () => {
   })
 
   it('batchStore method', async () => {
-    const posts = [
-      { text: 'test1' },
-      { text: 'test2' },
-    ]
+    const posts = [{ text: 'test1' }, { text: 'test2' }]
     const result = await PostApi.batchStore(posts)
 
     expect(result.data.length).toEqual(2)
@@ -73,7 +74,7 @@ describe('model api', () => {
   it('batchUpdate method', async () => {
     const posts = [
       { id: 1, text: 'test1' },
-      { id: 2, text: 'test2' },
+      { id: 2, text: 'test2' }
     ]
     const result = await PostApi.batchUpdate(posts)
 
@@ -83,7 +84,7 @@ describe('model api', () => {
   it('batchDestroy method', async () => {
     const posts = [
       { id: 1, text: 'test1' },
-      { id: 2, text: 'test2' },
+      { id: 2, text: 'test2' }
     ]
     const result = await PostApi.batchDestroy(posts)
 
@@ -115,7 +116,7 @@ describe('model api', () => {
   })
 
   it('hasOne Delete', async () => {
-    const comments = await PostApi.hasOne('comments', 1).delete({ id: 1 })
+    const comments: ApiResponse<IComment[]> = await PostApi.hasOne('comments', 1).delete({ id: 1 })
 
     expect(comments.data).toHaveProperty('id', 1)
   })
@@ -145,7 +146,7 @@ describe('model api', () => {
   })
 
   it('hasMany Delete', async () => {
-    const comments = await PostApi.hasMany('comments', 1).delete({ id: 1 })
+    const comments: ApiResponse<IComment[]> = await PostApi.hasMany('comments', 1).delete({ id: 1 })
 
     expect(comments.data).toHaveProperty('id', 1)
   })

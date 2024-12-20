@@ -1,13 +1,13 @@
 import { reactive } from 'vue'
 import { Model } from '../src/index'
-import { IPost } from './PostInterface'
-import { IUser } from './UserInterface'
+import type { IPost } from './PostInterface'
+import type { IUser } from './UserInterface'
 import PostErrorApi from './PostErrorApi'
 
-export default class Post extends Model {
+export default class Post extends Model<IPost> {
   protected api = PostErrorApi
 
-  public model = reactive({
+  model = reactive<IPost>({
     id: undefined,
     created_at: undefined,
     updated_at: undefined,
@@ -16,11 +16,11 @@ export default class Post extends Model {
     title: undefined,
     text: undefined,
     author: undefined as IUser,
-    readers: undefined as IUser[],
-  } as IPost)
+    readers: undefined as IUser[]
+  })
 
   protected parameters = {
-    title: 'New Post',
+    title: 'New Post'
   }
 
   constructor(post?: IPost) {

@@ -1,4 +1,4 @@
-import EloquentError from '../EloquentError'
+import EloquentError from '@/EloquentError'
 
 export default class ModelError extends EloquentError {
   name: string

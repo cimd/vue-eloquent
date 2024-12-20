@@ -1,17 +1,22 @@
-import { apiPrefix, http } from '../http/http.js'
+import { apiPrefix, http } from '@/http/http'
 
 export default class Auth {
   protected urls = {
     login: 'login',
     logout: 'logout',
     forgotPassword: 'users/forgot-password',
-    resetPassword: 'users/reset-password',
+    resetPassword: 'users/reset-password'
   }
 
   /**
    * @param config
    */
-  constructor(config?: { login?: string, logout?: string, forgotPassword?: string, resetPassword?: string }) {
+  constructor(config?: {
+    login?: string
+    logout?: string
+    forgotPassword?: string
+    resetPassword?: string
+  }) {
     if (config?.login) {
       this.urls.login = config.login
     }
@@ -34,12 +39,12 @@ export default class Auth {
   }
 
   /**
-  * Logs in the user
-  *
-  * @async
-  * @param { any } payload
-  * @return { Promise<any> }
-  */
+   * Logs in the user
+   *
+   * @async
+   * @param { any } payload
+   * @return { Promise<any> }
+   */
   login(payload: any) {
     return new Promise((resolve, reject) => {
       http
@@ -75,13 +80,11 @@ export default class Auth {
     return
   }
 
-  isAuthenticated(): boolean
-  {
+  isAuthenticated(): boolean {
     return localStorage.getItem('sanctum_token') !== null
   }
 
-  logout()
-  {
+  logout() {
     const logoutUrl = `${apiPrefix}/${this.urls.logout}`
     return new Promise((resolve, reject) => {
       http

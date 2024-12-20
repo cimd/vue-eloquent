@@ -1,23 +1,22 @@
-import { IApi } from './api/IApi'
-import { AxiosError, IAxiosError } from './api/IAxiosError'
-import { Collection, ICollection } from './collection/ICollection'
-import { IQuery, Query } from './collection/IQuery'
-import { IQueryPage, QueryPage } from './collection/IQueryPage'
-import { IModel, Model } from './model/IModel'
-import { IModelState, ModelState } from './model/IModelState'
-import { IModelParams, ModelParams } from './model/IModelParams'
-import { ApiResponse, IApiResponse } from './api/IApiResponse'
-import { Permissions, Policy } from './policy/IPolicy'
+import type { IApi, Api } from '@/api/IApi'
+import type { AxiosError, IAxiosError } from '@/api/IAxiosError'
+import type { Collection, ICollection } from '@/collection/ICollection'
+import type { IQuery, Query } from '@/collection/IQuery'
+import type { IQueryPage, QueryPage } from '@/collection/IQueryPage'
+import type { IModel, Model } from '@/model/IModel'
+import type { IModelState, ModelState } from '@/model/IModelState'
+import type { IModelParams, ModelParams } from '@/model/IModelParams'
+import type { ApiResponse, IApiResponse } from '@/api/IApiResponse'
+import type { Permissions, Policy } from '@/policy/IPolicy'
 
-import Api from './api/Api'
-import { createHttp } from './http/http'
-import { createBroadcast } from './broadcast/broadcast'
-import Action from './enums/Action'
-import Actioned from './enums/Actioned'
-import { formatDates } from './helpers/formatDates'
-import VueEloquentPlugin from './devtools/devToolsPlugin'
-import ModelError from './model/ModelError'
-import Auth from './auth/Auth'
+import { createHttp } from '@/http/http'
+import { createBroadcast } from '@/broadcast/broadcast'
+import Action from '@/enums/Action'
+import Actioned from '@/enums/Actioned'
+import { formatDates } from '@/helpers/formatDates'
+import VueEloquentPlugin from '@/devtools/devToolsPlugin'
+import ModelError from '@/model/ModelError'
+import Auth from '@/auth/Auth'
 
 export {
   Api,
@@ -32,7 +31,6 @@ export {
   Policy,
   Query,
   QueryPage,
-
   createHttp,
   createBroadcast,
   Action,

@@ -1,17 +1,25 @@
 <template>
-  <q-card style='width:400px;max-width:100%; '>
-    <q-card-section class='bg-primary'>
-      <span class='text-white text-h6'>My Post</span>
+  <q-card style="width: 400px; max-width: 100%">
+    <q-card-section class="bg-primary">
+      <span class="text-white text-h6">My Post</span>
     </q-card-section>
-    <q-form @submit='onSubmit'>
+    <q-form @submit="onSubmit">
       <q-card-section>
-        <div class='row'><div class='col'><q-input v-show='false' v-model='post.model.id' label='ID' /></div></div>
-        <div class='row'><div class='col'><q-input v-model='post.model.name' :error='post.$model.title.$error' label='Title' /></div></div>
-        <div class='row'><div class='col'><q-input v-model='post.model.description' label='Description' /></div></div>
+        <div class="row">
+          <div class="col"><q-input v-show="false" v-model="post.model.id" label="ID" /></div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <q-input v-model="post.model.name" :error="post.$model.title.$error" label="Title" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col"><q-input v-model="post.model.description" label="Description" /></div>
+        </div>
       </q-card-section>
       <q-card-actions>
         <q-space />
-        <q-button label='Submit' :loading='post.state.isLoading' type='submit' />
+        <q-button label="Submit" :loading="post.state.isLoading" type="submit" />
       </q-card-actions>
     </q-form>
   </q-card>
@@ -19,7 +27,8 @@
 
 <script lang="ts">
 import Post from './Post'
-import { defineComponent, PropType } from 'vue'
+import type { PropType } from 'vue'
+import { defineComponent } from 'vue'
 import { Action } from '@konnec/vue-eloquent'
 
 export default defineComponent({
@@ -32,8 +41,9 @@ export default defineComponent({
     action: {
       required: true,
       type: String as PropType<Action>
-    },
+    }
   },
+  emits: ['close'],
   data() {
     return {
       post: new Post()

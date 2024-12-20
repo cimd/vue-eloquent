@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import PostApi from '../../../examples/PostApi'
-import { IPost } from '../../../examples/PostInterface'
+import type { IPost } from '../../../examples/PostInterface'
 
 describe('model api', () => {
   it('where method', async () => {

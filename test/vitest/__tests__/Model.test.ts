@@ -1,6 +1,15 @@
 import { describe, expect, it } from 'vitest'
 import Post from '../../../examples/Post'
 
+const postExample = {
+  id: 1,
+  title: 'test',
+  text: 'text',
+  author_id: 1,
+  author: { id: 1, name: 'John Doe' },
+  readers: [{ id: 1, name: 'Jane Doe' }]
+}
+
 describe('model', () => {
   it('find method', async () => {
     const post = new Post()
@@ -113,17 +122,17 @@ describe('model', () => {
   })
 
   it('hasOne', async () => {
-    const post = new Post({ id: 1, author_id: 1 })
+    const post = new Post(postExample)
     const author = await post.author()
 
     expect(author).toHaveProperty('id', 1)
   })
 
   it('hasMany', async () => {
-    const post = new Post({ id: 1, author_id: 1 })
-    const comments = await (post.comments()).get()
+    const post = new Post(postExample)
+    const comments = await post.comments().get()
 
-    expect(comments.length).toEqual(2)
+    expect(comments?.length).toEqual(2)
   })
 
   it('lazy loads single relationship', async () => {
@@ -131,13 +140,13 @@ describe('model', () => {
     await post.refresh(1)
     await post.load('comments')
 
-    expect(post.model.comments.length).toBe(2)
+    expect(post.model.comments?.length).toBe(2)
   })
   it('lazy loads multiple relationships', async () => {
     const post = new Post()
     await post.refresh(1)
     await post.load(['comments'])
 
-    expect(post.model.comments.length).toBe(2)
+    expect(post.model.comments?.length).toBe(2)
   })
 })

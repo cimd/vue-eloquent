@@ -4,10 +4,10 @@
  * @enum { string }
  */
 enum Actioned {
-    CREATED = 'created',
-    READ = 'read',
-    UPDATED = 'updated',
-    DELETED = 'deleted'
+  CREATED = 'created',
+  READ = 'read',
+  UPDATED = 'updated',
+  DELETED = 'deleted'
 }
 
 export default Actioned
