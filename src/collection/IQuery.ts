@@ -1,19 +1,10 @@
-import type { IQueryPage } from '@/collection/IQueryPage'
-
-export interface IQuery {
-  fields?: string
-  include?: string
-  append?: string[]
-  filter?: any[]
-  paginate?: IQueryPage
-  sort?: string
-}
+import type { QueryPage } from '@/collection/IQueryPage'
 
 export interface Query {
   fields?: string
   include?: string
   append?: string[]
   filter?: any[]
-  paginate?: IQueryPage
+  paginate?: QueryPage
   sort?: string
 }

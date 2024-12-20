@@ -1,35 +1,40 @@
-import { resolve } from 'path'
-import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { fileURLToPath, URL } from 'node:url'
+import { resolve } from 'path'
+import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    dts({
+      insertTypesEntry: true,
+      rollupTypes: false,
+      tsconfigPath: './tsconfig.json',
+      exclude: ['test', 'examples']
+    })
+  ],
   resolve: {
-    alias: [
-      { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
-    ],
+    alias: [{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) }]
   },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      // formats: ['cjs', 'es'],
-      // fileName: (format) => `index.${format}.js`,
-      name: 'VueEloquent',
+      name: 'VueEloquent'
     },
-    sourcemap: false,
+    sourcemap: true,
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ['vue'],
+      external: ['vue', 'test', 'examples'],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {
-          vue: 'Vue',
-        },
-      },
+          vue: 'Vue'
+        }
+      }
     }
-  },
+  }
 })

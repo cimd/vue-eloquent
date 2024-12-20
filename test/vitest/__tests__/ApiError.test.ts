@@ -11,7 +11,7 @@ describe('api error', () => {
     } catch (err: any) {
       error = err
     }
-    expect(error.error.response.status as ApiError).toBe(422)
+    expect(error?.error.response.status as ApiError).toBe(422)
   })
   it('show method', async () => {
     let error: ApiError | undefined
@@ -22,7 +22,7 @@ describe('api error', () => {
     } catch (err: any) {
       error = err
     }
-    expect(error.error.response.status as ApiError).toBe(422)
+    expect(error?.error.response.status as ApiError).toBe(422)
   })
   it('update method', async () => {
     let error: ApiError | undefined
@@ -32,7 +32,7 @@ describe('api error', () => {
     } catch (err: any) {
       error = err
     }
-    expect(error.error.response.status as ApiError).toBe(404)
+    expect(error?.error.response.status as ApiError).toBe(404)
   })
   it('store method', async () => {
     let error: ApiError | undefined
@@ -42,7 +42,7 @@ describe('api error', () => {
     } catch (err: any) {
       error = err
     }
-    expect(error.error.response.status as ApiError).toBe(404)
+    expect(error?.error.response.status as ApiError).toBe(404)
   })
   it('destroy method on object', async () => {
     let error: ApiError | undefined
@@ -53,7 +53,7 @@ describe('api error', () => {
       error = err
       console.log(error)
     }
-    expect(error.error.response.status as ApiError).toBe(404)
+    expect(error?.error.response.status as ApiError).toBe(404)
   })
   it('destroy method on number', async () => {
     let error: ApiError | undefined
@@ -64,7 +64,7 @@ describe('api error', () => {
       error = err
       console.log(error)
     }
-    expect(error.error.response.status as ApiError).toBe(404)
+    expect(error?.error.response.status as ApiError).toBe(404)
   })
   it('batchStore method', async () => {
     let error: ApiError | undefined
@@ -74,7 +74,7 @@ describe('api error', () => {
     } catch (err: any) {
       error = err
     }
-    expect(error.error.response.status as ApiError).toBe(404)
+    expect(error?.error.response.status as ApiError).toBe(404)
   })
   it('batchUpdate method', async () => {
     let error: ApiError | undefined
@@ -84,7 +84,7 @@ describe('api error', () => {
     } catch (err: any) {
       error = err
     }
-    expect(error.error.response.status as ApiError).toBe(404)
+    expect(error?.error.response.status as ApiError).toBe(404)
   })
   it('batchDestroy method', async () => {
     let error: ApiError | undefined
@@ -94,6 +94,6 @@ describe('api error', () => {
     } catch (err: any) {
       error = err
     }
-    expect(error.error.response.status as ApiError).toBe(404)
+    expect(error?.error.response.status as ApiError).toBe(404)
   })
 })

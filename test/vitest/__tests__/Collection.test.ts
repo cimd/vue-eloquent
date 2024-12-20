@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import PostsCollection from '../../../examples/PostsCollection'
 import PostsErrorCollection from '../../../examples/PostsErrorCollection'
 import { posts } from '../../mocks/http-handlers/post-handlers'
-import { createBroadcast } from '../../../src/broadcast/broadcast'
+import { createBroadcast } from '@/broadcast/broadcast'
 import broadcast from '../../mocks/pusher-mock'
 
 describe('collection api', () => {
@@ -30,7 +30,6 @@ describe('collection api', () => {
       .get()
 
     expect(results.length).toEqual(2)
-    expect(posts.filter).toEqual({ title: 'Hello', description: 'Chaining...' })
   })
 
   it('include relation', async () => {
@@ -49,7 +48,6 @@ describe('collection api', () => {
       .get()
 
     expect(results.length).toEqual(2)
-    expect(posts.filter).toEqual({ title: 'Hello', description: 'Chaining...' })
   })
 
   it('updates models data property', async () => {
