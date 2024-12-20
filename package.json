@@ -9,8 +9,8 @@
     "test:unit:coverage": "vitest run --coverage.enabled=true --coverage.reporter=html",
     "test:unit:ui": "vitest --ui --coverage.enabled=true --api 9527",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-    "lint": "eslint . --fix",
+    "type-check": "vue-tsc -p tsconfig.json --composite false",
+    "lint": "eslint -c ./eslint.config.js \"./src*/**/*.{ts,js,cjs,mjs,vue}\"",
     "format": "prettier --write src/ test/ examples/"
   },
   "dependencies": {
