@@ -44,7 +44,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   /**
    * API class related to the model
    */
-  declare api: Api
+  declare api: typeof Api
   /**
    * To check if model is dirty / has been modified
    */

@@ -17,7 +17,7 @@ export default abstract class Collection extends ApiQuery {
     /**
      * API class related to the model
      */
-    api: Api;
+    api: typeof Api;
     protected isBroadcasting: boolean;
     /**
      * Broadcast channel name
@@ -63,17 +63,17 @@ export default abstract class Collection extends ApiQuery {
      * Broadcast created event
      * @param { any } e Broadcast event
      */
-    protected abstract broadcastCreated(e: any): void;
+    protected broadcastCreated(e: any): void;
     /**
      * Broadcast updated event
      * @param { any } e Broadcast event
      */
-    protected abstract broadcastUpdated(e: any): void;
+    protected broadcastUpdated(e: any): void;
     /**
      * Broadcast deleted event
      * @param { any } e Broadcast event
      */
-    protected abstract broadcastDeleted(e: any): void;
+    protected broadcastDeleted(e: any): void;
     /**
      * API starts loading state
      */

@@ -32,7 +32,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     /**
      * API class related to the model
      */
-    api: Api;
+    api: typeof Api;
     /**
      * To check if model is dirty / has been modified
      */
