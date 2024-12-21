@@ -29,7 +29,7 @@ There are two packages available that can be used independently, but work better
 `composer require konnec/vue-eloquent-api`
 
 #### Laravel Requirements
-1. `Laravel 10`
+1. `Laravel 10+`
 2. `PHP ^8.1`
 
 ## Documentation
