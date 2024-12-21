@@ -9,5 +9,6 @@ export type { ApiResponse, AxiosError, Query, ModelParams, ModelState, Permissio
 
 /**
  * To be added to the /dist/index.d.ts file
+ *
+ * export type * from './src/Interfaces'
  */
-// export type * from './src/Interfaces'

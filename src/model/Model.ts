@@ -44,7 +44,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   /**
    * API class related to the model
    */
-  declare api: Api
+  declare api: typeof Api
   /**
    * To check if model is dirty / has been modified
    */
@@ -66,7 +66,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     super()
     this.uuid = uuid()
     addModelInspector(this).then()
-    addTimelineEvent({ title: 'Model Initialized', data: { uuid: this.uuid } })
+    addTimelineEvent({ title: 'Model Initialized', data: { uuid: this.uuid }})
   }
 
   /**
@@ -105,7 +105,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
       const result = await this.api.show<T>(id)
       this.setModel(result.data)
 
-      addTimelineEvent({ title: 'Model Retrieved', data: { model: result.data } })
+      addTimelineEvent({ title: 'Model Retrieved', data: { model: result.data }})
 
       this.setOriginal()
       this.setStateSuccess()
@@ -142,7 +142,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
         actioned = Actioned.UPDATED
       }
       this.saved(model)
-      addTimelineEvent({ title: actioned, data: { model: model } })
+      addTimelineEvent({ title: actioned, data: { model: model }})
       return {
         actioned,
         model
@@ -163,10 +163,10 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     try {
       this.creating()
       this.setStateLoading()
-      const response = await this.api.store<T>(this.model)
+      const response = await this.api.store<T>(this.model as unknown as T)
       this.setOriginal()
       this.setModel(response.data)
-      addTimelineEvent({ title: 'Created', data: { model: response.data } })
+      addTimelineEvent({ title: 'Created', data: { model: response.data }})
       this.setStateSuccess()
       this.created(response.data)
 
@@ -192,7 +192,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
       const response: ApiResponse<T> = await this.api.update<T>(this.model)
       this.setOriginal()
       this.setModel(response.data)
-      addTimelineEvent({ title: 'Updated', data: { model: response.data } })
+      addTimelineEvent({ title: 'Updated', data: { model: response.data }})
       this.setStateSuccess()
       this.updated(response.data)
 
@@ -211,14 +211,14 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * @template T
    * @return { Promise<T> } Model
    */
-  async delete<T>(): Promise<T> {
+  async delete(): Promise<T> {
     try {
       this.deleting()
       this.setStateLoading()
-      const response: ApiResponse<T> = await this.api.destroy<T>(this.model)
+      const response: ApiResponse<T> = await this.api.destroy(this.model)
       this.setOriginal()
       this.setModel(response.data)
-      addTimelineEvent({ title: 'Deleted', data: { model: response.data } })
+      addTimelineEvent({ title: 'Deleted', data: { model: response.data }})
       this.setStateSuccess()
       this.deleted(response.data)
 
@@ -252,7 +252,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    */
   fresh(): void {
     this.setModel(this.defaultModel)
-    addTimelineEvent({ title: 'Fresh Model', data: { model: this.defaultModel } })
+    addTimelineEvent({ title: 'Fresh Model', data: { model: this.defaultModel }})
   }
 
   /**
@@ -272,7 +272,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
       this.setStateSuccess()
       this.factory(response.data)
       this.retrieved(response.data)
-      addTimelineEvent({ title: 'Refreshed', data: { model: response.data } })
+      addTimelineEvent({ title: 'Refreshed', data: { model: response.data }})
     } catch (e: any) {
       this.setStateError()
       this.retrievingError(e)
@@ -292,16 +292,16 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    */
   async load(args?: string | string[]): Promise<any> {
     switch (typeof args) {
-      case 'string':
-        this.model[args] = await this[args]().get()
-        break
-      case 'object':
-        for (const arg of args) {
-          this.model[arg] = await this[arg]().get()
-        }
-        break
-      default:
-        break
+    case 'string':
+      ;(this.model as any)[ args ] = await (this as any)[ args ]().get()
+      break
+    case 'object':
+      for (const arg of args) {
+        ;(this.model as any)[ arg ] = await (this as any)[ arg ]().get()
+      }
+      break
+    default:
+      break
     }
     refreshInspector().then()
   }
@@ -339,32 +339,6 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     }
   }
 
-  async getValidationRules(action?: Action) {
-    let rules: unknown = []
-    try {
-      if (!this.model.id || action === Action.CREATE) {
-        const resp = await this.api.storeValidationRules(this.model)
-        rules = resp.data
-      } else {
-        const resp = await this.api.updateValidationRules(this.model)
-        rules = resp.data
-      }
-      this.errors = []
-      this.isValid = true
-      this.isInvalid = false
-      console.log(rules)
-      this.setRulesFromServer(rules)
-
-      return rules
-    } catch (e: any) {
-      this.errors = e.data.errors
-      this.isValid = false
-      this.isInvalid = true
-      // console.log(this.errors)
-      return false
-    }
-  }
-
   setRulesFromServer(rules: any): void {
     console.log(this.validations)
     _forEach(rules, (fieldRules, field) => {
@@ -375,7 +349,10 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   }
 
   protected getDefault(param: string): any {
-    return this.parameters[param]
+    if (this.parameters && param in this.parameters) {
+      return this.parameters[ param as keyof T ]
+    }
+    return undefined
   }
 
   /**
@@ -387,9 +364,9 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   protected factory(model?: T): void {
     this.defaultModel = Object.assign({}, this.model)
     if (model) this.setModel(model)
-    _forEach(this.parameters, (value: any, key: any) => {
-      if (this.model[key] === undefined) {
-        this.model[key] = value
+    _forEach(this.parameters, (value: any, key: string) => {
+      if (key in this.model && this.model[ key as keyof T ] === undefined) {
+        ;(this.model as any)[ key ] = value
       }
     })
     this.setOriginal()

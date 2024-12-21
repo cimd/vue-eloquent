@@ -29,7 +29,7 @@ export default abstract class Collection extends ApiQuery {
   /**
    * API class related to the model
    */
-  declare api: Api
+  declare api: typeof Api
   protected isBroadcasting = false
 
   /**
@@ -77,7 +77,7 @@ export default abstract class Collection extends ApiQuery {
       this.fetched(response)
       this.updateDataSource(response.data)
 
-      addTimelineEvent({ title: 'Fetched', data: { data: response.data } })
+      addTimelineEvent({ title: 'Fetched', data: { data: response.data }})
       this.setStateSuccess()
 
       return response.data
@@ -113,7 +113,7 @@ export default abstract class Collection extends ApiQuery {
       })
     this.isBroadcasting = true
     refreshInspector().then()
-    addTimelineEvent({ title: 'Broadcasting', data: { channel: this.channel } })
+    addTimelineEvent({ title: 'Broadcasting', data: { channel: this.channel }})
   }
 
   /**
@@ -125,7 +125,7 @@ export default abstract class Collection extends ApiQuery {
       this.isBroadcasting = false
     }
     refreshInspector().then()
-    addTimelineEvent({ title: 'Leaving Broadcast Channel', data: { channel: this.channel } })
+    addTimelineEvent({ title: 'Leaving Broadcast Channel', data: { channel: this.channel }})
   }
 
   /**
@@ -134,7 +134,7 @@ export default abstract class Collection extends ApiQuery {
    * @template T
    * @param { T[]? } collection - Use the where method instead
    */
-  protected factory<T>(collection: T[]): void {
+  factory<T>(collection: T[]): void {
     if (collection && collection.length) {
       this.data = reactive([...collection])
     }
@@ -167,19 +167,28 @@ export default abstract class Collection extends ApiQuery {
    * Broadcast created event
    * @param { any } e Broadcast event
    */
-  protected abstract broadcastCreated(e: any): void
+  protected broadcastCreated(e: any): void
+  {
+    return
+  }
 
   /**
    * Broadcast updated event
    * @param { any } e Broadcast event
    */
-  protected abstract broadcastUpdated(e: any): void
+  protected broadcastUpdated(e: any): void
+  {
+    return
+  }
 
   /**
    * Broadcast deleted event
    * @param { any } e Broadcast event
    */
-  protected abstract broadcastDeleted(e: any): void
+  protected broadcastDeleted(e: any): void
+  {
+    return
+  }
 
   /**
    * API starts loading state
@@ -214,7 +223,7 @@ export default abstract class Collection extends ApiQuery {
     addTimelineEvent({ title: 'Loading error', data: this.state })
   }
 
-  protected updateDataSource<T>(data: T[]): void {
+  updateDataSource<T>(data: T[]): void {
     this.data = reactive([...data])
     refreshInspector().then()
     addTimelineEvent({ title: 'Data Update', data: data })

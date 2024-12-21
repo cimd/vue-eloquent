@@ -17,7 +17,7 @@ export default class Post extends Model<IPost> {
     author_id: undefined,
     title: undefined,
     text: undefined,
-    author: undefined as IUser,
+    author: {} as IUser,
     comments: [] as IComment[]
   })
   api = PostApi
