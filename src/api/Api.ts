@@ -182,7 +182,7 @@ export default abstract class Api extends ApiQuery {
             })
             .then((response: { data: any }) => {
               self.fetched(response.data)
-              resolve(response.data.data[0])
+              resolve(response.data.data[ 0 ])
             })
             .catch((err: any) => {
               self.fetchingError(err)

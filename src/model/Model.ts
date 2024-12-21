@@ -66,7 +66,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     super()
     this.uuid = uuid()
     addModelInspector(this).then()
-    addTimelineEvent({ title: 'Model Initialized', data: { uuid: this.uuid } })
+    addTimelineEvent({ title: 'Model Initialized', data: { uuid: this.uuid }})
   }
 
   /**
@@ -105,7 +105,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
       const result = await this.api.show<T>(id)
       this.setModel(result.data)
 
-      addTimelineEvent({ title: 'Model Retrieved', data: { model: result.data } })
+      addTimelineEvent({ title: 'Model Retrieved', data: { model: result.data }})
 
       this.setOriginal()
       this.setStateSuccess()
@@ -142,7 +142,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
         actioned = Actioned.UPDATED
       }
       this.saved(model)
-      addTimelineEvent({ title: actioned, data: { model: model } })
+      addTimelineEvent({ title: actioned, data: { model: model }})
       return {
         actioned,
         model
@@ -166,7 +166,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
       const response = await this.api.store<T>(this.model as unknown as T)
       this.setOriginal()
       this.setModel(response.data)
-      addTimelineEvent({ title: 'Created', data: { model: response.data } })
+      addTimelineEvent({ title: 'Created', data: { model: response.data }})
       this.setStateSuccess()
       this.created(response.data)
 
@@ -192,7 +192,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
       const response: ApiResponse<T> = await this.api.update<T>(this.model)
       this.setOriginal()
       this.setModel(response.data)
-      addTimelineEvent({ title: 'Updated', data: { model: response.data } })
+      addTimelineEvent({ title: 'Updated', data: { model: response.data }})
       this.setStateSuccess()
       this.updated(response.data)
 
@@ -218,7 +218,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
       const response: ApiResponse<T> = await this.api.destroy(this.model)
       this.setOriginal()
       this.setModel(response.data)
-      addTimelineEvent({ title: 'Deleted', data: { model: response.data } })
+      addTimelineEvent({ title: 'Deleted', data: { model: response.data }})
       this.setStateSuccess()
       this.deleted(response.data)
 
@@ -252,7 +252,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    */
   fresh(): void {
     this.setModel(this.defaultModel)
-    addTimelineEvent({ title: 'Fresh Model', data: { model: this.defaultModel } })
+    addTimelineEvent({ title: 'Fresh Model', data: { model: this.defaultModel }})
   }
 
   /**
@@ -272,7 +272,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
       this.setStateSuccess()
       this.factory(response.data)
       this.retrieved(response.data)
-      addTimelineEvent({ title: 'Refreshed', data: { model: response.data } })
+      addTimelineEvent({ title: 'Refreshed', data: { model: response.data }})
     } catch (e: any) {
       this.setStateError()
       this.retrievingError(e)
@@ -292,16 +292,16 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    */
   async load(args?: string | string[]): Promise<any> {
     switch (typeof args) {
-      case 'string':
-        ;(this.model as any)[args] = await (this as any)[args]().get()
-        break
-      case 'object':
-        for (const arg of args) {
-          ;(this.model as any)[arg] = await (this as any)[arg]().get()
-        }
-        break
-      default:
-        break
+    case 'string':
+      ;(this.model as any)[ args ] = await (this as any)[ args ]().get()
+      break
+    case 'object':
+      for (const arg of args) {
+        ;(this.model as any)[ arg ] = await (this as any)[ arg ]().get()
+      }
+      break
+    default:
+      break
     }
     refreshInspector().then()
   }
@@ -350,7 +350,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
 
   protected getDefault(param: string): any {
     if (this.parameters && param in this.parameters) {
-      return this.parameters[param as keyof T]
+      return this.parameters[ param as keyof T ]
     }
     return undefined
   }
@@ -365,8 +365,8 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     this.defaultModel = Object.assign({}, this.model)
     if (model) this.setModel(model)
     _forEach(this.parameters, (value: any, key: string) => {
-      if (key in this.model && this.model[key as keyof T] === undefined) {
-        ;(this.model as any)[key] = value
+      if (key in this.model && this.model[ key as keyof T ] === undefined) {
+        ;(this.model as any)[ key ] = value
       }
     })
     this.setOriginal()

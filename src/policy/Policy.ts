@@ -72,7 +72,7 @@ export default class Policy {
    * @returns { boolean }
    */
   can(action: Action): boolean {
-    return this.permissions[action] as boolean
+    return this.permissions[ action ] as boolean
   }
 
   /**
@@ -82,7 +82,7 @@ export default class Policy {
    * @returns { boolean }
    */
   cannot(action: Action): boolean {
-    return !this.permissions[action]
+    return !this.permissions[ action ]
   }
 
   /**
