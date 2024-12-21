@@ -1,6 +1,6 @@
-import type { IModelParams } from '../src/model/IModelParams.js'
+import type { ModelParams } from '@/model/IModelParams'
 
-export interface IComment extends IModelParams {
+export interface IComment extends ModelParams {
   id: number
   user_id: number
   comment: string

@@ -163,7 +163,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     try {
       this.creating()
       this.setStateLoading()
-      const response = await this.api.store<T>(this.model)
+      const response = await this.api.store<T>(this.model as unknown as T)
       this.setOriginal()
       this.setModel(response.data)
       addTimelineEvent({ title: 'Created', data: { model: response.data } })
@@ -211,11 +211,11 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * @template T
    * @return { Promise<T> } Model
    */
-  async delete<T>(): Promise<T> {
+  async delete(): Promise<T> {
     try {
       this.deleting()
       this.setStateLoading()
-      const response: ApiResponse<T> = await this.api.destroy<T>(this.model)
+      const response: ApiResponse<T> = await this.api.destroy(this.model)
       this.setOriginal()
       this.setModel(response.data)
       addTimelineEvent({ title: 'Deleted', data: { model: response.data } })
@@ -293,11 +293,11 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   async load(args?: string | string[]): Promise<any> {
     switch (typeof args) {
       case 'string':
-        this.model[args] = await this[args]().get()
+        ;(this.model as any)[args] = await (this as any)[args]().get()
         break
       case 'object':
         for (const arg of args) {
-          this.model[arg] = await this[arg]().get()
+          ;(this.model as any)[arg] = await (this as any)[arg]().get()
         }
         break
       default:
@@ -339,32 +339,6 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     }
   }
 
-  async getValidationRules(action?: Action) {
-    let rules: unknown = []
-    try {
-      if (!this.model.id || action === Action.CREATE) {
-        const resp = await this.api.storeValidationRules(this.model)
-        rules = resp.data
-      } else {
-        const resp = await this.api.updateValidationRules(this.model)
-        rules = resp.data
-      }
-      this.errors = []
-      this.isValid = true
-      this.isInvalid = false
-      console.log(rules)
-      this.setRulesFromServer(rules)
-
-      return rules
-    } catch (e: any) {
-      this.errors = e.data.errors
-      this.isValid = false
-      this.isInvalid = true
-      // console.log(this.errors)
-      return false
-    }
-  }
-
   setRulesFromServer(rules: any): void {
     console.log(this.validations)
     _forEach(rules, (fieldRules, field) => {
@@ -375,7 +349,10 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   }
 
   protected getDefault(param: string): any {
-    return this.parameters[param]
+    if (this.parameters && param in this.parameters) {
+      return this.parameters[param as keyof T]
+    }
+    return undefined
   }
 
   /**
@@ -387,9 +364,9 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   protected factory(model?: T): void {
     this.defaultModel = Object.assign({}, this.model)
     if (model) this.setModel(model)
-    _forEach(this.parameters, (value: any, key: any) => {
-      if (this.model[key] === undefined) {
-        this.model[key] = value
+    _forEach(this.parameters, (value: any, key: string) => {
+      if (key in this.model && this.model[key as keyof T] === undefined) {
+        ;(this.model as any)[key] = value
       }
     })
     this.setOriginal()

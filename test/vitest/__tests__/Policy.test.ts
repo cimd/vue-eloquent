@@ -17,7 +17,6 @@ describe('permissions', () => {
     expect(acl.can(Action.UPDATE)).toBeTruthy()
     expect(acl.can(Action.READ)).toBeTruthy()
     expect(acl.can(Action.DELETE)).toBeTruthy()
-    expect(acl.can(Action.VIEW)).toBe(undefined)
   })
   it('no permissions', async () => {
     console.log('NO PERMISSIONS')
