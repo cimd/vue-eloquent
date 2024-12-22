@@ -140,7 +140,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
      * @param { string } primaryKey of the relationship
      * @return { Promise<any> } Model
      */
-    hasOne(api: Api, primaryKey: number): Promise<any>;
+    hasOne(api: typeof Api, primaryKey: number): Promise<any>;
     /**
      * HasMany relationship
      *
@@ -149,7 +149,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
      * @param { number } primaryKey of the relationship
      * @return { Promise<{get, show, create, update, delete}> } Collection of Models
      */
-    hasMany(api: Api, primaryKey: number): any[];
+    hasMany(api: typeof Api, primaryKey: number): any[];
     getValidationRules(action?: Action): Promise<unknown>;
     setRulesFromServer(rules: any): void;
     protected getDefault(param: string): any;
