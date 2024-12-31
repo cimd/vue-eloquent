@@ -1,21 +1,21 @@
-name: Lint
+name: Unit
 on:
   - push
 jobs:
-  lint:
-    name: Lint
+  unit:
+    name: Test
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "yarn"
 
-      - name: Setup composer cache
+      - name: Setup node cache
         uses: actions/cache@v4
         with:
           path: ./node_modules
@@ -25,5 +25,12 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Linting
-        run: yarn lint
+      - name: Testing
+        run: yarn test:unit:ci
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          flags: unittests # optional
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
