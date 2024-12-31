@@ -1,12 +1,32 @@
 {
   "name": "@konnec/vue-eloquent",
+<<<<<<< Updated upstream
   "version": "1.4.4",
+=======
+  "version": "1.4.5",
+  "author": "Christian D'Aquino",
+  "license": "MIT",
+  "keywords": [
+    "Vue",
+    "Laravel",
+    "Api",
+    "Eloquent",
+    "ORM",
+    "Model",
+    "Validation",
+    "Broadcast",
+    "Vuelidate",
+    "Echo",
+    "DevTools"
+  ],
+  "description": "An interface for Vue and Laravel Eloquent through API",
+>>>>>>> Stashed changes
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "test:unit": "vitest",
-    "test:unit:coverage": "vitest run --coverage.enabled=true --coverage.reporter=html",
+    "test:unit:ci": "vitest run --coverage.enabled=true",
     "test:unit:ui": "vitest --ui --coverage.enabled=true --api 9527",
     "build-only": "vite build",
     "type-check": "vue-tsc -p tsconfig.json --composite false",
@@ -50,18 +70,21 @@
     "jsdom": "^25.0.1",
     "msw": "^2.7.0",
     "npm-run-all": "^4.1.5",
+<<<<<<< Updated upstream
     "pinia": "^2.3.0",
     "prettier": "^3.4.2",
     "pusher-js": "^8.3.0",
+=======
+>>>>>>> Stashed changes
     "pusher-js-mock": "^0.3.8",
     "typescript": "^5.7.2",
     "vite": "^6.0.5",
     "vite-plugin-dts": "^4.4.0",
+    "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^2.1.8",
     "vue": "^3.5.13",
     "vue-tsc": "^2.1.10"
   },
-  "description": "An interface for Vue and Laravel Eloquent through API",
   "type": "module",
   "files": [
     "dist"
@@ -80,21 +103,11 @@
     "type": "git",
     "url": "git+ssh://git@github.com/cimd/vue-eloquent.git"
   },
-  "keywords": [
-    "Vue",
-    "Laravel",
-    "Api",
-    "Eloquent",
-    "ORM",
-    "Model",
-    "Validation",
-    "Broadcast",
-    "Vuelidate",
-    "Echo",
-    "DevTools"
-  ],
-  "author": "Christian D'Aquino",
-  "license": "MIT",
+  "nyc": {
+    "reporter": [
+      "lcov"
+    ]
+  },
   "bugs": {
     "url": "https://github.com/cimd/vue-eloquent/issues"
   },

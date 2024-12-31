@@ -1,8 +1,8 @@
 // This file will be run before each test file
 import { afterAll, afterEach, beforeAll } from 'vitest'
-import { createHttp } from '@/index'
-import http from '../mocks/axios-mock'
-import { server } from '../mocks/server'
+import { createHttp } from '@/http/http'
+import http from 'test/mocks/axios-mock'
+import { server } from 'test/mocks/server'
 
 beforeAll(() => {
   createHttp({ httpClient: http })

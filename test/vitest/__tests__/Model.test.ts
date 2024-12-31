@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import Post from '../../../examples/Post'
+import Post from 'examples/Post'
 
 const postExample = {
   id: 1,

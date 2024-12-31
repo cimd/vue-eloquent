@@ -43,6 +43,13 @@ export default abstract class Collection extends ApiQuery {
     addModelInspector(this).then()
     addTimelineEvent({ data: { uuid: this.uuid }, title: 'Collection Initialized' })
 
+    /**
+     * @todo: Move onBeforeUnmount to the join method? There is an error while running vitest saying:
+     * 
+     * [Vue warn]: onBeforeUnmount is called when there is no active component instance to be associated with. 
+     * Lifecycle injection APIs can only be used during execution of setup(). If you are using async setup(), 
+     * make sure to register lifecycle hooks before the first await statement.
+     */
     onBeforeUnmount(() => {
       this.leaveChannel()
     })

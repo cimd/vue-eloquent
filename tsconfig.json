@@ -19,6 +19,12 @@
     "paths": {
       "@/*": [
         "./src/*",
+      ],
+      "test/*": [
+        "./test/*",
+      ],
+      "examples/*": [
+        "./examples/*",
       ]
     },
     "types": [
@@ -32,7 +38,6 @@
     "strict": true
   },
   "include": [
-    "examples/**/*.vue",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
