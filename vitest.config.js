@@ -9,22 +9,13 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    setupFiles: [
-      'test/vitest/setup-file.ts'
-    ],
-    exclude: [
-      ...configDefaults.exclude,
-      'e2e/*',
-      'examples'
-    ],
+    setupFiles: ['test/vitest/setup-file.ts'],
+    exclude: [...configDefaults.exclude, 'examples/*'],
     root: fileURLToPath(new URL('./', import.meta.url)),
     coverage: {
       provider: 'istanbul', // or 'v8'
       reporter: ['lcov', 'json'],
     },
   },
-  plugins: [
-    vue(),
-    tsconfigPaths(),
-  ],
+  plugins: [vue(), tsconfigPaths()],
 })
