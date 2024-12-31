@@ -4,9 +4,8 @@ import PostApi from './PostApi'
 import type { IPost } from './PostInterface'
 
 export default class PostsCollection extends Collection {
-  public data = reactive([] as IPost[])
-  protected api = PostApi
-  // protected listener = new PostsListener('PostsEvent')
+  data = reactive<IPost[]>([])
+  api = PostApi
   protected channel = 'posts'
 
   constructor(posts?: IPost[]) {
@@ -14,9 +13,9 @@ export default class PostsCollection extends Collection {
     if (posts) super.factory(posts)
   }
 
-  protected async broadcastCreated(e: any): Promise<{ data: IPost }> {
+  protected async broadcastCreated(e: any): Promise<void> {
     // add new post to the collection
-    const newPost = await this.api.show(e.id)
-    this.data.push(newPost)
+    const newPost = await this.api.show<IPost>(e.id)
+    this.data.push(newPost.data)
   }
 }

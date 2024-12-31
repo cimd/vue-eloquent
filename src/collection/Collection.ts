@@ -84,7 +84,7 @@ export default abstract class Collection extends ApiQuery {
       this.fetched(response)
       this.updateDataSource(response.data)
 
-      addTimelineEvent({ title: 'Fetched', data: { data: response.data } })
+      addTimelineEvent({ title: 'Fetched', data: { data: response.data }})
       this.setStateSuccess()
 
       return response.data
@@ -120,7 +120,7 @@ export default abstract class Collection extends ApiQuery {
       })
     this.isBroadcasting = true
     refreshInspector().then()
-    addTimelineEvent({ title: 'Broadcasting', data: { channel: this.channel } })
+    addTimelineEvent({ title: 'Broadcasting', data: { channel: this.channel }})
   }
 
   /**
@@ -132,7 +132,7 @@ export default abstract class Collection extends ApiQuery {
       this.isBroadcasting = false
     }
     refreshInspector().then()
-    addTimelineEvent({ title: 'Leaving Broadcast Channel', data: { channel: this.channel } })
+    addTimelineEvent({ title: 'Leaving Broadcast Channel', data: { channel: this.channel }})
   }
 
   /**

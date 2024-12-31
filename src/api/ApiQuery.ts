@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import type { Query } from '@/collection/IQuery'
-import type { IQueryPage, QueryPage } from '@/collection/IQueryPage'
+import type { QueryPage } from '@/collection/IQueryPage'
 import { refreshInspector } from '@/devtools/devtools'
 
 export default abstract class ApiQuery {
@@ -94,7 +94,7 @@ export default abstract class ApiQuery {
    * @param {object} paging - The pagination options
    * @returns {this} The query instance
    */
-  static paginate(paging: IQueryPage): this {
+  static paginate(paging: QueryPage): this {
     const self = this.instance()
     return self.paginate(paging)
   }
@@ -165,7 +165,7 @@ export default abstract class ApiQuery {
    * @param {object} paging - The pagination options
    * @returns {this} The query instance
    */
-  paginate(paging: IQueryPage): this {
+  paginate(paging: QueryPage): this {
     Object.assign(this.paging, paging)
     refreshInspector().then()
     return this

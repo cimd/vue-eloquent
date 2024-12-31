@@ -51,6 +51,7 @@
     ".vscode",
     "public",
     "*.js",
-    "dist"
+    "dist",
+    "examples"
   ]
 }

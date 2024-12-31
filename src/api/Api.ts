@@ -141,7 +141,7 @@ export default abstract class Api extends ApiQuery {
    * @param { Partial<T> } payload - Model
    * @return { Promise<ApiResponse<T>> } The data from the API
    */
-  static store<T>(payload: Partial<T>): Promise<ApiResponse<T>> {
+  static store<T>(payload: T | Partial<T>): Promise<ApiResponse<T>> {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource], '/')
     self.storing(payload)
@@ -182,7 +182,7 @@ export default abstract class Api extends ApiQuery {
             })
             .then((response: { data: any }) => {
               self.fetched(response.data)
-              resolve(response.data.data[0])
+              resolve(response.data.data[ 0 ])
             })
             .catch((err: any) => {
               self.fetchingError(err)
