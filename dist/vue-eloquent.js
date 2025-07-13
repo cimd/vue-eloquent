@@ -7882,7 +7882,7 @@ class fp extends Iu {
    * @return { any } Parsed response
    */
   transformResponse(r) {
-    if (console.log(r), r === null)
+    if (r === null)
       return null;
     const n = JSON.parse(r);
     return n.data !== null && (n.data = Fl(n.data, this.dates)), n;

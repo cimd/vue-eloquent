@@ -1,6 +1,6 @@
 {
   "name": "@konnec/vue-eloquent",
-  "version": "1.4.8",
+  "version": "1.4.9",
   "author": "Christian D'Aquino",
   "license": "MIT",
   "keywords": [
@@ -31,10 +31,10 @@
   "dependencies": {
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
-    "axios": "^1.7.9",
-    "laravel-echo": "^1.17.1",
+    "axios": "^1.10.0",
+    "laravel-echo": "^1.19.0",
     "lodash": "^4.17.21",
-    "uuid": "^11.0.3"
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
