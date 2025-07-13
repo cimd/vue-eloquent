@@ -1,5 +1,5 @@
 import { Query } from '../collection/IQuery';
-import { IQueryPage, QueryPage } from '../collection/IQueryPage';
+import { QueryPage } from '../collection/IQueryPage';
 export default abstract class ApiQuery {
     /**
      * Filters used on GET request
@@ -67,7 +67,7 @@ export default abstract class ApiQuery {
      * @param {object} paging - The pagination options
      * @returns {this} The query instance
      */
-    static paginate(paging: IQueryPage): this;
+    static paginate(paging: QueryPage): this;
     /**
      * Add a where clause to the query
      *
@@ -109,7 +109,7 @@ export default abstract class ApiQuery {
      * @param {object} paging - The pagination options
      * @returns {this} The query instance
      */
-    paginate(paging: IQueryPage): this;
+    paginate(paging: QueryPage): this;
     /**
      * Get the query parameters as a query string
      *

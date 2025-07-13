@@ -37,7 +37,7 @@ export default abstract class Api extends ApiQuery {
      * @param { number } id - Model ID
      * @return { Promise<any> } The data from the API
      */
-    static show<T>(id: number): Promise<ApiResponse<T>>;
+    static show<T>(id: number | string): Promise<ApiResponse<T>>;
     /**
      * Validate the update request
      *
@@ -67,7 +67,7 @@ export default abstract class Api extends ApiQuery {
      * @param { Partial<T> } payload - Model
      * @return { Promise<ApiResponse<T>> } The data from the API
      */
-    static store<T>(payload: Partial<T>): Promise<ApiResponse<T>>;
+    static store<T>(payload: T | Partial<T>): Promise<ApiResponse<T>>;
     /**
      * hasOne relationship methods
      *
@@ -78,7 +78,7 @@ export default abstract class Api extends ApiQuery {
     static hasOne(childResource: string, parentId: number): {
         get(payload: any): Promise<any[]>;
         show(payload: {
-            id: number;
+            id: number | string;
         }): Promise<ApiResponse<any>>;
         store(payload: any): Promise<ApiResponse<any>>;
         update(payload: any): Promise<ApiResponse<any>>;
@@ -94,7 +94,7 @@ export default abstract class Api extends ApiQuery {
     static hasMany(childResource: string, parentId: number): {
         get(payload: any): Promise<any[]>;
         show(payload: {
-            id: number;
+            id: number | string;
         }): Promise<ApiResponse<any>>;
         store(payload: any): Promise<ApiResponse<any>>;
         update(payload: any): Promise<ApiResponse<any>>;
