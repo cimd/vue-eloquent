@@ -56,14 +56,14 @@ export default abstract class Api extends ApiQuery {
    * @param { number } id - Model ID
    * @return { Promise<any> } The data from the API
    */
-  static show<T>(id: number): Promise<ApiResponse<T>> {
+  static show<T>(id: number | string): Promise<ApiResponse<T>> {
     const self = this.instance()
     const url = _join([self.apiPrefix, self.resource, id], '/')
     self.retrieving(id)
     return new Promise((resolve, reject) => {
       http
         .get(url, {
-          transformResponse: [(data: any) => self.transformResponse(data)]
+          transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
           self.retrieved(response.data)
@@ -92,7 +92,7 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .patch(url, payload, {
-          headers: { 'Request-Rules': true }
+          headers: { 'Request-Rules': true },
         })
         .then((response: { data: any }) => {
           resolve(response.data)
@@ -112,14 +112,16 @@ export default abstract class Api extends ApiQuery {
    * @param { any } payload - Model
    * @return { Promise<any> } The data from the API
    */
-  static update<T extends ModelParams>(payload: Partial<T>): Promise<ApiResponse<T>> {
+  static update<T extends ModelParams>(
+    payload: Partial<T>,
+  ): Promise<ApiResponse<T>> {
     const self = this.instance()
     const url: string = _join([self.apiPrefix, self.resource, payload.id], '/')
     self.updating(payload)
     return new Promise((resolve, reject) => {
       http
         .patch(url, payload, {
-          transformResponse: [(data: any) => self.transformResponse(data)]
+          transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
           self.updated(response.data)
@@ -148,7 +150,7 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .post(url, payload, {
-          transformResponse: [(data: any) => self.transformResponse(data)]
+          transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
           self.stored(response.data)
@@ -172,13 +174,16 @@ export default abstract class Api extends ApiQuery {
     const self = this.instance()
     return {
       get(payload: any): Promise<any[]> {
-        const url = _join([self.apiPrefix, self.resource, parentId, childResource], '/')
+        const url = _join(
+          [self.apiPrefix, self.resource, parentId, childResource],
+          '/',
+        )
         self.fetching(payload)
         return new Promise((resolve, reject) => {
           http
             .get(url, {
               params: payload,
-              transformResponse: [(data: any) => self.transformResponse(data)]
+              transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
               self.fetched(response.data)
@@ -190,14 +195,17 @@ export default abstract class Api extends ApiQuery {
             })
         })
       },
-      show(payload: { id: number }): Promise<ApiResponse<any>> {
-        const url = _join([self.apiPrefix, self.resource, parentId, childResource, payload.id], '/')
+      show(payload: { id: number | string }): Promise<ApiResponse<any>> {
+        const url = _join(
+          [self.apiPrefix, self.resource, parentId, childResource, payload.id],
+          '/',
+        )
         self.retrieving(payload)
         return new Promise((resolve, reject) => {
           http
             .get(url, {
               params: payload,
-              transformResponse: [(data: any) => self.transformResponse(data)]
+              transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
               self.retrieved(response.data)
@@ -210,12 +218,15 @@ export default abstract class Api extends ApiQuery {
         })
       },
       store(payload: any): Promise<ApiResponse<any>> {
-        const url = _join([self.apiPrefix, self.resource, parentId, childResource], '/')
+        const url = _join(
+          [self.apiPrefix, self.resource, parentId, childResource],
+          '/',
+        )
         self.storing(payload)
         return new Promise((resolve, reject) => {
           http
             .post(url, payload, {
-              transformResponse: [(data: any) => self.transformResponse(data)]
+              transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
               self.stored(response.data)
@@ -228,12 +239,15 @@ export default abstract class Api extends ApiQuery {
         })
       },
       update(payload: any): Promise<ApiResponse<any>> {
-        const url = _join([self.apiPrefix, self.resource, parentId, childResource, payload.id], '/')
+        const url = _join(
+          [self.apiPrefix, self.resource, parentId, childResource, payload.id],
+          '/',
+        )
         self.updating(payload)
         return new Promise((resolve, reject) => {
           http
             .patch(url, payload, {
-              transformResponse: [(data: any) => self.transformResponse(data)]
+              transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
               self.updated(response.data)
@@ -246,12 +260,15 @@ export default abstract class Api extends ApiQuery {
         })
       },
       delete(payload: any) {
-        const url = _join([self.apiPrefix, self.resource, parentId, childResource, payload.id], '/')
+        const url = _join(
+          [self.apiPrefix, self.resource, parentId, childResource, payload.id],
+          '/',
+        )
         self.destroying(payload)
         return new Promise((resolve, reject) => {
           http
             .delete(url, {
-              transformResponse: [(data: any) => self.transformResponse(data)]
+              transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
               self.destroyed(response.data)
@@ -262,7 +279,7 @@ export default abstract class Api extends ApiQuery {
               reject(new ApiError('Store', err))
             })
         })
-      }
+      },
     }
   }
 
@@ -277,13 +294,16 @@ export default abstract class Api extends ApiQuery {
     const self = this.instance()
     return {
       get(payload: any): Promise<any[]> {
-        const url = _join([self.apiPrefix, self.resource, parentId, childResource], '/')
+        const url = _join(
+          [self.apiPrefix, self.resource, parentId, childResource],
+          '/',
+        )
         self.fetching(payload)
         return new Promise((resolve, reject) => {
           http
             .get(url, {
               params: payload,
-              transformResponse: [(data: any) => self.transformResponse(data)]
+              transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
               self.fetched(response.data)
@@ -295,14 +315,17 @@ export default abstract class Api extends ApiQuery {
             })
         })
       },
-      show(payload: { id: number }): Promise<ApiResponse<any>> {
-        const url = _join([self.apiPrefix, self.resource, parentId, childResource, payload.id], '/')
+      show(payload: { id: number | string }): Promise<ApiResponse<any>> {
+        const url = _join(
+          [self.apiPrefix, self.resource, parentId, childResource, payload.id],
+          '/',
+        )
         self.retrieving(payload)
         return new Promise((resolve, reject) => {
           http
             .get(url, {
               params: payload,
-              transformResponse: [(data: any) => self.transformResponse(data)]
+              transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
               self.retrieved(response.data)
@@ -315,12 +338,15 @@ export default abstract class Api extends ApiQuery {
         })
       },
       store(payload: any): Promise<ApiResponse<any>> {
-        const url = _join([self.apiPrefix, self.resource, parentId, childResource], '/')
+        const url = _join(
+          [self.apiPrefix, self.resource, parentId, childResource],
+          '/',
+        )
         self.storing(payload)
         return new Promise((resolve, reject) => {
           http
             .post(url, payload, {
-              transformResponse: [(data: any) => self.transformResponse(data)]
+              transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
               self.stored(response.data)
@@ -333,12 +359,15 @@ export default abstract class Api extends ApiQuery {
         })
       },
       update(payload: any): Promise<ApiResponse<any>> {
-        const url = _join([self.apiPrefix, self.resource, parentId, childResource, payload.id], '/')
+        const url = _join(
+          [self.apiPrefix, self.resource, parentId, childResource, payload.id],
+          '/',
+        )
         self.updating(payload)
         return new Promise((resolve, reject) => {
           http
             .patch(url, payload, {
-              transformResponse: [(data: any) => self.transformResponse(data)]
+              transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
               self.updated(response.data)
@@ -351,12 +380,15 @@ export default abstract class Api extends ApiQuery {
         })
       },
       delete(payload: any) {
-        const url = _join([self.apiPrefix, self.resource, parentId, childResource, payload.id], '/')
+        const url = _join(
+          [self.apiPrefix, self.resource, parentId, childResource, payload.id],
+          '/',
+        )
         self.destroying(payload)
         return new Promise((resolve, reject) => {
           http
             .delete(url, {
-              transformResponse: [(data: any) => self.transformResponse(data)]
+              transformResponse: [(data: any) => self.transformResponse(data)],
             })
             .then((response: { data: any }) => {
               self.destroyed(response.data)
@@ -367,7 +399,7 @@ export default abstract class Api extends ApiQuery {
               reject(new ApiError('Store', err))
             })
         })
-      }
+      },
     }
   }
 
@@ -387,7 +419,7 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .delete(url, {
-          transformResponse: [(data: any) => self.transformResponse(data)]
+          transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
           self.destroyed(response.data)
@@ -412,11 +444,11 @@ export default abstract class Api extends ApiQuery {
    */
   static destroy<T extends ModelParams>(
     payload: Partial<T> | number,
-    isModel = true
-  ): Promise<ApiResponse<T>>
+    isModel = true,
+  ): Promise<ApiResponse<T>>;
   static destroy<T extends ModelParams>(
     payload: Partial<T> | number,
-    isModel = true
+    isModel = true,
   ): Promise<ApiResponse<T>> {
     const id: number = typeof payload === 'number' ? payload : payload.id
     const self = this.instance()
@@ -438,7 +470,7 @@ export default abstract class Api extends ApiQuery {
       http
         .delete(url, {
           params,
-          transformResponse: [(data: string) => self.transformResponse(data)]
+          transformResponse: [(data: string) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
           self.destroyed(response.data)
@@ -469,8 +501,8 @@ export default abstract class Api extends ApiQuery {
           url,
           { data: payload },
           {
-            transformResponse: [(data: any) => self.transformResponse(data)]
-          }
+            transformResponse: [(data: any) => self.transformResponse(data)],
+          },
         )
         .then((response: { data: any }) => {
           // self.setSucess()
@@ -501,8 +533,8 @@ export default abstract class Api extends ApiQuery {
           url,
           { data: payload },
           {
-            transformResponse: [(data: any) => self.transformResponse(data)]
-          }
+            transformResponse: [(data: any) => self.transformResponse(data)],
+          },
         )
         .then((response: { data: any }) => {
           resolve(response.data)
@@ -528,8 +560,8 @@ export default abstract class Api extends ApiQuery {
           url,
           { data: payload },
           {
-            transformResponse: [(data: any) => self.transformResponse(data)]
-          }
+            transformResponse: [(data: any) => self.transformResponse(data)],
+          },
         )
         .then((response: { data: any }) => {
           resolve(response.data)
@@ -559,8 +591,8 @@ export default abstract class Api extends ApiQuery {
           url,
           { data: payload },
           {
-            transformResponse: [(data: any) => self.transformResponse(data)]
-          }
+            transformResponse: [(data: any) => self.transformResponse(data)],
+          },
         )
         .then((response: { data: any }) => {
           resolve(response.data)
@@ -593,7 +625,7 @@ export default abstract class Api extends ApiQuery {
     return new Promise((resolve, reject) => {
       http
         .get(url, {
-          transformResponse: [(data: any) => self.transformResponse(data)]
+          transformResponse: [(data: any) => self.transformResponse(data)],
         })
         .then((response: { data: any }) => {
           resolve(response.data)
@@ -624,7 +656,7 @@ export default abstract class Api extends ApiQuery {
    * @param { Partial<T> } payload - DEPRECATED. Use the where method instead
    * @return { ApiResponse<T[]> } The data from the API
    */
-  get<T>(payload?: Partial<T>): Promise<ApiResponse<T[]>>
+  get<T>(payload?: Partial<T>): Promise<ApiResponse<T[]>>;
   get<T>(payload?: Partial<T>): Promise<ApiResponse<T[]>> {
     const url = _join([this.apiPrefix, this.resource], '/')
 
@@ -640,7 +672,7 @@ export default abstract class Api extends ApiQuery {
       http
         .get(url, {
           params: queryString,
-          transformResponse: [(data: any) => this.transformResponse(data)]
+          transformResponse: [(data: any) => this.transformResponse(data)],
         })
         .then((response: { data: any }) => {
           this.fetched(response.data)
@@ -680,9 +712,15 @@ export default abstract class Api extends ApiQuery {
    * @return { any } Parsed response
    */
   protected transformResponse(response: string): any {
-    const resp = JSON.parse(response)
-    resp.data = formatObject(resp.data, this.dates)
+    if (response === null) {
+      return null
+    }
 
+    const resp = JSON.parse(response)
+    if (resp.data !== null) {
+      resp.data = formatObject(resp.data, this.dates)
+    }
+    
     return resp
   }
 
