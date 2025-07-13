@@ -47,7 +47,7 @@ export default abstract class Collection extends ApiQuery {
      * @template T
      * @param { T[]? } collection - Use the where method instead
      */
-    protected factory<T>(collection: T[]): void;
+    factory<T>(collection: T[]): void;
     /**
      * Fetching runs before get method
      * @param { any } payload Payload
@@ -86,5 +86,5 @@ export default abstract class Collection extends ApiQuery {
      * API return error response
      */
     protected setStateError(): void;
-    protected updateDataSource<T>(data: T[]): void;
+    updateDataSource<T>(data: T[]): void;
 }

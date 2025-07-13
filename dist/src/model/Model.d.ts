@@ -104,7 +104,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
      * @template T
      * @return { Promise<T> } Model
      */
-    delete<T>(): Promise<T>;
+    delete(): Promise<T>;
     /**
      * Get model change logs
      * @async
@@ -140,7 +140,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
      * @param { string } primaryKey of the relationship
      * @return { Promise<any> } Model
      */
-    hasOne(api: typeof Api, primaryKey: number): Promise<any>;
+    hasOne(api: Api, primaryKey: number): Promise<any>;
     /**
      * HasMany relationship
      *
@@ -149,8 +149,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
      * @param { number } primaryKey of the relationship
      * @return { Promise<{get, show, create, update, delete}> } Collection of Models
      */
-    hasMany(api: typeof Api, primaryKey: number): any[];
-    getValidationRules(action?: Action): Promise<unknown>;
+    hasMany(api: Api, primaryKey: number): any[];
     setRulesFromServer(rules: any): void;
     protected getDefault(param: string): any;
     /**
