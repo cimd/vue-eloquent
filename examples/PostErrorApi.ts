@@ -1,9 +1,9 @@
 import { Api } from '../src/index'
 
 export default class PostErrorApi extends Api {
-  protected resource = 'errors'
+  protected override resource = 'errors'
 
-  protected dates = [
+  protected override dates = [
     'created_at',
     'updated_at',
     'deleted_at'

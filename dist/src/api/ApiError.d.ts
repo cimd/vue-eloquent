@@ -1,7 +1,7 @@
 import { default as EloquentError } from '../EloquentError';
-import { IEloquentError } from '../IEloquentError';
 import { IAxiosError } from './IAxiosError';
 export default class ApiError extends EloquentError {
+    error: IAxiosError;
     name: string;
-    constructor(message: string, err: IEloquentError | IAxiosError);
+    constructor(message: string, error: IAxiosError);
 }

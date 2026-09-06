@@ -2,6 +2,7 @@ import { reactive } from 'vue'
 import type { Query } from '@/collection/IQuery'
 import type { QueryPage } from '@/collection/IQueryPage'
 import { refreshInspector } from '@/devtools/devtools'
+import type { InstanceOf } from '@/helpers/InstanceOf'
 
 export default abstract class ApiQuery {
   /**
@@ -34,12 +35,23 @@ export default abstract class ApiQuery {
   }
 
   /**
+   * Returns instance
+   *
+   * @static
+   * @return { InstanceOf<this> }
+   */
+  static instance<T extends typeof ApiQuery>(this: T): InstanceOf<T> {
+    const Ctor = this as unknown as new () => InstanceOf<T>
+    return new Ctor()
+  }
+
+  /**
    * Add a where clause to the query
    *
    * @param {object} filter - The filter to apply to the query
    * @return { this }
    */
-  static where(filter: any): this {
+  static where<T extends typeof ApiQuery>(this: T, filter: any): InstanceOf<T> {
     const self = this.instance()
     return self.where(filter)
   }
@@ -50,7 +62,7 @@ export default abstract class ApiQuery {
    * @param {string[]} relationships - The relationships to include in the query
    * @returns {this} The query instance
    */
-  static with(relationships: string[]): this {
+  static with<T extends typeof ApiQuery>(this: T, relationships: string[]): InstanceOf<T> {
     const self = this.instance()
     return self.with(relationships)
   }
@@ -61,7 +73,7 @@ export default abstract class ApiQuery {
    * @param {string[]} attributes - The attributes to append to the query
    * @returns {this} The query instance
    */
-  static append(attributes: string[]): this {
+  static append<T extends typeof ApiQuery>(this: T, attributes: string[]): InstanceOf<T> {
     const self = this.instance()
     return self.append(attributes)
   }
@@ -72,7 +84,7 @@ export default abstract class ApiQuery {
    * @param {string[]} fields - The fields to select
    * @returns {this} The query instance
    */
-  static select(fields: string[]): this {
+  static select<T extends typeof ApiQuery>(this: T, fields: string[]): InstanceOf<T> {
     const self = this.instance()
     return self.select(fields)
   }
@@ -83,7 +95,7 @@ export default abstract class ApiQuery {
    * @param {string[]} sorting - The sorting criteria
    * @returns {this} The query instance
    */
-  static sort(sorting: string[]): this {
+  static sort<T extends typeof ApiQuery>(this: T, sorting: string[]): InstanceOf<T> {
     const self = this.instance()
     return self.sort(sorting)
   }
@@ -94,7 +106,7 @@ export default abstract class ApiQuery {
    * @param {object} paging - The pagination options
    * @returns {this} The query instance
    */
-  static paginate(paging: QueryPage): this {
+  static paginate<T extends typeof ApiQuery>(this: T, paging: QueryPage): InstanceOf<T> {
     const self = this.instance()
     return self.paginate(paging)
   }

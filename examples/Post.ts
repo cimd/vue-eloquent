@@ -9,7 +9,7 @@ import CommentApi from './CommentApi'
 import type { IComment } from './CommentInterface'
 
 export default class Post extends Model<IPost> {
-  model = reactive<IPost>({
+  override model = reactive({
     id: undefined,
     created_at: undefined,
     updated_at: undefined,
@@ -19,12 +19,12 @@ export default class Post extends Model<IPost> {
     text: undefined,
     author: {} as IUser,
     comments: [] as IComment[]
-  })
-  api = PostApi
-  protected parameters = {
+  }) as unknown as IPost
+  override api = PostApi
+  protected override parameters = {
     title: 'New Post'
   }
-  protected validations = computed(() => ({
+  protected override validations = computed(() => ({
     model: {
       title: {
         required
@@ -40,14 +40,14 @@ export default class Post extends Model<IPost> {
   }
 
   async author() {
-    return await this.hasOne(UserApi, this.model.author_id)
+    return await this.hasOne(UserApi, this.model.author_id as number)
   }
 
   comments() {
-    return this.hasMany(CommentApi, this.model.id)
+    return this.hasMany(CommentApi, this.model.id as number)
   }
 
-  protected updating() {
+  protected override updating() {
     // strip html tags from this.model.text
   }
 }

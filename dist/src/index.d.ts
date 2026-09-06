@@ -16,4 +16,5 @@ import { default as Policy } from './policy/Policy';
 import { default as ModelApi } from './api/ModelApi';
 import { default as VueEloquentPlugin } from './devtools/devToolsPlugin';
 import { default as Auth } from './auth/Auth';
+export type * from './Interfaces';
 export { Action, Actioned, Api, ApiError, ApiQuery, Auth, Model, Collection, CollectionError, createHttp, VueEloquentPlugin, http, broadcast, createBroadcast, EloquentError, formatDates, formatObject, ModelApi, ModelError, Policy };

@@ -12,6 +12,7 @@ import type { ApiResponse } from '@/api/IApiResponse'
 import { mapRules } from '@/model/MapRules'
 import type Api from '@/api/Api'
 import type { ModelParams } from '@/model/IModelParams'
+import type { InstanceOf } from '@/helpers/InstanceOf'
 
 export default abstract class Model<T extends ModelParams> extends Validator {
   /**
@@ -77,17 +78,16 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * @param { Number } id - Model ID
    * @return { Promise<this> } An instance of the model
    */
-  static async find<T>(id: number): Promise<Model<T>> {
+  static async find<S extends typeof Model<any>>(this: S, id: number): Promise<InstanceOf<S>> {
     const self = this.instance()
-    await self.find<T>(id)
+    await self.find(id)
 
     return self
   }
 
-  protected static instance<U extends ModelParams>(): Model<U> {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    return new this()
+  protected static instance<S extends typeof Model<any>>(this: S): InstanceOf<S> {
+    const Ctor = this as unknown as new () => InstanceOf<S>
+    return new Ctor()
   }
 
   /**
@@ -96,7 +96,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * @async
    * @param { Number } id - Model ID
    */
-  async find<T>(id: number): Promise<void> {
+  async find(id: number): Promise<void> {
     this.setStateLoading()
     if (typeof this.defaultModel === 'undefined') Object.assign(this.defaultModel, this.model)
 
@@ -159,11 +159,11 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * @template T
    * @return { Promise<T> } Model
    */
-  async create<T>(): Promise<T> {
+  async create(): Promise<T> {
     try {
       this.creating()
       this.setStateLoading()
-      const response = await this.api.store<T>(this.model as unknown as T)
+      const response = await this.api.store<T>(this.model)
       this.setOriginal()
       this.setModel(response.data)
       addTimelineEvent({ title: 'Created', data: { model: response.data }})
@@ -185,7 +185,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * @template T
    * @return { Promise<T> } Model
    */
-  async update<T>(): Promise<T> {
+  async update(): Promise<T> {
     try {
       this.setStateLoading()
       this.updating()
@@ -215,7 +215,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     try {
       this.deleting()
       this.setStateLoading()
-      const response: ApiResponse<T> = await this.api.destroy(this.model)
+      const response: ApiResponse<T> = await this.api.destroy<T>(this.model)
       this.setOriginal()
       this.setModel(response.data)
       addTimelineEvent({ title: 'Deleted', data: { model: response.data }})
@@ -239,7 +239,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
       const response: any = await this.api.logs(this.model.id as number)
       this.setStateSuccess()
       return response.data
-    } catch (e) {
+    } catch (e: any) {
       this.setStateError()
       throw new ModelError('Logs', e)
     }
@@ -314,7 +314,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * @param { string } primaryKey of the relationship
    * @return { Promise<any> } Model
    */
-  async hasOne(api: Api, primaryKey: number): Promise<any> {
+  async hasOne(api: typeof Api, primaryKey: number): Promise<any> {
     const childResource = api.getResource()
     return await this.api.hasOne(childResource, primaryKey).get()
   }
@@ -325,14 +325,20 @@ export default abstract class Model<T extends ModelParams> extends Validator {
    * @async
    * @param { Api } api Api class to the relationship
    * @param { number } primaryKey of the relationship
-   * @return { Promise<{get, show, create, update, delete}> } Collection of Models
+   * @return { { get, show, create, update, delete } } Collection of Models
    */
-  hasMany(api: Api, primaryKey: number): any[] {
+  hasMany(api: typeof Api, primaryKey: number): {
+    get: () => Promise<any[]>
+    show: (id: number) => Promise<ApiResponse<any>>
+    create: (data: any) => Promise<ApiResponse<any>>
+    update: (data: any) => Promise<ApiResponse<any>>
+    delete: (data: any) => Promise<any>
+  } {
     const childResource = api.getResource()
 
     return {
       get: async () => await this.api.hasMany(childResource, primaryKey).get(),
-      show: async (id: number) => await this.api.hasMany(childResource, primaryKey).show(id),
+      show: async (id: number) => await this.api.hasMany(childResource, primaryKey).show({ id }),
       create: async (data: any) => await this.api.hasMany(childResource, primaryKey).store(data),
       update: async (data: any) => await this.api.hasMany(childResource, primaryKey).update(data),
       delete: async (data: any) => await this.api.hasMany(childResource, primaryKey).delete(data.id)
