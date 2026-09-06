@@ -1,6 +1,6 @@
 import type { AxiosHeaders } from 'axios'
 
-export interface IAxiosError {
+export interface IAxiosError extends Error {
   code: string
   config: any
   request: any
@@ -14,16 +14,4 @@ export interface IAxiosError {
   }
 }
 
-export interface AxiosError extends Error {
-  code: string
-  config: any
-  request: any
-  response: {
-    data?: any
-    status?: number
-    statusText?: string
-    headers?: AxiosHeaders
-    config?: any
-    request?: any
-  }
-}
+export type AxiosError = IAxiosError

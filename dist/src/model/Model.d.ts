@@ -5,6 +5,7 @@ import { ModelState } from './IModelState';
 import { ApiResponse } from '../api/IApiResponse';
 import { default as Api } from '../api/Api';
 import { ModelParams } from './IModelParams';
+import { InstanceOf } from '../helpers/InstanceOf';
 export default abstract class Model<T extends ModelParams> extends Validator {
     /**
      * Model values
@@ -58,15 +59,15 @@ export default abstract class Model<T extends ModelParams> extends Validator {
      * @param { Number } id - Model ID
      * @return { Promise<this> } An instance of the model
      */
-    static find<T>(id: number): Promise<Model<T>>;
-    protected static instance<U extends ModelParams>(): Model<U>;
+    static find<S extends typeof Model<any>>(this: S, id: number): Promise<InstanceOf<S>>;
+    protected static instance<S extends typeof Model<any>>(this: S): InstanceOf<S>;
     /**
      * Creates instance of the model from API
      *
      * @async
      * @param { Number } id - Model ID
      */
-    find<T>(id: number): Promise<void>;
+    find(id: number): Promise<void>;
     /**
      * Saves the model to database
      * If model has no id, it will be created (POST)
@@ -88,7 +89,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
      * @template T
      * @return { Promise<T> } Model
      */
-    create<T>(): Promise<T>;
+    create(): Promise<T>;
     /**
      * Updates the model
      *
@@ -96,7 +97,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
      * @template T
      * @return { Promise<T> } Model
      */
-    update<T>(): Promise<T>;
+    update(): Promise<T>;
     /**
      * Deletes the model
      *
@@ -140,16 +141,22 @@ export default abstract class Model<T extends ModelParams> extends Validator {
      * @param { string } primaryKey of the relationship
      * @return { Promise<any> } Model
      */
-    hasOne(api: Api, primaryKey: number): Promise<any>;
+    hasOne(api: typeof Api, primaryKey: number): Promise<any>;
     /**
      * HasMany relationship
      *
      * @async
      * @param { Api } api Api class to the relationship
      * @param { number } primaryKey of the relationship
-     * @return { Promise<{get, show, create, update, delete}> } Collection of Models
+     * @return { { get, show, create, update, delete } } Collection of Models
      */
-    hasMany(api: Api, primaryKey: number): any[];
+    hasMany(api: typeof Api, primaryKey: number): {
+        get: () => Promise<any[]>;
+        show: (id: number) => Promise<ApiResponse<any>>;
+        create: (data: any) => Promise<ApiResponse<any>>;
+        update: (data: any) => Promise<ApiResponse<any>>;
+        delete: (data: any) => Promise<any>;
+    };
     setRulesFromServer(rules: any): void;
     protected getDefault(param: string): any;
     /**

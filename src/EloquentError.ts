@@ -1,6 +1,6 @@
 export default class EloquentError extends Error {
   declare message: string
-  name = ''
+  override name = ''
   error: Error
   declare stack: any
   constructor(message: string, err: Error) {

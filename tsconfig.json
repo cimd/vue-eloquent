@@ -35,7 +35,8 @@
       "esnext",
       "dom"
     ],
-    "strict": true
+    "strict": true,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*.ts",

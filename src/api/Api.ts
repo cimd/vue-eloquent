@@ -31,17 +31,6 @@ export default abstract class Api extends ApiQuery {
     super()
   }
 
-  /**
-   * Returns instance
-   *
-   * @async
-   * @static
-   * @return { this }
-   */
-  static instance(): this {
-    return new this()
-  }
-
   static async get<T>(payload?: Partial<T>): Promise<ApiResponse<T[]>> {
     const self = this.instance()
     return await self.get(payload)
@@ -173,7 +162,7 @@ export default abstract class Api extends ApiQuery {
   static hasOne(childResource: string, parentId: number) {
     const self = this.instance()
     return {
-      get(payload: any): Promise<any[]> {
+      get(payload?: any): Promise<any[]> {
         const url = _join(
           [self.apiPrefix, self.resource, parentId, childResource],
           '/',
@@ -259,7 +248,7 @@ export default abstract class Api extends ApiQuery {
             })
         })
       },
-      delete(payload: any) {
+      delete(payload: any): Promise<ApiResponse<any>> {
         const url = _join(
           [self.apiPrefix, self.resource, parentId, childResource, payload.id],
           '/',
@@ -293,7 +282,7 @@ export default abstract class Api extends ApiQuery {
   static hasMany(childResource: string, parentId: number) {
     const self = this.instance()
     return {
-      get(payload: any): Promise<any[]> {
+      get(payload?: any): Promise<any[]> {
         const url = _join(
           [self.apiPrefix, self.resource, parentId, childResource],
           '/',
@@ -379,7 +368,7 @@ export default abstract class Api extends ApiQuery {
             })
         })
       },
-      delete(payload: any) {
+      delete(payload: any): Promise<ApiResponse<any>> {
         const url = _join(
           [self.apiPrefix, self.resource, parentId, childResource, payload.id],
           '/',
@@ -445,12 +434,8 @@ export default abstract class Api extends ApiQuery {
   static destroy<T extends ModelParams>(
     payload: Partial<T> | number,
     isModel = true,
-  ): Promise<ApiResponse<T>>;
-  static destroy<T extends ModelParams>(
-    payload: Partial<T> | number,
-    isModel = true,
   ): Promise<ApiResponse<T>> {
-    const id: number = typeof payload === 'number' ? payload : payload.id
+    const id = typeof payload === 'number' ? payload : payload.id
     const self = this.instance()
 
     let params = null
@@ -686,17 +671,17 @@ export default abstract class Api extends ApiQuery {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected batchStoringError?(err?: any): void {
+  protected batchStoringError(err?: any): void {
     return
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected batchUpdatingError?(err?: any): void {
+  protected batchUpdatingError(err?: any): void {
     return
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected batchDestroyingError?(err?: any): void {
+  protected batchDestroyingError(err?: any): void {
     return
   }
 

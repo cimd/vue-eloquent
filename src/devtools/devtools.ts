@@ -32,7 +32,7 @@ export function setupDevtools(app: App) {
         label: 'Vue Eloquent'
       })
 
-      api.on.getInspectorTree((payload: any, _context: any) => {
+      api.on.getInspectorTree((payload: any) => {
         if (payload.inspectorId === inspectorId) {
           payload.rootNodes = [
             {
@@ -51,7 +51,7 @@ export function setupDevtools(app: App) {
         }
       })
 
-      api.on.getInspectorState((payload: any, _context: any) => {
+      api.on.getInspectorState((payload: any) => {
         if (payload.inspectorId === inspectorId) {
           if (payload.nodeId) {
             const node = useModelInspector().childrenStates.find((el) => el.id === payload.nodeId)
@@ -86,7 +86,7 @@ export const refreshInspector = async () => {
 /**
  * Add timeline event
  */
-export const addTimelineEvent = ({ data, title = 'Event' }) => {
+export const addTimelineEvent = ({ data, title = 'Event' }: { data: any; title?: string }) => {
   if (!API) return
 
   API.addTimelineEvent({

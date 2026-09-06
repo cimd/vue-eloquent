@@ -19,14 +19,6 @@ export default abstract class Api extends ApiQuery {
      */
     protected dates: string[];
     protected constructor();
-    /**
-     * Returns instance
-     *
-     * @async
-     * @static
-     * @return { this }
-     */
-    static instance(): this;
     static get<T>(payload?: Partial<T>): Promise<ApiResponse<T[]>>;
     /**
      * Requests a single model from the API
@@ -76,13 +68,13 @@ export default abstract class Api extends ApiQuery {
      * @return { Promise<{get, show, create, update, delete}> } Collection of Models
      */
     static hasOne(childResource: string, parentId: number): {
-        get(payload: any): Promise<any[]>;
+        get(payload?: any): Promise<any[]>;
         show(payload: {
             id: number | string;
         }): Promise<ApiResponse<any>>;
         store(payload: any): Promise<ApiResponse<any>>;
         update(payload: any): Promise<ApiResponse<any>>;
-        delete(payload: any): Promise<unknown>;
+        delete(payload: any): Promise<ApiResponse<any>>;
     };
     /**
      * hasMany relationship methods
@@ -92,13 +84,13 @@ export default abstract class Api extends ApiQuery {
      * @return { Promise<{get, show, create, update, delete}> } Collection of Models
      */
     static hasMany(childResource: string, parentId: number): {
-        get(payload: any): Promise<any[]>;
+        get(payload?: any): Promise<any[]>;
         show(payload: {
             id: number | string;
         }): Promise<ApiResponse<any>>;
         store(payload: any): Promise<ApiResponse<any>>;
         update(payload: any): Promise<ApiResponse<any>>;
-        delete(payload: any): Promise<unknown>;
+        delete(payload: any): Promise<ApiResponse<any>>;
     };
     /**
      * Deletes a single model through the API
@@ -184,9 +176,9 @@ export default abstract class Api extends ApiQuery {
      * @return { ApiResponse<T[]> } The data from the API
      */
     get<T>(payload?: Partial<T>): Promise<ApiResponse<T[]>>;
-    protected batchStoringError?(err?: any): void;
-    protected batchUpdatingError?(err?: any): void;
-    protected batchDestroyingError?(err?: any): void;
+    protected batchStoringError(err?: any): void;
+    protected batchUpdatingError(err?: any): void;
+    protected batchDestroyingError(err?: any): void;
     protected fetchingLogsError(err?: any): void;
     /**
      * Transforms the response from the msw into a format that is expected

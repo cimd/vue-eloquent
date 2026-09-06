@@ -18,6 +18,8 @@ import ModelApi from '@/api/ModelApi'
 import VueEloquentPlugin from '@/devtools/devToolsPlugin'
 import Auth from '@/auth/Auth'
 
+export type * from '@/Interfaces'
+
 export {
   Action,
   Actioned,

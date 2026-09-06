@@ -15,7 +15,7 @@ describe('model api', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     const result = PostApi.get<IPost>(123)
-    expect(result).rejects.toThrowError('Get |||')
+    await expect(result).rejects.toThrowError('Get |||')
   })
 
   it('show method', async () => {
@@ -27,7 +27,7 @@ describe('model api', () => {
   it('show method-error', async () => {
     const result = PostApi.show(11)
 
-    expect(result).rejects.toThrowError('Show |||')
+    await expect(result).rejects.toThrowError('Show |||')
   })
 
   it('update method', async () => {
@@ -38,7 +38,7 @@ describe('model api', () => {
   it('update method-error', async () => {
     const result = PostApi.update({ id: 10, text: 'test' })
 
-    expect(result).rejects.toThrowError('Update |||')
+    await expect(result).rejects.toThrowError('Update |||')
   })
 
   it('store method', async () => {
@@ -55,7 +55,7 @@ describe('model api', () => {
   it('destroy method-error', async () => {
     const result = PostApi.destroy({ id: 10, text: 'test' })
 
-    expect(result).rejects.toThrowError('Destroy |||')
+    await expect(result).rejects.toThrowError('Destroy |||')
   })
 
   it('deleted (deprecated) method', async () => {

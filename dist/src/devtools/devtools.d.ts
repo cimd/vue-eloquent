@@ -11,5 +11,5 @@ export declare const refreshInspector: () => Promise<void>;
  */
 export declare const addTimelineEvent: ({ data, title }: {
     data: any;
-    title?: string | undefined;
+    title?: string;
 }) => void;

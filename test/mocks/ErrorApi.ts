@@ -1,7 +1,7 @@
 import { Api } from '@/index'
 
 export default class ErrorApi extends Api {
-  protected resource = 'errors'
+  protected override resource = 'errors'
 
   constructor() {
     super()

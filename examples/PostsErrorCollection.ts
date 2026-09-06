@@ -4,10 +4,10 @@ import type { IPost } from './PostInterface'
 import PostErrorApi from './PostErrorApi'
 
 export default class PostsErrorCollection extends Collection {
-  data = reactive<IPost[]>([])
-  api = PostErrorApi
+  override data = reactive<IPost[]>([])
+  override api = PostErrorApi
   // protected listener = new PostsListener('PostsEvent')
-  protected channel = 'posts'
+  protected override channel = 'posts'
 
   constructor(posts?: IPost[]) {
     super()

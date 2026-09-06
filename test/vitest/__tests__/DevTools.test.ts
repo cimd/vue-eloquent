@@ -34,7 +34,7 @@ describe('devtools', () => {
         addInspector: mockAddInspector,
         addTimelineLayer: mockAddTimelineLayer,
         on: mockOn,
-      })
+      } as any)
     })
 
     setupDevtools(mockApp)
@@ -76,7 +76,7 @@ describe('devtools', () => {
         addTimelineLayer: mockAddTimelineLayer,
         on: { getInspectorTree: vi.fn(), getInspectorState: vi.fn() },
         addInspector: vi.fn(),
-      })
+      } as any)
     })
 
     setupDevtools(mockApp)

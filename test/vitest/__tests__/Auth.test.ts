@@ -62,7 +62,7 @@ describe('Auth', () => {
       forgotPassword: '/forgot-password-2',
       resetPassword: '/reset-password-2',
     })
-    expect(newAuth.urls.login).toBe('/login-2')
-    expect(newAuth.urls.logout).toBe('/logout-2')
+    expect((newAuth as any).urls.login).toBe('/login-2')
+    expect((newAuth as any).urls.logout).toBe('/logout-2')
   })
 })
