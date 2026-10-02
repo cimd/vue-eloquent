@@ -7017,6 +7017,22 @@ var Q = async () => {
 	static getResource() {
 		return this.instance().resource;
 	}
+	static url(...e) {
+		let t = this.instance();
+		return (0, z.default)([
+			t.apiPrefix,
+			t.resource,
+			...e
+		], "/");
+	}
+	static send(e, t, n, r) {
+		return R.request({
+			method: e,
+			url: t,
+			data: n,
+			params: r
+		}).then((e) => e.data);
+	}
 	get(e) {
 		let t = (0, z.default)([this.apiPrefix, this.resource], "/"), n;
 		return n = e || this.queryString(), this.fetching(n), new Promise((e, r) => {
