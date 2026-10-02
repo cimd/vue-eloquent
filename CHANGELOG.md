@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.4.*] - Unreleased
 ### Added
+- `Api.send()`: static helper to call custom endpoints (`send(method, path, data?, params?)`); `path` is the full URL, used as given
+- `Api.url()`: static helper that builds `{apiPrefix}/{resource}/{...path}`, for use with `send()`
 ### Changed
 ### Fixed
 
