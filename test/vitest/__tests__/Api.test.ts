@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest'
+import { http, HttpResponse } from 'msw'
+import { server } from 'test/mocks/server'
 import PostApi from '../../../examples/PostApi'
 import type { IPost } from '../../../examples/PostInterface'
 import type { IComment } from '../../../examples/CommentInterface.js'
@@ -155,5 +157,63 @@ describe('model api', () => {
     ).delete({ id: 1 })
 
     expect(comments.data).toHaveProperty('id', 1)
+  })
+
+  it('url method - joins the apiPrefix, the resource and the path', () => {
+    expect(PostApi.url('1', 'publish')).toBe('api/posts/1/publish')
+    expect(PostApi.url()).toBe('api/posts')
+  })
+
+  it('send method - sends to the path as the full url', async () => {
+    server.use(
+      http.post('http://localhost:8000/api/posts/1/publish', async ({ request }) => {
+        return HttpResponse.json(
+          { data: { body: await request.json(), query: new URL(request.url).search } },
+          { status: 202 },
+        )
+      }),
+    )
+
+    const result = await PostApi.send('post', 'api/posts/1/publish', { notify: true }, { dry: 1 })
+
+    expect(result.data.body).toEqual({ notify: true })
+    expect(result.data.query).toBe('?dry=1')
+  })
+
+  it('send method - resolves with the raw response body', async () => {
+    server.use(
+      http.get('http://localhost:8000/api/posts/summary', () => {
+        return HttpResponse.json({ data: { created_at: '2020-06-12T18:19:32.000000Z' } })
+      }),
+    )
+
+    const result = await PostApi.send<{ data: { created_at: string } }>('get', 'api/posts/summary')
+
+    // Dates are left as sent - only the REST methods run transformResponse
+    expect(result.data.created_at).toBe('2020-06-12T18:19:32.000000Z')
+  })
+
+  it('send method - does not add the apiPrefix or the resource', async () => {
+    server.use(
+      http.get('http://localhost:8000/custom/endpoint', () => {
+        return HttpResponse.json({ data: 'custom' })
+      }),
+    )
+
+    const result = await PostApi.send('get', 'custom/endpoint')
+
+    expect(result.data).toBe('custom')
+  })
+
+  it('send method - rejects with the axios error', async () => {
+    server.use(
+      http.delete('http://localhost:8000/api/posts/99/cache', () => {
+        return HttpResponse.json({ message: 'Nope' }, { status: 409 })
+      }),
+    )
+
+    await expect(PostApi.send('delete', 'api/posts/99/cache')).rejects.toMatchObject({
+      response: { status: 409 },
+    })
   })
 })

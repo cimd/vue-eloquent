@@ -633,6 +633,49 @@ export default abstract class Api extends ApiQuery {
   }
 
   /**
+   * Builds the full URL of an endpoint under the resource: `{apiPrefix}/{resource}/{...path}`.
+   * Meant for `send()`, which uses its path as given.
+   *
+   * @static
+   * @param { string[] } path - Segments appended after the resource
+   * @return { string } The URL
+   */
+  static url(...path: string[]): string {
+    const self = this.instance()
+    return _join([self.apiPrefix, self.resource, ...path], '/')
+  }
+
+  /**
+   * Sends a request to a custom endpoint, for routes that don't fit the REST methods above,
+   * e.g. `POST api/execution/accounts/{id}/proposals`. `url()` builds that kind of path.
+   *
+   * The path is the full URL and is used as given: neither the apiPrefix nor the resource is
+   * added. It is relative to the http client's baseURL, unless absolute.
+   *
+   * Resolves with the response body as is: unlike the REST methods, dates are not converted and
+   * the lifecycle hooks (fetching, stored, ...) are not called.
+   *
+   * @async
+   * @static
+   * @template T
+   * @param { 'get' | 'post' | 'put' | 'patch' | 'delete' } method - HTTP method
+   * @param { string } path - Full URL of the endpoint
+   * @param { object } [data] - Request body
+   * @param { object } [params] - Query string parameters
+   * @return { Promise<T> } The data from the API
+   */
+  static send<T = any>(
+    method: 'get' | 'post' | 'put' | 'patch' | 'delete',
+    path: string,
+    data?: object,
+    params?: object,
+  ): Promise<T> {
+    return http
+      .request({ method, url: path, data, params })
+      .then((response: { data: any }) => response.data)
+  }
+
+  /**
    * Sends the request to the API
    *
    * @async
