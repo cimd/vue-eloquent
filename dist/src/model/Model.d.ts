@@ -184,8 +184,8 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     /**
      * Retrieved runs after show method
      */
-    protected retrieved(payload: any): void;
-    protected retrievingError(err?: any): void;
+    protected retrieved(_payload: any): void;
+    protected retrievingError(_err?: any): void;
     /**
      * Runs before model is created
      */
@@ -193,7 +193,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     /**
      * Runs after model is created
      */
-    protected created(payload: any): void;
+    protected created(_payload: any): void;
     /**
      * Runs before model is updated
      */
@@ -201,7 +201,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     /**
      * Runs after model is updated
      */
-    protected updated(payload: any): void;
+    protected updated(_payload: any): void;
     /**
      * Runs before model is saved
      */
@@ -209,7 +209,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     /**
      * Runs after model is saved
      */
-    protected saved(payload: any): void;
+    protected saved(_payload: any): void;
     /**
      * Runs before model is deleted
      */
@@ -217,7 +217,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     /**
      * Runs after model is created
      */
-    protected deleted(payload: any): void;
+    protected deleted(_payload: any): void;
     /**
      * API starts loading state
      */

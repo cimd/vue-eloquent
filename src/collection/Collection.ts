@@ -149,50 +149,47 @@ export default abstract class Collection extends ApiQuery {
 
   /**
    * Fetching runs before get method
-   * @param { any } payload Payload
+   * @param { any } _payload Payload
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetching(payload?: any): void {
+  protected fetching(_payload?: any): void {
     return
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetchingError(err?: any): void {
+  protected fetchingError(_err?: any): void {
     return
   }
 
   /**
    * Fetched runs after get method
-   * @param { any } payload Payload
+   * @param { any } _payload Payload
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetched(payload: any): void {
+  protected fetched(_payload: any): void {
     return
   }
 
   /**
    * Broadcast created event
-   * @param { any } e Broadcast event
+   * @param { any } _e Broadcast event
    */
-  protected broadcastCreated(e: any): void
+  protected broadcastCreated(_e: any): void
   {
     return
   }
 
   /**
    * Broadcast updated event
-   * @param { any } e Broadcast event
+   * @param { any } _e Broadcast event
    */
-  protected broadcastUpdated(e: any): void
+  protected broadcastUpdated(_e: any): void
   {
     return
   }
 
   /**
    * Broadcast deleted event
-   * @param { any } e Broadcast event
+   * @param { any } _e Broadcast event
    */
-  protected broadcastDeleted(e: any): void
+  protected broadcastDeleted(_e: any): void
   {
     return
   }

@@ -50,30 +50,30 @@ export default abstract class Collection extends ApiQuery {
     factory<T>(collection: T[]): void;
     /**
      * Fetching runs before get method
-     * @param { any } payload Payload
+     * @param { any } _payload Payload
      */
-    protected fetching(payload?: any): void;
-    protected fetchingError(err?: any): void;
+    protected fetching(_payload?: any): void;
+    protected fetchingError(_err?: any): void;
     /**
      * Fetched runs after get method
-     * @param { any } payload Payload
+     * @param { any } _payload Payload
      */
-    protected fetched(payload: any): void;
+    protected fetched(_payload: any): void;
     /**
      * Broadcast created event
-     * @param { any } e Broadcast event
+     * @param { any } _e Broadcast event
      */
-    protected broadcastCreated(e: any): void;
+    protected broadcastCreated(_e: any): void;
     /**
      * Broadcast updated event
-     * @param { any } e Broadcast event
+     * @param { any } _e Broadcast event
      */
-    protected broadcastUpdated(e: any): void;
+    protected broadcastUpdated(_e: any): void;
     /**
      * Broadcast deleted event
-     * @param { any } e Broadcast event
+     * @param { any } _e Broadcast event
      */
-    protected broadcastDeleted(e: any): void;
+    protected broadcastDeleted(_e: any): void;
     /**
      * API starts loading state
      */

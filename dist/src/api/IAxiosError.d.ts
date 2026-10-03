@@ -1,9 +1,12 @@
 import { AxiosHeaders } from 'axios';
 export interface IAxiosError extends Error {
-    code: string;
+    code?: string;
     config: any;
     request: any;
-    response: {
+    /**
+     * Not set when no response was received, e.g. network errors and timeouts
+     */
+    response?: {
         data?: any;
         status?: number;
         statusText?: string;

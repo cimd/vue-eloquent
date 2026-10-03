@@ -30,7 +30,7 @@ There are two packages available that can be used independently, but work better
 
 #### Laravel Requirements
 1. `Laravel 10+`
-2. `PHP ^8.1`
+2. `PHP ^8.1+`
 
 ## Documentation
 

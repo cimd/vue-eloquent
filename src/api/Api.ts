@@ -180,7 +180,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.fetchingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Get', err))
             })
         })
       },
@@ -202,7 +202,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.retrievingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Show', err))
             })
         })
       },
@@ -244,7 +244,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.updatingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Update', err))
             })
         })
       },
@@ -265,7 +265,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.destroyingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Destroy', err))
             })
         })
       },
@@ -300,7 +300,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.fetchingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Get', err))
             })
         })
       },
@@ -322,7 +322,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.retrievingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Show', err))
             })
         })
       },
@@ -364,7 +364,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.updatingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Update', err))
             })
         })
       },
@@ -385,7 +385,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.destroyingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Destroy', err))
             })
         })
       },
@@ -713,23 +713,19 @@ export default abstract class Api extends ApiQuery {
     })
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected batchStoringError(err?: any): void {
+  protected batchStoringError(_err?: any): void {
     return
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected batchUpdatingError(err?: any): void {
+  protected batchUpdatingError(_err?: any): void {
     return
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected batchDestroyingError(err?: any): void {
+  protected batchDestroyingError(_err?: any): void {
     return
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetchingLogsError(err?: any): void {
+  protected fetchingLogsError(_err?: any): void {
     return
   }
 
@@ -754,82 +750,67 @@ export default abstract class Api extends ApiQuery {
 
   /**
    * Fetching runs before get method
-   * @param { any } payload Payload
+   * @param { any } _payload Payload
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetching(payload?: any): void {
+  protected fetching(_payload?: any): void {
     return
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetchingError(err?: any): void {
+  protected fetchingError(_err?: any): void {
     return
   }
   /**
    * Fetched runs after get method
-   * @param { any } payload Payload
+   * @param { any } _payload Payload
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected fetched(payload?: any): void {
+  protected fetched(_payload?: any): void {
     return
   }
 
   /**
    * Retrieving runs before show method
-   * @param { any } payload Payload
+   * @param { any } _payload Payload
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrieving(payload?: any): void {
+  protected retrieving(_payload?: any): void {
     return
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrievingError(err?: any): void {
+  protected retrievingError(_err?: any): void {
     return
   }
   /**
    * Retrieved runs after show method
-   * @param { any } payload Payload
+   * @param { any } _payload Payload
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrieved(payload?: any): void {
+  protected retrieved(_payload?: any): void {
     return
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected storing(payload?: any): void {
+  protected storing(_payload?: any): void {
     return
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected storingError(err?: any): void {
+  protected storingError(_err?: any): void {
     return
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected stored(payload?: any): void {
+  protected stored(_payload?: any): void {
     return
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected updating(payload?: any): void {
+  protected updating(_payload?: any): void {
     return
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected updatingError(err?: any): void {
+  protected updatingError(_err?: any): void {
     return
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected updated(payload?: any): void {
+  protected updated(_payload?: any): void {
     return
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected destroying(payload?: any): void {
+  protected destroying(_payload?: any): void {
     return
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected destroyingError(err?: any): void {
+  protected destroyingError(_err?: any): void {
     return
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected destroyed(payload?: any): void {
+  protected destroyed(_payload?: any): void {
     return
   }
 }

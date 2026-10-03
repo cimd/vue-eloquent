@@ -1,9 +1,5 @@
 import EloquentError from '@/EloquentError'
 
 export default class CollectionError extends EloquentError {
-  override name: string
-  constructor(message: string, err: Error) {
-    super(message, err)
-    this.name = this.constructor.name
-  }
+  override name = 'CollectionError'
 }
