@@ -180,7 +180,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.fetchingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Get', err))
             })
         })
       },
@@ -202,7 +202,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.retrievingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Show', err))
             })
         })
       },
@@ -244,7 +244,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.updatingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Update', err))
             })
         })
       },
@@ -265,7 +265,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.destroyingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Destroy', err))
             })
         })
       },
@@ -300,7 +300,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.fetchingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Get', err))
             })
         })
       },
@@ -322,7 +322,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.retrievingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Show', err))
             })
         })
       },
@@ -364,7 +364,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.updatingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Update', err))
             })
         })
       },
@@ -385,7 +385,7 @@ export default abstract class Api extends ApiQuery {
             })
             .catch((err: any) => {
               self.destroyingError(err)
-              reject(new ApiError('Store', err))
+              reject(new ApiError('Destroy', err))
             })
         })
       },

@@ -81,7 +81,7 @@ All methods are **static**; each creates a fresh instance internally.
 await PostApi.send('post', PostApi.url(id, 'publish'), { at: '2026-01-01' })
 ```
 
-**Errors.** Every REST method rejects with `ApiError` (`error.message` looks like `"Show ||| Request failed with status code 404"`, `error.error` is the original axios error, so use `error.error.response?.data` for Laravel validation messages). `send()` rejects with the raw axios error.
+**Errors.** Every REST method rejects with `ApiError` (`error.message` looks like `"Show ||| Request failed with status code 404"`, `error.error` is the original axios error, also available as `error.cause`; use `error.error.response?.data` for Laravel validation messages, and note `response` is `undefined` on network errors and timeouts). `send()` rejects with the raw axios error.
 
 **Query builder.** Chain on the class (static) or an instance, finish with `.get()` (the instance method):
 
@@ -148,7 +148,7 @@ post.state.isLoading / isSuccess / isError    // reactive; bind to spinners and 
 ```
 
 - Methods: `find(id)`, `save(action?)`, `create()`, `update()`, `delete()`, `refresh(id?)`, `fresh()`, `logs()`, `load(rel | rel[])`, `hasOne(Api, id)`, `hasMany(Api, id)`, `getOriginal()`, `$validate()`, `$reset()`.
-- Failures throw `ModelError` (message such as `"Create ||| ..."`); the wrapped `ApiError` is `err.error`. `state.isError` is set. Note `save()` wraps every failure with the label `'Find'` (a known quirk). Read `err.error` for the real cause.
+- Failures throw `ModelError` (message such as `"Create ||| ..."`); the wrapped `ApiError` is `err.error` (also for `save()`, which rethrows the `ModelError` from `create()`/`update()` as is). `state.isError` is set.
 - Hooks (protected, override as needed): `retrieving/retrieved/retrievingError`, `creating/created`, `updating/updated`, `saving/saved`, `deleting/deleted`.
 - Relationships: define methods on the model that return `this.hasMany(CommentApi, this.model.id)` (an object with `get/show/create/update/delete`) or `await this.hasOne(UserApi, this.model.author_id)`. `load('comments')` / `load(['a', 'b'])` calls `this[name]().get()` and stores the result on `model[name]`, so it only works for relationship methods that return an object with `.get()` (the `hasMany` style). For a `hasOne`, call it directly: `post.model.author = await post.author()`.
 - `Model.setRulesFromServer()` is unfinished (it only `console.log`s). Do not use it.

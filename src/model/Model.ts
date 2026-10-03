@@ -148,7 +148,10 @@ export default abstract class Model<T extends ModelParams> extends Validator {
         model
       }
     } catch (e: any) {
-      throw new ModelError('Find', e)
+      // create() and update() already throw a ModelError
+      if (e instanceof ModelError) throw e
+
+      throw new ModelError('Save', e)
     }
   }
 
