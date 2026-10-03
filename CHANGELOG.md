@@ -5,9 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.7.0]
 ### Added
 ### Changed
+- Unused parameters of the empty lifecycle hooks are now prefixed with an underscore (e.g. `created(_payload)`); overrides are unaffected
+- Bumped dependencies
 - `EloquentError` (and `ApiError`, `ModelError`, `CollectionError`) now set the original error as `cause`, keep their own stack trace, and have a fixed `name` that survives minification
 ### Fixed
 - `EloquentError` no longer throws a `TypeError` when it is created without an error, or with something other than an `Error`

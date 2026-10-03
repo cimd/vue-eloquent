@@ -205,10 +205,10 @@ export default abstract class Api extends ApiQuery {
      * @return { ApiResponse<T[]> } The data from the API
      */
     get<T>(payload?: Partial<T>): Promise<ApiResponse<T[]>>;
-    protected batchStoringError(err?: any): void;
-    protected batchUpdatingError(err?: any): void;
-    protected batchDestroyingError(err?: any): void;
-    protected fetchingLogsError(err?: any): void;
+    protected batchStoringError(_err?: any): void;
+    protected batchUpdatingError(_err?: any): void;
+    protected batchDestroyingError(_err?: any): void;
+    protected fetchingLogsError(_err?: any): void;
     /**
      * Transforms the response from the msw into a format that is expected
      *
@@ -218,33 +218,33 @@ export default abstract class Api extends ApiQuery {
     protected transformResponse(response: string): any;
     /**
      * Fetching runs before get method
-     * @param { any } payload Payload
+     * @param { any } _payload Payload
      */
-    protected fetching(payload?: any): void;
-    protected fetchingError(err?: any): void;
+    protected fetching(_payload?: any): void;
+    protected fetchingError(_err?: any): void;
     /**
      * Fetched runs after get method
-     * @param { any } payload Payload
+     * @param { any } _payload Payload
      */
-    protected fetched(payload?: any): void;
+    protected fetched(_payload?: any): void;
     /**
      * Retrieving runs before show method
-     * @param { any } payload Payload
+     * @param { any } _payload Payload
      */
-    protected retrieving(payload?: any): void;
-    protected retrievingError(err?: any): void;
+    protected retrieving(_payload?: any): void;
+    protected retrievingError(_err?: any): void;
     /**
      * Retrieved runs after show method
-     * @param { any } payload Payload
+     * @param { any } _payload Payload
      */
-    protected retrieved(payload?: any): void;
-    protected storing(payload?: any): void;
-    protected storingError(err?: any): void;
-    protected stored(payload?: any): void;
-    protected updating(payload?: any): void;
-    protected updatingError(err?: any): void;
-    protected updated(payload?: any): void;
-    protected destroying(payload?: any): void;
-    protected destroyingError(err?: any): void;
-    protected destroyed(payload?: any): void;
+    protected retrieved(_payload?: any): void;
+    protected storing(_payload?: any): void;
+    protected storingError(_err?: any): void;
+    protected stored(_payload?: any): void;
+    protected updating(_payload?: any): void;
+    protected updatingError(_err?: any): void;
+    protected updated(_payload?: any): void;
+    protected destroying(_payload?: any): void;
+    protected destroyingError(_err?: any): void;
+    protected destroyed(_payload?: any): void;
 }
