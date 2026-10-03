@@ -407,12 +407,10 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   /**
    * Retrieved runs after show method
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrieved(payload: any): void {
+  protected retrieved(_payload: any): void {
     return
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected retrievingError(err?: any): void {
+  protected retrievingError(_err?: any): void {
     return
   }
 
@@ -428,8 +426,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   /**
    * Runs after model is created
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected created(payload: any): void {
+  protected created(_payload: any): void {
     return
   }
 
@@ -443,8 +440,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   /**
    * Runs after model is updated
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected updated(payload: any): void {
+  protected updated(_payload: any): void {
     return
   }
 
@@ -458,8 +454,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   /**
    * Runs after model is saved
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected saved(payload: any): void {
+  protected saved(_payload: any): void {
     return
   }
 
@@ -473,8 +468,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
   /**
    * Runs after model is created
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected deleted(payload: any): void {
+  protected deleted(_payload: any): void {
     return
   }
 

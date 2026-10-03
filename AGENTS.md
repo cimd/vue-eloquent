@@ -244,7 +244,7 @@ Conventions:
 - Path aliases: `@/` → `src/`, `test/` → `test/`, `examples/` → `examples/`.
 - Style: 2-space indent, single quotes, no semicolons. Match the surrounding file; run `yarn lint`.
 - TypeScript is `strict` with `noImplicitOverride`, `exactOptionalPropertyTypes` and `noUncheckedIndexedAccess`, so use `override` on subclass members.
-- Lifecycle hooks are empty `protected` methods carrying an `eslint-disable-next-line @typescript-eslint/no-unused-vars` comment. Keep that pattern when adding hooks.
+- Lifecycle hooks are empty `protected` methods whose unused parameter is prefixed with an underscore (`protected created(_payload: any): void`), which the lint config allows. Keep that pattern when adding hooks; subclasses can name the parameter anything.
 - `Api` static methods create an instance via `ApiQuery.instance()` (`new this()`), so anything new on `Api` should stay static and go through `self = this.instance()`.
 - Adding or changing an endpoint: add a handler in `test/mocks/http-handlers/`, a test in `test/vitest/__tests__/`, a `CHANGELOG.md` entry (Keep a Changelog format: Added / Changed / Fixed), and keep the table in Part 1 in sync.
 - Do not hand-edit `dist/`. Regenerate it with `yarn build` only when preparing a release.
