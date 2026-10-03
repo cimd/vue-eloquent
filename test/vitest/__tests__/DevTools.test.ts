@@ -7,8 +7,6 @@ import Post from 'examples/Post'
 import { VueEloquentPlugin } from '@/index'
 
 vi.mock('@vue/devtools-api')
-vi.mock('vue')
-vi.mock('@/model/modelInspector')
 
 const app = createApp({})
 beforeAll(async () => {
