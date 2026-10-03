@@ -131,7 +131,7 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     action?: Action
   ): Promise<{ model: T; actioned: Actioned.CREATED | Actioned.UPDATED }> {
     let model: T
-    let actioned = '' as Actioned
+    let actioned: Actioned
     this.saving()
     try {
       if (!this.model.id || action === Action.CREATE) {
