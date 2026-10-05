@@ -26,6 +26,19 @@ describe('model api', () => {
     expect(result.data).toHaveProperty('id', 1)
   })
 
+  it('first method limits the request to one record', async () => {
+    let params: URLSearchParams | undefined
+    server.use(
+      http.get('http://localhost:8000/api/posts', ({ request }) => {
+        params = new URL(request.url).searchParams
+        return HttpResponse.json({ data: [{ id: 1 }] }, { status: 200 })
+      })
+    )
+    await PostApi.first<IPost>()
+
+    expect(params?.get('limit')).toBe('1')
+  })
+
   it('first method returns null on an empty list', async () => {
     server.use(
       http.get('http://localhost:8000/api/posts', () => HttpResponse.json({ data: [] }, { status: 200 }))

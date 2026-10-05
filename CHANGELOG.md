@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.1]
+### Added
+- `ApiQuery.limit(n)`: static and instance helper that sends `limit=n` to cap the number of records returned
+### Changed
+- `Api.first()` now sends `limit=1` so only one record is requested (it overrides a previous `limit()`)
+### Fixed
+
 ## [1.8.0]
 ### Added
 - `Api.first()`: static and instance helper that resolves with the first record of the list (`data` is `null` when the list is empty); it respects the query builder state

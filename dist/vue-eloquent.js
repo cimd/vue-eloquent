@@ -6618,6 +6618,7 @@ var Q = async () => {
 	fieldsSelection = i([]);
 	paging = i({});
 	sorting = i([]);
+	limiting = void 0;
 	constructor() {}
 	static instance() {
 		return new this();
@@ -6640,6 +6641,9 @@ var Q = async () => {
 	static latest(e) {
 		return this.instance().latest(e);
 	}
+	static limit(e) {
+		return this.instance().limit(e);
+	}
 	static paginate(e) {
 		return this.instance().paginate(e);
 	}
@@ -6661,12 +6665,15 @@ var Q = async () => {
 	latest(e) {
 		return this.sorting = [...this.sorting, `-${e}`], Q().then(), this;
 	}
+	limit(e) {
+		return this.limiting = e, Q().then(), this;
+	}
 	paginate(e) {
 		return Object.assign(this.paging, e), Q().then(), this;
 	}
 	queryString() {
 		let e = {};
-		return this.filter && (e.filter = this.filter), this.include.length && (e.include = this.include.join(",")), this.fieldsSelection.length && (e.fields = this.fieldsSelection.join(",")), this.sorting.length && (e.sort = this.sorting.join(",")), this.attributes.length && (e.append = this.attributes), this.paging && (e.paginate = this.paging), e;
+		return this.filter && (e.filter = this.filter), this.include.length && (e.include = this.include.join(",")), this.fieldsSelection.length && (e.fields = this.fieldsSelection.join(",")), this.sorting.length && (e.sort = this.sorting.join(",")), this.attributes.length && (e.append = this.attributes), this.limiting !== void 0 && (e.limit = this.limiting), this.paging && (e.paginate = this.paging), e;
 	}
 }, Jl = class extends ql {
 	apiPrefix = Ji;
@@ -7053,7 +7060,7 @@ var Q = async () => {
 		});
 	}
 	async first() {
-		let e = await this.get();
+		let e = await this.limit(1).get();
 		return {
 			...e,
 			data: e.data[0] ?? null

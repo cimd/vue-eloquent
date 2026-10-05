@@ -215,7 +215,9 @@ export default abstract class Api extends ApiQuery {
      */
     get<T>(payload?: Partial<T>): Promise<ApiResponse<T[]>>;
     /**
-     * Sends the request to the API and resolves with the first record
+     * Sends the request to the API and resolves with the first record.
+     * Limits the request to a single record with limit(1),
+     * overriding any limit previously set on the query
      *
      * @async
      * @template T

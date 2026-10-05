@@ -52,6 +52,21 @@ describe('model api', () => {
 
     expect((api as any).sorting).toEqual(['title'])
   })
+  it('limit method', async () => {
+    const api = new PostApi().limit(5)
+
+    expect((api as any).limiting).toBe(5)
+    expect((api as any).queryString()).toHaveProperty('limit', 5)
+    expect((await api.get<IPost>()).data.length).toBe(2)
+  })
+  it('static limit method', () => {
+    const api = PostApi.limit(3)
+
+    expect((api as any).queryString()).toHaveProperty('limit', 3)
+  })
+  it('query string has no limit by default', () => {
+    expect((new PostApi() as any).queryString()).not.toHaveProperty('limit')
+  })
   it('paginate method', async () => {
     const result = await PostApi.paginate({ page: 1, pageSize: 5 }).get<IPost>()
 
