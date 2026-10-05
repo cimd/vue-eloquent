@@ -70,6 +70,13 @@ export default abstract class ApiQuery {
      */
     static sort<T extends typeof ApiQuery>(this: T, sorting: string[]): InstanceOf<T>;
     /**
+     * Sort the a given date column in descending order
+     *
+     * @param {string} column - The date column to be sorted desc by
+     * @returns {this} The query instance
+     */
+    static latest<T extends typeof ApiQuery>(this: T, column: string): InstanceOf<T>;
+    /**
      * Set the pagination options for the query
      *
      * @param {object} paging - The pagination options
@@ -111,6 +118,13 @@ export default abstract class ApiQuery {
      * @returns {this} The query instance
      */
     sort(sorting: string[]): this;
+    /**
+     * Sort the a given date column in descending order
+     *
+     * @param {string} column - The date column to be sorted desc by
+     * @returns {this} The query instance
+     */
+    latest(column: string): this;
     /**
      * Set the pagination options for the query
      *

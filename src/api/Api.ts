@@ -37,6 +37,19 @@ export default abstract class Api extends ApiQuery {
   }
 
   /**
+   * Requests the first record of the list from the API
+   *
+   * @async
+   * @static
+   * @template T
+   * @return { Promise<ApiResponse<T | null>> } The first record, or null when the list is empty
+   */
+  static async first<T>(): Promise<ApiResponse<T | null>> {
+    const self = this.instance()
+    return await self.first<T>()
+  }
+
+  /**
    * Requests a single model from the API
    *
    * @async
@@ -713,6 +726,22 @@ export default abstract class Api extends ApiQuery {
     })
   }
 
+  /**
+   * Sends the request to the API and resolves with the first record
+   *
+   * @async
+   * @template T
+   * @return { Promise<ApiResponse<T | null>> } The first record, or null when the list is empty
+   */
+  async first<T>(): Promise<ApiResponse<T | null>> {
+    const response = await this.get<T>()
+
+    return {
+      ...response,
+      data: response.data[ 0 ] ?? null,
+    }
+  }
+
   protected batchStoringError(_err?: any): void {
     return
   }
@@ -744,7 +773,7 @@ export default abstract class Api extends ApiQuery {
     if (resp.data !== null) {
       resp.data = formatObject(resp.data, this.dates)
     }
-    
+
     return resp
   }
 

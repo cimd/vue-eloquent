@@ -28,6 +28,30 @@ describe('model api', () => {
 
     expect(result.data.length).toBe(2)
   })
+  it('latest method', async () => {
+    const api = new PostApi().latest('created_at')
+
+    expect((api as any).sorting).toEqual(['-created_at'])
+    expect((await api.get<IPost>()).data.length).toBe(2)
+  })
+  it('static latest method', async () => {
+    const api = PostApi.latest('created_at')
+
+    expect((api as any).sorting).toEqual(['-created_at'])
+    expect((await api.get<IPost>()).data.length).toBe(2)
+  })
+  it('latest method appends to existing sorting and is chainable', () => {
+    const api = new PostApi().sort(['title'])
+
+    expect(api.latest('created_at')).toBe(api)
+    expect(api.latest('updated_at')).toBe(api)
+    expect((api as any).sorting).toEqual(['title', '-created_at', '-updated_at'])
+  })
+  it('sort method replaces sorting added by latest', () => {
+    const api = new PostApi().latest('created_at').sort(['title'])
+
+    expect((api as any).sorting).toEqual(['title'])
+  })
   it('paginate method', async () => {
     const result = await PostApi.paginate({ page: 1, pageSize: 5 }).get<IPost>()
 
