@@ -20,6 +20,33 @@ describe('model api', () => {
     await expect(result).rejects.toThrowError('Get |||')
   })
 
+  it('first method', async () => {
+    const result = await PostApi.first<IPost>()
+
+    expect(result.data).toHaveProperty('id', 1)
+  })
+
+  it('first method returns null on an empty list', async () => {
+    server.use(
+      http.get('http://localhost:8000/api/posts', () => HttpResponse.json({ data: [] }, { status: 200 }))
+    )
+    const result = await PostApi.first<IPost>()
+
+    expect(result.data).toBeNull()
+  })
+
+  it('first method-error', async () => {
+    server.use(http.get('http://localhost:8000/api/posts', () => HttpResponse.json({}, { status: 500 })))
+
+    await expect(PostApi.first<IPost>()).rejects.toThrowError('Get |||')
+  })
+
+  it('first instance method keeps the query builder state', async () => {
+    const result = await PostApi.where({ author_id: 1 }).first<IPost>()
+
+    expect(result.data).toHaveProperty('id', 1)
+  })
+
   it('show method', async () => {
     const result = await PostApi.show(1)
 

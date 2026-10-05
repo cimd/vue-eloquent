@@ -6637,6 +6637,9 @@ var Q = async () => {
 	static sort(e) {
 		return this.instance().sort(e);
 	}
+	static latest(e) {
+		return this.instance().latest(e);
+	}
 	static paginate(e) {
 		return this.instance().paginate(e);
 	}
@@ -6654,6 +6657,9 @@ var Q = async () => {
 	}
 	sort(e) {
 		return this.sorting = [...e], Q().then(), this;
+	}
+	latest(e) {
+		return this.sorting = [...this.sorting, `-${e}`], Q().then(), this;
 	}
 	paginate(e) {
 		return Object.assign(this.paging, e), Q().then(), this;
@@ -6674,6 +6680,9 @@ var Q = async () => {
 	}
 	static async get(e) {
 		return await this.instance().get(e);
+	}
+	static async first() {
+		return await this.instance().first();
 	}
 	static show(e) {
 		let t = this.instance(), n = (0, z.default)([
@@ -7042,6 +7051,13 @@ var Q = async () => {
 				this.fetchingError(e), r(new B("Get", e));
 			});
 		});
+	}
+	async first() {
+		let e = await this.get();
+		return {
+			...e,
+			data: e.data[0] ?? null
+		};
 	}
 	batchStoringError(e) {}
 	batchUpdatingError(e) {}

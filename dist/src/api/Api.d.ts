@@ -21,6 +21,15 @@ export default abstract class Api extends ApiQuery {
     protected constructor();
     static get<T>(payload?: Partial<T>): Promise<ApiResponse<T[]>>;
     /**
+     * Requests the first record of the list from the API
+     *
+     * @async
+     * @static
+     * @template T
+     * @return { Promise<ApiResponse<T | null>> } The first record, or null when the list is empty
+     */
+    static first<T>(): Promise<ApiResponse<T | null>>;
+    /**
      * Requests a single model from the API
      *
      * @async
@@ -205,6 +214,14 @@ export default abstract class Api extends ApiQuery {
      * @return { ApiResponse<T[]> } The data from the API
      */
     get<T>(payload?: Partial<T>): Promise<ApiResponse<T[]>>;
+    /**
+     * Sends the request to the API and resolves with the first record
+     *
+     * @async
+     * @template T
+     * @return { Promise<ApiResponse<T | null>> } The first record, or null when the list is empty
+     */
+    first<T>(): Promise<ApiResponse<T | null>>;
     protected batchStoringError(_err?: any): void;
     protected batchUpdatingError(_err?: any): void;
     protected batchDestroyingError(_err?: any): void;
