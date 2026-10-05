@@ -58,6 +58,7 @@ All methods are **static**; each creates a fresh instance internally.
 | Call | Request |
 |---|---|
 | `PostApi.get<T>()` | `GET api/posts` |
+| `PostApi.first<T>()` | `GET api/posts`; resolves `{ ...body, data: data[0] ?? null }` |
 | `PostApi.show<T>(id)` | `GET api/posts/{id}` |
 | `PostApi.store<T>(payload)` | `POST api/posts` |
 | `PostApi.update<T>(payload)` | `PATCH api/posts/{payload.id}` |
@@ -92,8 +93,9 @@ const res = await PostApi
   .select(['id', 'title'])          // fields=id,title           (replaces)
   .append(['full_title'])           // append[]=full_title       (replaces)
   .sort(['-created_at'])            // sort=-created_at          (replaces)
+  .latest('updated_at')             // appends -updated_at to sort (appends)
   .paginate({ page: 1, pageSize: 20 }) // paginate[page]=1&...   (merges)
-  .get()
+  .get()                            // or .first(): the first record, or null when empty
 ```
 
 `PostApi.get(payload)` (static, with an argument) is deprecated and sends `payload` as the raw query params. The query-builder shape matches `konnec/vue-eloquent-api`; if you target a different backend, `send()` or raw `get(payload)` is safer.
