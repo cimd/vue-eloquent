@@ -727,14 +727,16 @@ export default abstract class Api extends ApiQuery {
   }
 
   /**
-   * Sends the request to the API and resolves with the first record
+   * Sends the request to the API and resolves with the first record.
+   * Limits the request to a single record with limit(1),
+   * overriding any limit previously set on the query
    *
    * @async
    * @template T
    * @return { Promise<ApiResponse<T | null>> } The first record, or null when the list is empty
    */
   async first<T>(): Promise<ApiResponse<T | null>> {
-    const response = await this.get<T>()
+    const response = await this.limit(1).get<T>()
 
     return {
       ...response,

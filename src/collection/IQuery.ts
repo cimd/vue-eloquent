@@ -5,6 +5,7 @@ export interface Query {
   include?: string
   append?: string[]
   filter?: any[]
+  limit?: number
   paginate?: QueryPage
   sort?: string
 }

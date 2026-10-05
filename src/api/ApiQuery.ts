@@ -29,6 +29,10 @@ export default abstract class ApiQuery {
    * Sorting used on GET request
    */
   protected sorting: string[] = reactive([])
+  /**
+   * Maximum number of records requested on GET request
+   */
+  protected limiting: number | undefined = undefined
 
   protected constructor() {
     return
@@ -109,6 +113,17 @@ export default abstract class ApiQuery {
   static latest<T extends typeof ApiQuery>(this: T, column: string): InstanceOf<T> {
     const self = this.instance()
     return self.latest(column)
+  }
+
+  /**
+   * Limit the number of records returned by the query
+   *
+   * @param {number} limit - The maximum number of records
+   * @returns {this} The query instance
+   */
+  static limit<T extends typeof ApiQuery>(this: T, limit: number): InstanceOf<T> {
+    const self = this.instance()
+    return self.limit(limit)
   }
 
   /**
@@ -195,6 +210,18 @@ export default abstract class ApiQuery {
   }
 
   /**
+   * Limit the number of records returned by the query
+   *
+   * @param {number} limit - The maximum number of records
+   * @returns {this} The query instance
+   */
+  limit(limit: number): this {
+    this.limiting = limit
+    refreshInspector().then()
+    return this
+  }
+
+  /**
    * Set the pagination options for the query
    *
    * @param {object} paging - The pagination options
@@ -227,6 +254,9 @@ export default abstract class ApiQuery {
     }
     if (this.attributes.length) {
       qs.append = this.attributes
+    }
+    if (this.limiting !== undefined) {
+      qs.limit = this.limiting
     }
     if (this.paging) {
       qs.paginate = this.paging

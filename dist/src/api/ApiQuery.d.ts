@@ -26,6 +26,10 @@ export default abstract class ApiQuery {
      * Sorting used on GET request
      */
     protected sorting: string[];
+    /**
+     * Maximum number of records requested on GET request
+     */
+    protected limiting: number | undefined;
     protected constructor();
     /**
      * Returns instance
@@ -77,6 +81,13 @@ export default abstract class ApiQuery {
      */
     static latest<T extends typeof ApiQuery>(this: T, column: string): InstanceOf<T>;
     /**
+     * Limit the number of records returned by the query
+     *
+     * @param {number} limit - The maximum number of records
+     * @returns {this} The query instance
+     */
+    static limit<T extends typeof ApiQuery>(this: T, limit: number): InstanceOf<T>;
+    /**
      * Set the pagination options for the query
      *
      * @param {object} paging - The pagination options
@@ -125,6 +136,13 @@ export default abstract class ApiQuery {
      * @returns {this} The query instance
      */
     latest(column: string): this;
+    /**
+     * Limit the number of records returned by the query
+     *
+     * @param {number} limit - The maximum number of records
+     * @returns {this} The query instance
+     */
+    limit(limit: number): this;
     /**
      * Set the pagination options for the query
      *
