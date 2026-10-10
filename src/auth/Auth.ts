@@ -1,4 +1,5 @@
 import { apiPrefix, http } from '@/http/http'
+import { flushState } from '@/helpers/states'
 
 export default class Auth {
   protected urls = {
@@ -91,6 +92,8 @@ export default class Auth {
         .post(logoutUrl)
         .then((response: any) => {
           localStorage.removeItem('sanctum_token')
+          // What was fetched for this user must not be there for the next one
+          flushState()
           this.loggedOut(response.data)
 
           resolve(response.data)

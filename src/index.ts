@@ -2,6 +2,7 @@ import { broadcast, createBroadcast } from '@/broadcast/broadcast'
 import { formatDates } from '@/helpers/formatDates'
 import { formatObject } from '@/helpers/formatObject'
 import { createHttp, http } from '@/http/http'
+import { flushState } from '@/helpers/states'
 
 import Api from '@/api/Api'
 import ApiError from '@/api/ApiError'
@@ -37,6 +38,7 @@ export {
   createBroadcast,
   EloquentError,
   formatDates,
+  flushState,
   formatObject,
   ModelApi,
   ModelError,

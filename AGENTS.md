@@ -151,6 +151,7 @@ post.state.isLoading / isSuccess / isError    // reactive; bind to spinners and 
 ```
 
 - Methods: `find(id)`, `save(action?)`, `create()`, `update()`, `delete()`, `refresh(id?)`, `fresh()`, `logs()`, `load(rel | rel[])`, `hasOne(Api, id)`, `hasMany(Api, id)`, `getOriginal()`, `$validate()`, `$reset()`.
+- `Model.getState(key?)` manages state through the model: it returns one instance per class (and key) that lives for the whole session, so a page opened again finds the previous `model` and `state` while it fetches fresh data (stale-while-revalidate, no store needed). The instance is created without arguments, so it suits models such as an account, not records built from a payload. `Model.forgetState(key?)` clears it; `flushState()` clears all of them and `Auth.logout()` calls it. The state is global: reset it in tests (`flushState()` in `afterEach`).
 - Failures throw `ModelError` (message such as `"Create ||| ..."`); the wrapped `ApiError` is `err.error` (also for `save()`, which rethrows the `ModelError` from `create()`/`update()` as is). `state.isError` is set.
 - Hooks (protected, override as needed): `retrieving/retrieved/retrievingError`, `creating/created`, `updating/updated`, `saving/saved`, `deleting/deleted`.
 - Relationships: define methods on the model that return `this.hasMany(CommentApi, this.model.id)` (an object with `get/show/create/update/delete`) or `await this.hasOne(UserApi, this.model.author_id)`. `load('comments')` / `load(['a', 'b'])` calls `this[name]().get()` and stores the result on `model[name]`, so it only works for relationship methods that return an object with `.get()` (the `hasMany` style). For a `hasOne`, call it directly: `post.model.author = await post.author()`.
@@ -183,6 +184,7 @@ posts.joinChannel() // needs createBroadcast(); listens to .created/.updated/.de
 posts.leaveChannel()
 ```
 
+- `Collection.getState(key?)` / `forgetState(key?)` work as on `Model` (rows and `state` kept between visits; created without arguments). The query builder state (`where`, `sort`...) is kept too, so set it on every visit. A collection with state does not tie `leaveChannel()` to the component that created it: call it when the page is left, or let `forgetState()`/`flushState()` leave the channel.
 - `Collection` has the same query builder as `Api` (`where/with/select/append/sort/paginate`) and then calls `api.get(query)`. `get()` returns `response.data` and also assigns it to `this.data`. Failures throw `CollectionError`.
 - Hooks: `fetching`, `fetched`, `fetchingError`, `broadcastCreated`, `broadcastUpdated`, `broadcastDeleted`.
 - The constructor registers `onBeforeUnmount(() => leaveChannel())`. Instantiate collections inside component `setup()`/`data()` (or accept Vue's "no active component instance" warning elsewhere, e.g. tests).
@@ -212,7 +214,7 @@ await auth.login({ email, password })
 
 ### 7. Exports
 
-Runtime: `Api, ApiQuery, ApiError, ModelApi, Model, ModelError, Collection, CollectionError, EloquentError, Policy, Auth, Action, Actioned, createHttp, http, createBroadcast, broadcast, VueEloquentPlugin, formatDates, formatObject`.
+Runtime: `Api, ApiQuery, ApiError, ModelApi, Model, ModelError, Collection, CollectionError, EloquentError, Policy, Auth, Action, Actioned, createHttp, http, createBroadcast, broadcast, VueEloquentPlugin, formatDates, formatObject, flushState`.
 Types: `ApiResponse, AxiosError, Query, QueryPage, ModelParams, ModelState, Permissions`.
 Enums: `Action` = `create | read | update | delete`; `Actioned` = `created | read | updated | deleted`.
 

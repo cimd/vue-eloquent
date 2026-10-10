@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0]
+### Added
+- `Model.getState(key?)`: state management through the model. A static helper that returns the one instance of the model for the whole session, created on the first call. As it outlives the components, a page opened again finds the model as it was left (data and `state`) while it fetches fresh data. `key` keeps one per key (for instance per account)
+- `Collection.getState(key?)`: the same for a collection: the rows and `state` are there when a page is opened again. A collection with state does not leave its broadcast channel when the component that created it unmounts; the channel is left when its state is forgotten or flushed (or with `leaveChannel()`)
+- `Model.forgetState(key?)` and `Collection.forgetState(key?)`: clear the state of a key, or all of the class' ones without it
+- `flushState()`: clears the state of every model and collection
+### Changed
+- `Auth.logout()` calls `flushState()` once the logout succeeds, so what was fetched for a user is not there for the next one
+### Fixed
+
 ## [1.8.1]
 ### Added
 - `ApiQuery.limit(n)`: static and instance helper that sends `limit=n` to cap the number of records returned

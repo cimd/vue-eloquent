@@ -1,6 +1,7 @@
 import { ModelState } from '../model/IModelState';
 import { default as ApiQuery } from '../api/ApiQuery';
 import { default as Api } from '../api/Api';
+import { InstanceOf } from '../helpers/InstanceOf';
 export default abstract class Collection extends ApiQuery {
     /**
      * Collection data source
@@ -24,6 +25,27 @@ export default abstract class Collection extends ApiQuery {
      */
     protected channel?: string;
     protected constructor();
+    /**
+     * The instance of the collection that lives for the whole session, created the first time it is asked for
+     *
+     * Because it outlives the components that use it, a page opened again finds the rows (and `state`) as they were
+     * left while it fetches fresh ones. It is created without arguments. The query builder state (`where`, `sort`...)
+     * stays too, so set it again on every visit. A channel joined with `joinChannel()` stays joined, as it is not
+     * tied to a component: call `leaveChannel()` when the page is left, or let `forgetState()` and `flushState()`
+     * do it.
+     *
+     * @static
+     * @param { string } key - To keep more than one, for instance per account. Defaults to the only one
+     * @return { InstanceOf<S> } The same instance on every call for a class and key
+     */
+    static getState<S extends typeof Collection>(this: S, key?: string): InstanceOf<S>;
+    /**
+     * Clears the state of the collection, leaving its channel, so the next `getState()` creates a new instance
+     *
+     * @static
+     * @param { string? } key - The one to clear. Without it, all the states of this class
+     */
+    static forgetState<S extends typeof Collection>(this: S, key?: string): void;
     /**
      * Creates instance of the model from API
      *
