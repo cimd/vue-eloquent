@@ -2558,6 +2558,7 @@ function Yi(e) {
 	if (!e.httpClient && !e.baseURL) throw Error("You must provide either a httpClient or a baseURL");
 	return R = e.httpClient ? e.httpClient : L.create({
 		withCredentials: !0,
+		withXSRFToken: !0,
 		baseURL: e.baseURL
 	}), e.apiPrefix && (Ji = e.apiPrefix), e.bearerToken && (R.defaults.headers.common.Authorization = `Bearer ${e.bearerToken}`), R;
 }
@@ -7292,7 +7293,7 @@ var Q = async () => {
 	}
 }, ou = { install(e) {
 	process.env.NODE_ENV !== "production" && $l(e);
-} }, su = class {
+} }, su = class e {
 	urls = {
 		login: "login",
 		logout: "logout",
@@ -7308,12 +7309,15 @@ var Q = async () => {
 	set token(e) {
 		localStorage.setItem("sanctum_token", e);
 	}
+	static clearSession() {
+		localStorage.removeItem("sanctum_token"), localStorage.removeItem("sanctum_session"), delete R.defaults.headers.common.Authorization;
+	}
 	login(e) {
 		return new Promise((t, n) => {
 			R.get("/api/csrf-cookie").then(() => {
 				let r = `${Ji}/${this.urls.login}`;
 				R.post(r, e).then((e) => {
-					this.token = e.data.token, R.defaults.headers.common.Authorization = `Bearer ${this.token}`, this.loggedIn(e.data), t(e.data);
+					this.startSession(e.data), this.loggedIn(e.data), t(e.data);
 				}).catch((e) => {
 					console.error(e), n(e);
 				});
@@ -7322,18 +7326,21 @@ var Q = async () => {
 			});
 		});
 	}
+	startSession(t) {
+		e.clearSession(), t?.token ? (this.token = t.token, R.defaults.headers.common.Authorization = `Bearer ${t.token}`) : localStorage.setItem("sanctum_session", "1");
+	}
 	loggedIn(e) {}
 	loginError(e) {}
 	isAuthenticated() {
-		return localStorage.getItem("sanctum_token") !== null;
+		return localStorage.getItem("sanctum_token") !== null || localStorage.getItem("sanctum_session") !== null;
 	}
 	logout() {
-		let e = `${Ji}/${this.urls.logout}`;
-		return new Promise((t, n) => {
-			R.post(e).then((e) => {
-				localStorage.removeItem("sanctum_token"), na(), this.loggedOut(e.data), t(e.data);
+		let t = `${Ji}/${this.urls.logout}`;
+		return new Promise((n, r) => {
+			R.post(t).then((t) => {
+				e.clearSession(), na(), this.loggedOut(t.data), n(t.data);
 			}).catch((e) => {
-				console.error(e), this.logoutError(e), n(e);
+				console.error(e), this.logoutError(e), r(e);
 			});
 		});
 	}
@@ -7353,7 +7360,7 @@ var Q = async () => {
 		let t = `${Ji}/${this.urls.resetPassword}`;
 		return new Promise((n, r) => {
 			R.post(t, e).then((e) => {
-				this.token = e.data.token, R.defaults.headers.common.Authorization = `Bearer ${this.token}`, this.loggedIn(e.data), n(e.data);
+				this.startSession(e.data), this.loggedIn(e.data), n(e.data);
 			}).catch((e) => {
 				console.error(e), r(e);
 			});

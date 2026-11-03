@@ -210,7 +210,7 @@ const auth = new Auth({ login: 'login', logout: 'logout' })   // optional URL ov
 await auth.login({ email, password })
 ```
 
-`login()` first calls `GET /api/csrf-cookie` (hardcoded; it does not use `apiPrefix`), then `POST ${apiPrefix}/login`, stores `resp.data.token` in `localStorage['sanctum_token']` and sets the default `Authorization: Bearer` header. Other methods: `logout()`, `isAuthenticated()`, `forgotPassword(email)`, `resetPassword(payload)`; override `loggedIn / loginError / loggedOut / logoutError`. Browser-only (uses `localStorage`).
+`login()` first calls `GET /api/csrf-cookie` (hardcoded; it does not use `apiPrefix`), then `POST ${apiPrefix}/login`. If `resp.data.token` exists it is stored in `localStorage['sanctum_token']` and set as the default `Authorization: Bearer` header; otherwise the server started a Sanctum session cookie (`createHttp` sets `withCredentials` and `withXSRFToken`, so the cookie and the `X-XSRF-TOKEN` header go to an API on another origin) and only the flag `localStorage['sanctum_session']` is kept, since the HttpOnly cookie cannot be read. Prefer the cookie: no token for scripts to steal. Other methods: `logout()`, `isAuthenticated()` (token or session flag), `Auth.clearSession()` (static; call it on a 401), `forgotPassword(email)`, `resetPassword(payload)`; override `loggedIn / loginError / loggedOut / logoutError`. Browser-only (uses `localStorage`).
 
 ### 7. Exports
 
