@@ -13,6 +13,7 @@ import { mapRules } from '@/model/MapRules'
 import type Api from '@/api/Api'
 import type { ModelParams } from '@/model/IModelParams'
 import type { InstanceOf } from '@/helpers/InstanceOf'
+import { forgetState, getState } from '@/helpers/states'
 
 export default abstract class Model<T extends ModelParams> extends Validator {
   /**
@@ -83,6 +84,30 @@ export default abstract class Model<T extends ModelParams> extends Validator {
     await self.find(id)
 
     return self
+  }
+
+  /**
+   * The instance of the model that lives for the whole session, created the first time it is asked for
+   *
+   * Because it outlives the components that use it, a page opened again finds the model as it was left (the
+   * previous data and `state`) while it fetches fresh data. It is created without arguments.
+   *
+   * @static
+   * @param { string } key - To keep more than one, for instance per account. Defaults to the only one
+   * @return { InstanceOf<S> } The same instance on every call for a class and key
+   */
+  static getState<S extends typeof Model<any>>(this: S, key = ''): InstanceOf<S> {
+    return getState(this, key, () => this.instance())
+  }
+
+  /**
+   * Clears the state of the model, so the next `getState()` creates a new instance
+   *
+   * @static
+   * @param { string? } key - The one to clear. Without it, all the states of this class
+   */
+  static forgetState<S extends typeof Model<any>>(this: S, key?: string): void {
+    forgetState(this, key)
   }
 
   protected static instance<S extends typeof Model<any>>(this: S): InstanceOf<S> {

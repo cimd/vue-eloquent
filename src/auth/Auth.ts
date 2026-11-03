@@ -1,4 +1,5 @@
 import { apiPrefix, http } from '@/http/http'
+import { flushState } from '@/helpers/states'
 
 export default class Auth {
   protected urls = {
@@ -39,6 +40,17 @@ export default class Auth {
   }
 
   /**
+   * Forgets the sign in kept in the browser: the bearer token and the flag of a
+   * cookie session. The session cookie itself is HttpOnly, so only the server
+   * can end it.
+   */
+  static clearSession(): void {
+    localStorage.removeItem('sanctum_token')
+    localStorage.removeItem('sanctum_session')
+    delete http.defaults.headers.common.Authorization
+  }
+
+  /**
    * Logs in the user
    *
    * @async
@@ -54,8 +66,7 @@ export default class Auth {
           http
             .post(loginUrl, payload)
             .then((resp: any) => {
-              this.token = resp.data.token
-              http.defaults.headers.common.Authorization = `Bearer ${this.token}`
+              this.startSession(resp.data)
               this.loggedIn(resp.data)
 
               resolve(resp.data)
@@ -73,6 +84,21 @@ export default class Auth {
     })
   }
 
+  /**
+   * Keeps the sign in of a response: a bearer token when the server sends
+   * one, otherwise the server has started a cookie session.
+   */
+  protected startSession(payload: any): void {
+    Auth.clearSession()
+
+    if (payload?.token) {
+      this.token = payload.token
+      http.defaults.headers.common.Authorization = `Bearer ${payload.token}`
+    } else {
+      localStorage.setItem('sanctum_session', '1')
+    }
+  }
+
   loggedIn(_payload: any) {
     return
   }
@@ -80,8 +106,15 @@ export default class Auth {
     return
   }
 
+  /**
+   * Whether the browser holds a sign in. With cookie sessions this is a flag
+   * only: the session may have expired on the server, which answers 401.
+   */
   isAuthenticated(): boolean {
-    return localStorage.getItem('sanctum_token') !== null
+    return (
+      localStorage.getItem('sanctum_token') !== null ||
+      localStorage.getItem('sanctum_session') !== null
+    )
   }
 
   logout() {
@@ -90,7 +123,9 @@ export default class Auth {
       http
         .post(logoutUrl)
         .then((response: any) => {
-          localStorage.removeItem('sanctum_token')
+          Auth.clearSession()
+          // What was fetched for this user must not be there for the next one
+          flushState()
           this.loggedOut(response.data)
 
           resolve(response.data)
@@ -131,8 +166,7 @@ export default class Auth {
       http
         .post(resetPasswordUrl, payload)
         .then((response: any) => {
-          this.token = response.data.token
-          http.defaults.headers.common.Authorization = `Bearer ${this.token}`
+          this.startSession(response.data)
           this.loggedIn(response.data)
 
           resolve(response.data)

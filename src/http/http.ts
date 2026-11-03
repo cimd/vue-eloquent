@@ -26,6 +26,8 @@ function createHttp(config: {
   } else {
     http = axios.create({
       withCredentials: true,
+      // The API is on another origin than the app: axios only sends the XSRF header there when asked
+      withXSRFToken: true,
       baseURL: config.baseURL as string
     })
   }
